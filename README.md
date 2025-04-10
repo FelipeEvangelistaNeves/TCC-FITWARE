@@ -1,4 +1,3 @@
 # TCC-FITWARE
-# eu amo o anselmo
-# eu tbm
-# todos amamos
+# Software de Gerenciamento de Empresa
+# Alunos 3° InfoNet
