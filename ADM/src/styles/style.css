@@ -1,0 +1,102 @@
+@charset "UTF-8";
+/* admin.scss */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* App geral */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar-admin {
+  width: 240px;
+  background-color: #1e1e2f;
+  color: #fff;
+  padding: 1.5rem;
+}
+
+.sidebar-admin ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-admin li {
+  margin: 1.2rem 0;
+}
+
+.sidebar-admin a {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.sidebar-admin a:hover {
+  color: #4ade80;
+}
+
+/* Header */
+header {
+  background-color: #fff;
+  padding: 1.25rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Páginas */
+.admin-page {
+  padding: 2rem;
+}
+
+/* Dashboard */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Tabela Alunos */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+th,
+td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+td:last-child {
+  color: #3b82f6;
+  cursor: pointer;
+}
+

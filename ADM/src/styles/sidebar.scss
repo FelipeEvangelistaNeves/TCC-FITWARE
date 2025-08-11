@@ -1,0 +1,25 @@
+.sidebar-admin {
+  width: 220px;
+  background-color: #1e293b; // azul escuro
+  min-height: 100vh;
+  padding: 1rem;
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 1rem;
+
+      a {
+        color: #fff;
+        text-decoration: none;
+
+        &.active {
+          font-weight: bold;
+          color: #38bdf8; // azul claro
+        }
+      }
+    }
+  }
+}
