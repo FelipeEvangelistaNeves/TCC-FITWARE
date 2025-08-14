@@ -1,0 +1,112 @@
+$page-bg: #121212;
+$primary: #7b61ff;
+$text-light: #fff;
+$text-muted: #aaa;
+$card-bg: #1e1e1e;
+
+.page-container {
+  background: $page-bg;
+  color: $text-light;
+  min-height: 100vh;
+  padding-bottom: 60px; // espaço para bottom nav
+}
+
+.page-header {
+  padding: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: $card-bg;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+.stat-box {
+  flex: 1;
+  background: $card-bg;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: 10px;
+}
+.quick-actions button {
+  background: $primary;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: $text-light;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  background: #2a2a2a;
+  color: $text-light;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+.list li {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.card {
+  background: $card-bg;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: $card-bg;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  border-top: 1px solid #333;
+
+  a {
+    color: $text-muted;
+    text-align: center;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    &.active {
+      color: $primary;
+    }
+  }
+}
+
+.profile-info {
+  text-align: center;
+  .avatar {
+    width: 70px;
+    height: 70px;
+    background: $primary;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin: 0 auto;
+  }
+}
