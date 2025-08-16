@@ -1,23 +1,26 @@
-/* admin.scss */
+@import "variables";
 
+/* Reset base */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
+  background-color: $gray-100;
+  color: $gray-800;
 }
 
 /* App geral */
 .app-container {
   display: flex;
   min-height: 100vh;
+  background-color: $gray-dark;
+  color: $white;
 }
 
 /* Sidebar */
 .sidebar-admin {
   width: 240px;
-  background-color: #1e1e2f;
-  color: #fff;
+  background-color: $purple-400;
+  color: $white;
   padding: 1.5rem;
 }
 
@@ -31,23 +34,24 @@ body {
 }
 
 .sidebar-admin a {
-  color: #ccc;
+  color: $gray-400;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
 }
 
 .sidebar-admin a:hover {
-  color: #4ade80; // verde
+  color: $secondary;
 }
 
 /* Header */
 header {
-  background-color: #fff;
+  background-color: $gray-900;
   padding: 1.25rem 2rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba($black, 0.4);
   font-size: 1.5rem;
   font-weight: 600;
+  color: $white;
 }
 
 /* Páginas */
@@ -64,12 +68,13 @@ header {
 }
 
 .card {
-  background-color: #fff;
+  background-color: $gray-800;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 5px rgba($black, 0.2);
   font-weight: 500;
   text-align: center;
+  color: $white;
 }
 
 /* Tabela Alunos */
@@ -77,38 +82,44 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1.5rem;
-  background-color: #fff;
+  background-color: $gray-900;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 5px rgba($black, 0.2);
+  color: $white;
 }
 
 th,
 td {
   padding: 1rem;
   text-align: left;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid $gray-700;
 }
 
 th {
-  background-color: #f9fafb;
+  background-color: $gray-mid;
   font-weight: 600;
 }
 
 td:last-child {
-  color: #3b82f6;
+  color: $secondary;
   cursor: pointer;
 }
+
+/* Extras */
 li {
   list-style-type: none;
 }
+
 .listinha {
   font-size: 30px;
-  color: #4ade80;
+  color: $secondary;
 }
+
 .listalogin li {
   display: flex;
 }
+
 .logo {
   height: 40px;
   width: 40px;
