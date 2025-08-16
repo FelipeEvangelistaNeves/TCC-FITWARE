@@ -2,9 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import AdminRoutes from "./routes/AdminRoutes";
 import AlunoRoutes from "./routes/AlunRoutes";
 import ProfRoutes from "./routes/ProfRoutes";
-import LoginDesk from "./pages/LoginDesk";
-import LoginProf from "./pages/LoginProf";
-import LoginAluno from "./pages/LoginAluno";
+import LoginDesk from "./pages/Login/LoginDesk";
+import LoginProf from "./pages/Login/LoginProf";
+import LoginAluno from "./pages/Login/LoginAluno";
 import Home from "./pages/Home";
 export default function App() {
   return (
