@@ -6,7 +6,7 @@ export default function Header() {
       <h1>Pintaaaao</h1>
       <Link to={"/login/admin"}>admin</Link>
       <Link to={"/login/professor"}>professor</Link>
-      <Link to={"/login/aluno"}>admin</Link>
+      <Link to={"/login/aluno"}>aluno</Link>
     </header>
   );
 }
