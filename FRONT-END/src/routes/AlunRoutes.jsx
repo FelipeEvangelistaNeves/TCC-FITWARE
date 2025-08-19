@@ -4,7 +4,7 @@ import TreinosAluno from "../pages/Alunos/Exercicios";
 import DesafiosAluno from "../pages/Alunos/Desafios";
 import MensagensAluno from "../pages/Alunos/Messages";
 import PerfilAluno from "../pages/Alunos/Perfil";
-import BottomNavAluno from "../components/Aluno/BottomNav";
+import BottomNavAluno from "../layouts/AlunoLayout/BottomNav";
 
 export default function AlunoRoutes() {
   return (
@@ -16,7 +16,6 @@ export default function AlunoRoutes() {
         <Route path="/mensagens" element={<MensagensAluno />} />
         <Route path="/perfil" element={<PerfilAluno />} />
       </Routes>
-      <BottomNavAluno />
     </>
   );
 }

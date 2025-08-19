@@ -1,25 +1,90 @@
+@import "./variables";
+
 .sidebar-admin {
-  width: 220px;
-  background-color: #1e293b; // azul escuro
+  width: 256px;
   min-height: 100vh;
-  padding: 1rem;
+  background: $primary-700;
+  color: $white;
+  padding: 1.25rem;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: $primary-500;
+      display: grid;
+      place-items: center;
+    }
+  }
 
   ul {
     list-style: none;
+    margin: 0;
     padding: 0;
-
-    li {
-      margin-bottom: 1rem;
-
-      a {
-        color: #fff;
-        text-decoration: none;
-
-        &.active {
-          font-weight: bold;
-          color: #38bdf8; // azul claro
-        }
-      }
+  }
+  li a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: $radius-sm;
+    color: rgba($white, 0.85);
+    &:hover {
+      background: rgba($black, 0.25);
     }
+    &.active {
+      background: $primary;
+      color: $white;
+    }
+  }
+}
+
+.admin-header {
+  background: $surface-2;
+  border-bottom: 1px solid $border;
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+}
+
+.admin-page {
+  padding: 1.25rem;
+  color: $text;
+}
+
+.table-fit {
+  width: 100%;
+  border-collapse: collapse;
+  background: $surface-1;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  overflow: hidden;
+  th,
+  td {
+    text-align: left;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid $border;
+  }
+  th {
+    background: $surface-2;
+    color: $text-2;
+    font-weight: 700;
+  }
+  tr:hover td {
+    background: rgba($white, 0.02);
+  }
+  td.action {
+    color: $primary-500;
+    cursor: pointer;
   }
 }

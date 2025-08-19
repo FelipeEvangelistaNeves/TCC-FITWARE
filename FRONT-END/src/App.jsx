@@ -5,7 +5,7 @@ import ProfRoutes from "./routes/ProfRoutes";
 import LoginDesk from "./pages/Login/LoginDesk";
 import LoginProf from "./pages/Login/LoginProf";
 import LoginAluno from "./pages/Login/LoginAluno";
-import Home from "./pages/Home";
+import Home from "./layouts/PublicLayout/Home";
 export default function App() {
   return (
     <>

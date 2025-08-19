@@ -1,4 +1,4 @@
-import BottomNavAluno from "../../components/Aluno/BottomNav";
+import BottomNavAluno from "../../layouts/AlunoLayout/BottomNav";
 
 export default function PerfilAluno() {
   return (

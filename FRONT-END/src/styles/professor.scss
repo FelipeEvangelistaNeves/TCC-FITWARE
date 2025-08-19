@@ -1,112 +1,60 @@
-$page-bg: #121212;
-$primary: #7b61ff;
-$text-light: #fff;
-$text-muted: #aaa;
-$card-bg: #1e1e1e;
+@import "./variables";
 
 .page-container {
-  background: $page-bg;
-  color: $text-light;
   min-height: 100vh;
-  padding-bottom: 60px; // espaço para bottom nav
+  background: $app-bg;
+  color: $text;
+  padding-bottom: 64px; // espaço da bottom nav
 }
 
 .page-header {
-  padding: 16px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  background: $card-bg;
-}
-
-.stats {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  background: $surface-2;
+  border-bottom: 1px solid $border;
+  padding: 1rem;
+  font-weight: 700;
   display: flex;
-  gap: 10px;
-  padding: 10px;
-}
-.stat-box {
-  flex: 1;
-  background: $card-bg;
-  text-align: center;
-  padding: 10px;
-  border-radius: 8px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.quick-actions {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  padding: 10px;
-}
-.quick-actions button {
-  background: $primary;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  color: $text-light;
-}
-
-.search-input {
-  width: 100%;
-  padding: 8px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: none;
-  background: #2a2a2a;
-  color: $text-light;
-}
-
-.list {
-  list-style: none;
-  padding: 0;
-}
-.list li {
-  padding: 10px;
-  border-bottom: 1px solid #333;
-}
-
-.card {
-  background: $card-bg;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
+/* Bottom Navigation */
 .bottom-nav {
   position: fixed;
   bottom: 0;
-  width: 100%;
-  background: $card-bg;
+  left: 0;
+  right: 0;
+  z-index: $z-bottom;
   display: flex;
   justify-content: space-around;
-  padding: 8px 0;
-  border-top: 1px solid #333;
+  padding: 0.5rem 0.25rem;
+  background: $surface-2;
+  border-top: 1px solid $border;
 
   a {
-    color: $text-muted;
-    text-align: center;
-    font-size: 0.8rem;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-
+    gap: 0.2rem;
+    font-size: 0.75rem;
+    color: $text-2;
+    border-radius: $radius-sm;
+    padding: 0.25rem;
     &.active {
-      color: $primary;
+      color: $primary-500;
+      background: rgba($primary-500, 0.08);
     }
   }
 }
 
-.profile-info {
-  text-align: center;
-  .avatar {
-    width: 70px;
-    height: 70px;
-    background: $primary;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    margin: 0 auto;
-  }
+/* Cards mobile */
+.card-mobile {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: $radius-md;
+  background: $surface-1;
+  border: 1px solid $border;
 }

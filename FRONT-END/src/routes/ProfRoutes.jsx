@@ -4,7 +4,6 @@ import AlunosProf from "../pages/professor/Alunos";
 import TreinosProf from "../pages/professor/Treinos";
 import MensagensProf from "../pages/professor/Mensagens";
 import PerfilProf from "../pages/professor/Perfil";
-import BottomNavProf from "../components/prof/BottomNavProf";
 
 export default function ProfRoutes() {
   return (
@@ -16,7 +15,6 @@ export default function ProfRoutes() {
         <Route path="/mensagens" element={<MensagensProf />} />
         <Route path="/perfil" element={<PerfilProf />} />
       </Routes>
-      <BottomNavProf />
     </>
   );
 }
