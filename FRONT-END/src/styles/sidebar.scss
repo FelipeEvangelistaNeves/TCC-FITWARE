@@ -1,90 +1,294 @@
-@import "./variables";
+// Variables
+$sidebar-width: 280px;
+$sidebar-bg: #2a2a2a;
+$sidebar-border: #404040;
+$text-light: #ffffff;
+$text-muted: #a0a0a0;
+$primary-color: #8b5cf6;
+$primary-dark: #7c3aed;
+$hover-bg: #3a3a3a;
+$active-bg: rgba(139, 92, 246, 0.15);
+$active-border: #8b5cf6;
 
 .sidebar-admin {
-  width: 256px;
-  min-height: 100vh;
-  background: $primary-700;
-  color: $white;
-  padding: 1.25rem;
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-weight: 800;
-    margin-bottom: 1.25rem;
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: $primary-500;
-      display: grid;
-      place-items: center;
-    }
-  }
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  li a {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.6rem 0.75rem;
-    border-radius: $radius-sm;
-    color: rgba($white, 0.85);
-    &:hover {
-      background: rgba($black, 0.25);
-    }
-    &.active {
-      background: $primary;
-      color: $white;
-    }
-  }
-}
-
-.admin-header {
-  background: $surface-2;
-  border-bottom: 1px solid $border;
-  padding: 1rem 1.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: $sidebar-width;
+  min-height: calc(100vh - 60px); // Subtraindo altura do header
+  background-color: $sidebar-bg;
+  border-right: 1px solid $sidebar-border;
   position: sticky;
-  top: 0;
-  z-index: $z-header;
+  top: 60px; // Altura do header
+  color: $text-light;
+
+  // Brand/Logo Section
+  .brand-link {
+    color: $text-light !important;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: $primary-color !important;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(
+        135deg,
+        $primary-color 0%,
+        $primary-dark 100%
+      );
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+
+      i {
+        font-size: 1.5rem;
+        color: white;
+      }
+    }
+
+    .brand-text {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  // Divider styling
+  .sidebar-divider {
+    border-color: $sidebar-border;
+    margin: 1rem 0;
+    opacity: 0.5;
+  }
+
+  // Navigation styling
+  .nav {
+    .nav-item {
+      margin-bottom: 0.25rem;
+
+      .nav-link {
+        color: $text-muted;
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+
+        i {
+          width: 18px;
+          font-size: 1.1rem;
+        }
+
+        &:hover {
+          background-color: $hover-bg;
+          color: $text-light;
+          transform: translateX(4px);
+        }
+
+        &.active {
+          background-color: $active-bg;
+          color: $primary-color;
+          border-left: 3px solid $active-border;
+          font-weight: 600;
+
+          &::before {
+            content: "";
+            position: absolute;
+            left: -1px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(135deg, $primary-color, $primary-dark);
+            border-radius: 0 2px 2px 0;
+          }
+        }
+      }
+    }
+  }
+
+  // User dropdown section
+  .dropdown {
+    .user-dropdown-btn {
+      background: none;
+      border: 1px solid $sidebar-border;
+      border-radius: 12px;
+      padding: 0.75rem;
+      color: $text-light;
+      transition: all 0.3s ease;
+      text-align: left;
+
+      &:hover {
+        background-color: $hover-bg;
+        border-color: lighten($sidebar-border, 10%);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.25);
+        border-color: $primary-color;
+      }
+
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(
+          135deg,
+          $primary-color 0%,
+          $primary-dark 100%
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        flex-shrink: 0;
+      }
+
+      .user-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .user-name {
+          font-size: 0.9rem;
+          margin-bottom: 0;
+          line-height: 1.2;
+        }
+
+        .user-role {
+          font-size: 0.75rem;
+          color: $text-muted;
+          line-height: 1;
+        }
+      }
+
+      &::after {
+        margin-left: auto;
+      }
+    }
+
+    .dropdown-menu {
+      background-color: lighten($sidebar-bg, 8%);
+      border: 1px solid $sidebar-border;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      margin-top: 0.5rem;
+
+      .dropdown-item {
+        color: $text-light;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        margin: 0.25rem;
+        width: calc(100% - 0.5rem);
+
+        i {
+          width: 16px;
+          font-size: 1rem;
+        }
+
+        &:hover,
+        &:focus {
+          background-color: $hover-bg;
+          color: $text-light;
+        }
+
+        &.text-danger {
+          color: #dc3545 !important;
+
+          &:hover,
+          &:focus {
+            background-color: rgba(220, 53, 69, 0.15);
+            color: #dc3545 !important;
+          }
+        }
+      }
+
+      .dropdown-divider {
+        border-color: $sidebar-border;
+        margin: 0.5rem;
+      }
+    }
+
+    &.show {
+      .dropdown-menu {
+        display: block;
+      }
+    }
+  }
 }
 
-.admin-page {
-  padding: 1.25rem;
-  color: $text;
+// Scrollbar styling para webkit browsers
+.sidebar-admin {
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $sidebar-border;
+    border-radius: 3px;
+
+    &:hover {
+      background-color: lighten($sidebar-border, 15%);
+    }
+  }
 }
 
-.table-fit {
-  width: 100%;
-  border-collapse: collapse;
-  background: $surface-1;
-  border: 1px solid $border;
-  border-radius: $radius-md;
-  overflow: hidden;
-  th,
-  td {
-    text-align: left;
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid $border;
+// Responsive design
+@media (max-width: 992px) {
+  .sidebar-admin {
+    width: 250px;
+
+    .brand-text {
+      font-size: 1.1rem !important;
+    }
   }
-  th {
-    background: $surface-2;
-    color: $text-2;
-    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .sidebar-admin {
+    position: fixed;
+    left: -280px;
+    top: 60px;
+    z-index: 1040;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+
+    &.show {
+      left: 0;
+    }
   }
-  tr:hover td {
-    background: rgba($white, 0.02);
+}
+
+// Animation for nav items
+.nav-item {
+  .nav-link {
+    &:hover {
+      i {
+        transform: scale(1.1);
+      }
+    }
   }
-  td.action {
-    color: $primary-500;
-    cursor: pointer;
+}
+
+// Dark theme enhancements
+@media (prefers-color-scheme: dark) {
+  .sidebar-admin {
+    background-color: darken($sidebar-bg, 3%);
+
+    .dropdown-menu {
+      background-color: darken($sidebar-bg, 5%);
+    }
   }
 }
