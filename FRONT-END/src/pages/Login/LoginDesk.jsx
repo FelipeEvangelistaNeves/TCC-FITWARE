@@ -1,48 +1,102 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Logo from "../../img/logo.png";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../../styles/login.scss";
+import logo from "../../assets/logo.png"; // Certifique-se de ter uma imagem de logo
 const LoginDesk = () => {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Aqui você adicionaria a lógica de autenticação
+    // Por enquanto, apenas redireciona para o admin
+    navigate("/admin");
+  };
+
   return (
-    <div>
-      <main className="bg-dark text-white d-flex align-items-center justify-content-center vh-100">
-        <section className="d-flex flex-row">
-          <section className="p-5 bg-success">
-            <div className="d-flex flex-row">
-              <div>
-                <img src={Logo} className="logo" />
+    <div className="login-container">
+      <div className="login-content">
+        <div className="login-left">
+          <div className="brand">
+            <img src="./../../assets/logo.png" alt="" />
+
+            <div className="brand-text">
+              <h1>FitWare</h1>
+              <p>Plataforma de Gestão Fitness</p>
+            </div>
+          </div>
+
+          <div className="admin-panel-info">
+            <h2>Painel Administrativo</h2>
+            <div className="features">
+              <div className="feature-item">
+                <span className="check-icon">✓</span>
+                <span>Gerenciamento completo de usuários</span>
               </div>
-              <div>
-                <h2>Fitware</h2>
-                <p className="text-muted ">
-                  Plataforma de Gerenciamento Fitness
-                </p>
+              <div className="feature-item">
+                <span className="check-icon">✓</span>
+                <span>Controle de treinos e programas</span>
+              </div>
+              <div className="feature-item">
+                <span className="check-icon">✓</span>
+                <span>Relatórios e análises avançadas</span>
+              </div>
+              <div className="feature-item">
+                <span className="check-icon">✓</span>
+                <span>Gestão financeira integrada</span>
               </div>
             </div>
-            <div>
-              <h3>Painel Admnistrativo </h3>
-              <ul className="listalogin listinha">
-                <li className="d-flex">
-                  <i className="bi bi-arrow-down-right-circle-fill  "></i>
-                  <p className="text-white">aaaa</p>
-                </li>
-                <li>
-                  <i className="bi bi-arrow-down-right-circle-fill"></i>
-                  <p className="text-white">aaaa</p>
-                </li>
-                <li>
-                  <i className="bi bi-arrow-down-right-circle-fill"></i>
-                  <p className="text-white">aaaa</p>
-                </li>
-              </ul>
+          </div>
+        </div>
+
+        <div className="login-right">
+          <div className="login-form-container">
+            <h2>Bem-vindo de volta</h2>
+            <p>Acesse sua conta administrativa</p>
+
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@fitware.com"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="senha">Senha</label>
+                <input
+                  type="password"
+                  id="senha"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+
+              <div className="form-options">
+                <a href="#" className="forgot-password">
+                  Esqueceu a senha?
+                </a>
+              </div>
+
+              <button type="submit" className="login-button">
+                Entrar
+              </button>
+            </form>
+
+            <div className="login-footer">
+              <p>© 2023 FitWare. Todos os direitos reservados.</p>
             </div>
-          </section>
-          <section className="p-5 bg-transparent">
-            <div>Bem-vindo ao seu Painel</div>
-            <Link to="/admin">aaa</Link>
-            <div></div>
-          </section>
-        </section>
-      </main>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,121 @@
+// Variáveis globais
+$bg-color: #111;
+$input-bg: #333;
+$primary-color: #a78bfa;
+$btn-bg: #444;
+$btn-text: #aaa;
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $bg-color;
+  padding: 1rem; // espaço para mobile
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  background: transparent;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+
+  .logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    display: block;
+  }
+
+  h2 {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  p {
+    color: $primary-color;
+    margin-bottom: 25px;
+  }
+
+  label {
+    display: block;
+    text-align: left;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: $input-bg;
+    color: white;
+    margin-bottom: 15px;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $primary-color;
+    }
+  }
+
+  a {
+    font-size: 14px;
+    color: $primary-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: $btn-bg;
+    color: $btn-text;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $primary-color;
+      color: white;
+    }
+  }
+}
+
+// 🔹 Responsividade
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem 1rem;
+
+    .logo {
+      width: 70px;
+      height: 70px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+
+    input {
+      padding: 8px;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 0.95rem;
+    }
+  }
+}
