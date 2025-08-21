@@ -1,117 +1,76 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 
 const LoginAluno = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [focusField, setFocusField] = useState(""); // controla o foco
+  const [focusField, setFocusField] = useState("");
+  const navigate = useNavigate();
 
-  const inputStyle = (field) => ({
-    width: "100%",
-    padding: "10px",
-    borderRadius: "8px",
-    border: "none",
-    backgroundColor: "#333",
-    marginTop: "5px",
-    caretColor: "#a78bfa",
-    outline: focusField === field ? "2px solid #a78bfa" : "none",
-    color: "white",
-  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Login Aluno:", { email, senha });
+    // navigate('/aluno');
+  };
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          backgroundColor: "#111",
-        }}
-      >
-        <div
-          style={{
-            width: "320px",
-            padding: "30px 20px",
-            borderRadius: "12px",
-            textAlign: "center",
-            color: "white",
-          }}
-        >
-          {/* Avatar */}
-          <img
-            src={Logo}
-            className="logo"
-            alt="logo"
-            style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "50%",
-              margin: "0 auto 20px auto",
-            }}
-          />
+    <div className="login-container">
+      <div className="login-wrapper">
+        <div className="login-header">
+          <img src={Logo} className="logo" alt="FitWare Logo" />
+          <h1 className="app-title">FitWare</h1>
+          <p className="app-subtitle">Logue em sua conta e seja FitWare!</p>
+        </div>
 
-          {/* Empresa */}
-          <h2 style={{ fontWeight: "bold", marginBottom: "5px" }}>FitWare</h2>
-          <p style={{ color: "#a78bfa", marginBottom: "25px" }}>
-            Logue em sua conta e seja FitWare!
-          </p>
-
-          {/* Email */}
-          <div style={{ textAlign: "left", marginBottom: "10px" }}>
-            <label>Email</label>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
+              type="email"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={inputStyle("email")}
+              className={focusField === "email" ? "focused" : ""}
               onFocus={() => setFocusField("email")}
               onBlur={() => setFocusField("")}
+              placeholder="Digite seu email"
+              required
             />
           </div>
 
-          {/* Senha */}
-          <div style={{ textAlign: "left", marginBottom: "10px" }}>
-            <label>Senha</label>
+          <div className="form-group">
+            <label htmlFor="senha">Senha</label>
             <input
               type="password"
+              id="senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
-              style={inputStyle("senha")}
+              className={focusField === "senha" ? "focused" : ""}
               onFocus={() => setFocusField("senha")}
               onBlur={() => setFocusField("")}
+              placeholder="Digite sua senha"
+              required
             />
           </div>
 
-          {/* Esqueceu senha */}
-          <div style={{ textAlign: "left", marginBottom: "20px" }}>
-            <a
-              href="#"
-              style={{
-                fontSize: "14px",
-                color: "#a78bfa",
-                textDecoration: "none",
-              }}
-            >
-              Esqueceu a senha?
-            </a>
+          <div className="forgot-password">
+            <Link to="/forgot-password">Esqueceu a senha?</Link>
           </div>
 
-          {/* Botão */}
-          <button
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: "8px",
-              backgroundColor: "#444",
-              color: "#aaa",
-              border: "none",
-              fontWeight: "bold",
-            }}
-          >
+          <button type="submit" className="login-btn">
             Login Aluno
           </button>
+        </form>
+
+        <div className="login-footer">
+          <p>
+            Não tem uma conta?
+            <Link to="/register"> Cadastre-se</Link>
+          </p>
+          <Link to="/login/admin" className="admin-access">
+            Acesso Administrativo
+          </Link>
         </div>
       </div>
     </div>
