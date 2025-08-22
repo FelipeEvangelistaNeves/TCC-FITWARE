@@ -69,21 +69,21 @@ const Header = () => {
         </ul>
 
         {/* Botão Registrar */}
-        <div className="dropdown">
+        <div className="dropdown me-5">
           <button
-            className="btn btn-sm btn-primary px-3 dropdown-toggle"
+            className="btn btn-sm btn-primary px-3 dropdown-toggle me-3"
             type="button"
             id="dropdownMenuButton"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Registrar
+            Login
           </button>
 
           <ul
             className="dropdown-menu dropdown-menu-dark dropdown-menu-start"
             aria-labelledby="dropdownMenuButton"
-            style={{ left: "auto", right: 0 }}
+            // style={{ left: "auto", right: 0 }}
           >
             <li>
               <Link className="dropdown-item active" to="/login/admin">
