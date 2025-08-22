@@ -1,61 +1,9 @@
-// import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-
-// import "../../styles/publichead.scss";
-
-// const Header = () => {
-//   return (
-//     <header className="p-3 text-bg-dark">
-//       <div className="container">
-//         <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-//           <Link
-//             to={"/admin"}
-//             className="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
-//           >            <span className="fs-4 fw-bold">MeuLogo</span>
-//           </Link>
-
-//           <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-//             <li>
-//               <a className="nav-link px-2 text-white">
-//                 Sobre
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="nav-link px-2 text-white">
-//                 Por que se juntar?
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="nav-link px-2 text-white">
-//                 Planos
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="nav-link px-2 text-white">
-//                 Modalidades
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="nav-link px-2 text-white">
-//                 Suporte
-//               </a>
-//             </li>
-//           </ul>
-//           <div className="text-end">
-//             <button type="button" className="btn btn-outline-light me-2 login">
-//               Entrar
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// };
-// export default Header;
-
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { Link } from "react-router-dom"; // Import Bootstrap JS for dropdowns
 import Logo from "../../assets/logo.png";
+// import "../../styles/publicHead.scss";
 
 const Header = () => {
   return (
@@ -71,7 +19,9 @@ const Header = () => {
         />
         <div className="d-flex flex-column">
           <span className="fw-bold text-warning">FitWare</span>
-          <p className="text-white fs6">Plataforma de Gestão Fitness</p>
+          <small className="text-white fs-6">
+            Plataforma de Gestão Fitness
+          </small>
         </div>
       </a>
 
@@ -119,10 +69,40 @@ const Header = () => {
         </ul>
 
         {/* Botão Registrar */}
-        <div>
-          <a href="#registrar" className="btn btn-sm btn-primary px-3">
+        <div className="dropdown">
+          <button
+            className="btn btn-sm btn-primary px-3 dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Registrar
-          </a>
+          </button>
+
+          <ul
+            className="dropdown-menu dropdown-menu-dark dropdown-menu-start"
+            aria-labelledby="dropdownMenuButton"
+            style={{ left: "auto", right: 0 }}
+          >
+            <li>
+              <Link className="dropdown-item active" to="/login/admin">
+                Administrador
+              </Link>
+            </li>
+
+            <li>
+              <Link className="dropdown-item" to="/login/aluno">
+                Aluno
+              </Link>
+            </li>
+            <li></li>
+            <li>
+              <Link className="dropdown-item" to="/login/professor">
+                Professor
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
