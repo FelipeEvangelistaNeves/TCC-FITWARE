@@ -1,80 +1,56 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Logo from "../../assets/logo.png";
+import { useState } from "react";
 import "../../styles/loginprof.scss";
-const LoginAluno = () => {
+import Logo from '../../assets/logo.png';
+
+export default function Login() {
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [focusField, setFocusField] = useState("");
-  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login Aluno:", { email, senha });
-    // navigate('/aluno');
-  };
-
+  function Executar (){
+    console.log("aloiu");
+  }
+  
   return (
+
+
     <div className="login-container">
-      <div className="login-wrapper">
-        <div className="login-header">
-          <img src={Logo} className="logo" alt="FitWare Logo" />
-          <h1 className="app-title">FitWare</h1>
-          <p className="app-subtitle">Logue em sua conta e seja FitWare!</p>
+      <div className="login-card">
+        {/* Avatar */}
+          <img src={Logo} alt="logo fitware" className="login-avatar"/>
+
+        {/* Empresa */}
+        <h2 className="login-title">FitWare</h2>
+        <p className="login-subtitle">Logue em sua conta e seja Fitware!</p>
+
+        {/* Email */}
+        <div className="input-group">
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
 
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={focusField === "email" ? "focused" : ""}
-              onFocus={() => setFocusField("email")}
-              onBlur={() => setFocusField("")}
-              placeholder="Digite seu email"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="senha">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              className={focusField === "senha" ? "focused" : ""}
-              onFocus={() => setFocusField("senha")}
-              onBlur={() => setFocusField("")}
-              placeholder="Digite sua senha"
-              required
-            />
-          </div>
-
-          <div className="forgot-password">
-            <Link to="/forgot-password">Esqueceu a senha?</Link>
-          </div>
-
-          <button type="submit" className="login-btn">
-            Login Aluno
-          </button>
-        </form>
-
-        <div className="login-footer">
-          <p>
-            Não tem uma conta?
-            <Link to="/register"> Cadastre-se</Link>
-          </p>
-          <Link to="/login/admin" className="admin-access">
-            Acesso Administrativo
-          </Link>
+        {/* Senha */}
+        <div className="input-group">
+          <label>Senha</label>
+          <input
+            type="password"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
         </div>
+
+        {/* Esqueceu senha */}
+        <div className="forgot-password">
+          <a href="#">Esqueceu a senha?</a>
+        </div>
+
+        {/* Botão */}
+        <button onClick={() => Executar()}>Logar</button>
       </div>
     </div>
   );
-};
-
-export default LoginAluno;
+}

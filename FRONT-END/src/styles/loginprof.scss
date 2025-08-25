@@ -1,4 +1,5 @@
 // Reset e variáveis
+/*
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,336 +11,137 @@ $dark: #111;
 $surface: #333;
 $white: #fff;
 $gray: #aaa;
+*/
+@import "variables.scss";
+// 🎨 Variáveis
+$primary: #a78bfa;
+$background: #111;
+$input-bg: #333;
+$text-color: #fff;
+$disabled-bg: #444;
+$disabled-text: #aaa;
 
-// Container principal - ocupa toda a tela
+// 🔲 Container principal
 .login-container {
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh; // Para mobile moderno
-  background: $dark;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $background;
+  padding: 20px; // espaçamento mobile
 }
 
-// Wrapper do conteúdo - responsivo
-.login-wrapper {
+// 📦 Card
+.login-card {
   width: 100%;
-  max-width: 100%;
-  background: rgba(42, 42, 42, 0.95);
-  border-radius: 20px;
-  padding: 30px 20px;
+  max-width: 400px; // controla em telas maiores
+  background: transparent;
+  border-radius: 12px;
   text-align: center;
-
-  // Mobile: ocupa toda a tela
-  @media (max-width: 480px) {
-    width: 100vw;
-    min-height: 100dvh;
-    max-width: 1000dvw;
-    padding: 10px 5px;
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    box-shadow: none;
-  }
-  // Tablet e desktop
-  @media (min-width: 481px) {
-    max-width: 400px;
-    padding: 0px;
-  }
-  @media (min-width: 768px) {
-    max-width: 500px;
-    padding: 50px 40px;
-  }
+  color: $text-color;
 }
 
-// Header da aplicação
-.login-header {
-  margin-bottom: 40px;
-
-  @media (max-width: 480px) {
-    margin-bottom: 30px;
-    flex-shrink: 0;
-  }
-
-  .logo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-    border: 3px solid $primary;
-
-    @media (max-width: 480px) {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 15px;
-    }
-
-    @media (max-width: 360px) {
-      width: 70px;
-      height: 70px;
-    }
-  }
-
-  .app-title {
-    color: $white;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-
-    @media (max-width: 480px) {
-      font-size: 2rem;
-    }
-
-    @media (max-width: 360px) {
-      font-size: 1.8rem;
-    }
-  }
-
-  .app-subtitle {
-    color: $primary;
-    font-size: 1rem;
-    margin-bottom: 0;
-
-    @media (max-width: 480px) {
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-  }
+// 👤 Avatar
+.login-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  margin: 0 auto 20px auto;
 }
 
-// Formulário
-.login-form {
-  width: 100%;
+// 📌 Títulos
+.login-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-  @media (max-width: 480px) {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.login-subtitle {
+  color: $primary;
+  margin-bottom: 25px;
+}
+
+// 📝 Inputs
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
   }
 
-  .form-group {
-    margin-bottom: 20px;
-    text-align: left;
-
-    @media (max-width: 480px) {
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      color: $white;
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 8px;
-
-      @media (max-width: 480px) {
-        font-size: 1.1rem;
-      }
-    }
-
-    input {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: $surface;
-      color: $white;
-      font-size: 1rem;
-      caret-color: $primary;
-      transition: all 0.3s ease;
-
-      @media (max-width: 480px) {
-        padding: 18px 15px;
-        font-size: 1.1rem;
-        border-radius: 12px;
-        // Tamanho mínimo para touch
-        min-height: 54px;
-      }
-
-      &::placeholder {
-        color: #999;
-      }
-
-      &:focus,
-      &.focused {
-        outline: 2px solid $primary;
-        background: lighten($surface, 5%);
-      }
-    }
-  }
-
-  .forgot-password {
-    text-align: left;
-    margin-bottom: 30px;
-
-    @media (max-width: 480px) {
-      margin-bottom: 35px;
-      text-align: center;
-    }
-
-    a {
-      color: $primary;
-      text-decoration: none;
-      font-size: 0.9rem;
-
-      @media (max-width: 480px) {
-        font-size: 1rem;
-        padding: 10px;
-        display: inline-block;
-      }
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  .login-btn {
+  input {
     width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    background: #444;
-    color: $gray;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background-color: $input-bg;
+    color: $text-color;
+    font-size: 16px;
+    caret-color: #a78bfa;
 
-    @media (max-width: 480px) {
-      padding: 18px;
-      font-size: 1.2rem;
-      border-radius: 12px;
-      min-height: 54px;
-      background: linear-gradient(
-        135deg,
-        $primary 0%,
-        darken($primary, 10%) 100%
-      );
-      color: $white;
-    }
-
-    &:hover {
-      background: linear-gradient(
-        135deg,
-        $primary 0%,
-        darken($primary, 10%) 100%
-      );
-      color: $white;
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      transform: translateY(0);
+    &:focus {
+      border: 1px solid $primary;
+      box-shadow: 2px rgba($primary, 0.4);
+      outline: none;
     }
   }
 }
 
-// Footer
-.login-footer {
-  margin-top: 30px;
+// 🔗 Esqueceu a senha
+.forgot-password {
+  text-align: left;
+  margin-bottom: 20px;
 
-  @media (max-width: 480px) {
-    margin-top: 0;
-    flex-shrink: 0;
-  }
-
-  p {
-    color: $gray;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-
-    @media (max-width: 480px) {
-      font-size: 1rem;
-      margin-bottom: 20px;
-    }
-
-    a {
-      color: $primary;
-      text-decoration: none;
-      font-weight: 500;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  .admin-access {
-    color: #888;
+  a {
+    font-size: 14px;
+    color: $primary;
     text-decoration: none;
-    font-size: 0.8rem;
-
-    @media (max-width: 480px) {
-      font-size: 0.9rem;
-      padding: 10px;
-      display: inline-block;
-    }
 
     &:hover {
-      color: $primary;
       text-decoration: underline;
     }
   }
 }
 
-// Landscape mobile
-@media (max-height: 600px) and (orientation: landscape) {
-  .login-wrapper {
-    min-height: auto;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 20px;
-  }
+// 🔘 Botão
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: $disabled-bg;
+  color: $disabled-text;
+  border: none;
+  font-weight: bold;
 
-  .login-header {
-    margin-bottom: 20px;
+}
+button:active {
+  width: 100%;
+  padding: 12px;
+  background-color:$purple-600;
+ 
+  
+  font-weight: bold;
 
-    .logo {
-      width: 60px;
-      height: 60px;
-    }
+}
 
-    .app-title {
-      font-size: 1.5rem;
-    }
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-
-    input {
-      padding: 12px;
-      min-height: 44px;
-    }
+// 📱 Responsividade
+@media (min-width: 480px) {
+  .login-card {
+    padding: 40px 30px;
   }
 }
 
-// Muito pequeno (iPhone SE, etc)
-@media (max-width: 320px) {
-  .login-container {
-    padding: 10px;
+@media (min-width: 768px) {
+  .login-card {
+    max-width: 500px;
   }
+}
 
-  .login-wrapper {
-    padding: 25px 15px;
-  }
-
-  .login-header {
-    .logo {
-      width: 60px;
-      height: 60px;
-    }
-
-    .app-title {
-      font-size: 1.6rem;
-    }
+@media (min-width: 1024px) {
+  .login-card {
+    max-width: 600px;
   }
 }
