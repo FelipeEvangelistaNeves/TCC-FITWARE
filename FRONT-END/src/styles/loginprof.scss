@@ -37,7 +37,7 @@ $gray: #aaa;
   @media (max-width: 480px) {
     width: 100vw;
     min-height: 100dvh;
-    max-width: 450dvw;
+    max-width: 1000dvw;
     padding: 10px 5px;
     border-radius: 0;
     display: flex;
@@ -52,7 +52,7 @@ $gray: #aaa;
     padding: 0px;
   }
   @media (min-width: 768px) {
-    max-width: 450px;
+    max-width: 500px;
     padding: 50px 40px;
   }
 }
