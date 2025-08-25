@@ -12,7 +12,7 @@ export default function AlunRoutes() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<AlunoLayout />} >
+        <Route path="/" element={<AlunoLayout />}>
           <Route index element={<DashboardAluno />} />
           <Route path="/desafios" element={<DesafiosAluno />} />
           <Route path="/treinos" element={<TreinosAluno />} />
@@ -23,4 +23,3 @@ export default function AlunRoutes() {
     </>
   );
 }
-
