@@ -1,4 +1,4 @@
-import BottomNavAluno from "../../layouts/AlunoLayout/BottomNav";
+import BottomNavAluno from "../../layouts/AlunoLayout/BottomNavAluno";
 
 export default function MensagensAluno() {
   return (

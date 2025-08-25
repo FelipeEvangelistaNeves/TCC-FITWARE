@@ -1,17 +1,3 @@
-// Reset e variáveis
-/*
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-$primary: #a78bfa;
-$dark: #111;
-$surface: #333;
-$white: #fff;
-$gray: #aaa;
-*/
 @import "variables.scss";
 // 🎨 Variáveis
 $primary: #a78bfa;
@@ -34,7 +20,7 @@ $disabled-text: #aaa;
 // 📦 Card
 .login-card {
   width: 100%;
-  max-width: 400px; // controla em telas maiores
+  max-width: 400px;
   background: transparent;
   border-radius: 12px;
   text-align: center;
@@ -75,16 +61,16 @@ $disabled-text: #aaa;
   input {
     width: 100%;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 8px !important;
     border: 1px solid transparent;
     background-color: $input-bg;
     color: $text-color;
     font-size: 16px;
-    caret-color: #a78bfa;
+    caret-color: $primary;
 
     &:focus {
       border: 1px solid $primary;
-      box-shadow: 2px rgba($primary, 0.4);
+      box-shadow: 0 0 5px rgba($primary, 0.4);
       outline: none;
     }
   }
@@ -110,21 +96,22 @@ $disabled-text: #aaa;
 button {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 8px !important; // 🔥 sempre arredondado
   background-color: $disabled-bg;
   color: $disabled-text;
   border: none;
   font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
 
-}
-button:active {
-  width: 100%;
-  padding: 12px;
-  background-color:$purple-600;
- 
-  
-  font-weight: bold;
+  &:hover {
+    background-color: lighten($disabled-bg, 10%);
+  }
 
+  &:active {
+    background-color: $primary;
+    color: $text-color;
+  }
 }
 
 // 📱 Responsividade
