@@ -1,5 +1,3 @@
-import BottomNavAluno from "../../layouts/AlunoLayout/BottomNavAluno";
-
 export default function PerfilAluno() {
   return (
     <div className="page-container">
@@ -11,7 +9,6 @@ export default function PerfilAluno() {
           <p>Turma 3 meses</p>
         </div>
       </main>
-      <BottomNavAluno />
     </div>
   );
 }

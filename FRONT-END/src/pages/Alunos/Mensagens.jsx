@@ -1,5 +1,3 @@
-import BottomNavAluno from "../../layouts/AlunoLayout/BottomNavAluno";
-
 export default function MensagensAluno() {
   return (
     <div className="page-container">
@@ -12,7 +10,6 @@ export default function MensagensAluno() {
         />
         <div className="message">Treinador: Como foi o treino de hoje?</div>
       </main>
-      <BottomNavAluno />
     </div>
   );
 }

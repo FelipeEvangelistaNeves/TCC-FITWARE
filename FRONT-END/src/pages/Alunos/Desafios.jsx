@@ -1,5 +1,3 @@
-import BottomNavAluno from "../../layouts/AlunoLayout/BottomNavAluno";
-
 export default function DesafiosAluno() {
   return (
     <div className="page-container">
@@ -16,7 +14,6 @@ export default function DesafiosAluno() {
           <button className="primary-btn">Registrar</button>
         </div>
       </main>
-      <BottomNavAluno />
     </div>
   );
 }

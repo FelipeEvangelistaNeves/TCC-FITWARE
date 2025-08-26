@@ -1,5 +1,3 @@
-import BottomNavAluno from "../../layouts/AlunoLayout/BottomNavAluno";
-
 export default function TreinosAluno() {
   return (
     <div className="page-container">
@@ -19,7 +17,6 @@ export default function TreinosAluno() {
           <p>20 min corrida</p>
         </div>
       </main>
-      <BottomNavAluno />
     </div>
   );
 }
