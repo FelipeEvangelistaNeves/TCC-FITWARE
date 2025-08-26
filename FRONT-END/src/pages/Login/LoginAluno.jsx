@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../styles/loginprof.scss";
+import "../../styles/loginmob.scss";
 import Logo from '../../assets/logo.png';
 
 export default function Login() {
