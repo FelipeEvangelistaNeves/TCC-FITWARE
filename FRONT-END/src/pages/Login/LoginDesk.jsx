@@ -1,25 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/login.scss";
+import "../../styles/loginDesk.scss";
 import logo from "../../assets/logo.png"; // Certifique-se de ter uma imagem de logo
 const LoginDesk = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aqui você adicionaria a lógica de autenticação
-    // Por enquanto, apenas redireciona para o admin
-    navigate("/admin");
-  };
 
   return (
     <div className="login-container">
       <div className="login-content">
         <div className="login-left">
           <div className="brand">
-            <img src="./../../assets/logo.png" alt="" />
+            <img src={logo} alt="zzz" className="brand-icon" />
 
             <div className="brand-text">
               <h1>FitWare</h1>
@@ -31,19 +23,19 @@ const LoginDesk = () => {
             <h2>Painel Administrativo</h2>
             <div className="features">
               <div className="feature-item">
-                <span className="check-icon">✓</span>
+                <i className="bi-check-circle-fill text-danger"></i>
                 <span>Gerenciamento completo de usuários</span>
               </div>
               <div className="feature-item">
-                <span className="check-icon">✓</span>
+                <i className="bi-check-circle-fill text-danger"></i>
                 <span>Controle de treinos e programas</span>
               </div>
               <div className="feature-item">
-                <span className="check-icon">✓</span>
+                <i className="bi-check-circle-fill text-danger"></i>
                 <span>Relatórios e análises avançadas</span>
               </div>
               <div className="feature-item">
-                <span className="check-icon">✓</span>
+                <i className="bi-check-circle-fill text-danger"></i>
                 <span>Gestão financeira integrada</span>
               </div>
             </div>
@@ -55,16 +47,15 @@ const LoginDesk = () => {
             <h2>Bem-vindo de volta</h2>
             <p>Acesse sua conta administrativa</p>
 
-            <form onSubmit={handleSubmit} className="login-form">
+            <form className="login-form">
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
                   id="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@fitware.com"
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -74,9 +65,8 @@ const LoginDesk = () => {
                   type="password"
                   id="senha"
                   value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
-                  placeholder="••••••••"
                   required
+                  onChange={(e) => setSenha(e.target.value)}
                 />
               </div>
 

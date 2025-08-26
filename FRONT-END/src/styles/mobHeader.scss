@@ -1,0 +1,41 @@
+@import "./variables";
+
+.header-professor {
+  background-color: $black; // Fundo escuro
+  color: $white;
+  border-color: $gray-800;
+
+  .page-title {
+    color: $yellow;
+    font-weight: 600;
+  }
+
+  .notification-btn {
+    background-color: $purple-dark;
+    color: $white;
+    border: none;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: lighten($purple-dark, 10%);
+    }
+  }
+
+  .profile-avatar {
+    background-color: $blue-light;
+    color: $white;
+    font-weight: bold;
+    font-size: 14px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}

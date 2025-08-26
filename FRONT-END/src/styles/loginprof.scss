@@ -115,16 +115,13 @@ button {
   color: $disabled-text;
   border: none;
   font-weight: bold;
-
 }
 button:active {
   width: 100%;
   padding: 12px;
-  background-color:$purple-600;
- 
-  
-  font-weight: bold;
+  background-color: $purple-600;
 
+  font-weight: bold;
 }
 
 // 📱 Responsividade
@@ -136,12 +133,12 @@ button:active {
 
 @media (min-width: 768px) {
   .login-card {
-    max-width: 500px;
+    max-width: 400px;
   }
 }
 
 @media (min-width: 1024px) {
   .login-card {
-    max-width: 600px;
+    max-width: 450px;
   }
 }

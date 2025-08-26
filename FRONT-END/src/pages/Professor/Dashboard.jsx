@@ -1,8 +1,7 @@
 export default function DashboardProf() {
   return (
     <div className="page-container">
-      <header className="page-header">Dashboard</header>
-      <main>
+      <div className="dashboard">
         <div className="stats">
           <div className="stat-box">
             Alunos
@@ -27,7 +26,7 @@ export default function DashboardProf() {
           <button>Mensagens</button>
           <button>Histórico</button>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
