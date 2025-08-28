@@ -1,18 +1,16 @@
 @import "./variables";
 
-#dropdownMenuButton{
-  background-color: #FFF !important;
-  color: #fff;
+#dropdownMenuButton {
+  background-color: $purple-500 !important;
+  color: $text;
   border: none;
 
-  &:hover,
-  &:focus {
-    // background-color: #7c4dff;
+  &:hover {
+    background-color: $blue-light;
     color: #fff;
   }
 }
 
-.dropdown-item{
-    // background-color: $primary-pale !important;
-    margin-top: 2px;
+.dropdown-item:hover {
+  background-color: $primary-pale !important;
 }

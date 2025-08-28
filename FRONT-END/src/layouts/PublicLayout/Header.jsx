@@ -42,68 +42,68 @@ const Header = () => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav mx-auto">
           <li className="nav-item">
-            <a className="nav-link text-warning" href="#sobre">
+            <Link className="nav-link text-warning" to="/sobre">
               Sobre
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-warning" href="#pq">
+            <Link className="nav-link text-warning" to="/Por-que-se-juntar">
               Por que se juntar?
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-warning" href="#planos">
+            <Link className="nav-link text-warning" to="/planos">
               Planos
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-warning" href="#modalidades">
+            <Link className="nav-link text-warning" to="/modalidades">
               Modalidades
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-warning" href="#suporte">
+            <Link className="nav-link text-warning" to="/suporte">
               Suporte
-            </a>
+            </Link>
           </li>
         </ul>
+      </div>
 
-        {/* Botão Registrar */}
-        <div className="dropdown me-5">
-          <button
-            className="btn btn-sm btn-purple px-3 dropdown-toggle me-3"
-            type="button"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Login
-          </button>
+      {/* Botão Registrar */}
+      <div className="dropdown me-5">
+        <button
+          className="btn btn-sm btn-purple px-3 dropdown-toggle me-3"
+          type="button"
+          id="dropdownMenuButton"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Login
+        </button>
 
-          <ul
-            className="dropdown-menu dropdown-menu-start"
-            aria-labelledby="dropdownMenuButton"
-            // style={{ left: "auto", right: 0 }}
-          >
-            <li>
-              <Link className="dropdown-item" to="/login/admin">
-                Administrador
-              </Link>
-            </li>
+        <ul
+          className="dropdown-menu dropdown-menu-start"
+          aria-labelledby="dropdownMenuButton"
+          // style={{ left: "auto", right: 0 }}
+        >
+          <li>
+            <Link className="dropdown-item" to="/login/admin">
+              Administrador
+            </Link>
+          </li>
 
-            <li>
-              <Link className="dropdown-item" to="/login/aluno">
-                Aluno
-              </Link>
-            </li>
-            <li></li>
-            <li>
-              <Link className="dropdown-item" to="/login/professor">
-                Professor
-              </Link>
-            </li>
-          </ul>
-        </div>
+          <li>
+            <Link className="dropdown-item" to="/login/aluno">
+              Aluno
+            </Link>
+          </li>
+          <li></li>
+          <li>
+            <Link className="dropdown-item" to="/login/professor">
+              Professor
+            </Link>
+          </li>
+        </ul>
       </div>
     </nav>
   );
