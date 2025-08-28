@@ -5,13 +5,13 @@ import ProfRoutes from "./routes/ProfRoutes";
 import LoginDesk from "./pages/Login/LoginDesk";
 import LoginProf from "./pages/Login/LoginProf";
 import LoginAluno from "./pages/Login/LoginAluno";
-import Home from "./layouts/PublicLayout/PublicLayout";
+import PublicRoutes from "./routes/PublicRoutes";
 export default function App() {
   return (
     <>
       <Routes>
         {/* Página inicial estática */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<PublicRoutes />} />
 
         {/* Páginas de login */}
         <Route path="/login/admin" element={<LoginDesk />} />

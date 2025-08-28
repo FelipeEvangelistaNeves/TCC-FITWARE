@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom"; // Import Bootstrap JS for dropdowns
 import Logo from "../../assets/logo.png";
-// import "../../styles/publicHead.scss";
+import "../../styles/publicHead.scss";
 
 const Header = () => {
   return (
@@ -71,7 +71,7 @@ const Header = () => {
         {/* Botão Registrar */}
         <div className="dropdown me-5">
           <button
-            className="btn btn-sm btn-primary px-3 dropdown-toggle me-3"
+            className="btn btn-sm btn-purple px-3 dropdown-toggle me-3"
             type="button"
             id="dropdownMenuButton"
             data-bs-toggle="dropdown"
@@ -81,12 +81,12 @@ const Header = () => {
           </button>
 
           <ul
-            className="dropdown-menu dropdown-menu-dark dropdown-menu-start"
+            className="dropdown-menu dropdown-menu-start"
             aria-labelledby="dropdownMenuButton"
             // style={{ left: "auto", right: 0 }}
           >
             <li>
-              <Link className="dropdown-item active" to="/login/admin">
+              <Link className="dropdown-item" to="/login/admin">
                 Administrador
               </Link>
             </li>
