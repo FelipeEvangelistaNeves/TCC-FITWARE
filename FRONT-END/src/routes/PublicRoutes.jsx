@@ -11,11 +11,11 @@ export default function PublicRoutes() {
     <Routes>
       <Route path="/" element={<PublicLayout />}>
         <Route index element={<PublicHome />} />
-        {/* <Route path="alunos" element={<Alunos />} />
-        <Route path="professores" element={<Professores />} />
-        <Route path="desafios" element={<Desafios />} />
-        <Route path="financeiro" element={<Financeiro />} />
-        <Route path="treinos" element={<Treinos />} /> */}
+        {/* <Route path="alunos" element={<Alunos />} /> */}
+        {/* <Route path="professores" element={<Professores />} /> */}
+        {/* <Route path="desafios" element={<Desafios />} /> */}
+        {/* <Route path="financeiro" element={<Financeiro />} /> */}
+        {/* <Route path="treinos" element={<Treinos />} /> */}
       </Route>
     </Routes>
   );

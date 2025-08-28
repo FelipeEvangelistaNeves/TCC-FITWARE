@@ -45,25 +45,25 @@ const PublicHome = () => {
 
           <div className="row mt-5 g-4">
             <div className="col-md-3">
-              <div className="card feature-card h-100 text-center p-3">
+              <div className="card feature-card h-100 align-items-center justify-content-center p-3">
                 <FaUserFriends size={40} className="mb-3 text-warning" />
                 <h5>Crie com profissionais</h5>
               </div>
             </div>
             <div className="col-md-3">
-              <div className="card feature-card h-100 text-center p-3">
+              <div className="card feature-card h-100 align-items-center justify-content-center p-3">
                 <FaDumbbell size={40} className="mb-3 text-warning" />
                 <h5>Treinamento</h5>
               </div>
             </div>
             <div className="col-md-3">
-              <div className="card feature-card h-100 text-center p-3">
+              <div className="card feature-card h-100 align-items-center justify-content-center p-3">
                 <FaHeartbeat size={40} className="mb-3 text-warning" />
                 <h5>Recompensas</h5>
               </div>
             </div>
             <div className="col-md-3">
-              <div className="card feature-card h-100 text-center p-3">
+              <div className="card feature-card h-100 align-items-center justify-content-center p-3">
                 <FaSpa size={40} className="mb-3 text-warning" />
                 <h5>Bem-estar</h5>
               </div>
