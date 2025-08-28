@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modalidades = () => {
+export default function Modalidades () {
   return (
     <div>
       <h1>Página Modalidades</h1>
@@ -8,5 +8,3 @@ const Modalidades = () => {
     </div>
   );
 };
-
-export default Modalidades;

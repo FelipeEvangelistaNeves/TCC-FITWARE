@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom"; // Import Bootstrap JS for dropdowns
 import Logo from "../../assets/logo.png";
-import "../../styles/publicHead.scss";
+import "../../styles/public.scss";
 
 const Header = () => {
   return (
@@ -42,27 +42,27 @@ const Header = () => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav mx-auto">
           <li className="nav-item">
-            <Link className="nav-link text-warning" to="/sobre">
+            <Link className="nav-link text-warning" to="sobre">
               Sobre
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-warning" to="/Por-que-se-juntar">
+            <Link className="nav-link text-warning" to="por-que-se-juntar">
               Por que se juntar?
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-warning" to="/planos">
+            <Link className="nav-link text-warning" to="planos">
               Planos
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-warning" to="/modalidades">
+            <Link className="nav-link text-warning" to="modalidades">
               Modalidades
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-warning" to="/suporte">
+            <Link className="nav-link text-warning" to="suporte">
               Suporte
             </Link>
           </li>
