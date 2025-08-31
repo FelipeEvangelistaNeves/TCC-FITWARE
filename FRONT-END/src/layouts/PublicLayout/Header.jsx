@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { Link } from "react-router-dom"; // Import Bootstrap JS for dropdowns
+import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import "../../styles/public.scss";
 
@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
       {/* Logo + texto */}
-      <a className="navbar-brand d-flex align-items-center" href="/">
+      <Link className="navbar-brand d-flex align-items-center" to="/">
         <img
           src={Logo}
           alt="FitWare Logo"
@@ -23,7 +23,7 @@ const Header = () => {
             Plataforma de Gestão Fitness
           </small>
         </div>
-      </a>
+      </Link>
 
       {/* Botão responsivo (hamburger) */}
       <button
@@ -84,20 +84,17 @@ const Header = () => {
         <ul
           className="dropdown-menu dropdown-menu-start"
           aria-labelledby="dropdownMenuButton"
-          // style={{ left: "auto", right: 0 }}
         >
           <li>
             <Link className="dropdown-item" to="/login/admin">
               Administrador
             </Link>
           </li>
-
           <li>
             <Link className="dropdown-item" to="/login/aluno">
               Aluno
             </Link>
           </li>
-          <li></li>
           <li>
             <Link className="dropdown-item" to="/login/professor">
               Professor

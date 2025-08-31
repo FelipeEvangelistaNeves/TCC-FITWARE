@@ -11,7 +11,7 @@ export default function App() {
     <>
       <Routes>
         {/* Página inicial estática */}
-        <Route path="/" element={<PublicRoutes />} />
+        <Route path="/*" element={<PublicRoutes />} />
 
         {/* Páginas de login */}
         <Route path="/login/admin" element={<LoginDesk />} />
