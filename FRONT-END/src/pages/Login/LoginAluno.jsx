@@ -1,23 +1,40 @@
 import { useState } from "react";
 import "../../styles/loginmob.scss";
-import Logo from '../../assets/logo.png';
+import Logo from "../../assets/logo.png";
 
 export default function Login() {
-
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  function Executar (){
-    console.log("aloiu");
+  // usando fetch
+  async function Executar(/*e*/) {
+    // e.preventDefault();
+
+    const res = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: email,
+        password: senha,
+      }),
+      credentials: "include", // mantém a sessão
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      // alert("Login OK");
+      // redireciona para página protegida
+      window.location.href = "/aluno";
+    } else {
+      // alert(data.message);
+    }
   }
-  
+
   return (
-
-
     <div className="login-container">
       <div className="login-card">
         {/* Avatar */}
-          <img src={Logo} alt="logo fitware" className="login-avatar"/>
+        <img src={Logo} alt="logo fitware" className="login-avatar" />
 
         {/* Empresa */}
         <h2 className="login-title">FitWare</h2>
