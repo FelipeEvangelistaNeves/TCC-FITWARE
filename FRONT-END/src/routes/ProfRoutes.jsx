@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import ProfLayout from "../layouts/ProfLayout/ProfLayout";
-import DashboardProf from "../pages/professor/Dashboard";
-import AlunosProf from "../pages/professor/Alunos";
-import TreinosProf from "../pages/professor/Treinos";
-import MensagensProf from "../pages/professor/Mensagens";
-import PerfilProf from "../pages/professor/Perfil";
+import DashboardProf from "../pages/Professor/Dashboard";
+import AlunosProf from "../pages/Professor/Alunos";
+import TreinosProf from "../pages/Professor/Treinos";
+import MensagensProf from "../pages/Professor/Mensagens";
+import PerfilProf from "../pages/Professor/Perfil";
 
 export default function ProfRoutes() {
   return (

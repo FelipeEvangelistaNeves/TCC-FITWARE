@@ -23,19 +23,19 @@ const LoginDesk = () => {
             <h2>Painel Administrativo</h2>
             <div className="features">
               <div className="feature-item">
-                <i className="bi-check-circle-fill text-danger"></i>
+                <i className="bi bi-check-circle-fill"></i>
                 <span>Gerenciamento completo de usuários</span>
               </div>
               <div className="feature-item">
-                <i className="bi-check-circle-fill text-danger"></i>
+                <i className="bi bi-check-circle-fill"></i>
                 <span>Controle de treinos e programas</span>
               </div>
               <div className="feature-item">
-                <i className="bi-check-circle-fill text-danger"></i>
+                <i className="bi bi-check-circle-fill"></i>
                 <span>Relatórios e análises avançadas</span>
               </div>
               <div className="feature-item">
-                <i className="bi-check-circle-fill text-danger"></i>
+                <i className="bi bi-check-circle-fill"></i>
                 <span>Gestão financeira integrada</span>
               </div>
             </div>

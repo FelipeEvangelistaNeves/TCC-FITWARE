@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import DashboardAluno from "../pages/Alunos/Dashboard";
+import DashboardAluno from "../pages/Alunos/DashBoard";
 import DesafiosAluno from "../pages/Alunos/Desafios";
 import TreinosAluno from "../pages/Alunos/Treinos";
 import MensagensAluno from "../pages/Alunos/Mensagens";

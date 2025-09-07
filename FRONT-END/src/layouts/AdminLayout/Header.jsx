@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import "../../styles/admhead.scss";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -9,30 +9,25 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    // Lógica de logout aqui
     console.log("Logout");
   };
+
   return (
     <header className="admin-header">
       <div className="container-fluid">
         <div className="row align-items-center h-100">
-          {/* Logo/Title */}
           <div className="col-auto">
-            <h1 className="header-title mb-0 ">FitWare Admin</h1>
+            <h1 className="header-title mb-0">FitWare Admin</h1>
           </div>
 
-          {/* Spacer */}
           <div className="col"></div>
 
-          {/* User Profile Section */}
           <div className="col-auto">
             <div className="user-section">
-              {/* Notification Badge */}
               <div className="notification-badge me-3">
                 <span className="badge bg-purple">3</span>
               </div>
 
-              {/* User Profile Dropdown */}
               <div className={`dropdown ${showDropdown ? "show" : ""}`}>
                 <button
                   className="btn user-profile-btn"
@@ -100,5 +95,3 @@ export default function Header() {
     </header>
   );
 }
-
-// Componente de exemplo para demonstração
