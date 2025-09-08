@@ -10,7 +10,7 @@ export default function Login() {
   async function Executar(/*e*/) {
     // e.preventDefault();
 
-    const res = await fetch("http://localhost:3000/login", {
+    const res = await fetch("http://localhost:3000/loginaluno", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -26,7 +26,7 @@ export default function Login() {
       // redireciona para página protegida
       window.location.href = "/aluno";
     } else {
-      // alert(data.message);
+      alert(data.message);
     }
   }
 

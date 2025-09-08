@@ -1,19 +1,19 @@
 const express = require("express");
 const session = require("express-session");
-const path = require("path");
 const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
 
-// Middleware
+// --- Middleware ---
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // frontend
     methods: ["GET", "POST"],
-    credentials: true, //permite enviar cookies
+    credentials: true, // permite envio de cookies
   })
 );
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -22,43 +22,58 @@ app.use(
     secret: "segredo-super-seguro",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }, // Em produção, use 'true' com HTTPS
+    cookie: {
+      secure: false, // Em produção, use true com HTTPS
+      httpOnly: true, // cookie não acessível no JS do cliente
+      maxAge: 1000 * 60 * 60, // 1 hora
+    },
   })
 );
 
-// rota de login
-app.post("/login", (req, res) => {
+// --- Login ---
+app.post("/loginaluno", (req, res) => {
   const { username, password } = req.body;
 
   if (username === "admin" && password === "123") {
     req.session.user = username;
+    console.log("Sessão criada:", req.session.user);
     return res.json({ success: true, message: "Login realizado com sucesso!" });
+  } else {
+    return res
+      .status(401)
+      .json({ success: false, message: "Usuário ou senha inválidos!" });
   }
-
-  res
-    .status(401)
-    .json({ success: false, message: "Usuário ou senha inválidos!" });
 });
 
-// rota protegida
-app.get("/protected", (req, res) => {
+// --- Middleware de proteção ---
+function authMiddleware(req, res, next) {
   if (req.session.user) {
-    return res.json({
-      success: true,
-      user: req.session.user,
-      data: "Conteúdo protegido",
-    });
+    console.log("Usuário autenticado:", req.session.user);
+    return next();
   }
-  res.status(401).json({ success: false, message: "Não autorizado" });
+  console.log(" Tentativa sem login");
+  return res.status(401).json({ success: false, message: "Não autorizado" });
+}
+
+// --- Rota protegida ---
+app.get("/protected", authMiddleware, (req, res) => {
+  res.json({
+    success: true,
+    message: "Bem-vindo à área protegida!",
+    user: req.session.user,
+  });
 });
 
-// logout
+// --- Logout ---
 app.post("/logout", (req, res) => {
   req.session.destroy(() => {
+    res.clearCookie("connect.sid"); // remove o cookie da sessão
+    console.log("Sessão destruída");
     res.json({ success: true, message: "Logout efetuado" });
   });
 });
 
+// --- Iniciar servidor ---
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
