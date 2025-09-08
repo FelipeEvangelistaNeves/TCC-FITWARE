@@ -1,64 +1,8 @@
 import React from "react";
 import "../../styles/dashboardAluno.scss";
 import { Bell, LogOut } from "lucide-react";
-import { useEffect, useState } from "react";
 
 export default function DashboardAluno() {
-  ///////////////// validação login ///////////////////
-  const [auth, setAuth] = useState(null); // null = carregando
-
-  useEffect(() => {
-    async function checkAuth() {
-      try {
-        const res = await fetch("http://localhost:3000/protected", {
-          credentials: "include",
-        });
-
-        if (res.status === 401) {
-          setAuth(false);
-          return;
-        }
-
-        const data = await res.json();
-        if (data.success) {
-          setAuth(true);
-        } else {
-          setAuth(false);
-        }
-      } catch (err) {
-        console.error("Erro ao verificar login:", err);
-        setAuth(false);
-      }
-    }
-
-    checkAuth();
-  }, []);
-
-  if (auth === null) {
-    return <p>Carregando...</p>; // evita redirecionar cedo demais
-  }
-
-  if (auth === false) {
-    window.location.href = "/login/aluno";
-    return null;
-  }
-
-  ////////////////// logout ///////////////////
-  async function handleLogout() {
-    try {
-      const res = await fetch("http://localhost:3000/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      const data = await res.json();
-      if (data.success) {
-        window.location.href = "/"; // redireciona pro login
-      }
-    } catch (err) {
-      console.error("Erro ao fazer logout:", err);
-    }
-  }
-
   return (
     <div className="dashboard-aluno">
       {/* Summary Cards */}
@@ -83,9 +27,6 @@ export default function DashboardAluno() {
       {/* Workouts Section */}
       <section className="workouts-section">
         <div className="section-header">
-          <button className="filter-btn" onClick={() => handleLogout()}>
-            logoutcagadoteste
-          </button>
           <button className="filter-btn">Todos</button>
           <button className="filter-btn">Força</button>
           <button className="filter-btn">Cardio</button>
