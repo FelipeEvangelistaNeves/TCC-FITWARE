@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/public.scss";
+import "./../../styles/pages/public/public.scss";
 
 const Home = () => {
   return (
@@ -36,9 +36,7 @@ const Home = () => {
       {/* Recursos Section */}
       <section className="features text-center py-5">
         <h6 className="text-warning">Recursos Principais</h6>
-        <h2 className="fw-bold mb-5">
-          Tudo que você precisa em um só lugar
-        </h2>
+        <h2 className="fw-bold mb-5">Tudo que você precisa em um só lugar</h2>
 
         <div className="container">
           <div className="row g-4">

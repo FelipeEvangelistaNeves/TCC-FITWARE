@@ -1,4 +1,4 @@
-@import "./variables";
+@import "./../../abstract/variables.scss";
 
 #dropdownMenuButton {
   background-color: $purple-500 !important;
@@ -15,7 +15,7 @@
   background-color: $primary-pale !important;
 }
 
-#navbar{
+#navbar {
   display: flex;
   justify-content: space-evenly;
   align-items: center;

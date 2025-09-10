@@ -1,23 +1,20 @@
 import { useState } from "react";
-import "../../styles/loginmob.scss";
-import Logo from '../../assets/logo.png';
+import "../../styles/pages/login/loginmob.scss";
+import Logo from "../../assets/logo.png";
 
 export default function Login() {
-
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  function Executar (){
+  function Executar() {
     console.log("aloiu");
   }
-  
+
   return (
-
-
     <div className="login-container">
       <div className="login-card">
         {/* Avatar */}
-          <img src={Logo} alt="logo fitware" className="login-avatar"/>
+        <img src={Logo} alt="logo fitware" className="login-avatar" />
 
         {/* Empresa */}
         <h2 className="login-title">FitWare</h2>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Chart from "chart.js/auto";
-import "../../styles/dashboard.scss";
+import "../../styles/pages/admin/dashboard.scss";
 
 export default function Dashboard() {
   useEffect(() => {
