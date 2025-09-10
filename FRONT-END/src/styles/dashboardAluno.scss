@@ -1,0 +1,483 @@
+// Dashboard do Aluno - Estilos SCSS
+.dashboard-aluno {
+  min-height: 100vh;
+  background: #242424;
+  color: white;
+  padding: 0;
+  position: relative;
+  padding-bottom: 80px; // Espaço para a navegação inferior
+}
+
+// Header
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 15px;
+  background: rgba(24, 24, 24, 0.8);
+  backdrop-filter: blur(10px);
+  
+  .dashboard-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fbbf24; // Amarelo mais suave
+    margin: 0;
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      background: #242424; // Índigo mais suave
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: scale(1.1);
+      }
+      
+      i {
+        color: white;
+        font-size: 16px;
+      }
+    }
+    
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      background: #8b5cf6; // Roxo
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: scale(1.1);
+      }
+      
+      span {
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+// Cards de Resumo
+.summary-cards {
+  display: flex;
+  gap: 15px;
+  padding: 0 20px 25px;
+  overflow-x: auto;
+  
+  .summary-card {
+    margin-top: 20px;
+    flex: 1;
+    min-width: 100px;
+    background: rgba(24, 24, 24, 0.8);
+    border-radius: 15px;
+    padding: 20px 15px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(107, 114, 128, 0.4);
+    
+    h3 {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0 0 10px 0;
+    }
+    
+    .card-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 5px;
+    }
+    
+    .card-subtitle {
+      font-size: 12px;
+      color: #fbbf24; // Amarelo mais suave
+      font-weight: 500;
+    }
+  }
+}
+
+// Seção de Treinos
+.workouts-section {
+  padding: 0 20px;
+  
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: white;
+      margin: 0;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    .filter-btn {
+      margin: 5px;
+      flex: 1;
+      min-width: 80px;
+      background: #3C3B3B; // cinza botao
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      
+      &:hover {
+        background: #64748b;
+      }
+    }
+  }
+}
+
+// Cards de Treino
+.workout-card {
+  background: #3A3A3A;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(107, 114, 128, 0.4);
+  backdrop-filter: blur(10px);
+  
+  .workout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    
+    .workout-info {
+      h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+        margin: 0 0 5px 0;
+      }
+      
+      .workout-details {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0;
+      }
+    }
+    
+    .workout-type {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      
+      &.strength {
+        background: #8b5cf6; // Roxo
+      }
+      
+      &.cardio {
+        background: #242429; // Índigo
+      }
+    }
+  }
+  
+  .exercises-list {
+    margin-bottom: 20px;
+    
+                  .exercise-item {
+          display: flex;
+          align-items: center;
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(107, 114, 128, 0.4);
+          
+          &:last-child {
+            border-bottom: none;
+          }
+      
+      .exercise-number {
+        width: 24px;
+        height: 24px;
+        background: #6C3D9A; // cinzinha top
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        margin-right: 15px;
+      }
+      
+      .exercise-name {
+        flex: 1;
+        font-size: 14px;
+        color: white;
+        font-weight: 500;
+      }
+      
+      .exercise-sets {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .workout-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .trainer-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      .trainer-avatar {
+        width: 32px;
+        height: 32px;
+        background: #8b5cf6; // Roxo
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+      }
+      
+      .trainer-name {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+      }
+    }
+    
+    .start-btn {
+      background: #8b5cf6; // Roxo
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: #7c3aed;
+        transform: translateY(-2px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+// Navegação Inferior
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(24, 24, 24, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(107, 114, 128, 0.4);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 1000;
+  
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 8px 12px;
+    border-radius: 10px;
+    
+    i {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.6);
+      transition: color 0.2s ease;
+    }
+    
+    span {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    &.active {
+      i, span {
+        color: #8b5cf6; // Roxo
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 3px;
+        background: #8b5cf6;
+        border-radius: 2px;
+      }
+    }
+    
+    &:hover:not(.active) {
+      i, span {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Responsividade para telas muito pequenas
+@media (max-width: 360px) {
+  .workouts-section {
+    .section-header {
+      .filter-btn {
+        padding: 5px 8px;
+        font-size: 11px;
+        min-width: 50px;
+      }
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 15px 15px 10px;
+    
+    .dashboard-title {
+      font-size: 20px;
+    }
+    
+    .header-actions {
+      gap: 12px;
+      
+      .notification-icon,
+      .profile-icon {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+  
+  .summary-cards {
+    padding: 0 15px 20px;
+    gap: 12px;
+    
+    .summary-card {
+      padding: 15px 12px;
+      
+      .card-number {
+        font-size: 24px;
+      }
+    }
+  }
+  
+  .workouts-section {
+    padding: 0 15px;
+    
+    .section-header {
+      gap: 8px;
+      
+      h2 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      
+      .filter-btn {
+        margin: 2px;
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: 60px;
+      }
+    }
+    
+    .workout-card {
+      padding: 15px;
+      
+      .workout-header {
+        margin-bottom: 15px;
+        
+        h3 {
+          font-size: 16px;
+        }
+      }
+      
+      .exercises-list {
+        margin-bottom: 15px;
+        
+        .exercise-item {
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+  
+  .bottom-nav {
+    padding: 8px 0;
+    
+    .nav-item {
+      padding: 6px 10px;
+      
+      i {
+        font-size: 16px;
+      }
+      
+      span {
+        font-size: 11px;
+      }
+    }
+  }
+}
+
+// Scrollbar personalizada
+.summary-cards::-webkit-scrollbar {
+  height: 4px;
+}
+
+.summary-cards::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.summary-cards::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+}
