@@ -1,0 +1,220 @@
+@import "./variables.scss";
+
+/* ===== Container principal ===== */
+.profile-container {
+  background-color: $app-bg;
+  color: $text;
+  min-height: 100vh;
+  padding: 16px;
+  margin-top: var(--header-height, 64px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== Header do perfil ===== */
+.profile-header {
+  text-align: center;
+  padding: 16px 0;
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: $blue-light;
+    color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 12px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .name {
+    font-size: 18px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  .sub {
+    font-size: 14px;
+    color: $text-2;
+    margin-top: 2px;
+  }
+
+  .points {
+    margin-top: 10px;
+    font-weight: 700;
+    color: $accent-yellow;
+  }
+
+  .meta {
+    font-size: 12px;
+    color: $text-2;
+    margin-top: 4px;
+  }
+}
+
+/* ===== Tabs ===== */
+.profile-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin: 16px 0;
+  border-bottom: 1px solid $border-color;
+
+  button {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 14px;
+    color: $text-2;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    position: relative;
+    transition: color 0.2s;
+
+    &.active {
+      color: $primary;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $primary;
+        border-radius: $radius-sm;
+      }
+
+      &.green {
+        color: #22c55e; // verde
+        &::after {
+          background: #22c55e;
+        }
+      }
+
+      &.yellow {
+        color: $accent-yellow;
+        &::after {
+          background: $accent-yellow;
+        }
+      }
+    }
+  }
+}
+
+/* ===== Cards ===== */
+.profile-card {
+  background-color: $surface-2;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: $text-2;
+  }
+
+  .details {
+    font-size: 14px;
+    color: $text-2;
+    line-height: 1.4;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+
+    .reward {
+      color: $accent-yellow;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .btn {
+      background-color: $surface-3;
+      color: $text;
+      padding: 6px 12px;
+      border-radius: $radius-md;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: background 0.2s;
+
+      &:hover {
+        background-color: $primary-500;
+        color: $white;
+      }
+
+      &.details {
+        background-color: $primary;
+        color: $white;
+
+        &:hover {
+          background-color: $primary-700;
+        }
+
+        &.blue {
+          background-color: $blue-light;
+
+          &:hover {
+            background-color: darken($blue-light, 10%);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ===== Botão fixo no fim da página ===== */
+.profile-bottom-action {
+  margin-top: auto;
+  padding: 16px 0;
+
+  button {
+    width: 100%;
+    background-color: $accent-yellow;
+    color: $black;
+    border: none;
+    border-radius: $radius-md;
+    padding: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+}
+
+/* ===== Responsivo ===== */
+@media (min-width: 992px) {
+  .profile-container {
+    padding: 24px 40px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
+}
