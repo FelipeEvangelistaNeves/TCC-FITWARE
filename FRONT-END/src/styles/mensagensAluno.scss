@@ -1,8 +1,10 @@
+@import "./variables.scss";
+
 // Mensagens do Aluno - Estilos SCSS
 .mensagens-aluno {
     min-height: 100vh;
-    background: #242424;
-    color: white;
+    background: $app-bg;
+    color: $text;
     padding: 0;
     position: relative;
     padding-bottom: 80px; // Espaço para a navegação inferior
@@ -14,21 +16,21 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 20px 15px;
-    background: rgba(55, 65, 81, 0.8);
+    background: $surface-1;
     backdrop-filter: blur(10px);
     
     .mensagens-title {
       font-size: 24px;
       font-weight: 700;
-      color: #fbbf24; // Amarelo mais suave
+      color: $accent-yellow;
       margin: 0;
     }
     
     .add-btn {
       width: 40px;
       height: 40px;
-      background: rgba(75, 85, 99, 0.8);
-      border: none;
+      background: $surface-2;
+      border: 1px solid $border-color;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -38,11 +40,11 @@
       
       &:hover {
         transform: scale(1.1);
-        background: rgba(75, 85, 99, 0.9);
+        background: $surface-3;
       }
       
       i {
-        color: white;
+        color: $white;
         font-size: 18px;
         font-weight: 600;
       }
@@ -69,7 +71,7 @@
       .search-input {
         width: 100%;
         padding: 15px 15px 15px 45px;
-        background: rgba(75, 85, 99, 0.8);
+        background: rgba(24, 24, 24, 0.8);
         border: 1px solid rgba(107, 114, 128, 0.4);
         border-radius: 12px;
         color: white;
@@ -98,7 +100,7 @@
     .filter-tab {
       flex: 1;
       padding: 12px 16px;
-      background: rgba(75, 85, 99, 0.8);
+      background: rgba(24, 24, 24, 0.8);
       border: none;
       border-radius: 10px;
       color: white;
@@ -132,7 +134,7 @@
       align-items: center;
       padding: 20px;
       margin-bottom: 15px;
-      background: rgba(75, 85, 99, 0.6);
+      background: rgba(24, 24, 24, 0.8);
       border-radius: 16px;
       border: 1px solid rgba(107, 114, 128, 0.4);
       backdrop-filter: blur(10px);

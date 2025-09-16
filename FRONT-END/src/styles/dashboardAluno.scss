@@ -1,8 +1,10 @@
+@import "./variables.scss";
+
 // Dashboard do Aluno - Estilos SCSS
 .dashboard-aluno {
   min-height: 100vh;
-  background: #242424;
-  color: white;
+  background: $app-bg;
+  color: $text;
   padding: 0;
   position: relative;
   padding-bottom: 80px; // Espaço para a navegação inferior
@@ -14,13 +16,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px 15px;
-  background: rgba(24, 24, 24, 0.8);
+  background: $surface-1;
   backdrop-filter: blur(10px);
   
   .dashboard-title {
     font-size: 24px;
     font-weight: 700;
-    color: #fbbf24; // Amarelo mais suave
+    color: $accent-yellow;
     margin: 0;
   }
   
@@ -32,7 +34,7 @@
     .notification-icon {
       width: 40px;
       height: 40px;
-      background: #242424; // Índigo mais suave
+      background: $surface-2;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -45,7 +47,7 @@
       }
       
       i {
-        color: white;
+        color: $white;
         font-size: 16px;
       }
     }
@@ -53,7 +55,7 @@
     .profile-icon {
       width: 40px;
       height: 40px;
-      background: #8b5cf6; // Roxo
+      background: $primary;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -66,7 +68,7 @@
       }
       
       span {
-        color: white;
+        color: $white;
         font-weight: 600;
         font-size: 14px;
       }
@@ -85,30 +87,31 @@
     margin-top: 20px;
     flex: 1;
     min-width: 100px;
-    background: rgba(24, 24, 24, 0.8);
-    border-radius: 15px;
+    background: $surface-1;
+    border-radius: $radius-md;
     padding: 20px 15px;
     text-align: center;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(107, 114, 128, 0.4);
+    border: 1px solid $border-color;
+    box-shadow: $shadow-1;
     
     h3 {
       font-size: 14px;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.8);
+      color: $text-2;
       margin: 0 0 10px 0;
     }
     
     .card-number {
       font-size: 28px;
       font-weight: 700;
-      color: white;
+      color: $text;
       margin-bottom: 5px;
     }
     
     .card-subtitle {
       font-size: 12px;
-      color: #fbbf24; // Amarelo mais suave
+      color: $accent-yellow;
       font-weight: 500;
     }
   }
@@ -128,7 +131,7 @@
     h2 {
       font-size: 20px;
       font-weight: 600;
-      color: white;
+      color: $text;
       margin: 0;
       width: 100%;
       margin-bottom: 15px;
@@ -138,18 +141,18 @@
       margin: 5px;
       flex: 1;
       min-width: 80px;
-      background: #3C3B3B; // cinza botao
-      color: white;
-      border: none;
+      background: $surface-2;
+      color: $text;
+      border: 1px solid $border-color;
       padding: 8px 16px;
-      border-radius: 8px;
+      border-radius: $radius-sm;
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
       transition: background 0.2s ease;
       
       &:hover {
-        background: #64748b;
+        background: $surface-3;
       }
     }
   }
@@ -157,12 +160,13 @@
 
 // Cards de Treino
 .workout-card {
-  background: #3A3A3A;
-  border-radius: 20px;
+  background: $surface-2;
+  border-radius: $radius-lg;
   padding: 20px;
   margin-bottom: 20px;
-  border: 1px solid rgba(107, 114, 128, 0.4);
+  border: 1px solid $border-color;
   backdrop-filter: blur(10px);
+  box-shadow: $shadow-1;
   
   .workout-header {
     display: flex;
@@ -174,30 +178,30 @@
       h3 {
         font-size: 18px;
         font-weight: 700;
-        color: white;
+        color: $text;
         margin: 0 0 5px 0;
       }
       
       .workout-details {
         font-size: 14px;
-        color: rgba(255, 255, 255, 0.7);
+        color: $text-2;
         margin: 0;
       }
     }
     
     .workout-type {
       padding: 6px 12px;
-      border-radius: 6px;
+      border-radius: $radius-sm;
       font-size: 12px;
       font-weight: 600;
-      color: white;
+      color: $white;
       
       &.strength {
-        background: #8b5cf6; // Roxo
+        background: $primary;
       }
       
       &.cardio {
-        background: #242429; // Índigo
+        background: $blue-light;
       }
     }
   }
@@ -205,40 +209,40 @@
   .exercises-list {
     margin-bottom: 20px;
     
-                  .exercise-item {
-          display: flex;
-          align-items: center;
-          padding: 12px 0;
-          border-bottom: 1px solid rgba(107, 114, 128, 0.4);
-          
-          &:last-child {
-            border-bottom: none;
-          }
+      .exercise-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid $border-color;
+        
+        &:last-child {
+          border-bottom: none;
+        }
       
       .exercise-number {
         width: 24px;
         height: 24px;
-        background: #6C3D9A; // cinzinha top
+        background: $primary-500;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 12px;
         font-weight: 600;
-        color: white;
+        color: $white;
         margin-right: 15px;
       }
       
       .exercise-name {
         flex: 1;
         font-size: 14px;
-        color: white;
+        color: $text;
         font-weight: 500;
       }
       
       .exercise-sets {
         font-size: 14px;
-        color: rgba(255, 255, 255, 0.7);
+        color: $text-2;
         font-weight: 500;
       }
     }
@@ -257,36 +261,37 @@
       .trainer-avatar {
         width: 32px;
         height: 32px;
-        background: #8b5cf6; // Roxo
+        background: $primary;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 12px;
         font-weight: 600;
-        color: white;
+        color: $white;
       }
       
       .trainer-name {
         font-size: 14px;
-        color: rgba(255, 255, 255, 0.8);
+        color: $text-2;
         font-weight: 500;
       }
     }
     
     .start-btn {
-      background: #8b5cf6; // Roxo
-      color: white;
+      background: $primary;
+      color: $white;
       border: none;
       padding: 12px 24px;
-      border-radius: 10px;
+      border-radius: $radius-md;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      box-shadow: $shadow-1;
       
       &:hover {
-        background: #7c3aed;
+        background: $primary-700;
         transform: translateY(-2px);
       }
       
@@ -303,9 +308,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(24, 24, 24, 0.95);
+  background: $surface-1;
   backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(107, 114, 128, 0.4);
+  border-top: 1px solid $border-color;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
@@ -323,20 +328,20 @@
     
     i {
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.6);
+      color: $text-2;
       transition: color 0.2s ease;
     }
     
     span {
       font-size: 12px;
-      color: rgba(255, 255, 255, 0.6);
+      color: $text-2;
       font-weight: 500;
       transition: color 0.2s ease;
     }
     
     &.active {
       i, span {
-        color: #8b5cf6; // Roxo
+        color: $primary;
       }
       
       &::after {
@@ -347,14 +352,14 @@
         transform: translateX(-50%);
         width: 20px;
         height: 3px;
-        background: #8b5cf6;
+        background: $primary;
         border-radius: 2px;
       }
     }
     
     &:hover:not(.active) {
       i, span {
-        color: rgba(255, 255, 255, 0.8);
+        color: $text;
       }
     }
   }
