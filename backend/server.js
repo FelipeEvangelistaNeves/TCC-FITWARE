@@ -5,6 +5,8 @@ const cors = require("cors");
 const app = express();
 const PORT = 3000;
 
+const AlunoModel = require("./models/alunos");
+
 // --- Middleware ---
 app.use(
   cors({
@@ -17,9 +19,11 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+require("dotenv").config();
+
 app.use(
   session({
-    secret: "segredo-super-seguro",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -29,7 +33,7 @@ app.use(
     },
   })
 );
-
+/*
 // --- Login ---
 app.post("/loginaluno", (req, res) => {
   const { username, password } = req.body;
@@ -44,6 +48,22 @@ app.post("/loginaluno", (req, res) => {
       .json({ success: false, message: "Usuário ou senha inválidos!" });
   }
 });
+*/
+
+// --- Login ---
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  const aluno = AlunoModel.findByUsername(username);
+
+  if (!aluno || aluno.password !== password) {
+    return res.status(401).json({ message: "Credenciais inválidas" });
+  }
+
+  // salva o aluno na sessão
+  req.session.user = { id: aluno.id, username: aluno.username }; // padroniza
+  console.log("Sessão criada:", req.session.user);
+  res.json({ message: "Login bem-sucedido", user: req.session.user });
+});
 
 // --- Middleware de proteção ---
 function authMiddleware(req, res, next) {
@@ -51,7 +71,7 @@ function authMiddleware(req, res, next) {
     console.log("Usuário autenticado:", req.session.user);
     return next();
   }
-  console.log(" Tentativa sem login");
+  console.log("Tentativa sem login");
   return res.status(401).json({ success: false, message: "Não autorizado" });
 }
 
