@@ -1,4 +1,4 @@
-export const funcionarios = [
+const funcionarios = [
   {
     fu_id: 1,
     fu_nome: "Felipe",
@@ -44,3 +44,29 @@ export const funcionarios = [
     fu_cref: "CREF54321SP",
   },
 ];
+
+// Funções de CRUD simuladas
+
+class FuncionarioModel {
+  static findByEmail(email) {
+    return funcionarios.find((f) => f.fu_email === email);
+  }
+
+  static create(nome, email, senha, cargo, cref = null) {
+    const novoFunc = {
+      fu_id: funcionarios.length + 1,
+      fu_nome: nome,
+      fu_email: email,
+      fu_senha: senha,
+      fu_cargo: cargo,
+      fu_cref: cref,
+    };
+    funcionarios.push(novoFunc);
+    return novoFunc;
+  }
+
+  static getAll() {
+    return funcionarios;
+  }
+}
+module.exports = FuncionarioModel;

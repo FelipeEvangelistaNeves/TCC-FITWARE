@@ -4,8 +4,30 @@ import "../../styles/loginDesk.scss";
 import logo from "../../assets/logo.png"; // Certifique-se de ter uma imagem de logo
 const LoginDesk = () => {
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
+  async function Executar() {
+    try {
+      const response = await fetch("http://localhost:3000/login/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // necessário para cookies de sessão
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Login realizado com sucesso!");
+        console.log(data);
+        navigate("/admin");
+      } else {
+        alert("Erro: " + data.message);
+      }
+    } catch (err) {
+      console.error("Erro ao logar:", err);
+    }
+  }
   return (
     <div className="login-container">
       <div className="login-content">
@@ -64,9 +86,9 @@ const LoginDesk = () => {
                 <input
                   type="password"
                   id="senha"
-                  value={senha}
+                  value={password}
                   required
-                  onChange={(e) => setSenha(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
@@ -76,7 +98,7 @@ const LoginDesk = () => {
                 </a>
               </div>
 
-              <button type="submit" className="login-button">
+              <button className="login-button" onClick={() => Executar()}>
                 Entrar
               </button>
             </form>

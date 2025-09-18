@@ -4,22 +4,26 @@ const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
+const authMiddleware = require("./middleware/auth").authMiddleware;
+const roleMiddleware = require("./middleware/auth").roleMiddleware;
 
 const AlunoModel = require("./models/alunos");
+const FuncionarioModel = require("./models/funcionarios");
 
-// --- Middleware ---
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
-    credentials: true, // permite envio de cookies
+    credentials: true,
   })
 );
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-require("dotenv").config();
+require("dotenv").config({
+  quiet: true,
+});
 
 app.use(
   session({
@@ -27,73 +31,106 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Em produção, use true com HTTPS
-      httpOnly: true, // cookie não acessível no JS do cliente
-      maxAge: 1000 * 60 * 60, // 1 hora
+      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
     },
   })
 );
-/*
-// --- Login ---
-app.post("/loginaluno", (req, res) => {
-  const { username, password } = req.body;
 
-  if (username === "admin" && password === "123") {
-    req.session.user = username;
-    console.log("Sessão criada:", req.session.user);
-    return res.json({ success: true, message: "Login realizado com sucesso!" });
-  } else {
-    return res
-      .status(401)
-      .json({ success: false, message: "Usuário ou senha inválidos!" });
-  }
-});
-*/
+// --- Login Aluno ---
+app.post("/login/aluno", (req, res) => {
+  const { email, password } = req.body;
+  const aluno = AlunoModel.findByEmail(email);
 
-// --- Login ---
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  const aluno = AlunoModel.findByUsername(username);
-
-  if (!aluno || aluno.password !== password) {
+  if (!aluno || aluno.al_senha !== password) {
     return res.status(401).json({ message: "Credenciais inválidas" });
   }
 
-  // salva o aluno na sessão
-  req.session.user = { id: aluno.id, username: aluno.username }; // padroniza
+  req.session.user = { id: aluno.al_id, email: aluno.al_email, role: "Aluno" };
   console.log("Sessão criada:", req.session.user);
   res.json({ message: "Login bem-sucedido", user: req.session.user });
 });
 
-// --- Middleware de proteção ---
-function authMiddleware(req, res, next) {
-  if (req.session.user) {
-    console.log("Usuário autenticado:", req.session.user);
-    return next();
-  }
-  console.log("Tentativa sem login");
-  return res.status(401).json({ success: false, message: "Não autorizado" });
-}
+// --- Login Professor ---
+app.post("/login/professor", (req, res) => {
+  const { email, password } = req.body;
+  const funcionario = FuncionarioModel.findByEmail(email);
 
-// --- Rota protegida ---
-app.get("/protected", authMiddleware, (req, res) => {
-  res.json({
-    success: true,
-    message: "Bem-vindo à área protegida!",
-    user: req.session.user,
-  });
+  if (
+    !funcionario ||
+    funcionario.fu_senha !== password ||
+    funcionario.fu_cargo !== "Professor"
+  ) {
+    return res.status(401).json({ message: "Credenciais inválidas" });
+  }
+
+  req.session.user = {
+    id: funcionario.fu_id,
+    email: funcionario.fu_email,
+    role: "Professor",
+  };
+  console.log("Sessão criada:", req.session.user);
+  res.json({ message: "Login bem-sucedido", user: req.session.user });
+});
+
+// --- Login Admin (Secretário) ---
+app.post("/login/admin", (req, res) => {
+  const { email, password } = req.body;
+  const funcionario = FuncionarioModel.findByEmail(email);
+
+  if (
+    !funcionario ||
+    funcionario.fu_senha !== password ||
+    funcionario.fu_cargo !== "Secretario"
+  ) {
+    return res.status(401).json({ message: "Credenciais inválidas" });
+  }
+
+  req.session.user = {
+    id: funcionario.fu_id,
+    email: funcionario.fu_email,
+    role: "Secretario",
+  };
+  console.log("Sessão criada:", req.session.user);
+  res.json({ message: "Login bem-sucedido", user: req.session.user });
+});
+
+// --- Rotas protegidas ---
+app.get(
+  "/professor",
+  authMiddleware,
+  roleMiddleware(["Professor"]),
+  (req, res) => {
+    res.json({ message: "Área do professor" });
+  }
+);
+
+app.get(
+  "/admin",
+  authMiddleware,
+  roleMiddleware(["Secretario"]),
+  (req, res) => {
+    res.json({ message: "Área do admin" });
+  }
+);
+
+app.get("/protected", (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: "Não autorizado" });
+  }
+  res.json({ success: true, user: req.session.user });
 });
 
 // --- Logout ---
 app.post("/logout", (req, res) => {
   req.session.destroy(() => {
-    res.clearCookie("connect.sid"); // remove o cookie da sessão
+    res.clearCookie("connect.sid");
     console.log("Sessão destruída");
     res.json({ success: true, message: "Logout efetuado" });
   });
 });
 
-// --- Iniciar servidor ---
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

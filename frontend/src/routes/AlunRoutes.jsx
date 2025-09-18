@@ -19,24 +19,18 @@ export default function AlunoRoutes() {
         const res = await fetch("http://localhost:3000/protected", {
           credentials: "include",
         });
-
-        if (res.status === 401) {
-          setAuth(false);
-          return;
-        }
-
+        if (res.status === 401) return setAuth(false);
         const data = await res.json();
-        if (data.success) {
+        // valida se o usuário logado é aluno
+        if (data.user.role === "Aluno") {
           setAuth(true);
         } else {
           setAuth(false);
         }
-      } catch (err) {
-        console.error("Erro ao verificar login:", err);
+      } catch {
         setAuth(false);
       }
     }
-
     checkAuth();
   }, []);
 

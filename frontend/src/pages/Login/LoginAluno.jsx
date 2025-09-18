@@ -4,17 +4,17 @@ import "../../styles/loginmob.scss";
 import Logo from "../../assets/logo.png";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   async function Executar() {
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/login/aluno", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // necessário para cookies de sessão
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
@@ -41,8 +41,8 @@ export default function Login() {
           <label>Usuário</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
