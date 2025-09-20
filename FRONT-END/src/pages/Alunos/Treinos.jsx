@@ -1,22 +1,116 @@
-export default function TreinosAluno() {
+import React from 'react';
+import '../../styles/dashboardAluno.scss';
+import '../../styles/treinos.scss';
+import { Bell } from "lucide-react";
+
+export default function DashboardAluno() {
   return (
-    <div className="page-container">
-      <header className="page-header">Treinos</header>
-      <main>
-        <input
-          type="text"
-          placeholder="Buscar treino..."
-          className="search-input"
-        />
-        <div className="card">
-          <h4>Treino de Força</h4>
-          <p>3x12 Agachamento</p>
+    <div className="treinos-page">
+            <div className="search-section">
+              <input type="text" className="search-input" placeholder="Buscar exercícios, treinos..." />
+            </div>
+      
+      {/* Workouts Section */}
+      <section className="workouts-section">
+        <div className="section-header">
+          <button className="filter-btn">Todos</button>
+          <button className="filter-btn">Força</button>
+          <button className="filter-btn">Cardio</button>
+          <button className="filter-btn">Funcional</button>
+
         </div>
-        <div className="card">
-          <h4>Treino de Cardio</h4>
-          <p>20 min corrida</p>
+
+        {/* Strength Workout Card */}
+        <div className="workout-card">
+          <div className="workout-header">
+            <div className="workout-info">
+              <h3>Treino de Força</h3>
+              <p className="workout-details">Intermediário • 45 min</p>
+            </div>
+          </div>
+          
+          <div className="exercises-list">
+            <div className="exercise-item">
+              <span className="exercise-number">1</span>
+              <span className="exercise-name">Agachamento</span>
+              <span className="exercise-sets">3×12</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">2</span>
+              <span className="exercise-name">Supino</span>
+              <span className="exercise-sets">3×10</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">3</span>
+              <span className="exercise-name">Remada</span>
+              <span className="exercise-sets">3×10</span>
+            </div>
+          </div>
+
+          <div className="workout-footer">
+            <div className="trainer-info">
+              <div className="trainer-avatar">JP</div>
+              <span className="trainer-name">João Paulo</span>
+            </div>
+            <button className="start-btn">Iniciar</button>
+          </div>
         </div>
-      </main>
+
+        {/* Cardio Workout Card */}
+        <div className="workout-card">
+          <div className="workout-header">
+            <div className="workout-info">
+              <h3>Treino de Cardio</h3>
+              <p className="workout-details">Iniciante • 30 min</p>
+            </div>
+          </div>
+          
+          <div className="exercises-list">
+            <div className="exercise-item">
+              <span className="exercise-number">1</span>
+              <span className="exercise-name">Corrida</span>
+              <span className="exercise-sets">20 min</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">2</span>
+              <span className="exercise-name">Pular corda</span>
+              <span className="exercise-sets">10 min</span>
+            </div>
+          </div>
+
+          <div className="workout-footer">
+            <div className="trainer-info">
+              <div className="trainer-avatar">JP</div>
+              <span className="trainer-name">João Paulo</span>
+            </div>
+            <button className="start-btn">Iniciar</button>
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom Navigation */}
+      <nav className="bottom-nav">
+        <div className="nav-item active">
+          <i className="fas fa-home"></i>
+          <span>Início</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-dumbbell"></i>
+          <span>Treinos</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-clock"></i>
+          <span>Desafios</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-comment"></i>
+          <span>Mensagens</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-user"></i>
+          <span>Perfil</span>
+        </div>
+      </nav>
     </div>
   );
 }
