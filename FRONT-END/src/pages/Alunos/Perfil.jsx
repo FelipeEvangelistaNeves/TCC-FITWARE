@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import "../../styles/perfil.scss";
+import "../../styles/pages/aluno/perfil.scss";
 
 export default function PerfilAluno() {
   const [activeTab, setActiveTab] = useState("historico");
   const renderContent = () => {
     switch (activeTab) {
       case "historico":
-
         return (
           <div className="profile-content">
             <div className="profile-card">
@@ -14,8 +13,7 @@ export default function PerfilAluno() {
               <div className="subtitle">Hoje</div>
               <div className="details">
                 • Agachamento: 3×12 <br />
-                • Supino: 3×10 <br />
-                • Remada: 3×10
+                • Supino: 3×10 <br />• Remada: 3×10
               </div>
               <div className="actions">
                 <span className="reward">+50</span>
@@ -28,8 +26,7 @@ export default function PerfilAluno() {
               <div className="subtitle">Ontem</div>
               <div className="details">
                 • Corrida: 20 min <br />
-                • Pular corda: 10 min <br />
-                • Bicicleta: 15 min
+                • Pular corda: 10 min <br />• Bicicleta: 15 min
               </div>
               <div className="actions">
                 <span className="reward">+40</span>
@@ -45,8 +42,8 @@ export default function PerfilAluno() {
               <div className="title">Histórico de Pagamentos</div>
               <div className="details">
                 • Mensalidade Janeiro: R$ 120,00 <br />
-                • Mensalidade Fevereiro: R$ 120,00 <br />
-                • Mensalidade Março: R$ 120,00
+                • Mensalidade Fevereiro: R$ 120,00 <br />• Mensalidade Março: R$
+                120,00
               </div>
             </div>
           </div>
