@@ -1,22 +1,20 @@
 @import "./variables.scss";
 
-/* ===== Container principal ===== */
-.profile-container {
-  background-color: $app-bg;
+/* ===== Container Principal ===== */
+.perfil-container {
+  background: $app-bg;
   color: $text;
   min-height: 100vh;
   padding: 16px;
-  margin-top: var(--header-height, 64px);
-
+  margin-top: var(--header-height, 64px); // abaixo do header fixo
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* ===== Header do perfil ===== */
-.profile-header {
+/* ===== Header do Perfil ===== */
+.perfil-header {
   text-align: center;
-  padding: 16px 0;
 
   .avatar {
     width: 80px;
@@ -27,194 +25,284 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 12px;
-    font-weight: bold;
-    font-size: 20px;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 auto 10px;
   }
 
-  .name {
-    font-size: 18px;
+  h2 {
+    margin: 0;
+    font-size: 20px;
     font-weight: 700;
     color: $text;
   }
 
-  .sub {
+  p {
+    margin: 4px 0;
+    color: $text-2;
     font-size: 14px;
-    color: $text-2;
-    margin-top: 2px;
   }
 
-  .points {
-    margin-top: 10px;
-    font-weight: 700;
-    color: $accent-yellow;
-  }
+  .pontos-info {
+    margin-top: 8px;
 
-  .meta {
-    font-size: 12px;
-    color: $text-2;
-    margin-top: 4px;
+    .badge.pontos {
+      background: $primary;
+      color: $white;
+      font-size: 14px;
+      padding: 4px 12px;
+      border-radius: $radius-md;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .sub-info {
+      color: $text-2;
+      font-size: 13px;
+    }
   }
 }
 
 /* ===== Tabs ===== */
-.profile-tabs {
+.perfil-tabs {
   display: flex;
   justify-content: space-around;
-  margin: 16px 0;
   border-bottom: 1px solid $border-color;
 
-  button {
+  .tab-btn {
     flex: 1;
-    padding: 8px 0;
+    padding: 10px 0;
     font-size: 14px;
-    color: $text-2;
-    background: transparent;
-    border: none;
-    cursor: pointer;
     font-weight: 600;
+    background: none;
+    border: none;
+    color: $text-2;
+    cursor: pointer;
     position: relative;
-    transition: color 0.2s;
 
     &.active {
-      color: $primary;
+      color: $white;
+      border-bottom: 3px solid $primary;
+    }
 
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: $primary;
-        border-radius: $radius-sm;
-      }
-
-      &.green {
-        color: #22c55e; // verde
-        &::after {
-          background: #22c55e;
-        }
-      }
-
-      &.yellow {
-        color: $accent-yellow;
-        &::after {
-          background: $accent-yellow;
-        }
-      }
+    &.purple.active {
+      border-color: $primary;
+    }
+    &.green.active {
+      border-color: #00c853;
+      color: #00c853;
+    }
+    &.yellow.active {
+      border-color: $accent-yellow;
+      color: $accent-yellow;
     }
   }
 }
 
 /* ===== Cards ===== */
-.profile-card {
-  background-color: $surface-2;
+.card {
+  background: $surface-2 !important;
   border: 1px solid $border-color;
   border-radius: $radius-lg;
-  box-shadow: $shadow-1;
   padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin-bottom: 12px;
+  box-shadow: $shadow-1;
 
-  .title {
-    font-size: 16px;
+  h4 {
+    font-size: 15px;
     font-weight: 700;
-    color: $text;
-  }
+    margin-bottom: 6px;
+    color: $text; // sempre branco
 
-  .subtitle {
-    font-size: 14px;
-    color: $text-2;
-  }
+    .status {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: $radius-sm;
+      margin-left: 6px;
 
-  .details {
-    font-size: 14px;
-    color: $text-2;
-    line-height: 1.4;
-  }
-
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
-
-    .reward {
-      color: $accent-yellow;
-      font-weight: 700;
-      font-size: 14px;
+      &.pago {
+        background: #00c853;
+        color: $white;
+      }
     }
+  }
 
-    .btn {
-      background-color: $surface-3;
-      color: $text;
-      padding: 6px 12px;
-      border-radius: $radius-md;
-      border: none;
-      cursor: pointer;
+  p {
+    font-size: 14px;
+    color: $text-2; // cinza padrão
+
+    .destaque {
+      color: $text; // branco em vez de roxo
       font-weight: 600;
-      font-size: 13px;
-      transition: background 0.2s;
+    }
 
-      &:hover {
-        background-color: $primary-500;
-        color: $white;
-      }
-
-      &.details {
-        background-color: $primary;
-        color: $white;
-
-        &:hover {
-          background-color: $primary-700;
-        }
-
-        &.blue {
-          background-color: $blue-light;
-
-          &:hover {
-            background-color: darken($blue-light, 10%);
-          }
-        }
-      }
+    .valor {
+      color: #00c853;
+      font-weight: 700;
     }
   }
-}
 
-/* ===== Botão fixo no fim da página ===== */
-.profile-bottom-action {
-  margin-top: auto;
-  padding: 16px 0;
-
-  button {
-    width: 100%;
-    background-color: $accent-yellow;
-    color: $black;
-    border: none;
-    border-radius: $radius-md;
-    padding: 12px;
-    font-weight: 700;
+  .ver-todos {
+    font-size: 12px;
+    color: $accent-yellow; // destaque em amarelo
+    float: right;
     cursor: pointer;
-    transition: filter 0.2s;
-
-    &:hover {
-      filter: brightness(0.9);
-    }
   }
 }
 
-/* ===== Responsivo ===== */
-@media (min-width: 992px) {
-  .profile-container {
-    padding: 24px 40px;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+/* ===== Histórico de Treinos ===== */
+.historico-tab {
+  .card ul {
+    padding-left: 16px;
+    margin: 6px 0 10px;
+    font-size: 14px;
+    color: $text; // textos da lista em branco
+    li { margin-bottom: 4px; }
   }
 
-  .profile-card {
-    padding: 20px;
+  .tempo {
+    color: $text-2;
+    font-size: 13px;
+  }
+
+  .btn-detalhes {
+    background: $primary;
+    color: $white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: $radius-md;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+
+    &:hover { background: $primary-700; }
+  }
+}
+
+/* ===== Botões ===== */
+.btn-resgatar {
+  background: $accent-yellow;
+  color: $black;
+  border: none;
+  border-radius: $radius-lg;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: $shadow-2;
+}
+
+.btn-outline {
+  border: 1px solid $primary-500;
+  color: $primary-500;
+  background: none;
+  border-radius: $radius-md;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancelar {
+  background: none;
+  color: #ff5252;
+  border: 1px solid #ff5252;
+  border-radius: $radius-lg;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* ===== Aba Pontos ===== */
+.pontos-tab {
+  .nivel-card {
+    background: $surface-2;
+    border-radius: $radius-md;
+    padding: 14px;
+    margin-bottom: 14px;
+
+    h4 {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: $text;
+    }
+
+    .badge {
+      background: $accent-yellow;
+      padding: 2px 8px;
+      border-radius: $radius-sm;
+      font-size: 12px;
+      font-weight: 700;
+      color: $black;
+    }
+
+    .progress {
+      height: 8px;
+      background: $surface-3;
+      border-radius: $radius-sm;
+      margin-bottom: 6px;
+
+      .progress-bar {
+        height: 100%;
+        background: $accent-yellow;
+        border-radius: $radius-sm;
+      }
+    }
+
+    .next-level {
+      font-size: 12px;
+      color: $text-2;
+    }
+  }
+
+  .pontos-historico {
+    h5 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: $text;
+    }
+
+    .ponto-card {
+      background: $surface-3;
+      border-radius: $radius-md;
+      padding: 12px;
+      margin-bottom: 10px;
+      position: relative;
+
+      h6 {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+        color: $text;
+      }
+
+      .data {
+        font-size: 12px;
+        color: $text-2;
+      }
+
+      .descricao {
+        font-size: 13px;
+        margin: 4px 0 0;
+        color: $text-2;
+      }
+
+      .pontos {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        color: $accent-yellow;
+      }
+    }
   }
 }
