@@ -1,12 +1,10 @@
-@import './variables';
-
-
+@import "./../../abstract/variables.scss";
 
 .treinos-page {
   background: $app-bg;
   min-height: 100vh;
   color: #fff;
-  font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+  font-family: "Segoe UI", "Inter", Arial, sans-serif;
   .page-header {
     font-size: 1.3rem;
     font-weight: 600;
@@ -20,7 +18,8 @@
   }
   .search-section {
     padding: 1rem 1.5rem 0.5rem 1.5rem;
-    .search-input, .search-bar {
+    .search-input,
+    .search-bar {
       width: 100%;
       background: $surface-1;
       border: none;
@@ -31,12 +30,14 @@
       margin-bottom: 1rem; // aumenta o espaçamento para separar dos filtros
       outline: none;
     }
-    .filter-chips, .section-header {
+    .filter-chips,
+    .section-header {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
       margin-bottom: 1rem;
-      .chip, .filter-btn {
+      .chip,
+      .filter-btn {
         margin: 5px;
         flex: 1;
         min-width: 80px;
@@ -79,14 +80,14 @@
         font-size: 1.15rem;
         font-weight: 700;
         color: $text;
-        font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+        font-family: "Segoe UI", "Inter", Arial, sans-serif;
         margin: 0 0 2px 0;
       }
     }
     .treino-info {
       font-size: 0.98rem;
       color: $text-2;
-      font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+      font-family: "Segoe UI", "Inter", Arial, sans-serif;
       font-weight: 400;
       margin-bottom: 10px;
     }
@@ -118,13 +119,13 @@
           font-size: 1rem;
           color: $text;
           font-weight: 500;
-          font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+          font-family: "Segoe UI", "Inter", Arial, sans-serif;
         }
         .series {
           font-size: 1rem;
           color: $text-2;
           font-weight: 500;
-          font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+          font-family: "Segoe UI", "Inter", Arial, sans-serif;
         }
       }
     }
@@ -144,13 +145,13 @@
         justify-content: center;
         font-size: 1rem;
         font-weight: 600;
-        font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+        font-family: "Segoe UI", "Inter", Arial, sans-serif;
       }
       .nome {
         font-size: 1rem;
         color: $text-2;
         font-weight: 500;
-        font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+        font-family: "Segoe UI", "Inter", Arial, sans-serif;
         margin-right: auto;
         margin-left: 10px;
       }
