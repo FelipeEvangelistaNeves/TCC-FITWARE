@@ -1,7 +1,7 @@
 import React from "react";
 import { Bell } from "lucide-react";
-import "../../styles/mobHeader.scss";
 
+import "../../styles/layout/mobHeader.scss";
 export default function HeaderProfessor() {
   return (
     <header className="header-professor py-3 px-4 border-bottom">

@@ -1,0 +1,200 @@
+@import "./../../abstract/variables.scss";
+
+.tabela-page {
+  background: $black-fundo;
+  padding: $spacing-lg;
+  border-radius: $radius-md;
+  color: $text;
+
+  .tabela-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+
+    h2 {
+      font-size: $font-size-large;
+      font-weight: 600;
+    }
+
+    .acoes-header {
+      display: flex;
+      gap: $spacing-md;
+
+      .search-input {
+        background: $surface-2;
+        border: 1px solid $border;
+        border-radius: $radius-sm;
+        padding: $spacing-sm$spacing-md;
+        color: $text;
+      }
+
+      .btn-add {
+        background: $primary;
+        color: $white;
+        padding: $spacing-sm$spacing-md;
+        border-radius: $radius-sm;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background: $primary-500;
+        }
+      }
+    }
+  }
+
+  .tabs {
+    display: flex;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    .tab {
+      background: transparent;
+      border: none;
+      color: $text-2;
+      padding: $spacing-sm$spacing-md;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+
+      &.active {
+        color: $primary;
+        border-color: $primary;
+      }
+    }
+  }
+
+  .tabela {
+    width: 100%;
+    border-collapse: collapse;
+    background: $surface-1;
+    border-radius: $radius-md;
+    overflow: hidden;
+
+    th,
+    td {
+      padding: $spacing-md;
+      border-bottom: 1px solid $border;
+      text-align: left;
+    }
+
+    th {
+      background: $surface-2;
+      font-weight: 600;
+      color: $text-2;
+    }
+
+    td {
+      color: $text;
+    }
+
+    .nome-treino {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .icone {
+        width: 32px;
+        height: 32px;
+        border-radius: $radius-sm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+
+        &.purple {
+          background: #8b5cf6;
+        }
+        &.blue {
+          background: #3b82f6;
+        }
+        &.orange {
+          background: #f59e0b;
+        }
+        &.green {
+          background: #22c55e;
+        }
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        small {
+          color: $text-2;
+          font-size: $font-size-small;
+        }
+      }
+    }
+
+    .nivel {
+      padding: 2px 8px;
+      border-radius: $radius-sm;
+      font-size: $font-size-small;
+      font-weight: 500;
+
+      &.iniciante {
+        background: rgba(59, 130, 246, 0.15);
+        color: #3b82f6;
+      }
+      &.intermediario {
+        background: rgba(139, 92, 246, 0.15);
+        color: #8b5cf6;
+      }
+      &.avancado {
+        background: rgba(245, 158, 11, 0.15);
+        color: #f59e0b;
+      }
+    }
+
+    .action-btn {
+      background: transparent;
+      border: none;
+      color: $text-2;
+      margin-right: $spacing-sm;
+      cursor: pointer;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  .paginacao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md 0;
+
+    select {
+      background: $surface-2;
+      color: $text;
+      border: 1px solid $border;
+      border-radius: $radius-sm;
+      padding: $spacing-sm;
+    }
+
+    .pages {
+      display: flex;
+      gap: $spacing-sm;
+
+      .page {
+        background: $surface-2;
+        color: $text;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &.active {
+          background: $primary;
+          color: $white;
+        }
+      }
+    }
+  }
+}

@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
-import '../../styles/mensagensAluno.scss';
+import React, { useState } from "react";
+import "../../styles/pages/aluno/mensagensAluno.scss";
 
 export default function MensagensAluno() {
-  const [activeTab, setActiveTab] = useState('todas');
+  const [activeTab, setActiveTab] = useState("todas");
 
   return (
     <div className="mensagens-aluno">
-      
-      
-
       {/* Search Bar */}
       <div className="search-container">
         <div className="search-bar">
           <i className="fas fa-search search-icon"></i>
-          <input 
-            type="text" 
-            placeholder="Buscar mensagem..." 
+          <input
+            type="text"
+            placeholder="Buscar mensagem..."
             className="search-input"
           />
         </div>
@@ -23,21 +20,21 @@ export default function MensagensAluno() {
 
       {/* Filter Tabs */}
       <div className="filter-tabs">
-        <button 
-          className={`filter-tab ${activeTab === 'todas' ? 'active' : ''}`}
-          onClick={() => setActiveTab('todas')}
+        <button
+          className={`filter-tab ${activeTab === "todas" ? "active" : ""}`}
+          onClick={() => setActiveTab("todas")}
         >
           Todas
         </button>
-        <button 
-          className={`filter-tab ${activeTab === 'nao-lidas' ? 'active' : ''}`}
-          onClick={() => setActiveTab('nao-lidas')}
+        <button
+          className={`filter-tab ${activeTab === "nao-lidas" ? "active" : ""}`}
+          onClick={() => setActiveTab("nao-lidas")}
         >
           Não lidas
         </button>
-        <button 
-          className={`filter-tab ${activeTab === 'favoritas' ? 'active' : ''}`}
-          onClick={() => setActiveTab('favoritas')}
+        <button
+          className={`filter-tab ${activeTab === "favoritas" ? "active" : ""}`}
+          onClick={() => setActiveTab("favoritas")}
         >
           Favoritas
         </button>
@@ -86,7 +83,9 @@ export default function MensagensAluno() {
               <h3 className="message-name">Nutricionista Alessandra</h3>
               <span className="message-time">Seg</span>
             </div>
-            <p className="message-preview">Tudo OK para a consulta de terça-feira?</p>
+            <p className="message-preview">
+              Tudo OK para a consulta de terça-feira?
+            </p>
           </div>
         </div>
       </div>

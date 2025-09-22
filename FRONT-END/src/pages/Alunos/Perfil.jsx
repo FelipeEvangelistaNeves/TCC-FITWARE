@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/perfil.scss";
+import "../../styles/pages/aluno/perfil.scss";
 
 export default function PerfilAluno() {
   const [activeTab, setActiveTab] = useState("historico");
@@ -8,27 +8,33 @@ export default function PerfilAluno() {
     switch (activeTab) {
       case "historico":
         return (
-          <div className="historico-tab">
-            <div className="card">
-              <h4>Treino de Força</h4>
-              <ul>
-                <li>Agachamento: 3x12</li>
-                <li>Supino: 3x10</li>
-                <li>Remada: 3x10</li>
-              </ul>
-              <p className="tempo">45 minutos</p>
-              <button className="btn-detalhes">Ver Detalhes</button>
+          <div className="profile-content">
+            <div className="profile-card">
+              <div className="title">Treino de Força</div>
+              <div className="subtitle">Hoje</div>
+              <div className="details">
+                • Agachamento: 3×12 <br />
+                • Supino: 3×10 <br />
+                • Remada: 3×10
+              </div>
+              <div className="actions">
+                <span className="reward">+50</span>
+                <button className="btn details">Ver Detalhes</button>
+              </div>
             </div>
 
-            <div className="card">
-              <h4>Treino de Cardio</h4>
-              <ul>
-                <li>Corrida: 20 min</li>
-                <li>Pular corda: 10 min</li>
-                <li>Bicicleta: 15 min</li>
-              </ul>
-              <p className="tempo">45 minutos</p>
-              <button className="btn-detalhes">Ver Detalhes</button>
+            <div className="profile-card">
+              <div className="title">Treino de Cardio</div>
+              <div className="subtitle">Ontem</div>
+              <div className="details">
+                • Corrida: 20 min <br />
+                • Pular corda: 10 min <br />
+                • Bicicleta: 15 min
+              </div>
+              <div className="actions">
+                <span className="reward">+40</span>
+                <button className="btn details blue">Ver Detalhes</button>
+              </div>
             </div>
 
             <button className="btn-resgatar">Resgatar Pontos</button>
@@ -37,19 +43,13 @@ export default function PerfilAluno() {
 
       case "pagamentos":
         return (
-          <div className="pagamentos-tab">
-            <div className="card">
-              <h4>mensalidade <span className="status pago">paga</span></h4>
-              <p>Valor: <strong>R$ 99,90/mês</strong></p>
-              <p>Próximo pagamento: <strong>15/06/2025</strong></p>
-              <p>Método: <span className="destaque">Mercado Pago</span></p>
-            </div>
-
-            <div className="card">
-              <h4>Método de Pagamento</h4>
-              <div className="metodo">
-                <span className="destaque">Mercado Pago</span>
-                <span className="padrao">Padrão</span>
+          <div className="profile-content">
+            <div className="profile-card">
+              <div className="title">Histórico de Pagamentos</div>
+              <div className="details">
+                • Mensalidade Janeiro: R$ 120,00 <br />
+                • Mensalidade Fevereiro: R$ 120,00 <br />
+                • Mensalidade Março: R$ 120,00
               </div>
               <p>Conta: maria.silva@email.com</p>
               <button className="btn-outline">+ Adicionar Novo Método</button>

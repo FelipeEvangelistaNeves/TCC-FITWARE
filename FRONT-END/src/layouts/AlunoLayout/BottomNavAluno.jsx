@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "../../styles/professor.scss"; // reaproveitando estilo
+import "../../styles/pages/professor/professor.scss"; // reaproveitando estilo
 import { Home, Dumbbell, Target, MessageSquare, User } from "lucide-react";
 
 export default function BottomNavAluno() {

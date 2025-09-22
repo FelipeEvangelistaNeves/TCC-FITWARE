@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "../../styles/sidebar.scss";
+import "../../styles/layout/sidebar.scss";
 export default function SideBar() {
   const location = useLocation();
   const [showUserDropdown, setShowUserDropdown] = useState(false);

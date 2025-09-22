@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/admhead.scss";
+import "../../styles/layout/admhead.scss";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);

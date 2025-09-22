@@ -1,13 +1,10 @@
-import React from 'react';
-import '../../styles/dashboardAluno.scss';
+import React from "react";
+import "../../styles/pages/aluno/dashboardAluno.scss";
 import { Bell } from "lucide-react";
 
 export default function DashboardAluno() {
   return (
     <div className="dashboard-aluno">
-              
-              
-
       {/* Summary Cards */}
       <section className="summary-cards">
         <div className="summary-card">
@@ -34,7 +31,6 @@ export default function DashboardAluno() {
           <button className="filter-btn">Força</button>
           <button className="filter-btn">Cardio</button>
           <button className="filter-btn">Funcional</button>
-
         </div>
 
         {/* Strength Workout Card */}
@@ -45,7 +41,7 @@ export default function DashboardAluno() {
               <p className="workout-details">Intermediário • 45 min</p>
             </div>
           </div>
-          
+
           <div className="exercises-list">
             <div className="exercise-item">
               <span className="exercise-number">1</span>
@@ -81,7 +77,7 @@ export default function DashboardAluno() {
               <p className="workout-details">Iniciante • 30 min</p>
             </div>
           </div>
-          
+
           <div className="exercises-list">
             <div className="exercise-item">
               <span className="exercise-number">1</span>

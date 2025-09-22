@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "../../styles/professor.scss";
+import "../../styles/pages/professor/professor.scss";
 import { Home, Users, Dumbbell, MessageSquare, User } from "lucide-react";
 
 export default function BottomNavProf() {

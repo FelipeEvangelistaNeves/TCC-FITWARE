@@ -1,0 +1,134 @@
+@import "./../../abstract/variables.scss";
+
+.usuarios-page {
+  background: $black-fundo;
+  padding: $spacing-lg;
+  border-radius: $radius-md;
+  color: $text;
+
+  .usuarios-header {
+    display: flex;
+    justify-content: spacing-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+
+    h2 {
+      font-size: $font-size-large;
+      font-weight: 600;
+    }
+
+    .acoes-header {
+      display: flex;
+      gap: $spacing-md;
+
+      .search-input {
+        background: $surface-2;
+        border: 1px solid $border;
+        border-radius: $radius-sm;
+        padding: $spacing-sm $spacing-md;
+        color: $text;
+      }
+
+      .btn-add {
+        background: $primary;
+        color: $white;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $radius-sm;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background: $primary-500;
+        }
+      }
+    }
+  }
+
+  .usuarios-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: $surface-1;
+    border-radius: $radius-md;
+    overflow: hidden;
+
+    th,
+    td {
+      padding: $spacing-md;
+      border-bottom: 1px solid $border;
+      text-align: left;
+    }
+
+    th {
+      background: $surface-2;
+      font-weight: 600;
+      color: $text-2;
+    }
+
+    td {
+      color: $text;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        font-size: 12px;
+        font-weight: 600;
+
+        &.blue {
+          background: #3b82f6;
+        }
+        &.green {
+          background: #22c55e;
+        }
+        &.orange {
+          background: #f59e0b;
+        }
+        &.red {
+          background: #ef4444;
+        }
+        &.purple {
+          background: #8b5cf6;
+        }
+      }
+    }
+
+    .status {
+      padding: 2px 8px;
+      border-radius: $radius-sm;
+      font-size: $font-size-small;
+      font-weight: 500;
+
+      &.ativo {
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+      }
+      &.inativo {
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+      }
+    }
+
+    .action-btn {
+      background: transparent;
+      border: none;
+      color: $text-2;
+      margin-right: $spacing-sm;
+      cursor: pointer;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+}

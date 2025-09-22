@@ -1,4 +1,4 @@
-@import "./variables.scss";
+@import "./../../abstract/variables.scss";
 
 /* Valores defaults (ajuste se seu header/footer tiver outra altura) */
 :root {
@@ -104,8 +104,12 @@
       border-radius: $radius-sm;
       background-color: $primary;
 
-      &.blue { background-color: $blue-light; }
-      &.purple { background-color: $primary; }
+      &.blue {
+        background-color: $blue-light;
+      }
+      &.purple {
+        background-color: $primary;
+      }
     }
   }
 
@@ -158,15 +162,18 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: $shadow-1;
-      transition: background-color .15s ease;
+      transition: background-color 0.15s ease;
 
-      &:hover { background-color: $primary-700; }
+      &:hover {
+        background-color: $primary-700;
+      }
     }
   }
 }
 
 /* ===== Responsivo ===== */
-@media (min-width: 992px) { /* desktop */
+@media (min-width: 992px) {
+  /* desktop */
   .challenges-container {
     /* em desktop, mantemos preenchendo entre header/footer, mas alinhamos a largura */
     left: 0;
@@ -180,7 +187,9 @@
   .stats {
     gap: 20px;
 
-    .stat-card { padding: 16px; }
+    .stat-card {
+      padding: 16px;
+    }
   }
 
   /* dois cards por linha no desktop */

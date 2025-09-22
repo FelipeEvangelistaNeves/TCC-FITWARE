@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/loginDesk.scss";
+import "../../styles/pages/login/loginDesk.scss";
 import logo from "../../assets/logo.png"; // Certifique-se de ter uma imagem de logo
 const LoginDesk = () => {
   const [email, setEmail] = useState("");
