@@ -41,13 +41,18 @@ export default function SideBar() {
     {
       path: "/admin/desafios",
       label: "Desafios",
-      icon: "bi-trophy",
+      icon: "bi-challenge",
     },
+    {
+      path:"/admin/brindes",
+      label:"brindes",
+      icon:"bi-trophy"
+    }
   ];
 
   return (
     <aside className="sidebar-admin d-flex flex-column flex-shrink-0 p-3">
-      {/* Logo/Brand */}
+     
       <Link
         to="/admin"
         className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none brand-link"
@@ -77,60 +82,7 @@ export default function SideBar() {
 
       <hr className="sidebar-divider" />
 
-      {/* User Profile Dropdown */}
-      <div className={`dropdown ${showUserDropdown ? "show" : ""}`}>
-        <button
-          className="btn d-flex align-items-center text-decoration-none dropdown-toggle user-dropdown-btn w-100"
-          type="button"
-          onClick={() => setShowUserDropdown(!showUserDropdown)}
-          aria-expanded={showUserDropdown}
-        >
-          <div className="user-avatar me-2">
-            <span>JP</span>
-          </div>
-          <div className="user-info">
-            <strong className="user-name">João Paulo</strong>
-            <small className="user-role">Administrator</small>
-          </div>
-        </button>
-
-        <ul
-          className={`dropdown-menu text-small shadow w-100 ${
-            showUserDropdown ? "show" : ""
-          }`}
-        >
-          <li>
-            <Link className="dropdown-item" to="/admin/profile">
-              <i className="bi bi-person me-2"></i>
-              Meu Perfil
-            </Link>
-          </li>
-          <li>
-            <Link className="dropdown-item" to="/admin/settings">
-              <i className="bi bi-gear me-2"></i>
-              Configurações
-            </Link>
-          </li>
-          <li>
-            <Link className="dropdown-item" to="/admin/preferences">
-              <i className="bi bi-sliders me-2"></i>
-              Preferências
-            </Link>
-          </li>
-          <li>
-            <hr className="dropdown-divider" />
-          </li>
-          <li>
-            <button
-              className="dropdown-item text-danger"
-              onClick={() => console.log("Logout")}
-            >
-              <i className="bi bi-box-arrow-right me-2"></i>
-              Sair
-            </button>
-          </li>
-        </ul>
-      </div>
+    
     </aside>
   );
 }

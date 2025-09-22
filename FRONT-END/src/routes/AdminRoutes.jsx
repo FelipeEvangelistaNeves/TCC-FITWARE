@@ -6,7 +6,7 @@ import Desafios from "./../pages/Admin/Desafios";
 import Treinos from "./../pages/Admin/Treinos";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import Financeiro from "./../pages/Admin/Financeiro";
-
+import Brindes from "./../pages/Admin/Brindes";
 export default function AdminRoutes() {
   return (
     <Routes>
@@ -17,6 +17,7 @@ export default function AdminRoutes() {
         <Route path="desafios" element={<Desafios />} />
         <Route path="financeiro" element={<Financeiro />} />
         <Route path="treinos" element={<Treinos />} />
+         <Route path="brindes" element={<Brindes />} />
       </Route>
     </Routes>
   );

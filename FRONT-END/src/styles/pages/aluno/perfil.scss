@@ -1,18 +1,24 @@
 @import "./../../abstract/variables.scss";
 
-/* ===== Container Principal ===== */
+/* =========================================================
+   Perfil — SCSS completo (corrigido: badge azul em pagamentos,
+   botão Ver Detalhes roxo, Resgatar amarelo, espaçamentos pagos)
+   ========================================================= */
+
+/* ===== Container Geral ===== */
 .perfil-container {
   background: $app-bg;
   color: $text;
   min-height: 100vh;
   padding: 16px;
-  margin-top: var(--header-height, 64px); // abaixo do header fixo
+  margin-top: var(--header-height, 64px);
   display: flex;
   flex-direction: column;
   gap: 20px;
+  font-family: $font-family;
 }
 
-/* ===== Header do Perfil ===== */
+/* ===== Header ===== */
 .perfil-header {
   text-align: center;
 
@@ -23,43 +29,47 @@
     background: $blue-light;
     color: $white;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     font-size: 28px;
     font-weight: 700;
     margin: 0 auto 10px;
   }
 
-  h2 {
+  .nome {
     margin: 0;
-    font-size: 20px;
+    font-size: $font-size-heading;
     font-weight: 700;
     color: $text;
   }
 
-  p {
+  .sub {
     margin: 4px 0;
     color: $text-2;
-    font-size: 14px;
+    font-size: $font-size-small;
   }
 
   .pontos-info {
     margin-top: 8px;
 
-    .badge.pontos {
-      background: $primary;
-      color: $white;
-      font-size: 14px;
-      padding: 4px 12px;
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
       border-radius: $radius-md;
       font-weight: 700;
-      display: inline-block;
-      margin-bottom: 4px;
+      font-size: $font-size-small;
+    }
+
+    /* padrão: badge de pontos (quando não estiver em pagamentos) */
+    .badge.pontos {
+      background: $surface-2;
+      color: $accent-yellow;
     }
 
     .sub-info {
       color: $text-2;
-      font-size: 13px;
+      font-size: $font-size-small;
+      margin-top: 6px;
     }
   }
 }
@@ -67,208 +77,256 @@
 /* ===== Tabs ===== */
 .perfil-tabs {
   display: flex;
-  justify-content: space-around;
+  gap: 6px;
   border-bottom: 1px solid $border-color;
 
   .tab-btn {
     flex: 1;
-    padding: 10px 0;
-    font-size: 14px;
-    font-weight: 600;
-    background: none;
+    padding: 12px 0;
+    background: transparent;
     border: none;
+    font-weight: 700;
     color: $text-2;
     cursor: pointer;
     position: relative;
+    font-size: $font-size-base;
 
-    &.active {
-      color: $white;
-      border-bottom: 3px solid $primary;
-    }
+    &.active { color: $text; }
 
-    &.purple.active {
-      border-color: $primary;
-    }
-    &.green.active {
-      border-color: #00c853;
-      color: #00c853;
-    }
-    &.yellow.active {
-      border-color: $accent-yellow;
-      color: $accent-yellow;
-    }
+    /* underlines coloridas */
+    &.purple.active { &::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -1px; height: 3px; background: $primary; border-radius: $radius-sm; } }
+    &.green.active  { &::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -1px; height: 3px; background: $color-green; border-radius: $radius-sm; } }
+    &.yellow.active { &::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -1px; height: 3px; background: $accent-yellow; border-radius: $radius-sm; } }
   }
 }
 
-/* ===== Cards ===== */
+/* ===========================================================
+   BADGE AZUL EM PAGAMENTOS
+   - Usa :has() quando disponível.
+   - Fallback: .pagamentos-active no .perfil-container (adicione essa classe via JSX se quiser compatibilidade total).
+   =========================================================== */
+
+/* Preferência: browsers modernos com :has() */
+.perfil-container:has(.perfil-tabs .tab-btn.green.active) .pontos-info .badge.pontos {
+  background: $blue-light;
+  color: $white;
+}
+
+/* Fallback (adiciona this class no container via JSX: <div className={`perfil-container ${tab}-active`}> ) */
+.perfil-container.pagamentos-active .pontos-info .badge.pontos {
+  background: $blue-light;
+  color: $white;
+}
+
+/* ===========================================================
+   CARDS — forçam override se Bootstrap existir
+   =========================================================== */
 .card {
-  background: $surface-2 !important;
+  background: $surface-2 !important; /* força sobre Bootstrap */
+  color: $text !important;
   border: 1px solid $border-color;
   border-radius: $radius-lg;
   padding: 16px;
   margin-bottom: 12px;
   box-shadow: $shadow-1;
+  position: relative;
+
+  /* garantir textos internos */
+  h4, h5, h6, p, li, span, a {
+    color: $text !important;
+  }
 
   h4 {
     font-size: 15px;
     font-weight: 700;
-    margin-bottom: 6px;
-    color: $text; // sempre branco
+    margin: 0 0 8px 0;
+  }
 
-    .status {
-      font-size: 12px;
-      padding: 2px 8px;
-      border-radius: $radius-sm;
-      margin-left: 6px;
-
-      &.pago {
-        background: #00c853;
-        color: $white;
-      }
-    }
+  /* pontos no topo direito */
+  .pontos {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    color: $accent-yellow !important;
+    font-weight: 700;
+    font-size: 14px;
   }
 
   p {
-    font-size: 14px;
-    color: $text-2; // cinza padrão
-
-    .destaque {
-      color: $text; // branco em vez de roxo
-      font-weight: 600;
-    }
-
-    .valor {
-      color: #00c853;
-      font-weight: 700;
-    }
+    color: $text-2 !important;
+    margin: 6px 0;
+    font-size: $font-size-small;
   }
 
-  .ver-todos {
-    font-size: 12px;
-    color: $accent-yellow; // destaque em amarelo
-    float: right;
-    cursor: pointer;
+  ul.exercises {
+    padding-left: 16px;
+    margin: 6px 0;
+    li { margin-bottom: 6px; color: $text !important; }
   }
+
+  .ver-todos { color: $primary-500 !important; font-size: 13px; float: right; cursor: pointer; }
 }
 
-/* ===== Histórico de Treinos ===== */
+/* valores destacados */
+.card .valor { color: $color-green !important; }
+.card .destaque { color: $primary !important; }
+
+/* ===========================================================
+   HISTÓRICO
+   - botão "Ver Detalhes" roxo apenas
+   - botão Resgatar amarelo forçado
+   =========================================================== */
 .historico-tab {
-  .card ul {
-    padding-left: 16px;
-    margin: 6px 0 10px;
-    font-size: 14px;
-    color: $text; // textos da lista em branco
-    li { margin-bottom: 4px; }
+  .bottom-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
   }
 
   .tempo {
     color: $text-2;
-    font-size: 13px;
+    font-size: $font-size-small;
   }
 
+  /* Somente roxo (primary). Removidas variações azuis. */
   .btn-detalhes {
-    background: $primary;
-    color: $white;
+    background: $primary !important;
+    color: $white !important;
     border: none;
-    padding: 8px 14px;
+    padding: 8px 12px;
     border-radius: $radius-md;
-    font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: background .2s;
+  }
 
-    &:hover { background: $primary-700; }
+  /* Garantir que qualquer classe .btn-blue não altere cor */
+  .btn-detalhes.btn-blue { background: $primary !important; color: $white !important; }
+
+  /* botão resgatar — forçar amarelo (importante) */
+  .btn-resgatar {
+    background: $accent-yellow !important;
+    color: $black !important;
+    border: none;
+    border-radius: $radius-lg;
+    padding: 12px;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: $shadow-2;
+    margin-top: 12px;
   }
 }
 
-/* ===== Botões ===== */
-.btn-resgatar {
-  background: $accent-yellow;
-  color: $black;
-  border: none;
-  border-radius: $radius-lg;
-  padding: 12px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  width: 100%;
-  box-shadow: $shadow-2;
+/* ===========================================================
+   PAGAMENTOS
+   - espaçamento e layout interno ajustados conforme imagens
+   =========================================================== */
+.pagamentos-tab {
+  .card {
+    padding: 18px 20px; /* mais espaçamento interno */
+    display: block;
+  }
+
+  .card h4 { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+  .card p { margin: 10px 0; color: $text-2 !important; }
+
+  .method-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  .method-left {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex: 1;
+
+    .method-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: $surface-3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $primary;
+      font-size: 20px;
+    }
+
+    .method-info {
+      .method-name { font-weight: 700; color: $text; }
+      .method-sub { font-size: $font-size-small; color: $text-2; margin-top: 2px; }
+    }
+  }
+
+  .method-right { display: flex; align-items: center; gap: 10px; }
+
+  .badge.padrao {
+    background: $accent-yellow;
+    color: $black;
+    padding: 6px 10px;
+    border-radius: $radius-sm;
+    font-weight: 700;
+  }
+
+  .btn-outline {
+    margin-top: 12px;
+    background: transparent;
+    border: 1px solid $primary-500;
+    color: $primary-500;
+    padding: 10px;
+    border-radius: $radius-md;
+    width: 100%;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover { background: $primary-500; color: $white; }
+  }
+
+  .ver-todos { color: $primary-500; }
+
+  .cancel-wrap { margin-top: 12px; }
+
+  .btn-cancelar {
+    background: transparent;
+    border: 1px solid $color-red;
+    color: $color-red;
+    padding: 12px;
+    border-radius: $radius-lg;
+    width: 100%;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover { background: rgba(239,68,68,0.08); }
+  }
 }
 
-.btn-outline {
-  border: 1px solid $primary-500;
-  color: $primary-500;
-  background: none;
-  border-radius: $radius-md;
-  padding: 8px 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.btn-cancelar {
-  background: none;
-  color: #ff5252;
-  border: 1px solid #ff5252;
-  border-radius: $radius-lg;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 700;
-  width: 100%;
-  cursor: pointer;
-}
-
-/* ===== Aba Pontos ===== */
+/* ===========================================================
+   PONTOS
+   - mantém amarelo pro progresso e resgatar
+   =========================================================== */
 .pontos-tab {
   .nivel-card {
     background: $surface-2;
     border-radius: $radius-md;
     padding: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 
-    h4 {
-      display: flex;
-      justify-content: space-between;
-      font-size: 15px;
-      margin-bottom: 8px;
-      color: $text;
-    }
+    h4 { display: flex; justify-content: space-between; margin: 0 0 8px 0; color: $text; }
+    .badge.nivel { background: $accent-yellow; color: $black; padding: 6px 10px; border-radius: $radius-sm; font-weight: 700; }
 
-    .badge {
-      background: $accent-yellow;
-      padding: 2px 8px;
-      border-radius: $radius-sm;
-      font-size: 12px;
-      font-weight: 700;
-      color: $black;
-    }
-
-    .progress {
-      height: 8px;
-      background: $surface-3;
-      border-radius: $radius-sm;
-      margin-bottom: 6px;
-
-      .progress-bar {
-        height: 100%;
-        background: $accent-yellow;
-        border-radius: $radius-sm;
-      }
-    }
-
-    .next-level {
-      font-size: 12px;
-      color: $text-2;
-    }
+    .progress { height: 10px; background: $surface-3; border-radius: $radius-sm; overflow: hidden; margin-bottom: 8px; }
+    .progress-bar { height: 100%; background: $accent-yellow; }
+    .next-level { color: $text-2; font-size: $font-size-small; }
   }
 
   .pontos-historico {
-    h5 {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: $text;
-    }
+    h5 { margin: 0 0 10px 0; color: $text; font-weight: 700; }
 
     .ponto-card {
       background: $surface-3;
@@ -277,32 +335,32 @@
       margin-bottom: 10px;
       position: relative;
 
-      h6 {
-        font-size: 14px;
-        font-weight: 600;
-        margin: 0;
-        color: $text;
-      }
-
-      .data {
-        font-size: 12px;
-        color: $text-2;
-      }
-
-      .descricao {
-        font-size: 13px;
-        margin: 4px 0 0;
-        color: $text-2;
-      }
-
-      .pontos {
-        position: absolute;
-        right: 12px;
-        top: 12px;
-        font-size: 14px;
-        font-weight: 700;
-        color: $accent-yellow;
-      }
+      h6 { margin: 0 0 6px 0; color: $text; font-weight: 700; }
+      .data { color: $text-2; font-size: $font-size-small; margin-bottom: 6px; }
+      .descricao { color: $text-2; font-size: $font-size-small; }
+      .pontos { position: absolute; right: 12px; top: 12px; color: $accent-yellow; font-weight: 700; }
     }
   }
+
+  .btn-resgatar {
+    margin-top: 12px;
+    background: $accent-yellow !important;
+    color: $black !important;
+    border: none;
+    padding: 12px;
+    border-radius: $radius-lg;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+  }
+}
+
+/* ===== Responsividade ===== */
+@media (min-width: 768px) {
+  .perfil-container { padding: 24px; }
+  .card { padding: 20px; }
+}
+
+@media (min-width: 1100px) {
+  .perfil-container { max-width: 980px; margin: 0 auto; }
 }

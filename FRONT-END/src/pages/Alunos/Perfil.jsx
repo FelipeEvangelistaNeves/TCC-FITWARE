@@ -2,79 +2,161 @@ import React, { useState } from "react";
 import "../../styles/pages/aluno/perfil.scss";
 
 export default function PerfilAluno() {
-  const [activeTab, setActiveTab] = useState("historico");
+  const [tab, setTab] = useState("historico");
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case "historico":
-        return (
-          <div className="profile-content">
-            <div className="profile-card">
-              <div className="title">Treino de Força</div>
-              <div className="subtitle">Hoje</div>
-              <div className="details">
-                • Agachamento: 3×12 <br />
-                • Supino: 3×10 <br />
-                • Remada: 3×10
-              </div>
-              <div className="actions">
-                <span className="reward">+50</span>
-                <button className="btn details">Ver Detalhes</button>
+  return (
+    <div className="perfil-container">
+      {/* ===== Header fixo (parte de cima) ===== */}
+      <div className="perfil-header">
+        <div className="avatar">MS</div>
+        <h2 className="nome">Maria Silva</h2>
+        <p className="sub">Turma Segunda • 3 meses</p>
+
+        <div className="pontos-info">
+          <span className="badge pontos">
+            {tab === "pagamentos" ? "Plano Premium" : "850 pontos"}
+          </span>
+          <div className="sub-info">
+            {tab === "pagamentos" ? "Ativo • Renova 15/06/2025" : "Nível Prata • Ranking #5"}
+          </div>
+        </div>
+      </div>
+
+      {/* ===== Tabs ===== */}
+      <div className="perfil-tabs">
+        <button
+          className={`tab-btn purple ${tab === "historico" ? "active" : ""}`}
+          onClick={() => setTab("historico")}
+        >
+          Histórico
+        </button>
+
+        <button
+          className={`tab-btn green ${tab === "pagamentos" ? "active" : ""}`}
+          onClick={() => setTab("pagamentos")}
+        >
+          Pagamentos
+        </button>
+
+        <button
+          className={`tab-btn yellow ${tab === "pontos" ? "active" : ""}`}
+          onClick={() => setTab("pontos")}
+        >
+          Pontos
+        </button>
+      </div>
+
+      {/* ===== Conteúdo das abas (switch) ===== */}
+      <div className="tab-content">
+        {tab === "historico" && (
+          <div className="historico-tab">
+            <div className="card">
+              <h4>
+                Treino de Força
+                <span className="pontos">+50</span>
+              </h4>
+
+              <ul className="exercises">
+                <li>Agachamento: 3×12</li>
+                <li>Supino: 3×10</li>
+                <li>Remada: 3×10</li>
+              </ul>
+
+              <div className="bottom-card">
+                <span className="tempo">45 minutos</span>
+                <button className="btn-detalhes">Ver Detalhes</button>
               </div>
             </div>
 
-            <div className="profile-card">
-              <div className="title">Treino de Cardio</div>
-              <div className="subtitle">Ontem</div>
-              <div className="details">
-                • Corrida: 20 min <br />
-                • Pular corda: 10 min <br />
-                • Bicicleta: 15 min
-              </div>
-              <div className="actions">
-                <span className="reward">+40</span>
-                <button className="btn details blue">Ver Detalhes</button>
+            <div className="card">
+              <h4>
+                Treino de Cardio
+                <span className="pontos">+40</span>
+              </h4>
+
+              <ul className="exercises">
+                <li>Corrida: 20 min</li>
+                <li>Pular corda: 10 min</li>
+                <li>Bicicleta: 15 min</li>
+              </ul>
+
+              <div className="bottom-card">
+                <span className="tempo">45 minutos</span>
+                <button className="btn-detalhes btn-blue">Ver Detalhes</button>
               </div>
             </div>
 
             <button className="btn-resgatar">Resgatar Pontos</button>
           </div>
-        );
+        )}
 
-      case "pagamentos":
-        return (
-          <div className="profile-content">
-            <div className="profile-card">
-              <div className="title">Histórico de Pagamentos</div>
-              <div className="details">
-                • Mensalidade Janeiro: R$ 120,00 <br />
-                • Mensalidade Fevereiro: R$ 120,00 <br />
-                • Mensalidade Março: R$ 120,00
+        {tab === "pagamentos" && (
+          <div className="pagamentos-tab">
+            <div className="card">
+              <h4>
+                mensalidade <span className="status pago">paga</span>
+              </h4>
+
+              <p>
+                <strong>Valor:</strong> R$ 99,90/mês
+                <br />
+                <strong>Próximo pagamento:</strong> 15/06/2025
+                <br />
+                <strong>Método:</strong> <span className="destaque">Mercado Pago</span>
+              </p>
+            </div>
+
+            <div className="card">
+              <h4>Método de Pagamento</h4>
+
+              <div className="method-row">
+                <div className="method-left">
+                  <div className="method-icon">💳</div>
+                  <div className="method-info">
+                    <div className="method-name">Mercado Pago</div>
+                    <div className="method-sub">Conta: maria.silva@email.com</div>
+                  </div>
+                </div>
+
+                <div className="method-right">
+                  <span className="badge padrao">Padrão</span>
+                </div>
               </div>
-              <p>Conta: maria.silva@email.com</p>
+
               <button className="btn-outline">+ Adicionar Novo Método</button>
             </div>
 
             <div className="card">
-              <h4>Últimos Pagamentos <span className="ver-todos">Ver Todos</span></h4>
-              <p>mensalidade - <span className="valor">R$ 99,90</span></p>
+              <h4>
+                Últimos Pagamentos <span className="ver-todos">Ver Todos</span>
+              </h4>
+
+              <p>
+                mensalidade
+                <br />
+                <span className="sub">15/05/2025</span>
+                <span className="valor">R$ 99,90</span>
+              </p>
             </div>
 
-            <button className="btn-cancelar">Cancelar Assinatura</button>
+            <div className="cancel-wrap">
+              <button className="btn-cancelar">Cancelar Assinatura</button>
+            </div>
           </div>
-        );
+        )}
 
-      case "pontos":
-        return (
+        {tab === "pontos" && (
           <div className="pontos-tab">
             <div className="nivel-card">
               <h4>
-                Nível Prata <span className="badge">850/1000</span>
+                Nível Prata <span className="badge nivel">850/1000</span>
               </h4>
+
               <div className="progress">
-                <div className="progress-bar" style={{ width: "85%" }}></div>
+                <div className="progress-bar" style={{ width: "85%" }} />
               </div>
-              <p className="next-level">150 pontos para o nível Ouro</p>
+
+              <div className="next-level">150 pontos para o nível Ouro</div>
             </div>
 
             <div className="pontos-historico">
@@ -82,74 +164,30 @@ export default function PerfilAluno() {
 
               <div className="ponto-card">
                 <h6>Treino de Força</h6>
-                <p className="data">Hoje</p>
-                <p className="descricao">Treino completo com todos os exercícios realizados.</p>
+                <div className="data">Hoje</div>
+                <div className="descricao">Treino completo com todos os exercícios realizados.</div>
                 <span className="pontos">+50</span>
               </div>
 
               <div className="ponto-card">
                 <h6>Treino de Cardio</h6>
-                <p className="data">Ontem</p>
-                <p className="descricao">Treino completo com todos os exercícios realizados.</p>
+                <div className="data">Ontem</div>
+                <div className="descricao">Treino completo com todos os exercícios realizados.</div>
                 <span className="pontos">+40</span>
               </div>
 
               <div className="ponto-card">
                 <h6>Desafio 7 Dias</h6>
-                <p className="data">3 dias atrás</p>
-                <p className="descricao">Completou 5 dias do desafio de 7 dias consecutivos.</p>
+                <div className="data">3 dias atrás</div>
+                <div className="descricao">Completou 5 dias do desafio de 7 dias consecutivos.</div>
                 <span className="pontos">+100</span>
               </div>
             </div>
 
             <button className="btn-resgatar">Resgatar Pontos</button>
           </div>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="perfil-container">
-      {/* Header fixo já existe fora daqui */}
-
-      <div className="perfil-header">
-        <div className="avatar">MS</div>
-        <h2>Maria Silva</h2>
-        <p>Turma Segunda • 3 meses</p>
-
-        <div className="pontos-info">
-          <span className="badge pontos">850 pontos</span>
-          <p className="sub-info">Nível Prata • Ranking #5</p>
-        </div>
+        )}
       </div>
-
-      {/* Abas */}
-      <div className="perfil-tabs">
-        <button
-          className={`tab-btn ${activeTab === "historico" ? "active purple" : ""}`}
-          onClick={() => setActiveTab("historico")}
-        >
-          Histórico
-        </button>
-        <button
-          className={`tab-btn ${activeTab === "pagamentos" ? "active green" : ""}`}
-          onClick={() => setActiveTab("pagamentos")}
-        >
-          Pagamentos
-        </button>
-        <button
-          className={`tab-btn ${activeTab === "pontos" ? "active yellow" : ""}`}
-          onClick={() => setActiveTab("pontos")}
-        >
-          Pontos
-        </button>
-      </div>
-
-      {/* Renderização condicional */}
-      <div className="tab-content">{renderContent()}</div>
     </div>
   );
 }
