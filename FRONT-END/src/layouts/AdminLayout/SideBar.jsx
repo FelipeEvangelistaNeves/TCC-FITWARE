@@ -41,18 +41,17 @@ export default function SideBar() {
     {
       path: "/admin/desafios",
       label: "Desafios",
-      icon: "bi-challenge",
+      icon: "bi-watch",
     },
     {
-      path:"/admin/brindes",
-      label:"brindes",
-      icon:"bi-trophy"
-    }
+      path: "/admin/brindes",
+      label: "brindes",
+      icon: "bi-trophy",
+    },
   ];
 
   return (
     <aside className="sidebar-admin d-flex flex-column flex-shrink-0 p-3">
-     
       <Link
         to="/admin"
         className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none brand-link"
@@ -81,8 +80,6 @@ export default function SideBar() {
       </ul>
 
       <hr className="sidebar-divider" />
-
-    
     </aside>
   );
 }

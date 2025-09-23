@@ -58,10 +58,14 @@
       box-shadow: $shadow-card;
       margin-top: $spacing-sm;
       padding: $spacing-sm;
-      min-width: 200px;
+      min-width: 220px;
+      top: 100%;
+      position: absolute;
+      right: 0;
+      transform: none;
 
       .dropdown-header {
-        font-size: $font-size-small;
+        font-size: $font-size-base;
         font-weight: bold;
         color: $color-text;
         padding: $spacing-sm;
@@ -72,16 +76,23 @@
         color: $color-text-muted;
         padding: $spacing-sm $spacing-md;
         border-radius: $radius-sm;
+        margin-top: 2px;
         transition: background 0.2s;
-
         &:hover {
-          background: $color-bg-hover;
+          background: $surface-2 !important;
           color: $color-text;
         }
-
+        &:focus {
+          background: $surface-2 !important;
+          color: $color-text;
+        }
         &.text-danger {
           color: $color-red;
         }
+      }
+      .dropdown-item-text {
+        font-size: $font-size-small;
+        color: $color-text-muted;
       }
     }
   }

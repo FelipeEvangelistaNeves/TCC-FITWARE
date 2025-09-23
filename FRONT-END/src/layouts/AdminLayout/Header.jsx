@@ -40,16 +40,12 @@ export default function Header() {
                   </div>
                 </button>
 
-                <ul
-                  className={`dropdown-menu dropdown-menu-end ${
-                    showDropdown ? "show" : ""
-                  }`}
-                >
+                <ul className={`dropdown-menu  ${showDropdown ? "show" : ""}`}>
                   <li>
                     <h6 className="dropdown-header">João Paulo</h6>
                   </li>
                   <li>
-                    <span className="dropdown-item-text text-muted small">
+                    <span className="dropdown-item-text small">
                       Administrator
                     </span>
                   </li>

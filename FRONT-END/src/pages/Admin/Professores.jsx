@@ -1,6 +1,5 @@
 import React from "react";
-import "../../styles/pages/admin/users.scss";
-
+import "../../styles/pages/admin/tabelas.scss";
 export default function Professores() {
   const professores = [
     {
@@ -30,8 +29,8 @@ export default function Professores() {
   ];
 
   return (
-    <div className="usuarios-page">
-      <div className="usuarios-header">
+    <div className="tabela-page">
+      <div className="tabela-header">
         <h2>Gerenciar Professores</h2>
         <div className="acoes-header">
           <input
@@ -39,11 +38,11 @@ export default function Professores() {
             placeholder="Buscar professor..."
             className="search-input"
           />
-          <button className="btn-add">+ Adicionar</button>
+          <button className="add-btn">+ Adicionar</button>
         </div>
       </div>
 
-      <table className="usuarios-table">
+      <table className="tabela">
         <thead>
           <tr>
             <th></th>
@@ -62,7 +61,7 @@ export default function Professores() {
               </td>
               <td>{p.id}</td>
               <td className="user-info">
-                <div className={`avatar ${p.cor}`}>{p.avatar}</div>
+                <div className={`icone ${p.cor}`}>{p.avatar}</div>
                 {p.nome}
               </td>
               <td>{p.especialidade}</td>
