@@ -4,12 +4,17 @@
   color: $color-text;
   width: 260px;
   height: 100vh;
+  position: sticky; // FIXO NA ESQUERDA
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: $spacing-lg $spacing-md;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   font-family: $font-family;
+  overflow: hidden; // evita rolagem no próprio sidebar
+  z-index: 100; // para ficar acima do conteúdo
 
   // ===== Logo/Brand =====
   .brand-link {

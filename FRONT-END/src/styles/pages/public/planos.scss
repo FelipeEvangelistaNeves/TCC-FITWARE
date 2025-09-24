@@ -1,0 +1,51 @@
+@import "../../abstract/variables";
+
+.planos-page {
+  padding: $spacing-xl 0;
+  background: $color-bg-dark;
+  color: $color-text;
+
+  .plan-card {
+    background: $surface-2;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    padding: $spacing-lg;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    h3 {
+      font-size: $font-size-heading;
+      margin-bottom: $spacing-sm;
+    }
+
+    .preco {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: $spacing-md;
+      color: $color-purple;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+
+      li {
+        margin-bottom: $spacing-sm;
+        font-size: $font-size-base;
+        color: $color-text-muted;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: $shadow-2;
+    }
+
+    &.destaque {
+      border: 2px solid $color-purple;
+      transform: scale(1.05);
+    }
+  }
+}

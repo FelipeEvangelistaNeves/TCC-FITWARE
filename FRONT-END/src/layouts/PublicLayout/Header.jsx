@@ -1,109 +1,92 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { Link } from "react-router-dom";
-import Logo from "../../assets/logo.png";
-import "../../styles/pages/public/public.scss";
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import "../../styles/pages/public/publichead.scss";
 
-const Header = () => {
+export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      {/* Logo + texto */}
-      <Link className="navbar-brand d-flex align-items-center" to="/">
-        <img
-          src={Logo}
-          alt="FitWare Logo"
-          width="40"
-          height="40"
-          className="d-inline-block align-top rounded-circle me-2"
-        />
-        <div className="d-flex flex-column">
-          <span className="fw-bold text-warning">FitWare</span>
-          <small className="text-white fs-6">
-            Plataforma de Gestão Fitness
-          </small>
+    <header className="header-public">
+      <nav className="navbar container-fluid">
+        {/* Brand */}
+        <div className="brand">
+          <div className="logo">F</div>
+          <span className="brand-text">FitWare</span>
         </div>
-      </Link>
 
-      {/* Botão responsivo (hamburger) */}
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+        {/* Links Desktop */}
+        <div className="nav-links d-none d-lg-flex">
+          <NavLink to="/" end>
+            Início
+          </NavLink>
+          <NavLink to="/planos">Planos</NavLink>
+          <NavLink to="/modalidades">Modalidades</NavLink>
+          <NavLink to="/sobre">Sobre</NavLink>
+          <NavLink to="/suporte">Suporte</NavLink>
+        </div>
 
-      {/* Links */}
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav mx-auto">
-          <li className="nav-item">
-            <Link className="nav-link text-warning" to="sobre">
-              Sobre
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-warning" to="por-que-se-juntar">
-              Por que se juntar?
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-warning" to="planos">
-              Planos
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-warning" to="modalidades">
-              Modalidades
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-warning" to="suporte">
-              Suporte
-            </Link>
-          </li>
-        </ul>
-      </div>
+        {/* CTA Desktop */}
+        <Link to="/login/admin" className="btn-yellow d-none d-lg-block">
+          Entrar
+        </Link>
 
-      {/* Botão Registrar */}
-      <div className="dropdown me-5">
+        {/* Botão Hamburguer */}
         <button
-          className="btn btn-sm btn-purple px-3 dropdown-toggle me-3"
-          type="button"
-          id="dropdownMenuButton"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
+          className="menu-toggle d-lg-none"
+          onClick={() => setMenuOpen(!menuOpen)}
         >
-          Login
+          <i className="bi bi-list"></i>
         </button>
 
-        <ul
-          className="dropdown-menu dropdown-menu-start"
-          aria-labelledby="dropdownMenuButton"
-        >
-          <li>
-            <Link className="dropdown-item" to="/login/admin">
-              Administrador
-            </Link>
-          </li>
-          <li>
-            <Link className="dropdown-item" to="/login/aluno">
-              Aluno
-            </Link>
-          </li>
-          <li>
-            <Link className="dropdown-item" to="/login/professor">
-              Professor
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  );
-};
+        {/* Mobile Menu */}
+        <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+          <button className="close-btn" onClick={() => setMenuOpen(false)}>
+            <i className="bi bi-x-lg"></i>
+          </button>
 
-export default Header;
+          <div className="nav-links">
+            <NavLink to="/" onClick={() => setMenuOpen(false)} end>
+              Início
+            </NavLink>
+            <NavLink to="/planos" onClick={() => setMenuOpen(false)}>
+              Planos
+            </NavLink>
+            <NavLink to="/modalidades" onClick={() => setMenuOpen(false)}>
+              Modalidades
+            </NavLink>
+            <NavLink to="/sobre" onClick={() => setMenuOpen(false)}>
+              Sobre
+            </NavLink>
+            <NavLink to="/suporte" onClick={() => setMenuOpen(false)}>
+              Suporte
+            </NavLink>
+          </div>
+
+          <div className="login-area">
+            <Link
+              to="/login/admin"
+              className="btn btn-purple"
+              onClick={() => setMenuOpen(false)}
+            >
+              Login Admin
+            </Link>
+            <Link
+              to="/login/professor"
+              className="btn btn-outline-purple"
+              onClick={() => setMenuOpen(false)}
+            >
+              Login Professor
+            </Link>
+            <Link
+              to="/login/aluno"
+              className="btn btn-outline-purple"
+              onClick={() => setMenuOpen(false)}
+            >
+              Login Aluno
+            </Link>
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+}

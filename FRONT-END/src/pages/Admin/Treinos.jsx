@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/pages/admin/tabelas.scss";
 
 export default function Treinos() {
+  const [activeTab, setActiveTab] = useState("todos");
+
   const treinos = [
     {
       id: 1,
@@ -59,6 +61,7 @@ export default function Treinos() {
 
   return (
     <div className="tabela-page">
+      {/* ===== Header ===== */}
       <div className="tabela-header">
         <h2>Enviar Treinos</h2>
         <div className="acoes-header">
@@ -67,18 +70,33 @@ export default function Treinos() {
             placeholder="Buscar treino..."
             className="search-input"
           />
-          <button className="btn-add">Criar Treino</button>
+          <button className="add-btn">+ Criar Treino</button>
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* ===== Tabs ===== */}
       <div className="tabs">
-        <button className="tab active">Todos os Treinos</button>
-        <button className="tab">Recentes</button>
-        <button className="tab">Populares</button>
+        <button
+          className={`tab ${activeTab === "todos" ? "active" : ""}`}
+          onClick={() => setActiveTab("todos")}
+        >
+          Todos os Treinos
+        </button>
+        <button
+          className={`tab ${activeTab === "recentes" ? "active" : ""}`}
+          onClick={() => setActiveTab("recentes")}
+        >
+          Recentes
+        </button>
+        <button
+          className={`tab ${activeTab === "populares" ? "active" : ""}`}
+          onClick={() => setActiveTab("populares")}
+        >
+          Populares
+        </button>
       </div>
 
-      {/* Table */}
+      {/* ===== Tabela ===== */}
       <table className="tabela">
         <thead>
           <tr>
@@ -119,7 +137,7 @@ export default function Treinos() {
                   <i className="bi bi-play"></i>
                 </button>
                 <button className="action-btn">
-                  <i className="bi bi-three-dots"></i>
+                  <i className="bi bi-three-dots-vertical"></i>
                 </button>
               </td>
             </tr>
@@ -127,7 +145,7 @@ export default function Treinos() {
         </tbody>
       </table>
 
-      {/* Paginação */}
+      {/* ===== Paginação ===== */}
       <div className="paginacao">
         <span>Itens por página:</span>
         <select>

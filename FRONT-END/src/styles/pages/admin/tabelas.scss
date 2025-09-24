@@ -2,7 +2,7 @@
 
 /* ==========================
    Tabelas (Genéricas)
-   Usado em: Alunos, Professores, Financeiro
+   Usado em: Alunos, Professores, Financeiro, Treinos
 ========================== */
 .tabela-page {
   color: $color-text;
@@ -60,20 +60,37 @@
   /* ===== Tabs ===== */
   .tabs {
     display: flex;
-    gap: $spacing-md;
+    gap: $spacing-lg;
     margin-bottom: $spacing-md;
 
     .tab {
       background: transparent;
       border: none;
       font-size: $font-size-base;
-      padding: $spacing-sm $spacing-md;
+      font-weight: 500;
+      padding: $spacing-sm 0;
       color: $color-text-muted;
       cursor: pointer;
+      position: relative;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $color-text;
+      }
 
       &.active {
-        color: $color-purple;
-        border-bottom: 2px solid $color-purple;
+        color: $white;
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          width: 100%;
+          height: 2px;
+          background: $color-purple;
+          border-radius: $radius-sm;
+        }
       }
     }
   }
@@ -114,7 +131,7 @@
         td {
           vertical-align: middle;
 
-          /* ===== Avatar Circular ===== */
+          /* ===== Avatar Circular / Ícones ===== */
           .icone {
             width: 32px;
             height: 32px;
@@ -124,6 +141,7 @@
             justify-content: center;
             font-weight: 600;
             color: $white;
+            margin-right: $spacing-sm;
 
             &.blue {
               background: $blue-light;
@@ -139,6 +157,27 @@
             }
             &.purple {
               background: $color-purple;
+            }
+          }
+
+          /* ===== Níveis (Treinos) ===== */
+          .nivel {
+            padding: 2px 8px;
+            border-radius: $radius-sm;
+            font-size: $font-size-small;
+            font-weight: 500;
+
+            &.iniciante {
+              background: rgba($color-green, 0.15);
+              color: $color-green;
+            }
+            &.intermediario {
+              background: rgba($blue-light, 0.15);
+              color: $blue-light;
+            }
+            &.avancado {
+              background: rgba($color-red, 0.15);
+              color: $color-red;
             }
           }
 
