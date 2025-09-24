@@ -1,23 +1,28 @@
 import React from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/aluno/treinos.scss";
+import "../../styles/pages/aluno/mensagensAluno.scss";
 import { Bell } from "lucide-react";
 
 export default function DashboardAluno() {
   return (
     <div className="treinos-page">
-      <div className="search-section">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Buscar exercícios, treinos..."
-        />
+      <div className="search-container">
+        <div className="search-bar">
+          <i className="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            placeholder="Buscar treino..."
+            className="search-input"
+          />
+        </div>
       </div>
+      
 
       {/* Workouts Section */}
       <section className="workouts-section">
         <div className="section-header">
-          <button className="filter-btn">Todos</button>
+          <button className="filter-btn" >Todos</button>
           <button className="filter-btn">Força</button>
           <button className="filter-btn">Cardio</button>
           <button className="filter-btn">Funcional</button>
