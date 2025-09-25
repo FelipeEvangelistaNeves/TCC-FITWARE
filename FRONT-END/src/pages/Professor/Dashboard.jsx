@@ -1,32 +1,109 @@
-export default function DashboardProf() {
+import React from "react";
+import "../../styles/pages/professor/dashboardprof.scss";
+
+export default function Dashboard() {
   return (
-    <div className="page-container">
-      <div className="dashboard">
-        <div className="stats">
-          <div className="stat-box">
-            Alunos
-            <br />
-            <strong>42</strong>
+    <div className="dashboard">
+      {/* Header */}
+      
+
+      {/* Summary Cards */}
+      <section className="summary-cards">
+        <div className="summary-card">
+          <h3>Alunos</h3>
+          <div className="card-number">42</div>
+          <div className="card-subtitle">+3</div>
+        </div>
+        <div className="summary-card">
+          <h3>Treinos</h3>
+          <div className="card-number">156</div>
+          <div className="card-subtitle">12</div>
+        </div>
+        <div className="summary-card">
+          <h3>Mensagens</h3>
+          <div className="card-number">89</div>
+          <div className="card-subtitle">24</div>
+        </div>
+      </section>
+
+      {/* Quick Actions Section */}
+      <section className="quick-actions-section">
+        <h2>Ações Rápidas</h2>
+        <div className="actions-grid">
+          <div className="action-card">
+            <i className="fas fa-users"></i>
+            <span>Alunos</span>
           </div>
-          <div className="stat-box">
-            Treinos
-            <br />
-            <strong>156</strong>
+          <div className="action-card">
+            <i className="fas fa-dumbbell"></i>
+            <span>Treinos</span>
           </div>
-          <div className="stat-box">
-            Mensagens
-            <br />
-            <strong>89</strong>
+          <div className="action-card">
+            <i className="fas fa-comment"></i>
+            <span>Mensagens</span>
+          </div>
+          <div className="action-card highlighted">
+            <i className="fas fa-clock"></i>
+            <span>Histórico</span>
           </div>
         </div>
-        <h3>Ações Rápidas</h3>
-        <div className="quick-actions">
-          <button>Alunos</button>
-          <button>Treinos</button>
-          <button>Mensagens</button>
-          <button>Histórico</button>
+      </section>
+
+      {/* Recent Activity Section */}
+      <section className="recent-activity-section">
+        <div className="section-header">
+          <h2>Atividade Recente</h2>
+          <button className="see-all-btn">Ver Tudo</button>
         </div>
-      </div>
+        
+        <div className="activity-list">
+          <div className="activity-item">
+            <div className="activity-avatar">M</div>
+            <div className="activity-content">
+              <div className="activity-title">Treino enviado para Maria</div>
+              <div className="activity-time">Hoje, 14:30</div>
+            </div>
+          </div>
+          <div className="activity-item">
+            <div className="activity-avatar">T</div>
+            <div className="activity-content">
+              <div className="activity-title">Mensagem para Turma Segunda</div>
+              <div className="activity-time">Hoje, 10:15</div>
+            </div>
+          </div>
+          <div className="activity-item">
+            <div className="activity-avatar">C</div>
+            <div className="activity-content">
+              <div className="activity-title">Novo aluno: Carlos Mendes</div>
+              <div className="activity-time">Ontem, 16:45</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom Navigation */}
+      <nav className="bottom-nav">
+        <div className="nav-item active">
+          <i className="fas fa-home"></i>
+          <span>Início</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-users"></i>
+          <span>Alunos</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-dumbbell"></i>
+          <span>Treinos</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-comment"></i>
+          <span>Mensagens</span>
+        </div>
+        <div className="nav-item">
+          <i className="fas fa-user"></i>
+          <span>Perfil</span>
+        </div>
+      </nav>
     </div>
   );
 }
