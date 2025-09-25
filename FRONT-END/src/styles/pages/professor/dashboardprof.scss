@@ -201,7 +201,6 @@ body {
   margin-bottom: 30px;
   background: $surface-1;
   border-radius: $radius-md;
-  
 }
 
 .section-header {
@@ -283,21 +282,6 @@ body {
 }
 
 /* Bottom Navigation */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 600px;
-  background: $surface-1;
-  backdrop-filter: blur(20px);
-  border-top: 1px solid $border-color;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  z-index: 1000;
-}
 
 .nav-item {
   display: flex;
@@ -438,7 +422,7 @@ body {
   .actions-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .action-card {
     flex-direction: row;
     justify-content: flex-start;
@@ -453,33 +437,33 @@ body {
     max-width: 900px;
     padding-bottom: 100px;
   }
-  
+
   .dashboard-header {
     padding: 32px 40px 24px;
   }
-  
+
   .dashboard-title {
     font-size: 28px;
   }
-  
+
   .header-actions {
     gap: 20px;
   }
-  
+
   .notification-icon,
   .profile-icon {
     width: 48px;
     height: 48px;
   }
-  
+
   .notification-icon i {
     font-size: 18px;
   }
-  
+
   .profile-icon span {
     font-size: 16px;
   }
-  
+
   .summary-cards {
     gap: 24px;
     padding: 0 40px 32px;
@@ -487,87 +471,87 @@ body {
     grid-template-columns: repeat(3, 1fr);
     overflow-x: unset;
   }
-  
+
   .summary-card {
     margin-top: 0;
     padding: 32px 24px;
     min-width: 0;
   }
-  
+
   .summary-card h3 {
     font-size: 16px;
   }
-  
+
   .summary-card .card-number {
     font-size: 32px;
   }
-  
+
   .summary-card .card-subtitle {
     font-size: 14px;
   }
-  
+
   .quick-actions-section,
   .recent-activity-section {
     padding: 0 40px;
   }
-  
+
   .quick-actions-section h2,
   .section-header h2 {
     font-size: 24px;
   }
-  
+
   .actions-grid {
     gap: 24px;
     grid-template-columns: repeat(4, 1fr);
   }
-  
+
   .action-card {
     min-height: 120px;
     padding: 32px;
   }
-  
+
   .action-card i {
     font-size: 28px;
   }
-  
+
   .action-card span {
     font-size: 16px;
   }
-  
+
   .recent-activity-section {
     padding: 32px 40px;
   }
-  
+
   .activity-item {
     padding: 20px 0;
   }
-  
+
   .activity-avatar {
     width: 48px;
     height: 48px;
     font-size: 16px;
   }
-  
+
   .activity-title {
     font-size: 18px;
   }
-  
+
   .activity-time {
     font-size: 14px;
   }
-  
+
   .bottom-nav {
     padding: 16px 0;
   }
-  
+
   .nav-item {
     padding: 12px 16px;
   }
-  
+
   .nav-item i {
     font-size: 20px;
   }
-  
+
   .nav-item span {
     font-size: 14px;
   }
@@ -580,133 +564,132 @@ body {
     margin: 32px auto;
     padding-bottom: 120px;
   }
-  
+
   .dashboard-header {
     padding: 40px 60px 32px;
   }
-  
+
   .dashboard-title {
     font-size: 32px;
   }
-  
+
   .header-actions {
     gap: 24px;
   }
-  
+
   .notification-icon,
   .profile-icon {
     width: 52px;
     height: 52px;
   }
-  
+
   .notification-icon i {
     font-size: 20px;
   }
-  
+
   .profile-icon span {
     font-size: 18px;
   }
-  
+
   .summary-cards {
     gap: 32px;
     padding: 0 60px 40px;
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .summary-card {
     padding: 40px 32px;
   }
-  
+
   .summary-card h3 {
     font-size: 18px;
     margin-bottom: 16px;
   }
-  
+
   .summary-card .card-number {
     font-size: 36px;
     margin-bottom: 8px;
   }
-  
+
   .summary-card .card-subtitle {
     font-size: 16px;
   }
-  
+
   .quick-actions-section,
   .recent-activity-section {
     padding: 0 60px;
   }
-  
+
   .quick-actions-section h2,
   .section-header h2 {
     font-size: 28px;
     margin-bottom: 24px;
   }
-  
+
   .actions-grid {
     gap: 32px;
     grid-template-columns: repeat(4, 1fr);
   }
-  
+
   .action-card {
     min-height: 140px;
     padding: 40px;
   }
-  
+
   .action-card i {
     font-size: 32px;
   }
-  
+
   .action-card span {
     font-size: 18px;
     margin-bottom: 0;
   }
-  
+
   .recent-activity-section {
     padding: 40px 60px;
     margin-bottom: 40px;
   }
-  
+
   .section-header {
     margin-bottom: 24px;
   }
-  
+
   .see-all-btn {
     font-size: 16px;
     padding: 8px 0;
   }
-  
+
   .activity-item {
     padding: 24px 0;
   }
-  
+
   .activity-avatar {
     width: 52px;
     height: 52px;
     font-size: 18px;
   }
-  
+
   .activity-title {
     font-size: 20px;
     margin-bottom: 6px;
   }
-  
+
   .activity-time {
     font-size: 16px;
   }
-  
+
   .bottom-nav {
-    max-width: 1200px;
     padding: 20px 0;
   }
-  
+
   .nav-item {
     padding: 16px 20px;
   }
-  
+
   .nav-item i {
     font-size: 22px;
   }
-  
+
   .nav-item span {
     font-size: 16px;
   }
@@ -719,68 +702,68 @@ body {
     margin: 40px auto;
     padding-bottom: 140px;
   }
-  
+
   .dashboard-header {
     padding: 48px 80px 40px;
   }
-  
+
   .dashboard-title {
     font-size: 36px;
   }
-  
+
   .summary-cards {
     gap: 40px;
     padding: 0 80px 48px;
   }
-  
+
   .summary-card {
     padding: 48px 40px;
   }
-  
+
   .summary-card .card-number {
     font-size: 40px;
   }
-  
+
   .quick-actions-section,
   .recent-activity-section {
     padding: 0 80px;
   }
-  
+
   .quick-actions-section h2,
   .section-header h2 {
     font-size: 32px;
     margin-bottom: 32px;
   }
-  
+
   .actions-grid {
     gap: 40px;
   }
-  
+
   .action-card {
     min-height: 160px;
     padding: 48px;
   }
-  
+
   .action-card i {
     font-size: 36px;
   }
-  
+
   .action-card span {
     font-size: 20px;
   }
-  
+
   .recent-activity-section {
     padding: 48px 80px;
   }
-  
+
   .activity-item {
     padding: 28px 0;
   }
-  
+
   .activity-title {
     font-size: 22px;
   }
-  
+
   .activity-time {
     font-size: 18px;
   }

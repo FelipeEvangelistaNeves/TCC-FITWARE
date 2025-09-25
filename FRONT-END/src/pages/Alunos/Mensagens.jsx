@@ -89,30 +89,6 @@ export default function MensagensAluno() {
           </div>
         </div>
       </div>
-
-      {/* Bottom Navigation */}
-      <nav className="bottom-nav">
-        <div className="nav-item">
-          <i className="fas fa-home"></i>
-          <span>Início</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-dumbbell"></i>
-          <span>Treinos</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-clock"></i>
-          <span>Desafios</span>
-        </div>
-        <div className="nav-item active">
-          <i className="fas fa-comment"></i>
-          <span>Mensagens</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-user"></i>
-          <span>Perfil</span>
-        </div>
-      </nav>
     </div>
   );
 }
