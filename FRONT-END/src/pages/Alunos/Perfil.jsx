@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/pages/aluno/perfil.scss";
+import "../../styles/pages/aluno/perfilaluno.scss";
 
 export default function PerfilAluno() {
   const [tab, setTab] = useState("historico");

@@ -21,6 +21,9 @@
 /* ===== Header ===== */
 .perfil-header {
   text-align: center;
+  border-radius: $radius-md;
+  min-height: 35vh;
+  flex: 1;
 
   .avatar {
     width: 80px;
