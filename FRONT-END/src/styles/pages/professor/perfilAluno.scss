@@ -1,0 +1,140 @@
+@import "./../../abstract/variables.scss";
+
+.aluno-detalhes {
+  padding: 16px;
+  color: $text;
+  font-family: $font-family;
+
+  .top-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+
+    .back {
+      background: transparent;
+      border: none;
+      color: $text-2;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    h3 { margin: 0; color: $yellow; font-weight: 700; }
+  }
+
+  .perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $white;
+      background: $blue-light;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .info {
+      text-align: center;
+
+      h2 { margin: 0; color: $text; font-size: $font-size-heading; }
+      .sub { color: $text-2; font-size: $font-size-small; margin-top: 4px; }
+    }
+  }
+
+  .acoes {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 12px;
+
+    .acao {
+      background: transparent;
+      border: none;
+      color: $text-2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      cursor: pointer;
+
+      span { font-size: 12px; color: $text-2; }
+      &:hover { color: $yellow; }
+    }
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 14px;
+
+    button {
+      background: none;
+      border: none;
+      color: $text-2;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 8px;
+
+      &.ativo { color: $text; border-bottom: 2px solid $primary; }
+    }
+  }
+
+  .lista-treinos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .card-treino {
+      background: $surface-2;
+      border-radius: $radius-md;
+      padding: 12px;
+      box-shadow: $shadow-card;
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+
+        .titulo { color: $yellow; font-weight: 700; }
+        .data { color: $text-2; font-size: $font-size-small; }
+      }
+
+      ul {
+        margin: 0 0 12px 0;
+        padding-left: 16px;
+
+        li { color: $text; margin-bottom: 6px; }
+      }
+
+      .acoes-card {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+          background: transparent;
+          border: none;
+          color: $text-2;
+          cursor: pointer;
+          padding: 6px 8px;
+          border-radius: $radius-sm;
+
+          &.detalhes { color: $primary; font-weight: 700; }
+          &.duplicar { color: $primary-500; }
+
+          &:hover { opacity: 0.9; }
+        }
+      }
+    }
+  }
+}
