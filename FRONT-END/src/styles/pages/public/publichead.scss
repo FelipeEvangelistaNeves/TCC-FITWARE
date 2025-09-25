@@ -3,38 +3,31 @@
 .header-public {
   background: $color-bg-dark;
   color: $color-text;
-  font-family: $font-family;
-  padding: $spacing-sm $spacing-lg;
-  border-bottom: 1px solid $border-color;
   position: sticky;
   top: 0;
   z-index: $z-header;
+  box-shadow: $shadow-card;
 
   .navbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md $spacing-lg;
 
     .brand {
       display: flex;
       align-items: center;
       gap: $spacing-sm;
 
-      .logo {
-        width: 36px;
-        height: 36px;
-        background: $color-purple;
-        border-radius: $radius-md;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: $white;
+      .logo img {
+        height: 40px;
+        width: auto;
       }
 
       .brand-text {
-        font-size: $font-size-heading;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 20px;
+        color: $white;
       }
     }
 
@@ -44,141 +37,137 @@
       gap: $spacing-lg;
 
       a {
-        text-decoration: none;
         color: $color-text-muted;
         font-size: $font-size-base;
         font-weight: 500;
-        transition: color 0.2s;
-
-        &:hover {
-          color: $color-purple;
-        }
+        text-decoration: none;
+        transition: color 0.2s ease;
 
         &.active {
           color: $color-purple;
         }
+
+        &:hover {
+          color: $color-purple;
+        }
       }
-    }
 
-    .btn-yellow {
-      background: $accent-yellow;
-      color: $black;
-      font-weight: 600;
-      padding: $spacing-sm $spacing-md;
-      border-radius: $radius-md;
-      text-decoration: none;
+      .btn-enter {
+        background: $accent-yellow;
+        color: $black;
+        font-weight: 600;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $radius-md;
+        transition: all 0.2s ease;
 
-      &:hover {
-        background: darken($accent-yellow, 10%);
+        &:hover {
+          background: darken($accent-yellow, 10%);
+        }
       }
     }
 
     /* Botão Hamburguer */
     .menu-toggle {
-      display: none;
-      font-size: 24px;
-      color: $color-text;
-      cursor: pointer;
       background: none;
       border: none;
+      font-size: 28px;
+      color: $color-text;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-purple;
+      }
     }
   }
 
-  /* ===== Overlay do Menu Mobile ===== */
+  /* =========================
+     Mobile Menu (Overlay)
+  ========================= */
   .mobile-menu {
     position: fixed;
     top: 0;
-    right: 0;
-    width: 80%;
-    max-width: 320px;
-    height: 100%;
-    background: $surface-1;
-    padding: $spacing-lg;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    z-index: $z-header;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: $color-bg-card;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: $spacing-xl $spacing-lg;
+    transition: left 0.3s ease;
+    z-index: $z-header + 10;
 
     &.open {
-      transform: translateX(0);
+      left: 0;
     }
 
     .close-btn {
       background: none;
       border: none;
-      font-size: 24px;
-      color: $color-text;
-      position: absolute;
-      top: $spacing-md;
-      right: $spacing-md;
+      color: $white;
+      font-size: 28px;
+      align-self: flex-end;
       cursor: pointer;
+
+      &:hover {
+        color: $color-purple;
+      }
     }
 
     .nav-links {
-      margin-top: $spacing-xl;
       display: flex;
       flex-direction: column;
-      gap: $spacing-md;
+      align-items: center;
+      gap: $spacing-lg;
+      margin-top: $spacing-xl;
 
       a {
-        font-size: $font-size-base;
+        font-size: 18px;
+        font-weight: 500;
         color: $color-text;
-        padding: $spacing-sm 0;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &.active {
+          color: $color-purple;
+        }
 
         &:hover {
-          color: $color-purple;
+          color: $color-purple-light;
         }
       }
     }
 
     .login-area {
-      margin-top: $spacing-lg;
-      border-top: 1px solid $border-color;
-      padding-top: $spacing-md;
-      display: flex;
-      flex-direction: column;
-      gap: $spacing-sm;
-
-      .btn {
-        padding: $spacing-sm;
-        border-radius: $radius-md;
-        font-weight: 600;
-        text-align: center;
-      }
+      margin-top: auto;
+      text-align: center;
 
       .btn-purple {
         background: $color-purple;
         color: $white;
+        padding: $spacing-sm $spacing-lg;
+        border-radius: $radius-md;
+        font-weight: 600;
+        font-size: 16px;
+        transition: background 0.2s ease;
 
         &:hover {
           background: $purple-dark;
-        }
-      }
-
-      .btn-outline-purple {
-        border: 1px solid $color-purple;
-        color: $color-purple;
-
-        &:hover {
-          background: $purple-dark;
-          color: $white;
         }
       }
     }
   }
 }
 
-/* ===== Responsividade ===== */
-@media (max-width: 992px) {
-  .header-public {
-    .navbar {
-      .nav-links,
-      .btn-yellow {
-        display: none;
-      }
+/* =========================
+   Responsividade
+========================= */
+@media (min-width: 992px) {
+  .mobile-menu {
+    display: none !important;
+  }
 
-      .menu-toggle {
-        display: block;
-      }
-    }
+  .menu-toggle {
+    display: none !important;
   }
 }

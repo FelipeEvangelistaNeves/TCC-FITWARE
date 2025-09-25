@@ -46,7 +46,9 @@ export default function Login() {
         </div>
 
         {/* Botão */}
-        <button onClick={() => Executar()}>Logar</button>
+        <button onClick={() => Executar()} className="button-log-mob">
+          Logar
+        </button>
       </div>
     </div>
   );

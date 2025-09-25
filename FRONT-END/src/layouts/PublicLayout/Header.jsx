@@ -9,9 +9,17 @@ export default function Header() {
     <header className="header-public">
       <nav className="navbar container-fluid">
         {/* Brand */}
-        <div className="brand">
-          <div className="logo">F</div>
-          <span className="brand-text">FitWare</span>
+        <div className="d-flex align-items-center">
+          <div className="brand ">
+            <div className="logo ">
+              <img
+                src="/src/assets/logo.png"
+                className="login-avatar"
+                alt="logo fitware"
+              />
+            </div>
+            <span className="brand-text">FitWare</span>
+          </div>
         </div>
 
         {/* Links Desktop */}
@@ -23,12 +31,12 @@ export default function Header() {
           <NavLink to="/modalidades">Modalidades</NavLink>
           <NavLink to="/sobre">Sobre</NavLink>
           <NavLink to="/suporte">Suporte</NavLink>
+          <Link to="/escolherlogin" className="btn btn-warning btn-enter">
+            Login
+          </Link>
         </div>
 
         {/* CTA Desktop */}
-        <Link to="/login/admin" className="btn-yellow d-none d-lg-block">
-          Entrar
-        </Link>
 
         {/* Botão Hamburguer */}
         <button
@@ -64,25 +72,11 @@ export default function Header() {
 
           <div className="login-area">
             <Link
-              to="/login/admin"
+              to="/escolherlogin"
               className="btn btn-purple"
               onClick={() => setMenuOpen(false)}
             >
-              Login Admin
-            </Link>
-            <Link
-              to="/login/professor"
-              className="btn btn-outline-purple"
-              onClick={() => setMenuOpen(false)}
-            >
-              Login Professor
-            </Link>
-            <Link
-              to="/login/aluno"
-              className="btn btn-outline-purple"
-              onClick={() => setMenuOpen(false)}
-            >
-              Login Aluno
+              Login
             </Link>
           </div>
         </div>

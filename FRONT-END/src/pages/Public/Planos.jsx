@@ -1,64 +1,72 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../styles/pages/public/planos.scss";
 
 export default function Planos() {
-  const planos = [
-    {
-      id: 1,
-      titulo: "Básico",
-      preco: "R$49/mês",
-      beneficios: ["App Mobile", "Treinos básicos"],
-      destaque: false,
-    },
-    {
-      id: 2,
-      titulo: "Profissional",
-      preco: "R$99/mês",
-      beneficios: [
-        "Gestão de alunos",
-        "Relatórios detalhados",
-        "Suporte padrão",
-      ],
-      destaque: true,
-    },
-    {
-      id: 3,
-      titulo: "Premium",
-      preco: "R$149/mês",
-      beneficios: [
-        "Tudo incluso",
-        "Suporte prioritário",
-        "Relatórios avançados",
-      ],
-      destaque: false,
-    },
-  ];
-
   return (
     <div className="planos-page">
-      <header className="text-center my-5">
-        <h1 className="fw-bold">Nossos Planos</h1>
-        <p className="text-muted">Escolha o ideal para sua jornada fitness</p>
-      </header>
+      {/* Cabeçalho */}
+      <section className="planos-header text-center py-5">
+        <h6 className="text-warning">Nossos Planos</h6>
+        <h2 className="fw-bold mb-4">Escolha o plano ideal para você</h2>
+        <p className="lead text-white mx-auto mb-4">
+          Planos flexíveis para alunos, professores e administradores. Pague
+          apenas pelo que precisa e tenha controle total da sua academia.
+        </p>
+      </section>
 
-      <div className="container">
+      {/* Cards de Planos */}
+      <section className="planos container py-5">
         <div className="row g-4">
-          {planos.map((plano) => (
-            <div className="col-md-4" key={plano.id}>
-              <div className={`plan-card ${plano.destaque ? "destaque" : ""}`}>
-                <h3>{plano.titulo}</h3>
-                <p className="preco">{plano.preco}</p>
-                <ul>
-                  {plano.beneficios.map((b, i) => (
-                    <li key={i}>{b}</li>
-                  ))}
-                </ul>
-                <button className="btn btn-purple w-100 mt-3">Escolher</button>
-              </div>
+          {/* Básico */}
+          <div className="col-md-4">
+            <div className="plan-card p-4 rounded">
+              <h4 className="fw-bold">Básico</h4>
+              <p className="price pubicon">R$49/mês</p>
+              <ul className="beneficios">
+                <li>Acesso ao app</li>
+                <li>Treinos básicos</li>
+                <li>Suporte padrão</li>
+              </ul>
+              <Link to="/escolherlogin" className="btn botaoplano mt-3">
+                Escolher
+              </Link>
             </div>
-          ))}
+          </div>
+
+          {/* Profissional */}
+          <div className="col-md-4">
+            <div className="plan-card p-4 rounded">
+              <h4 className="fw-bold">Profissional</h4>
+              <p className="price pubicon">R$99/mês</p>
+              <ul className="beneficios">
+                <li>Gestão de alunos</li>
+                <li>Relatórios avançados</li>
+                <li>Treinos personalizados</li>
+              </ul>
+              <Link to="/escolherlogin" className="btn botaoplano2 mt-3">
+                Escolher
+              </Link>
+            </div>
+          </div>
+
+          {/* Premium */}
+          <div className="col-md-4">
+            <div className="plan-card p-4 rounded">
+              <h4 className="fw-bold">Premium</h4>
+              <p className="price pubicon">R$149/mês</p>
+              <ul className="beneficios">
+                <li>Tudo incluso</li>
+                <li>Suporte prioritário</li>
+                <li>Relatórios ilimitados</li>
+              </ul>
+              <Link to="/escolherlogin" className="btn botaoplano mt-3">
+                Escolher
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

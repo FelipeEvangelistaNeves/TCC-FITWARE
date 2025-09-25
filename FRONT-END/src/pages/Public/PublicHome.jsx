@@ -23,15 +23,15 @@ export default function PublicHome() {
 
         <div className="d-flex justify-content-center mt-5 gap-5 stats flex-wrap">
           <div>
-            <h3 className="fw-bold">10K+</h3>
+            <h3 className="fw-bold text-warning">10K+</h3>
             <p>Usuários Ativos</p>
           </div>
           <div>
-            <h3 className="fw-bold">500+</h3>
+            <h3 className="fw-bold text-warning">500+</h3>
             <p>Academias</p>
           </div>
           <div>
-            <h3 className="fw-bold">99%</h3>
+            <h3 className="fw-bold text-warning">99%</h3>
             <p>Satisfação</p>
           </div>
         </div>
@@ -46,21 +46,21 @@ export default function PublicHome() {
           <div className="row g-4">
             <div className="col-md-4">
               <div className="feature-card p-4 rounded">
-                <i className="bi bi-phone fs-2 text-purple"></i>
-                <h5 className="mt-3">App Mobile</h5>
+                <i className="bi bi-phone fs-2 pubicon"></i>
+                <h5 className="mt-3 text-purple">App Mobile</h5>
                 <p>Acesse de qualquer lugar com nosso app completo</p>
               </div>
             </div>
             <div className="col-md-4">
               <div className="feature-card p-4 rounded">
-                <i className="bi bi-people fs-2 text-purple"></i>
+                <i className="bi bi-people fs-2 pubicon"></i>
                 <h5 className="mt-3">Gestão de Alunos</h5>
                 <p>Controle de membros, treinos e acompanhamento</p>
               </div>
             </div>
             <div className="col-md-4">
               <div className="feature-card p-4 rounded">
-                <i className="bi bi-bar-chart fs-2 text-purple"></i>
+                <i className="bi bi-bar-chart fs-2 pubicon"></i>
                 <h5 className="mt-3">Relatórios</h5>
                 <p>Análises e insights para seu negócio crescer</p>
               </div>
@@ -78,30 +78,30 @@ export default function PublicHome() {
           <div className="row g-4">
             <div className="col-md-4">
               <div className="plan-card p-4 rounded">
-                <h4>Básico</h4>
-                <p className="price">R$49/mês</p>
+                <h4 className="fw-bold">Básico</h4>
+                <p className="price pubicon">R$49/mês</p>
                 <p>Acesso ao app e treinos básicos</p>
-                <Link to="/planos" className="btn btn-outline-purple mt-3">
-                  Escolher
-                </Link>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="plan-card destaque p-4 rounded">
-                <h4>Profissional</h4>
-                <p className="price">R$99/mês</p>
-                <p>Gestão de alunos + relatórios avançados</p>
-                <Link to="/planos" className="btn btn-purple mt-3">
+                <Link to="/planos" className="btn botaoplano mt-3">
                   Escolher
                 </Link>
               </div>
             </div>
             <div className="col-md-4">
               <div className="plan-card p-4 rounded">
-                <h4>Premium</h4>
-                <p className="price">R$149/mês</p>
+                <h4 className="fw-bold">Profissional</h4>
+                <p className="price pubicon">R$99/mês</p>
+                <p>Gestão de alunos + relatórios avançados</p>
+                <Link to="/planos" className="btn botaoplano  mt-3">
+                  Escolher
+                </Link>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="plan-card p-4 rounded">
+                <h4 className="fw-bold">Premium</h4>
+                <p className="price pubicon">R$149/mês</p>
                 <p>Tudo incluso + suporte prioritário</p>
-                <Link to="/planos" className="btn btn-outline-purple mt-3">
+                <Link to="/planos" className="btn botaoplano  mt-3">
                   Escolher
                 </Link>
               </div>
@@ -120,18 +120,18 @@ export default function PublicHome() {
             gestão e potencializar resultados. Nossa plataforma une tecnologia e
             performance para transformar sua jornada fitness.
           </p>
-          <Link to="/pqjuntar" className="btn btn-purple mt-3">
+          <Link to="/pqjuntar" className="btn botaoplano  mt-3">
             Saiba Mais
           </Link>
         </div>
       </section>
 
       {/* ================= SUPORTE ================= */}
-      <section className="suporte text-center py-5 bg-dark">
+      <section className="suporte text-center py-5 ">
         <div className="container">
           <h6 className="text-warning">Precisa de Ajuda?</h6>
           <h2 className="fw-bold mb-4">Nosso time está disponível para você</h2>
-          <Link to="/suporte" className="btn btn-outline-purple">
+          <Link to="/suporte" className="btn botaoplano2 ">
             Fale com o Suporte
           </Link>
         </div>

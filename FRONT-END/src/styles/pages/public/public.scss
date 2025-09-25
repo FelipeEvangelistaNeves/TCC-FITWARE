@@ -6,7 +6,36 @@ body {
   background: $app-bg;
   color: $color-text;
   font-family: $font-family;
+  .pubicon {
+    color: $color-purple;
+  }
+  .botaoplano {
+    background: none;
+    border: solid 1px $color-purple;
+    color: $white;
+    border-radius: $radius-md;
+    padding: $spacing-sm $spacing-lg;
+    font-weight: 600;
+    color: $color-purple;
 
+    &:hover {
+      background: $purple-dark;
+    }
+  }
+  .botaoplano2 {
+    background: $color-purple;
+
+    color: $white;
+    border-radius: $radius-md;
+    padding: $spacing-sm $spacing-lg;
+    font-weight: 600;
+    color: $white;
+
+    &:hover {
+      background: $purple-dark;
+      color: $white;
+    }
+  }
   .hero {
     min-height: 90vh;
     padding: $spacing-xl $spacing-md;
