@@ -5,7 +5,6 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       {/* Header */}
-      
 
       {/* Summary Cards */}
       <section className="summary-cards">
@@ -55,7 +54,7 @@ export default function Dashboard() {
           <h2>Atividade Recente</h2>
           <button className="see-all-btn">Ver Tudo</button>
         </div>
-        
+
         <div className="activity-list">
           <div className="activity-item">
             <div className="activity-avatar">M</div>
@@ -80,30 +79,6 @@ export default function Dashboard() {
           </div>
         </div>
       </section>
-
-      {/* Bottom Navigation */}
-      <nav className="bottom-nav">
-        <div className="nav-item active">
-          <i className="fas fa-home"></i>
-          <span>Início</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-users"></i>
-          <span>Alunos</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-dumbbell"></i>
-          <span>Treinos</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-comment"></i>
-          <span>Mensagens</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-user"></i>
-          <span>Perfil</span>
-        </div>
-      </nav>
     </div>
   );
 }
