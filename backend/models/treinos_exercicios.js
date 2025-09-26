@@ -1,18 +1,15 @@
-export const treinos_exercicios = [
-  {
-    ex_id: 1,
-    tr_id: 1,
-  },
-  {
-    ex_id: 1,
-    tr_id: 2,
-  },
-  {
-    ex_id: 2,
-    tr_id: 3,
-  },
-  {
-    ex_id: 2,
-    tr_id: 4,
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const TreinoExercicio = sequelize.define(
+    "TreinoExercicio",
+    {
+      tr_id: { type: DataTypes.INTEGER, primaryKey: true },
+      ex_id: { type: DataTypes.INTEGER, primaryKey: true },
+    },
+    {
+      tableName: "treinos_exercicios",
+      timestamps: false,
+    }
+  );
+
+  return TreinoExercicio;
+};

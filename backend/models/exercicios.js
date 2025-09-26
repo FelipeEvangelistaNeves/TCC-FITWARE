@@ -1,27 +1,17 @@
-export const exercicios = [
-  {
-    ex_id: 1,
-    ex_nome: "Agachamento Livre",
-    ex_instrucao: "Manter a coluna reta e agachar até 90 graus",
-    ex_video: "https://youtube.com/agachamento-livre",
-  },
-  {
-    ex_id: 2,
-    ex_nome: "Leg Press",
-    ex_instrucao: "Manter pés minimamente separados e retos com os ombros",
-    ex_video: "https://youtube.com/leg-press",
-  },
-  {
-    ex_id: 3,
-    ex_nome: "Supino Reto",
-    ex_instrucao:
-      "Manter a barra estável, e não forçar cotovelos para o lado de fora",
-    ex_video: "https://youtube.com/supino-reto",
-  },
-  {
-    ex_id: 4,
-    ex_nome: "Crucifixo",
-    ex_instrucao: "Manter o abdômen flexionado e os braços levemente dobrados",
-    ex_video: "https://youtube.com/crucifixo",
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const Exercicio = sequelize.define(
+    "Exercicio",
+    {
+      ex_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      ex_nome: { type: DataTypes.STRING(80), allowNull: false },
+      ex_instrucao: { type: DataTypes.STRING(150) },
+      ex_video: { type: DataTypes.STRING(300) },
+    },
+    {
+      tableName: "exercicios",
+      timestamps: false,
+    }
+  );
+
+  return Exercicio;
+};

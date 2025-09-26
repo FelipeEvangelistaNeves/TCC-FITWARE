@@ -1,14 +1,15 @@
-export const alunos_turmas = [
-  {
-    al_id: 1,
-    tu_id: 1,
-  },
-  {
-    al_id: 1,
-    tu_id: 2,
-  },
-  {
-    al_id: 2,
-    tu_id: 3,
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const AlunoTurma = sequelize.define(
+    "AlunoTurma",
+    {
+      al_id: { type: DataTypes.INTEGER, primaryKey: true },
+      tu_id: { type: DataTypes.INTEGER, primaryKey: true },
+    },
+    {
+      tableName: "alunos_turmas",
+      timestamps: false,
+    }
+  );
+
+  return AlunoTurma;
+};

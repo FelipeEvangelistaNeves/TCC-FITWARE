@@ -1,16 +1,18 @@
-export const turmas = [
-  {
-    tu_id: 1,
-    tu_nome: "Muay Thai",
-    tu_prof_id: 4,
-    tu_mod_id: 2,
-    tu_hor_id: 2,
-  },
-  {
-    tu_id: 2,
-    tu_nome: "Alogamento",
-    tu_prof_id: 3,
-    tu_mod_id: 1,
-    tu_hor_id: 1,
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const Turma = sequelize.define(
+    "Turma",
+    {
+      tu_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      tu_nome: { type: DataTypes.STRING(50), allowNull: false },
+      tu_prof_id: { type: DataTypes.INTEGER, allowNull: false },
+      tu_mod_id: { type: DataTypes.INTEGER, allowNull: false },
+      tu_hor_id: { type: DataTypes.INTEGER, allowNull: false },
+    },
+    {
+      tableName: "turmas",
+      timestamps: false,
+    }
+  );
+
+  return Turma;
+};

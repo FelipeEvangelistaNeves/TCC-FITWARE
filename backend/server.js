@@ -7,7 +7,7 @@ const PORT = 3000;
 const authMiddleware = require("./middleware/auth").authMiddleware;
 const roleMiddleware = require("./middleware/auth").roleMiddleware;
 
-const AlunoModel = require("./models/alunos");
+const AlunoModel = require("./models/aluno");
 const FuncionarioModel = require("./models/funcionarios");
 
 app.use(

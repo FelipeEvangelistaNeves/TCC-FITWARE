@@ -1,14 +1,21 @@
-export const horarios = [
-  {
-    hor_id: 1,
-    hor_start: "08:00:00",
-    hor_end: "09:00:00",
-    hor_dia: "Segunda",
-  },
-  {
-    hor_id: 2,
-    hor_start: "23:00:00",
-    hor_end: "00:00:00",
-    hor_dia: "Sexta",
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const Horario = sequelize.define(
+    "Horario",
+    {
+      hor_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      hor_start: { type: DataTypes.TIME, allowNull: false },
+      hor_end: { type: DataTypes.TIME, allowNull: false },
+      hor_dia: { type: DataTypes.STRING(7), allowNull: false },
+    },
+    {
+      tableName: "horarios",
+      timestamps: false,
+    }
+  );
+
+  return Horario;
+};

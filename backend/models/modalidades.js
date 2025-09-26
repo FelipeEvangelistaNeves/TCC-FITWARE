@@ -1,12 +1,16 @@
-export const modalidades = [
-  {
-    mo_id: 1,
-    mo_nome: "Flexibilidade",
-    mo_descricao: "Treino focado em melhorar flexibilidade",
-  },
-  {
-    mo_id: 2,
-    mo_nome: "Luta",
-    mo_descricao: "Treino de concentra‡Æo e disciplina",
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const Modalidade = sequelize.define(
+    "Modalidade",
+    {
+      mo_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      mo_nome: { type: DataTypes.STRING(30), allowNull: false },
+      mo_descricao: { type: DataTypes.STRING(200) },
+    },
+    {
+      tableName: "modalidades",
+      timestamps: false,
+    }
+  );
+
+  return Modalidade;
+};

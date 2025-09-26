@@ -1,16 +1,18 @@
-export const treinos = [
-  {
-    tr_id: 1,
-    tr_prof_id: 3,
-    tr_nome: "Treino de Pernas",
-    tr_descricao: "Série focada em quadríceps e glúteos",
-    tr_repeticoes: "3x12",
-  },
-  {
-    tr_id: 2,
-    tr_prof_id: 4,
-    tr_nome: "Treino de Peito",
-    tr_descricao: "Série focada em peito e ombro",
-    tr_repeticoes: "4x10",
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const Treino = sequelize.define(
+    "Treino",
+    {
+      tr_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      tr_prof_id: { type: DataTypes.INTEGER, allowNull: false },
+      tr_nome: { type: DataTypes.STRING(80), allowNull: false },
+      tr_descricao: { type: DataTypes.STRING(150) },
+      tr_repeticoes: { type: DataTypes.STRING(4) },
+    },
+    {
+      tableName: "treinos",
+      timestamps: false,
+    }
+  );
+
+  return Treino;
+};

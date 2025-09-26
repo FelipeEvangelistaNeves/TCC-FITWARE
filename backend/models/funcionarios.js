@@ -1,72 +1,22 @@
-const funcionarios = [
-  {
-    fu_id: 1,
-    fu_nome: "Felipe",
-    fu_email: "felipe@gmail.com",
-    fu_senha: "admin1234",
-    fu_cpf: "98765432100",
-    fu_telefone: "11918273645",
-    fu_dtnasc: "2008-03-03T03:00:00.000Z",
-    fu_cargo: "Secretario",
-    fu_cref: null,
-  },
-  {
-    fu_id: 2,
-    fu_nome: "Thiago",
-    fu_email: "thiago@gmail.com",
-    fu_senha: "admin4321",
-    fu_cpf: "12345678900",
-    fu_telefone: "11981726354",
-    fu_dtnasc: "2008-09-03T03:00:00.000Z",
-    fu_cargo: "Secretario",
-    fu_cref: null,
-  },
-  {
-    fu_id: 3,
-    fu_nome: "Samyra",
-    fu_email: "samyra@gmail.com",
-    fu_senha: "prof1234",
-    fu_cpf: "19283746500",
-    fu_telefone: "11945362718",
-    fu_dtnasc: "2008-01-06T02:00:00.000Z",
-    fu_cargo: "Professor",
-    fu_cref: "CREF12345SP",
-  },
-  {
-    fu_id: 4,
-    fu_nome: "Ermyone",
-    fu_email: "ermyone@gmail.com",
-    fu_senha: "prof4321",
-    fu_cpf: "91827364500",
-    fu_telefone: "11954637281",
-    fu_dtnasc: "2006-09-12T03:00:00.000Z",
-    fu_cargo: "Professor",
-    fu_cref: "CREF54321SP",
-  },
-];
+module.exports = (sequelize, DataTypes) => {
+  const Funcionario = sequelize.define(
+    "Funcionario",
+    {
+      fu_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      fu_nome: { type: DataTypes.STRING(120), allowNull: false },
+      fu_email: { type: DataTypes.STRING(120), allowNull: false },
+      fu_senha: { type: DataTypes.STRING(60), allowNull: false },
+      fu_cpf: { type: DataTypes.STRING(11), allowNull: false },
+      fu_telefone: { type: DataTypes.STRING(11), allowNull: false },
+      fu_dtnasc: { type: DataTypes.DATEONLY, allowNull: false },
+      fu_cargo: { type: DataTypes.STRING(50), allowNull: false },
+      fu_cref: { type: DataTypes.STRING(13) },
+    },
+    {
+      tableName: "funcionarios",
+      timestamps: false,
+    }
+  );
 
-// Funções de CRUD simuladas
-
-class FuncionarioModel {
-  static findByEmail(email) {
-    return funcionarios.find((f) => f.fu_email === email);
-  }
-
-  static create(nome, email, senha, cargo, cref = null) {
-    const novoFunc = {
-      fu_id: funcionarios.length + 1,
-      fu_nome: nome,
-      fu_email: email,
-      fu_senha: senha,
-      fu_cargo: cargo,
-      fu_cref: cref,
-    };
-    funcionarios.push(novoFunc);
-    return novoFunc;
-  }
-
-  static getAll() {
-    return funcionarios;
-  }
-}
-module.exports = FuncionarioModel;
+  return Funcionario;
+};
