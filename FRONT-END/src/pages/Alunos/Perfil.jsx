@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
+import "../../styles/pages/professor/perfilprof.scss";
 
 export default function PerfilAluno() {
   const [tab, setTab] = useState("historico");
 
   return (
-    <div className="perfil-container">
+    <div className="perfil-content">
       {/* ===== Header fixo (parte de cima) ===== */}
-      <div className="perfil-header">
-        <div className="avatar">MS</div>
+      <div className="perfil-info">
+        <div className="perfil-avatar">MS</div>
         <h2 className="nome">Maria Silva</h2>
         <p className="sub">Turma Segunda • 3 meses</p>
 
