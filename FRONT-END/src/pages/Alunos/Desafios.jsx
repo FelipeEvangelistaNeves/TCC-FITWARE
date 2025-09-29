@@ -5,21 +5,23 @@ export default function DesafiosAluno() {
   return (
     <div className="challenges-container">
       {/* cards de resumo */}
-      <div className="stats">
-        <div className="stat-card">
-          <div className="value">3</div>
-          <div className="label">Ativos</div>
+      <section className="summary-cards">
+        <div className="summary-card">
+          <h3>Ativos</h3>
+          <div className="card-number">3</div>
+          <div className="card-subtitle">hh</div>
         </div>
-        <div className="stat-card">
-          <div className="value">12</div>
-          <div className="label">Concluídos</div>
+        <div className="summary-card">
+          <h3>Concluídos</h3>
+          <div className="card-number">12</div>
+          <h3>Total</h3>
         </div>
-        <div className="stat-card">
-          <div className="value">850</div>
-          <div className="label">Pontos</div>
-          <div className="meta">Ranking #5</div>
+        <div className="summary-card">
+          <h3>Pontos</h3>
+          <div className="card-number">850</div>
+          <h3>Ranking #5</h3>
         </div>
-      </div>
+      </section>
 
       <h4 className="section-title">Desafios Ativos</h4>
 

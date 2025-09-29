@@ -1,10 +1,5 @@
 @import "./../../abstract/variables.scss";
 
-/* Valores defaults (ajuste se seu header/footer tiver outra altura) */
-:root {
-  --header-height: 70px; /* altura do header fixo */
-  --footer-height: 80px; /* altura do footer fixo */
-}
 
 /* ===== Página ===== */
 .challenges-container {
@@ -13,17 +8,13 @@
 
   /* O container agora ocupa exatamente a área entre header e footer */
   
-  top: var(--header-height);
   right: 0;
   left: 0;
-  bottom: calc(var(--footer-height) + env(safe-area-inset-bottom));
+  padding-bottom: 80px;
   padding: 16px;
   box-sizing: border-box;
-
-  /* permite rolar apenas o conteúdo desta área */
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-
+  padding-bottom: 80px;
+  
   /* organiza internamente */
   display: flex;
   flex-direction: column;
@@ -31,38 +22,46 @@
 }
 
 /* ===== Cards de Resumo (Ativos / Concluídos / Pontos) ===== */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+.summary-cards {
+  display: flex;
+  gap: 15px;
+  padding: 0 20px 25px;
+  overflow-x: auto;
 
-  .stat-card {
-    background-color: $surface-1;
-    border: 1px solid $border-color;
+  .summary-card {
+    margin-top: 20px;
+    flex: 1;
+    min-width: 100px;
+    background: $surface-1;
     border-radius: $radius-md;
-    box-shadow: $shadow-1;
-    padding: 12px;
+    padding: 20px 15px;
     text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid $border-color;
+    box-shadow: $shadow-1;
 
-    .value {
-      color: $text;
+    h3 {
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-2;
+      margin: 0 0 10px 0;
+    }
+
+    .card-number {
+      font-size: 28px;
       font-weight: 700;
-      font-size: 18px;
-      line-height: 1.1;
+      color: $text;
+      margin-bottom: 5px;
     }
 
-    .label {
-      color: $text-2;
+    .card-subtitle {
       font-size: 12px;
-      margin-top: 4px;
-    }
-
-    .meta {
-      color: $text-2;
-      font-size: 12px;
+      color: $accent-yellow;
+      font-weight: 500;
     }
   }
 }
+
 
 /* ===== Título de seção ===== */
 .section-title {
@@ -184,10 +183,10 @@
     margin-right: auto;
   }
 
-  .stats {
+  .summary-cards {
     gap: 20px;
 
-    .stat-card {
+    .summary-card {
       padding: 16px;
     }
   }

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/aluno/treinos.scss";
 import "../../styles/pages/aluno/mensagensAluno.scss";
-import { Bell } from "lucide-react";
+import TreinoDetalhesModal from "./TreinosDetalhes";
 
-export default function DashboardAluno() {
+export default function Treinos() {
+  const [openExercicio, setOpenExercicio] = useState(false);
+
   return (
     <div className="treinos-page">
       <div className="search-container">
@@ -17,12 +19,11 @@ export default function DashboardAluno() {
           />
         </div>
       </div>
-      
 
       {/* Workouts Section */}
       <section className="workouts-section">
         <div className="section-header">
-          <button className="filter-btn" >Todos</button>
+          <button className="filter-btn">Todos</button>
           <button className="filter-btn">Força</button>
           <button className="filter-btn">Cardio</button>
           <button className="filter-btn">Funcional</button>
@@ -60,9 +61,17 @@ export default function DashboardAluno() {
               <div className="trainer-avatar">JP</div>
               <span className="trainer-name">João Paulo</span>
             </div>
+            <button className="start-btn" onClick={() => setOpenExercicio(true)}>
+              Detalhes
+            </button>
             <button className="start-btn">Iniciar</button>
           </div>
         </div>
+
+        {/* Modal Detalhes */}
+        {openExercicio && (
+          <TreinoDetalhesModal onClose={() => setOpenExercicio(false)} />
+        )}
 
         {/* Cardio Workout Card */}
         <div className="workout-card">
