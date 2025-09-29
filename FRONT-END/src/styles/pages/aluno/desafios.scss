@@ -12,7 +12,7 @@
   color: $text;
 
   /* O container agora ocupa exatamente a área entre header e footer */
-  position: fixed;
+  
   top: var(--header-height);
   right: 0;
   left: 0;

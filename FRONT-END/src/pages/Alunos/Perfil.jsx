@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
 import "../../styles/pages/professor/perfilprof.scss";
+import ResgatePontosModal from "./ResgatePontosModal";
 
 export default function PerfilAluno() {
   const [tab, setTab] = useState("historico");
+  const [isResgateOpen, setResgateOpen] = useState(false);
 
   return (
     <div className="perfil-content">
@@ -87,7 +89,9 @@ export default function PerfilAluno() {
               </div>
             </div>
 
-            <button className="btn-resgatar">Resgatar Pontos</button>
+            <button className="btn-resgatar" onClick={() => setResgateOpen(true)} >Resgatar Pontos</button>
+              {/* renderização condicional do modal */}
+            {isResgateOpen && <ResgatePontosModal onClose={() => setResgateOpen(false)} />}
           </div>
         )}
 
@@ -184,8 +188,9 @@ export default function PerfilAluno() {
                 <span className="pontos">+100</span>
               </div>
             </div>
-
-            <button className="btn-resgatar">Resgatar Pontos</button>
+            <button className="btn-resgatar" onClick={() => setResgateOpen(true)} >Resgatar Pontos</button>
+              {/* renderização condicional do modal */}
+            {isResgateOpen && <ResgatePontosModal onClose={() => setResgateOpen(false)} />}
           </div>
         )}
       </div>
