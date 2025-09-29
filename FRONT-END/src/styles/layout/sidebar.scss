@@ -56,13 +56,15 @@
 
     .nav-item {
       margin-bottom: $spacing-sm;
+      width: 100%;
 
-      .nav-link {
+      .nav-link-adm {
         display: flex;
         align-items: center;
         padding: $spacing-sm $spacing-md;
         border-radius: $radius-sm;
         color: $color-text-muted;
+        width: 100%;
         font-size: $font-size-base;
         font-weight: 500;
         text-decoration: none;

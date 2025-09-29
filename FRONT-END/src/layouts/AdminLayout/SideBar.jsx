@@ -70,7 +70,7 @@ export default function SideBar() {
           <li key={index} className="nav-item">
             <Link
               to={item.path}
-              className={`nav-link ${isActive(item.path) ? "active" : ""}`}
+              className={`nav-link-adm ${isActive(item.path) ? "active" : ""}`}
             >
               <i className={`bi ${item.icon} pe-none me-2`}></i>
               {item.label}

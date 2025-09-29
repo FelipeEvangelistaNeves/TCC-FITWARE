@@ -95,12 +95,47 @@
     position: relative;
     font-size: $font-size-base;
 
-    &.active { color: $text; }
+    &.active {
+      color: $text;
+    }
 
     /* underlines coloridas */
-    &.purple.active { &::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -1px; height: 3px; background: $primary; border-radius: $radius-sm; } }
-    &.green.active  { &::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -1px; height: 3px; background: $color-green; border-radius: $radius-sm; } }
-    &.yellow.active { &::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -1px; height: 3px; background: $accent-yellow; border-radius: $radius-sm; } }
+    &.purple.active {
+      &::after {
+        content: "";
+        position: absolute;
+        left: 20%;
+        right: 20%;
+        bottom: -1px;
+        height: 3px;
+        background: $primary;
+        border-radius: $radius-sm;
+      }
+    }
+    &.green.active {
+      &::after {
+        content: "";
+        position: absolute;
+        left: 20%;
+        right: 20%;
+        bottom: -1px;
+        height: 3px;
+        background: $color-green;
+        border-radius: $radius-sm;
+      }
+    }
+    &.yellow.active {
+      &::after {
+        content: "";
+        position: absolute;
+        left: 20%;
+        right: 20%;
+        bottom: -1px;
+        height: 3px;
+        background: $accent-yellow;
+        border-radius: $radius-sm;
+      }
+    }
   }
 }
 
@@ -111,7 +146,9 @@
    =========================================================== */
 
 /* Preferência: browsers modernos com :has() */
-.perfil-container:has(.perfil-tabs .tab-btn.green.active) .pontos-info .badge.pontos {
+.perfil-container:has(.perfil-tabs .tab-btn.green.active)
+  .pontos-info
+  .badge.pontos {
   background: $blue-light;
   color: $white;
 }
@@ -136,7 +173,13 @@
   position: relative;
 
   /* garantir textos internos */
-  h4, h5, h6, p, li, span, a {
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  span,
+  a {
     color: $text !important;
   }
 
@@ -165,15 +208,27 @@
   ul.exercises {
     padding-left: 16px;
     margin: 6px 0;
-    li { margin-bottom: 6px; color: $text !important; }
+    li {
+      margin-bottom: 6px;
+      color: $text !important;
+    }
   }
 
-  .ver-todos { color: $primary-500 !important; font-size: 13px; float: right; cursor: pointer; }
+  .ver-todos {
+    color: $primary-500 !important;
+    font-size: 13px;
+    float: right;
+    cursor: pointer;
+  }
 }
 
 /* valores destacados */
-.card .valor { color: $color-green !important; }
-.card .destaque { color: $primary !important; }
+.card .valor {
+  color: $color-green !important;
+}
+.card .destaque {
+  color: $primary !important;
+}
 
 /* ===========================================================
    HISTÓRICO
@@ -205,7 +260,10 @@
   }
 
   /* Garantir que qualquer classe .btn-blue não altere cor */
-  .btn-detalhes.btn-blue { background: $primary !important; color: $white !important; }
+  .btn-detalhes.btn-blue {
+    background: $primary !important;
+    color: $white !important;
+  }
 
   /* botão resgatar — forçar amarelo (importante) */
   .btn-resgatar {
@@ -232,9 +290,17 @@
     display: block;
   }
 
-  .card h4 { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .card h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
 
-  .card p { margin: 10px 0; color: $text-2 !important; }
+  .card p {
+    margin: 10px 0;
+    color: $text-2 !important;
+  }
 
   .method-row {
     display: flex;
@@ -263,12 +329,23 @@
     }
 
     .method-info {
-      .method-name { font-weight: 700; color: $text; }
-      .method-sub { font-size: $font-size-small; color: $text-2; margin-top: 2px; }
+      .method-name {
+        font-weight: 700;
+        color: $text;
+      }
+      .method-sub {
+        font-size: $font-size-small;
+        color: $text-2;
+        margin-top: 2px;
+      }
     }
   }
 
-  .method-right { display: flex; align-items: center; gap: 10px; }
+  .method-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
   .badge.padrao {
     background: $accent-yellow;
@@ -289,12 +366,19 @@
     font-weight: 700;
     cursor: pointer;
 
-    &:hover { background: $primary-500; color: $white; }
+    &:hover {
+      background: $primary-500;
+      color: $white;
+    }
   }
 
-  .ver-todos { color: $primary-500; }
+  .ver-todos {
+    color: $primary-500;
+  }
 
-  .cancel-wrap { margin-top: 12px; }
+  .cancel-wrap {
+    margin-top: 12px;
+  }
 
   .btn-cancelar {
     background: transparent;
@@ -306,7 +390,9 @@
     font-weight: 700;
     cursor: pointer;
 
-    &:hover { background: rgba(239,68,68,0.08); }
+    &:hover {
+      background: rgba(239, 68, 68, 0.08);
+    }
   }
 }
 
@@ -321,16 +407,43 @@
     padding: 14px;
     margin-bottom: 12px;
 
-    h4 { display: flex; justify-content: space-between; margin: 0 0 8px 0; color: $text; }
-    .badge.nivel { background: $accent-yellow; color: $black; padding: 6px 10px; border-radius: $radius-sm; font-weight: 700; }
+    h4 {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 0 8px 0;
+      color: $text;
+    }
+    .badge.nivel {
+      background: $accent-yellow;
+      color: $black;
+      padding: 6px 10px;
+      border-radius: $radius-sm;
+      font-weight: 700;
+    }
 
-    .progress { height: 10px; background: $surface-3; border-radius: $radius-sm; overflow: hidden; margin-bottom: 8px; }
-    .progress-bar { height: 100%; background: $accent-yellow; }
-    .next-level { color: $text-2; font-size: $font-size-small; }
+    .progress {
+      height: 10px;
+      background: $surface-3;
+      border-radius: $radius-sm;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: $accent-yellow;
+    }
+    .next-level {
+      color: $text-2;
+      font-size: $font-size-small;
+    }
   }
 
   .pontos-historico {
-    h5 { margin: 0 0 10px 0; color: $text; font-weight: 700; }
+    h5 {
+      margin: 0 0 10px 0;
+      color: $text;
+      font-weight: 700;
+    }
 
     .ponto-card {
       background: $surface-3;
@@ -339,10 +452,27 @@
       margin-bottom: 10px;
       position: relative;
 
-      h6 { margin: 0 0 6px 0; color: $text; font-weight: 700; }
-      .data { color: $text-2; font-size: $font-size-small; margin-bottom: 6px; }
-      .descricao { color: $text-2; font-size: $font-size-small; }
-      .pontos { position: absolute; right: 12px; top: 12px; color: $accent-yellow; font-weight: 700; }
+      h6 {
+        margin: 0 0 6px 0;
+        color: $text;
+        font-weight: 700;
+      }
+      .data {
+        color: $text-2;
+        font-size: $font-size-small;
+        margin-bottom: 6px;
+      }
+      .descricao {
+        color: $text-2;
+        font-size: $font-size-small;
+      }
+      .pontos {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        color: $accent-yellow;
+        font-weight: 700;
+      }
     }
   }
 
@@ -361,10 +491,17 @@
 
 /* ===== Responsividade ===== */
 @media (min-width: 768px) {
-  .perfil-container { padding: 24px; }
-  .card { padding: 20px; }
+  .perfil-container {
+    padding: 24px;
+  }
+  .card {
+    padding: 20px;
+  }
 }
 
 @media (min-width: 1100px) {
-  .perfil-container { max-width: 980px; margin: 0 auto; }
+  .perfil-container {
+    max-width: 980px;
+    margin: 0 auto;
+  }
 }

@@ -281,55 +281,6 @@ body {
   color: $text-2;
 }
 
-/* Bottom Navigation */
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 8px 12px;
-  border-radius: 10px;
-  position: relative;
-}
-
-.nav-item i {
-  font-size: 18px;
-  color: $text-2;
-  transition: color 0.2s ease;
-}
-
-.nav-item span {
-  font-size: 12px;
-  color: $text-2;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.nav-item.active i,
-.nav-item.active span {
-  color: $primary;
-}
-
-.nav-item.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 3px;
-  background: $primary;
-  border-radius: 2px;
-}
-
-.nav-item:hover:not(.active) i,
-.nav-item:hover:not(.active) span {
-  color: $text;
-}
-
 /* Scrollbar personalizada */
 .summary-cards::-webkit-scrollbar {
   height: 4px;
@@ -403,18 +354,6 @@ body {
 
   .bottom-nav {
     padding: 8px 0;
-  }
-
-  .nav-item {
-    padding: 6px 10px;
-  }
-
-  .nav-item i {
-    font-size: 16px;
-  }
-
-  .nav-item span {
-    font-size: 11px;
   }
 }
 
@@ -543,18 +482,6 @@ body {
   .bottom-nav {
     padding: 16px 0;
   }
-
-  .nav-item {
-    padding: 12px 16px;
-  }
-
-  .nav-item i {
-    font-size: 20px;
-  }
-
-  .nav-item span {
-    font-size: 14px;
-  }
 }
 
 /* Responsividade Desktop */
@@ -680,18 +607,6 @@ body {
 
   .bottom-nav {
     padding: 20px 0;
-  }
-
-  .nav-item {
-    padding: 16px 20px;
-  }
-
-  .nav-item i {
-    font-size: 22px;
-  }
-
-  .nav-item span {
-    font-size: 16px;
   }
 }
 
