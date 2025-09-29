@@ -1,81 +1,134 @@
 import React from "react";
-import "../../styles/pages/professor/dashboardprof.scss";
+import "../../styles/pages/aluno/dashboardAluno.scss";
+import "../../styles/pages/professor/dashboardProf.scss";
+import { Dumbbell, Bell } from "lucide-react";
 
-export default function Dashboard() {
+export default function DashboardAluno() {
   return (
-    <div className="dashboard">
-      {/* Header */}
-
+    <div className="dashboard-aluno">
       {/* Summary Cards */}
       <section className="summary-cards">
         <div className="summary-card">
-          <h3>Alunos</h3>
-          <div className="card-number">42</div>
-          <div className="card-subtitle">+3</div>
-        </div>
-        <div className="summary-card">
           <h3>Treinos</h3>
-          <div className="card-number">156</div>
-          <div className="card-subtitle">12</div>
+          <div className="card-number">12</div>
+          <div className="card-subtitle">Completos</div>
         </div>
         <div className="summary-card">
-          <h3>Mensagens</h3>
-          <div className="card-number">89</div>
-          <div className="card-subtitle">24</div>
+          <h3>Desafios</h3>
+          <div className="card-number">3</div>
+          <div className="card-subtitle">Ativos</div>
+        </div>
+        <div className="summary-card">
+          <h3>Calorias</h3>
+          <div className="card-number">450</div>
+          <div className="card-subtitle">Hoje</div>
         </div>
       </section>
 
-      {/* Quick Actions Section */}
-      <section className="quick-actions-section">
+      {/* quick actions */}
+      <section className="quick-actions">
         <h2>Ações Rápidas</h2>
-        <div className="actions-grid">
-          <div className="action-card">
-            <i className="fas fa-users"></i>
-            <span>Alunos</span>
+          <div className="actions-grid">
+            <div className="action-card">
+              <div>
+                <i class="bi bi-person"></i>
+              </div>
+              <div className="action-label">Alunos</div>
+            </div>
+            <div className="action-card">
+              <div>
+                <Dumbbell size={22} />
+              </div>
+              <div className="action-label">Treinos</div>
+            </div>
+            <div className="action-card">
+              <div>
+                <i class="bi bi-chat-left-text"></i>
+              </div>
+              <div className="action-label">Mensagens</div>
+            </div>
+            <div className="action-card">
+              <div>
+                <i class="bi bi-clock"></i>
+              </div>
+              <div className="action-label">Histórico</div>
+            </div>
           </div>
-          <div className="action-card">
-            <i className="fas fa-dumbbell"></i>
-            <span>Treinos</span>
-          </div>
-          <div className="action-card">
-            <i className="fas fa-comment"></i>
-            <span>Mensagens</span>
-          </div>
-          <div className="action-card highlighted">
-            <i className="fas fa-clock"></i>
-            <span>Histórico</span>
-          </div>
-        </div>
       </section>
 
-      {/* Recent Activity Section */}
-      <section className="recent-activity-section">
+      {/* Workouts Section */}
+      <section className="workouts-section">
         <div className="section-header">
-          <h2>Atividade Recente</h2>
-          <button className="see-all-btn">Ver Tudo</button>
+          <button className="filter-btn">Todos</button>
+          <button className="filter-btn">Força</button>
+          <button className="filter-btn">Cardio</button>
+          <button className="filter-btn">Funcional</button>
         </div>
 
-        <div className="activity-list">
-          <div className="activity-item">
-            <div className="activity-avatar">M</div>
-            <div className="activity-content">
-              <div className="activity-title">Treino enviado para Maria</div>
-              <div className="activity-time">Hoje, 14:30</div>
+        {/* Strength Workout Card */}
+        <div className="workout-card">
+          <div className="workout-header">
+            <div className="workout-info">
+              <h3>Treino de Força</h3>
+              <p className="workout-details">Intermediário • 45 min</p>
             </div>
           </div>
-          <div className="activity-item">
-            <div className="activity-avatar">T</div>
-            <div className="activity-content">
-              <div className="activity-title">Mensagem para Turma Segunda</div>
-              <div className="activity-time">Hoje, 10:15</div>
+
+          <div className="exercises-list">
+            <div className="exercise-item">
+              <span className="exercise-number">1</span>
+              <span className="exercise-name">Agachamento</span>
+              <span className="exercise-sets">3×12</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">2</span>
+              <span className="exercise-name">Supino</span>
+              <span className="exercise-sets">3×10</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">3</span>
+              <span className="exercise-name">Remada</span>
+              <span className="exercise-sets">3×10</span>
             </div>
           </div>
-          <div className="activity-item">
-            <div className="activity-avatar">C</div>
-            <div className="activity-content">
-              <div className="activity-title">Novo aluno: Carlos Mendes</div>
-              <div className="activity-time">Ontem, 16:45</div>
+
+          <div className="workout-footer">
+            <div className="trainer-info">
+              <div className="trainer-avatar">JP</div>
+              <span className="trainer-name">João Paulo</span>
             </div>
+            <button className="start-btn">Iniciar</button>
+          </div>
+        </div>
+
+        {/* Cardio Workout Card */}
+        <div className="workout-card">
+          <div className="workout-header">
+            <div className="workout-info">
+              <h3>Treino de Cardio</h3>
+              <p className="workout-details">Iniciante • 30 min</p>
+            </div>
+          </div>
+
+          <div className="exercises-list">
+            <div className="exercise-item">
+              <span className="exercise-number">1</span>
+              <span className="exercise-name">Corrida</span>
+              <span className="exercise-sets">20 min</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">2</span>
+              <span className="exercise-name">Pular corda</span>
+              <span className="exercise-sets">10 min</span>
+            </div>
+          </div>
+
+          <div className="workout-footer">
+            <div className="trainer-info">
+              <div className="trainer-avatar">JP</div>
+              <span className="trainer-name">João Paulo</span>
+            </div>
+            <button className="start-btn">Iniciar</button>
           </div>
         </div>
       </section>

@@ -230,46 +230,48 @@ body {
 
 /* Treino Actions */
 .treino-actions {
+  justify-content: space-between;
   display: flex;
+  flex-direction: row;
   gap: 10px;
   margin-top: 15px;
-}
 
-.btn-atribuir {
-  flex: 1;
-  padding: 10px;
-  background: $primary;
-  color: $white;
-  border: none;
-  border-radius: $radius-md;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
 
-.btn-atribuir:hover {
-  background: darken($primary, 10%);
-}
+  .btn-atribuir {
+    width: 45%;
+    padding: 10px;
+    background: $primary;
+    color: $white;
+    border: none;
+    border-radius: $radius-md;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
 
-.btn-detalhes {
-  flex: 1;
-  padding: 10px;
-  background: $surface-2;
-  color: $text;
-  border: 1px solid $border-color;
-  border-radius: $radius-md;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+  .btn-atribuir:hover {
+    background: darken($primary, 10%);
+  }
 
-.btn-detalhes:hover {
-  background: $surface-3;
-  border-color: $primary;
-}
+  .btn-detalhes {
+    width: 45%;
+    padding: 10px;
+    background: $surface-2;
+    color: $text;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 
+  .btn-detalhes:hover {
+    background: $surface-3;
+    border-color: $primary;
+  }
+}
 /* Bottom Navigation */
 .bottom-nav {
   position: fixed;
@@ -412,7 +414,7 @@ body {
   }
 
   .treino-actions {
-    flex-direction: column;
+    flex-direction: row;
     gap: 8px;
   }
 
