@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
-import { Bell } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 
 export default function DashboardAluno() {
   return (

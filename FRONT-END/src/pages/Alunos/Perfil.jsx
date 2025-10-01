@@ -2,11 +2,26 @@ import React, { useState } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
 import "../../styles/pages/professor/perfilprof.scss";
 import ResgatePontosModal from "./ResgatePontosModal";
+import { LogOut } from "lucide-react";
 
 export default function PerfilAluno() {
   const [tab, setTab] = useState("historico");
   const [isResgateOpen, setResgateOpen] = useState(false);
-
+  ////////////////// logout ///////////////////
+  async function handleLogout() {
+    try {
+      const res = await fetch("http://localhost:3000/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = "/"; // redireciona pro login
+      }
+    } catch (err) {
+      console.error("Erro ao fazer logout:", err);
+    }
+  }
   return (
     <div className="perfil-content">
       {/* ===== Header fixo (parte de cima) ===== */}
@@ -20,7 +35,9 @@ export default function PerfilAluno() {
             {tab === "pagamentos" ? "Plano Premium" : "850 pontos"}
           </span>
           <div className="sub-info">
-            {tab === "pagamentos" ? "Ativo • Renova 15/06/2025" : "Nível Prata • Ranking #5"}
+            {tab === "pagamentos"
+              ? "Ativo • Renova 15/06/2025"
+              : "Nível Prata • Ranking #5"}
           </div>
         </div>
       </div>
@@ -69,6 +86,11 @@ export default function PerfilAluno() {
                 <span className="tempo">45 minutos</span>
                 <button className="btn-detalhes">Ver Detalhes</button>
               </div>
+              <div className="logout">
+                <button onClick={handleLogout} className="logout-btn">
+                  <LogOut size={20} /> Sair
+                </button>
+              </div>
             </div>
 
             <div className="card">
@@ -89,9 +111,16 @@ export default function PerfilAluno() {
               </div>
             </div>
 
-            <button className="btn-resgatar" onClick={() => setResgateOpen(true)} >Resgatar Pontos</button>
-              {/* renderização condicional do modal */}
-            {isResgateOpen && <ResgatePontosModal onClose={() => setResgateOpen(false)} />}
+            <button
+              className="btn-resgatar"
+              onClick={() => setResgateOpen(true)}
+            >
+              Resgatar Pontos
+            </button>
+            {/* renderização condicional do modal */}
+            {isResgateOpen && (
+              <ResgatePontosModal onClose={() => setResgateOpen(false)} />
+            )}
           </div>
         )}
 
@@ -107,7 +136,8 @@ export default function PerfilAluno() {
                 <br />
                 <strong>Próximo pagamento:</strong> 15/06/2025
                 <br />
-                <strong>Método:</strong> <span className="destaque">Mercado Pago</span>
+                <strong>Método:</strong>{" "}
+                <span className="destaque">Mercado Pago</span>
               </p>
             </div>
 
@@ -119,7 +149,9 @@ export default function PerfilAluno() {
                   <div className="method-icon">💳</div>
                   <div className="method-info">
                     <div className="method-name">Mercado Pago</div>
-                    <div className="method-sub">Conta: maria.silva@email.com</div>
+                    <div className="method-sub">
+                      Conta: maria.silva@email.com
+                    </div>
                   </div>
                 </div>
 
@@ -170,27 +202,40 @@ export default function PerfilAluno() {
               <div className="ponto-card">
                 <h6>Treino de Força</h6>
                 <div className="data">Hoje</div>
-                <div className="descricao">Treino completo com todos os exercícios realizados.</div>
+                <div className="descricao">
+                  Treino completo com todos os exercícios realizados.
+                </div>
                 <span className="pontos">+50</span>
               </div>
 
               <div className="ponto-card">
                 <h6>Treino de Cardio</h6>
                 <div className="data">Ontem</div>
-                <div className="descricao">Treino completo com todos os exercícios realizados.</div>
+                <div className="descricao">
+                  Treino completo com todos os exercícios realizados.
+                </div>
                 <span className="pontos">+40</span>
               </div>
 
               <div className="ponto-card">
                 <h6>Desafio 7 Dias</h6>
                 <div className="data">3 dias atrás</div>
-                <div className="descricao">Completou 5 dias do desafio de 7 dias consecutivos.</div>
+                <div className="descricao">
+                  Completou 5 dias do desafio de 7 dias consecutivos.
+                </div>
                 <span className="pontos">+100</span>
               </div>
             </div>
-            <button className="btn-resgatar" onClick={() => setResgateOpen(true)} >Resgatar Pontos</button>
-              {/* renderização condicional do modal */}
-            {isResgateOpen && <ResgatePontosModal onClose={() => setResgateOpen(false)} />}
+            <button
+              className="btn-resgatar"
+              onClick={() => setResgateOpen(true)}
+            >
+              Resgatar Pontos
+            </button>
+            {/* renderização condicional do modal */}
+            {isResgateOpen && (
+              <ResgatePontosModal onClose={() => setResgateOpen(false)} />
+            )}
           </div>
         )}
       </div>

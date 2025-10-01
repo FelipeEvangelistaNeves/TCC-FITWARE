@@ -1,15 +1,34 @@
 import { useState } from "react";
 import "../../styles/pages/login/loginmob.scss";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  function Executar() {
-    console.log("aloiu");
+  async function Executar() {
+    try {
+      const response = await fetch("http://localhost:3000/login/professor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // necessário para cookies de sessão
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Login realizado com sucesso!");
+        console.log(data);
+        navigate("/professor");
+      } else {
+        alert("Erro: " + data.message);
+      }
+    } catch (err) {
+      console.error("Erro ao logar:", err);
+    }
   }
-
   return (
     <div className="login-container">
       <div className="login-card">
@@ -35,8 +54,8 @@ export default function Login() {
           <label>Senha</label>
           <input
             type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
