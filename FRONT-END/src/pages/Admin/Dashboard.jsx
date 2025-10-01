@@ -50,7 +50,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="dashboard">
+    <div className="dashboard-admin">
       <h1>Dashboard</h1>
 
       {/* Cards Superiores */}

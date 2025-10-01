@@ -2,30 +2,6 @@ body {
   overflow: hidden !important;
 }
 
-.admin-layout-fixed {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-// Área principal
-.admin-main-fixed {
-  display: flex;
-  flex: 1;
-  height: 100vh;
-  // desloca pelo sidebar
-  // desloca pelo header
-}
-
-// Somente o conteúdo rola
-.admin-content-scrollable {
-  flex: 1;
-  min-width: 0;
-
-  height: 100vh;
-  padding: 32px 24px 84px 24px; // padding-bottom extra para espaço além da tabela
-}
-
 @import "./../abstract/variables.scss";
 .admin-header {
   background-color: $color-bg-dark;
@@ -46,19 +22,24 @@ body {
     display: flex;
     align-items: center;
     gap: $spacing-md;
-
-    .notification-badge {
-      position: relative;
-
-      .badge {
-        background-color: $color-purple;
-        font-size: $font-size-small;
-        padding: $spacing-xs $spacing-sm;
-        border-radius: $radius-md;
-        color: $color-text;
+    .not-adm {
+      font-size: 15px;
+      margin: 0 16px 0 0;
+      padding: 0;
+    }
+    .notification-badge-btn {
+      background: transparent;
+      border: none;
+      border-radius: 50%;
+      color: $color-text-muted;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      &:hover,
+      &:focus {
+        color: $white;
       }
     }
-
     .user-profile-btn {
       background: transparent;
       border: none;

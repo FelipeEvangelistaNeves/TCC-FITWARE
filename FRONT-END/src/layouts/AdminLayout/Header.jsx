@@ -1,8 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../../styles/layout/admhead.scss";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    }
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -24,15 +40,19 @@ export default function Header() {
 
           <div className="col-auto">
             <div className="user-section">
-              <div className="notification-badge me-3">
-                <span className="badge bg-purple">3</span>
-              </div>
+              <Link to="notificacoes" className="notification-badge-btn">
+                <i className="bi bi-bell  not-adm"></i>
+              </Link>
 
-              <div className={`dropdown ${showDropdown ? "show" : ""}`}>
+              <div
+                className={`dropdown ${showDropdown ? "show" : ""}`}
+                ref={dropdownRef}
+              >
                 <button
                   className="btn user-profile-btn"
                   type="button"
                   onClick={toggleDropdown}
+                  onAbort={toggleDropdown}
                   aria-expanded={showDropdown}
                 >
                   <div className="user-avatar">
