@@ -59,7 +59,7 @@ export default function Login() {
           <a href="#">Esqueceu a senha?</a>
         </div>
 
-        <button onClick={Executar}>Logar</button>
+        <button onClick={() => Executar()}>Logar</button>
       </div>
     </div>
   );

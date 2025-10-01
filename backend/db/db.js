@@ -1,29 +1,22 @@
-const { Pool } = require("pg");
+const { Sequelize } = require("sequelize");
+const path = require("path");
 
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "fitware",
-  password: "1234",
-  port: 5432,
+require("dotenv").config({
+  path: path.resolve(__dirname, "../.env"),
+  quiet: true,
 });
 
-async function buscarComPool() {
-  const query = `
-    SELECT a.id_aluno, a.nome AS aluno_nome, a.email,
-           t.id_turma, t.nome_turma,
-           p.id_professor, p.nome AS professor_nome, p.especialidade
-    FROM alunos a
-    JOIN alunos_turmas at ON a.id_aluno = at.id_aluno
-    JOIN turmas t ON at.id_turma = t.id_turma
-    JOIN professores p ON t.id_professor = p.id_professor
-    ORDER BY a.nome ASC;
-  `;
+const DB_HOST = process.env.DB_HOST;
+const DB_NAME = process.env.DB_NAME;
+const DB_USER = process.env.DB_USER;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_PORT = process.env.DB_PORT;
 
-  try {
-    const result = await pool.query(query);
-    console.log(result.rows);
-  } catch (err) {
-    console.error("Erro na query:", err);
-  }
-}
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+  host: DB_HOST,
+  port: DB_PORT,
+  dialect: "postgres",
+  logging: false, // true = queries no console
+});
+
+module.exports = { sequelize };

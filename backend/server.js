@@ -7,8 +7,7 @@ const PORT = 3000;
 const authMiddleware = require("./middleware/auth").authMiddleware;
 const roleMiddleware = require("./middleware/auth").roleMiddleware;
 
-const AlunoModel = require("./models/aluno");
-const FuncionarioModel = require("./models/funcionarios");
+const { Aluno, Funcionario } = require("./models"); // importa models Sequelize
 
 app.use(
   cors({
@@ -39,17 +38,28 @@ app.use(
 );
 
 // --- Login Aluno ---
-app.post("/login/aluno", (req, res) => {
+app.post("/login/aluno", async (req, res) => {
   const { email, password } = req.body;
-  const aluno = AlunoModel.findByEmail(email);
 
-  if (!aluno || aluno.al_senha !== password) {
-    return res.status(401).json({ message: "Credenciais inválidas" });
+  try {
+    const aluno = await Aluno.findByEmail(email);
+
+    if (!aluno || aluno.al_senha !== password) {
+      return res.status(401).json({ message: "Credenciais inválidas" });
+    }
+
+    req.session.user = {
+      id: aluno.al_id,
+      email: aluno.al_email,
+      role: "Aluno",
+    };
+
+    console.log("Sessão criada:", req.session.user);
+    res.json({ message: "Login bem-sucedido", user: req.session.user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro no servidor" });
   }
-
-  req.session.user = { id: aluno.al_id, email: aluno.al_email, role: "Aluno" };
-  console.log("Sessão criada:", req.session.user);
-  res.json({ message: "Login bem-sucedido", user: req.session.user });
 });
 
 // --- Login Professor ---
@@ -115,11 +125,34 @@ app.get(
   }
 );
 
-app.get("/protected", (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ success: false, message: "Não autorizado" });
+app.get("/protected", authMiddleware, async (req, res) => {
+  try {
+    const { id, role } = req.session.user;
+
+    let user;
+    if (role === "Aluno") {
+      user = await Aluno.findByPk(id);
+    } else if (role === "Funcionario") {
+      user = await Funcionario.findByPk(id);
+    }
+
+    if (!user) {
+      return res.status(401).json({ error: "Usuário não encontrado" });
+    }
+
+    res.json({
+      message: "Autenticado com sucesso",
+      user: {
+        id: user.id,
+        nome: user.al_nome || user.fu_nome,
+        email: user.al_email || user.fu_email,
+        role,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro no servidor" });
   }
-  res.json({ success: true, user: req.session.user });
 });
 
 // --- Logout ---

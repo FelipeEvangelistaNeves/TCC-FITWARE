@@ -17,5 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  // 🔹 métodos customizados
+  Aluno.findByEmail = async function (email) {
+    return await Aluno.findOne({ where: { al_email: email } });
+  };
+
   return Aluno;
 };

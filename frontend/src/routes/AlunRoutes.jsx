@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import DashboardAluno from "../pages/Alunos/DashBoard";
 import DesafiosAluno from "../pages/Alunos/Desafios";
@@ -7,10 +7,7 @@ import MensagensAluno from "../pages/Alunos/Mensagens";
 import PerfilAluno from "../pages/Alunos/Perfil";
 import AlunoLayout from "../layouts/AlunoLayout/AlunoLayout";
 
-import { useEffect, useState } from "react";
-
 export default function AlunoRoutes() {
-  ///////////////// validação login ///////////////////
   const [auth, setAuth] = useState(null); // null = carregando
 
   useEffect(() => {
@@ -19,15 +16,20 @@ export default function AlunoRoutes() {
         const res = await fetch("http://localhost:3000/protected", {
           credentials: "include",
         });
-        if (res.status === 401) return setAuth(false);
+
+        if (res.status === 401) {
+          return setAuth(false);
+        }
+
         const data = await res.json();
-        // valida se o usuário logado é aluno
-        if (data.user.role === "Aluno") {
+
+        if (data.user && data.user.role === "Aluno") {
           setAuth(true);
         } else {
           setAuth(false);
         }
-      } catch {
+      } catch (err) {
+        console.error("Erro ao verificar autenticação:", err);
         setAuth(false);
       }
     }
@@ -35,7 +37,7 @@ export default function AlunoRoutes() {
   }, []);
 
   if (auth === null) {
-    return <p>Carregando...</p>; // evita redirecionar cedo demais
+    return <p>Carregando...</p>;
   }
 
   if (auth === false) {

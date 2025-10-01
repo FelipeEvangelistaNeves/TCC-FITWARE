@@ -1,25 +1,20 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-// Conexão com PostgreSQL
-const sequelize = new Sequelize("fitwaredb", "postgres", "1234", {
-  host: "localhost",
-  dialect: "postgres",
-  logging: false, // deixe true se quiser ver as queries no console
-});
+const { sequelize } = require("../db/db");
 
 // Importação dos models
 const Aluno = require("./alunos")(sequelize, DataTypes);
-const Funcionario = require("./funcionario")(sequelize, DataTypes);
-const Produto = require("./produto")(sequelize, DataTypes);
-const Desafio = require("./desafio")(sequelize, DataTypes);
-const Pagamento = require("./pagamento")(sequelize, DataTypes);
-const Modalidade = require("./modalidade")(sequelize, DataTypes);
-const Horario = require("./horario")(sequelize, DataTypes);
-const Turma = require("./turma")(sequelize, DataTypes);
-const AlunoTurma = require("./alunoTurma")(sequelize, DataTypes);
-const Treino = require("./treino")(sequelize, DataTypes);
-const Exercicio = require("./exercicio")(sequelize, DataTypes);
-const TreinoExercicio = require("./treinoExercicio")(sequelize, DataTypes);
+const Funcionario = require("./funcionarios")(sequelize, DataTypes);
+const Produto = require("./produtos")(sequelize, DataTypes);
+const Desafio = require("./desafios")(sequelize, DataTypes);
+const Pagamento = require("./pagamentos")(sequelize, DataTypes);
+const Modalidade = require("./modalidades")(sequelize, DataTypes);
+const Horario = require("./horarios")(sequelize, DataTypes);
+const Turma = require("./turmas")(sequelize, DataTypes);
+const AlunoTurma = require("./alunos_turmas")(sequelize, DataTypes);
+const Treino = require("./treinos")(sequelize, DataTypes);
+const Exercicio = require("./exercicios")(sequelize, DataTypes);
+const TreinoExercicio = require("./treinos_exercicios")(sequelize, DataTypes);
 
 // ==================== RELACIONAMENTOS ====================
 
