@@ -1,602 +1,599 @@
-
-@import "../../abstract/variables.scss";
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Segoe UI", "Inter", Arial, sans-serif;
-  background: $app-bg;
-  color: $text;
-  min-height: 100vh;
-  padding: 0;
-}
-
-/* Treinos Container */
-.treinos-container {
-  min-height: 100vh;
-  background: $app-bg;
-  color: $text;
-  padding: 0;
-  position: relative;
-  padding-bottom: 80px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* Header */
-.treinos-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 20px 15px;
-  background: $surface-1;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid $border-color;
-}
-
-.treinos-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: $accent-yellow;
-  margin: 0;
-}
-
-.header-actions {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.notification-icon {
-  width: 40px;
-  height: 40px;
-  background: $surface-2;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.notification-icon:hover {
-  transform: scale(1.1);
-}
-
-.notification-icon i {
-  color: $white;
-  font-size: 16px;
-}
-
-.profile-icon {
-  width: 40px;
-  height: 40px;
-  background: $primary;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.profile-icon:hover {
-  transform: scale(1.1);
-}
-
-.profile-icon span {
-  color: $white;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-/* Filtros Section */
-.filtros-section {
-  padding: 20px 20px 15px;
-  background: $surface-1;
-  border-radius: $radius-md;
-}
-
-.filtros-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: $text-2;
-  margin-bottom: 15px;
-}
-
-.filtros-grid {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 5px;
-}
-
-.filtro-item {
-  padding: 8px 16px;
-  background: $surface-2;
-  border: 1px solid $border-color;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  color: $text-2;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.filtro-item.active {
-  background: $primary;
-  color: $white;
-  border-color: $primary;
-}
-
-.filtro-item:hover {
-  background: $surface-3;
-}
-
-/* Lista de Treinos */
-.treinos-list {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.treino-card {
-  background: $surface-1;
-  border-radius: $radius-md;
-  padding: 20px;
-  border: 1px solid $border-color;
-  box-shadow: $shadow-1;
-}
-
-.treino-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-}
-
-.treino-info h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: $text;
-  margin-bottom: 5px;
-}
-
-.treino-meta {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.treino-nivel {
-  padding: 4px 8px;
-  background: $surface-2;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  color: $text-2;
-}
-
-.treino-duracao {
-  font-size: 14px;
-  color: $text-2;
-}
-
-/* Exercícios List */
-.exercicios-list {
-  margin: 15px 0;
-}
-
-.exercicio-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid $border-color;
-}
-
-.exercicio-item:last-child {
-  border-bottom: none;
-}
-
-.exercicio-numero {
-  font-size: 14px;
-  font-weight: 600;
-  color: $accent-yellow;
-  min-width: 20px;
-}
-
-.exercicio-content {
-  flex: 1;
-}
-
-.exercicio-nome {
-  font-size: 16px;
-  font-weight: 500;
-  color: $text;
-  margin-bottom: 4px;
-}
-
-.exercicio-detalhes {
-  font-size: 14px;
-  color: $text-2;
-}
-
-/* Treino Actions */
-.treino-actions {
-  justify-content: space-between;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  margin-top: 15px;
-
-
-  .btn-atribuir {
-    width: 45%;
-    padding: 10px;
-    background: $primary;
-    color: $white;
-    border: none;
-    border-radius: $radius-md;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-
-  .btn-atribuir:hover {
-    background: darken($primary, 10%);
-  }
-
-  .btn-detalhes {
-    width: 45%;
-    padding: 10px;
-    background: $surface-2;
-    color: $text;
-    border: 1px solid $border-color;
-    border-radius: $radius-md;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .btn-detalhes:hover {
-    background: $surface-3;
-    border-color: $primary;
-  }
-}
-/* Bottom Navigation */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 600px;
-  background: $surface-1;
-  backdrop-filter: blur(20px);
-  border-top: 1px solid $border-color;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  z-index: 1000;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 8px 12px;
-  border-radius: 10px;
-  position: relative;
-}
-
-.nav-item i {
-  font-size: 18px;
-  color: $text-2;
-  transition: color 0.2s ease;
-}
-
-.nav-item span {
-  font-size: 12px;
-  color: $text-2;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.nav-item.active i,
-.nav-item.active span {
-  color: $primary;
-}
-
-.nav-item.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 3px;
-  background: $primary;
-  border-radius: 2px;
-}
-
-.nav-item:hover:not(.active) i,
-.nav-item:hover:not(.active) span {
-  color: $text;
-}
-
-/* Scrollbar personalizada */
-.filtros-grid::-webkit-scrollbar {
-  height: 4px;
-}
-
-.filtros-grid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-}
-
-.filtros-grid::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-}
-
-.filtros-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-/* Responsividade Mobile */
-@media (max-width: 480px) {
-  .treinos-header {
-    padding: 15px 15px 10px;
-  }
-
-  .treinos-title {
-    font-size: 20px;
-  }
-
-  .header-actions {
-    gap: 12px;
-  }
-
-  .notification-icon,
-  .profile-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .filtros-section {
-    padding: 15px 15px 10px;
-  }
-
-  .filtros-grid {
-    gap: 8px;
-  }
-
-  .filtro-item {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-
-  .treinos-list {
-    padding: 15px;
-    gap: 15px;
-  }
-
-  .treino-card {
-    padding: 15px;
-  }
-
-  .treino-info h3 {
-    font-size: 16px;
-  }
-
-  .treino-meta {
-    gap: 10px;
-  }
-
-  .exercicio-nome {
-    font-size: 14px;
-  }
-
-  .exercicio-detalhes {
-    font-size: 13px;
-  }
-
-  .treino-actions {
-    flex-direction: row;
-    gap: 8px;
-  }
-
-  .bottom-nav {
-    padding: 8px 0;
-  }
-
-  .nav-item {
-    padding: 6px 10px;
-  }
-
-  .nav-item i {
-    font-size: 16px;
-  }
-
-  .nav-item span {
-    font-size: 11px;
-  }
-}
-
-/* Responsividade Tablet */
-@media (min-width: 768px) {
-  .treinos-container {
-    max-width: 900px;
-    padding-bottom: 100px;
-  }
-
-  .treinos-header {
-    padding: 32px 40px 24px;
-  }
-
-  .treinos-title {
-    font-size: 28px;
-  }
-
-  .header-actions {
-    gap: 20px;
-  }
-
-  .notification-icon,
-  .profile-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .filtros-section {
-    padding: 32px 40px 24px;
-  }
-
-  .filtros-title {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-
-  .filtros-grid {
-    gap: 15px;
-  }
-
-  .filtro-item {
-    padding: 10px 20px;
-    font-size: 16px;
-  }
-
-  .treinos-list {
-    padding: 32px 40px;
-    gap: 24px;
-  }
-
-  .treino-card {
-    padding: 24px;
-  }
-
-  .treino-info h3 {
-    font-size: 20px;
-  }
-
-  .treino-nivel {
-    font-size: 14px;
-    padding: 6px 12px;
-  }
-
-  .treino-duracao {
-    font-size: 16px;
-  }
-
-  .exercicio-nome {
-    font-size: 18px;
-  }
-
-  .exercicio-detalhes {
-    font-size: 16px;
-  }
-
-  .treino-actions {
-    gap: 15px;
-  }
-
-  .btn-atribuir,
-  .btn-detalhes {
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  .bottom-nav {
-    padding: 16px 0;
-  }
-
-  .nav-item {
-    padding: 12px 16px;
-  }
-
-  .nav-item i {
-    font-size: 20px;
-  }
-
-  .nav-item span {
-    font-size: 14px;
-  }
-}
-
-/* Responsividade Desktop */
-@media (min-width: 1024px) {
-  .treinos-container {
-    max-width: 1200px;
-    margin: 32px auto;
-    padding-bottom: 120px;
-  }
-
-  .treinos-header {
-    padding: 40px 60px 32px;
-  }
-
-  .treinos-title {
-    font-size: 32px;
-  }
-
-  .filtros-section {
-    padding: 40px 60px 32px;
-  }
-
-  .filtros-title {
-    font-size: 20px;
-    margin-bottom: 24px;
-  }
-
-  .filtros-grid {
-    gap: 20px;
-  }
-
-  .treinos-list {
-    padding: 40px 60px;
-    gap: 32px;
-  }
-
-  .treino-card {
-    padding: 32px;
-  }
-
-  .treino-info h3 {
-    font-size: 22px;
-  }
-
-  .exercicio-item {
-    padding: 12px 0;
-  }
-
-  .bottom-nav {
-    max-width: 1200px;
-    padding: 20px 0;
-  }
-
-  .nav-item {
-    padding: 16px 20px;
-  }
-
-  .nav-item i {
-    font-size: 22px;
-  }
-
-  .nav-item span {
-    font-size: 16px;
-  }
-}
->>>>>>> 241b9dbb3db0767df72bad84de86227b99f3db00
+// @import "../../abstract/variables.scss";
+
+// /* Reset */
+// * {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+// }
+
+// body {
+//   font-family: "Segoe UI", "Inter", Arial, sans-serif;
+//   background: $app-bg;
+//   color: $text;
+//   min-height: 100vh;
+//   padding: 0;
+// }
+
+// /* Treinos Container */
+// .treinos-container {
+//   min-height: 100vh;
+//   background: $app-bg;
+//   color: $text;
+//   padding: 0;
+//   position: relative;
+//   padding-bottom: 80px;
+//   max-width: 600px;
+//   margin: 0 auto;
+// }
+
+// /* Header */
+// .treinos-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 20px 20px 15px;
+//   background: $surface-1;
+//   backdrop-filter: blur(10px);
+//   border-bottom: 1px solid $border-color;
+// }
+
+// .treinos-title {
+//   font-size: 24px;
+//   font-weight: 700;
+//   color: $accent-yellow;
+//   margin: 0;
+// }
+
+// .header-actions {
+//   display: flex;
+//   gap: 15px;
+//   align-items: center;
+// }
+
+// .notification-icon {
+//   width: 40px;
+//   height: 40px;
+//   background: $surface-2;
+//   border-radius: 50%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   transition: transform 0.2s ease;
+// }
+
+// .notification-icon:hover {
+//   transform: scale(1.1);
+// }
+
+// .notification-icon i {
+//   color: $white;
+//   font-size: 16px;
+// }
+
+// .profile-icon {
+//   width: 40px;
+//   height: 40px;
+//   background: $primary;
+//   border-radius: 50%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   transition: transform 0.2s ease;
+// }
+
+// .profile-icon:hover {
+//   transform: scale(1.1);
+// }
+
+// .profile-icon span {
+//   color: $white;
+//   font-weight: 600;
+//   font-size: 14px;
+// }
+
+// /* Filtros Section */
+// .filtros-section {
+//   padding: 20px 20px 15px;
+//   background: $surface-1;
+//   border-radius: $radius-md;
+// }
+
+// .filtros-title {
+//   font-size: 16px;
+//   font-weight: 600;
+//   color: $text-2;
+//   margin-bottom: 15px;
+// }
+
+// .filtros-grid {
+//   display: flex;
+//   gap: 10px;
+//   overflow-x: auto;
+//   padding-bottom: 5px;
+// }
+
+// .filtro-item {
+//   padding: 8px 16px;
+//   background: $surface-2;
+//   border: 1px solid $border-color;
+//   border-radius: 20px;
+//   font-size: 14px;
+//   font-weight: 500;
+//   color: $text-2;
+//   cursor: pointer;
+//   transition: all 0.2s ease;
+//   white-space: nowrap;
+// }
+
+// .filtro-item.active {
+//   background: $primary;
+//   color: $white;
+//   border-color: $primary;
+// }
+
+// .filtro-item:hover {
+//   background: $surface-3;
+// }
+
+// /* Lista de Treinos */
+// .treinos-list {
+//   padding: 20px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 20px;
+// }
+
+// .treino-card {
+//   background: $surface-1;
+//   border-radius: $radius-md;
+//   padding: 20px;
+//   border: 1px solid $border-color;
+//   box-shadow: $shadow-1;
+// }
+
+// .treino-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: flex-start;
+//   margin-bottom: 15px;
+// }
+
+// .treino-info h3 {
+//   font-size: 18px;
+//   font-weight: 600;
+//   color: $text;
+//   margin-bottom: 5px;
+// }
+
+// .treino-meta {
+//   display: flex;
+//   gap: 15px;
+//   align-items: center;
+// }
+
+// .treino-nivel {
+//   padding: 4px 8px;
+//   background: $surface-2;
+//   border-radius: 4px;
+//   font-size: 12px;
+//   font-weight: 500;
+//   color: $text-2;
+// }
+
+// .treino-duracao {
+//   font-size: 14px;
+//   color: $text-2;
+// }
+
+// /* Exercícios List */
+// .exercicios-list {
+//   margin: 15px 0;
+// }
+
+// .exercicio-item {
+//   display: flex;
+//   align-items: flex-start;
+//   gap: 10px;
+//   padding: 10px 0;
+//   border-bottom: 1px solid $border-color;
+// }
+
+// .exercicio-item:last-child {
+//   border-bottom: none;
+// }
+
+// .exercicio-numero {
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: $accent-yellow;
+//   min-width: 20px;
+// }
+
+// .exercicio-content {
+//   flex: 1;
+// }
+
+// .exercicio-nome {
+//   font-size: 16px;
+//   font-weight: 500;
+//   color: $text;
+//   margin-bottom: 4px;
+// }
+
+// .exercicio-detalhes {
+//   font-size: 14px;
+//   color: $text-2;
+// }
+
+// /* Treino Actions */
+// .treino-actions {
+//   justify-content: space-between;
+//   display: flex;
+//   flex-direction: row;
+//   gap: 10px;
+//   margin-top: 15px;
+
+//   .btn-atribuir {
+//     width: 45%;
+//     padding: 10px;
+//     background: $primary;
+//     color: $white;
+//     border: none;
+//     border-radius: $radius-md;
+//     font-size: 14px;
+//     font-weight: 600;
+//     cursor: pointer;
+//     transition: background 0.2s ease;
+//   }
+
+//   .btn-atribuir:hover {
+//     background: darken($primary, 10%);
+//   }
+
+//   .btn-detalhes {
+//     width: 45%;
+//     padding: 10px;
+//     background: $surface-2;
+//     color: $text;
+//     border: 1px solid $border-color;
+//     border-radius: $radius-md;
+//     font-size: 14px;
+//     font-weight: 600;
+//     cursor: pointer;
+//     transition: all 0.2s ease;
+//   }
+
+//   .btn-detalhes:hover {
+//     background: $surface-3;
+//     border-color: $primary;
+//   }
+// }
+// /* Bottom Navigation */
+// .bottom-nav {
+//   position: fixed;
+//   bottom: 0;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   width: 100%;
+//   max-width: 600px;
+//   background: $surface-1;
+//   backdrop-filter: blur(20px);
+//   border-top: 1px solid $border-color;
+//   display: flex;
+//   justify-content: space-around;
+//   padding: 10px 0;
+//   z-index: 1000;
+// }
+
+// .nav-item {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 5px;
+//   cursor: pointer;
+//   transition: all 0.2s ease;
+//   padding: 8px 12px;
+//   border-radius: 10px;
+//   position: relative;
+// }
+
+// .nav-item i {
+//   font-size: 18px;
+//   color: $text-2;
+//   transition: color 0.2s ease;
+// }
+
+// .nav-item span {
+//   font-size: 12px;
+//   color: $text-2;
+//   font-weight: 500;
+//   transition: color 0.2s ease;
+// }
+
+// .nav-item.active i,
+// .nav-item.active span {
+//   color: $primary;
+// }
+
+// .nav-item.active::after {
+//   content: "";
+//   position: absolute;
+//   bottom: 0;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   width: 20px;
+//   height: 3px;
+//   background: $primary;
+//   border-radius: 2px;
+// }
+
+// .nav-item:hover:not(.active) i,
+// .nav-item:hover:not(.active) span {
+//   color: $text;
+// }
+
+// /* Scrollbar personalizada */
+// .filtros-grid::-webkit-scrollbar {
+//   height: 4px;
+// }
+
+// .filtros-grid::-webkit-scrollbar-track {
+//   background: rgba(255, 255, 255, 0.1);
+//   border-radius: 2px;
+// }
+
+// .filtros-grid::-webkit-scrollbar-thumb {
+//   background: rgba(255, 255, 255, 0.3);
+//   border-radius: 2px;
+// }
+
+// .filtros-grid::-webkit-scrollbar-thumb:hover {
+//   background: rgba(255, 255, 255, 0.5);
+// }
+
+// /* Responsividade Mobile */
+// @media (max-width: 480px) {
+//   .treinos-header {
+//     padding: 15px 15px 10px;
+//   }
+
+//   .treinos-title {
+//     font-size: 20px;
+//   }
+
+//   .header-actions {
+//     gap: 12px;
+//   }
+
+//   .notification-icon,
+//   .profile-icon {
+//     width: 36px;
+//     height: 36px;
+//   }
+
+//   .filtros-section {
+//     padding: 15px 15px 10px;
+//   }
+
+//   .filtros-grid {
+//     gap: 8px;
+//   }
+
+//   .filtro-item {
+//     padding: 6px 12px;
+//     font-size: 13px;
+//   }
+
+//   .treinos-list {
+//     padding: 15px;
+//     gap: 15px;
+//   }
+
+//   .treino-card {
+//     padding: 15px;
+//   }
+
+//   .treino-info h3 {
+//     font-size: 16px;
+//   }
+
+//   .treino-meta {
+//     gap: 10px;
+//   }
+
+//   .exercicio-nome {
+//     font-size: 14px;
+//   }
+
+//   .exercicio-detalhes {
+//     font-size: 13px;
+//   }
+
+//   .treino-actions {
+//     flex-direction: row;
+//     gap: 8px;
+//   }
+
+//   .bottom-nav {
+//     padding: 8px 0;
+//   }
+
+//   .nav-item {
+//     padding: 6px 10px;
+//   }
+
+//   .nav-item i {
+//     font-size: 16px;
+//   }
+
+//   .nav-item span {
+//     font-size: 11px;
+//   }
+// }
+
+// /* Responsividade Tablet */
+// @media (min-width: 768px) {
+//   .treinos-container {
+//     max-width: 900px;
+//     padding-bottom: 100px;
+//   }
+
+//   .treinos-header {
+//     padding: 32px 40px 24px;
+//   }
+
+//   .treinos-title {
+//     font-size: 28px;
+//   }
+
+//   .header-actions {
+//     gap: 20px;
+//   }
+
+//   .notification-icon,
+//   .profile-icon {
+//     width: 48px;
+//     height: 48px;
+//   }
+
+//   .filtros-section {
+//     padding: 32px 40px 24px;
+//   }
+
+//   .filtros-title {
+//     font-size: 18px;
+//     margin-bottom: 20px;
+//   }
+
+//   .filtros-grid {
+//     gap: 15px;
+//   }
+
+//   .filtro-item {
+//     padding: 10px 20px;
+//     font-size: 16px;
+//   }
+
+//   .treinos-list {
+//     padding: 32px 40px;
+//     gap: 24px;
+//   }
+
+//   .treino-card {
+//     padding: 24px;
+//   }
+
+//   .treino-info h3 {
+//     font-size: 20px;
+//   }
+
+//   .treino-nivel {
+//     font-size: 14px;
+//     padding: 6px 12px;
+//   }
+
+//   .treino-duracao {
+//     font-size: 16px;
+//   }
+
+//   .exercicio-nome {
+//     font-size: 18px;
+//   }
+
+//   .exercicio-detalhes {
+//     font-size: 16px;
+//   }
+
+//   .treino-actions {
+//     gap: 15px;
+//   }
+
+//   .btn-atribuir,
+//   .btn-detalhes {
+//     padding: 12px;
+//     font-size: 16px;
+//   }
+
+//   .bottom-nav {
+//     padding: 16px 0;
+//   }
+
+//   .nav-item {
+//     padding: 12px 16px;
+//   }
+
+//   .nav-item i {
+//     font-size: 20px;
+//   }
+
+//   .nav-item span {
+//     font-size: 14px;
+//   }
+// }
+
+// /* Responsividade Desktop */
+// @media (min-width: 1024px) {
+//   .treinos-container {
+//     max-width: 1200px;
+//     margin: 32px auto;
+//     padding-bottom: 120px;
+//   }
+
+//   .treinos-header {
+//     padding: 40px 60px 32px;
+//   }
+
+//   .treinos-title {
+//     font-size: 32px;
+//   }
+
+//   .filtros-section {
+//     padding: 40px 60px 32px;
+//   }
+
+//   .filtros-title {
+//     font-size: 20px;
+//     margin-bottom: 24px;
+//   }
+
+//   .filtros-grid {
+//     gap: 20px;
+//   }
+
+//   .treinos-list {
+//     padding: 40px 60px;
+//     gap: 32px;
+//   }
+
+//   .treino-card {
+//     padding: 32px;
+//   }
+
+//   .treino-info h3 {
+//     font-size: 22px;
+//   }
+
+//   .exercicio-item {
+//     padding: 12px 0;
+//   }
+
+//   .bottom-nav {
+//     max-width: 1200px;
+//     padding: 20px 0;
+//   }
+
+//   .nav-item {
+//     padding: 16px 20px;
+//   }
+
+//   .nav-item i {
+//     font-size: 22px;
+//   }
+
+//   .nav-item span {
+//     font-size: 16px;
+//   }
+// }
