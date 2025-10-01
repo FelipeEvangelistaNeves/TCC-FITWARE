@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
-import "../../styles/pages/aluno/treinos.scss";
 import "../../styles/pages/aluno/mensagensAluno.scss";
-import TreinoDetalhesModal from "./TreinosDetalhes";
+import { Bell } from "lucide-react";
 
-export default function Treinos() {
-  const [openExercicio, setOpenExercicio] = useState(false);
-
+export default function TreinoAluno() {
   return (
-    <div className="treinos-page">
+    <div className="dashboard-aluno">
+      
+      {/* Search Bar */}
       <div className="search-container">
         <div className="search-bar">
           <i className="fas fa-search search-icon"></i>
           <input
             type="text"
-            placeholder="Buscar treino..."
+            placeholder="Buscar mensagem..."
             className="search-input"
           />
         </div>
       </div>
-
       {/* Workouts Section */}
       <section className="workouts-section">
         <div className="section-header">
@@ -61,17 +59,9 @@ export default function Treinos() {
               <div className="trainer-avatar">JP</div>
               <span className="trainer-name">João Paulo</span>
             </div>
-            <button className="start-btn" onClick={() => setOpenExercicio(true)}>
-              Detalhes
-            </button>
             <button className="start-btn">Iniciar</button>
           </div>
         </div>
-
-        {/* Modal Detalhes */}
-        {openExercicio && (
-          <TreinoDetalhesModal onClose={() => setOpenExercicio(false)} />
-        )}
 
         {/* Cardio Workout Card */}
         <div className="workout-card">
@@ -103,31 +93,42 @@ export default function Treinos() {
             <button className="start-btn">Iniciar</button>
           </div>
         </div>
-      </section>
 
-      {/* Bottom Navigation */}
-      <nav className="bottom-nav">
-        <div className="nav-item active">
-          <i className="fas fa-home"></i>
-          <span>Início</span>
+        {/* Funcional Workout Card */}
+        <div className="workout-card">
+          <div className="workout-header">
+            <div className="workout-info">
+              <h3>Treino Funcional</h3>
+              <p className="workout-details">Avançado • 60 min</p>
+            </div>
+          </div>
+
+          <div className="exercises-list">
+            <div className="exercise-item">
+              <span className="exercise-number">1</span>
+              <span className="exercise-name">Burpees</span>
+              <span className="exercise-sets">3×15</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">2</span>
+              <span className="exercise-name">Mountain Climbers</span>
+              <span className="exercise-sets">3×20</span>
+            </div>
+            <div className="exercise-item">
+              <span className="exercise-number">3</span>
+              <span className="exercise-name">Prancha</span>
+              <span className="exercise-sets">3×1 min</span>
+            </div>
+          </div>
+          <div className="workout-footer">
+            <div className="trainer-info">
+              <div className="trainer-avatar">JP</div>
+              <span className="trainer-name">João Paulo</span>
+            </div>
+            <button className="start-btn">Iniciar</button>
+          </div>
         </div>
-        <div className="nav-item">
-          <i className="fas fa-dumbbell"></i>
-          <span>Treinos</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-clock"></i>
-          <span>Desafios</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-comment"></i>
-          <span>Mensagens</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-user"></i>
-          <span>Perfil</span>
-        </div>
-      </nav>
+      </section>
     </div>
   );
 }

@@ -9,19 +9,19 @@ export default function DashboardAluno() {
       {/* Summary Cards */}
       <section className="summary-cards">
         <div className="summary-card">
+          <h3>Alunos</h3>
+          <div className="card-number">46</div>
+          <div className="card-subtitle">+3</div>
+        </div>
+        <div className="summary-card">
           <h3>Treinos</h3>
-          <div className="card-number">12</div>
-          <div className="card-subtitle">Completos</div>
+          <div className="card-number">156</div>
+          <div className="card-subtitle">12</div>
         </div>
         <div className="summary-card">
-          <h3>Desafios</h3>
-          <div className="card-number">3</div>
-          <div className="card-subtitle">Ativos</div>
-        </div>
-        <div className="summary-card">
-          <h3>Calorias</h3>
-          <div className="card-number">450</div>
-          <div className="card-subtitle">Hoje</div>
+          <h3>Mensagens</h3>
+          <div className="card-number">89</div>
+          <div className="card-subtitle">24</div>
         </div>
       </section>
 
