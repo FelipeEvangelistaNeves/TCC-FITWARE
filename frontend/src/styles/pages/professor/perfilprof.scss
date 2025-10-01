@@ -1,0 +1,646 @@
+// @import "../../abstract/variables.scss";
+
+// /* Reset */
+// * {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+// }
+
+// body {
+//   font-family: "Segoe UI", "Inter", Arial, sans-serif;
+//   background: $app-bg;
+//   color: $text;
+//   min-height: 100vh;
+//   padding: 0;
+// }
+
+// /* Perfil Container */
+// .perfil-container {
+//   min-height: 100vh;
+//   background: $app-bg;
+//   color: $text;
+//   padding: 0;
+//   position: relative;
+//   padding-bottom: 80px;
+//   max-width: 600px;
+//   margin: 0 auto;
+// }
+
+// /* Header */
+// .perfil-header {
+
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 20px 20px 15px;
+//   background: $surface-1;
+//   backdrop-filter: blur(10px);
+//   border-bottom: 1px solid $border-color;
+// }
+
+// .perfil-title {
+//   font-size: 24px;
+//   font-weight: 700;
+//   color: $accent-yellow;
+//   margin: 0;
+// }
+
+// .header-actions {
+//   display: flex;
+//   gap: 15px;
+//   align-items: center;
+// }
+
+// .notification-icon {
+//   width: 40px;
+//   height: 40px;
+//   background: $surface-2;
+//   border-radius: 50%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   transition: transform 0.2s ease;
+// }
+
+// .notification-icon:hover {
+//   transform: scale(1.1);
+// }
+
+// .notification-icon i {
+//   color: $white;
+//   font-size: 16px;
+// }
+
+// .profile-icon {
+//   width: 40px;
+//   height: 40px;
+//   background: $primary;
+//   border-radius: 50%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   transition: transform 0.2s ease;
+// }
+
+// .profile-icon:hover {
+//   transform: scale(1.1);
+// }
+
+// .profile-icon span {
+//   color: $white;
+//   font-weight: 600;
+//   font-size: 14px;
+// }
+
+// /* Perfil Content */
+// .perfil-content {
+//   padding: 20px;
+// }
+
+// /* Informações Principais */
+// .perfil-info {
+//   background: $surface-1;
+//   border-radius: $radius-md;
+//   padding: 25px;
+//   text-align: center;
+//   margin-bottom: 25px;
+//   border: 1px solid $border-color;
+//   box-shadow: $shadow-1;
+// }
+
+// .perfil-avatar {
+//   width: 80px;
+//   height: 80px;
+//   background: $primary;
+//   border-radius: 50%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin: 0 auto 15px;
+//   font-size: 32px;
+//   font-weight: 700;
+//   color: $white;
+// }
+
+// .perfil-nome {
+//   font-size: 24px;
+//   font-weight: 700;
+//   color: $text;
+//   margin-bottom: 5px;
+// }
+
+// .perfil-cargo {
+//   font-size: 16px;
+//   color: $text-2;
+//   margin-bottom: 20px;
+// }
+
+// .stats-grid {
+//   display: grid;
+//   grid-template-columns: repeat(3, 1fr);
+//   gap: 15px;
+//   margin-top: 20px;
+// }
+
+// .stat-item {
+//   text-align: center;
+// }
+
+// .stat-number {
+//   font-size: 24px;
+//   font-weight: 700;
+//   margin-bottom: 5px;
+// }
+
+// .stat-label {
+//   font-size: 12px;
+//   color: $text-2;
+//   font-weight: 500;
+// }
+
+// /* Seções */
+// .perfil-section {
+//   background: $surface-1;
+//   border-radius: $radius-md;
+//   padding: 20px;
+//   margin-bottom: 20px;
+//   border: 1px solid $border-color;
+//   box-shadow: $shadow-1;
+// }
+
+// .section-title {
+//   font-size: 18px;
+//   font-weight: 600;
+//   margin-bottom: 15px;
+//   padding-bottom: 10px;
+//   border-bottom: 1px solid $border-color;
+// }
+
+// /* Informações Pessoais */
+// .info-grid {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 15px;
+// }
+
+// .info-item {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 5px;
+// }
+
+// .info-label {
+//   font-size: 12px;
+//   color: $text-2;
+//   font-weight: 500;
+//   text-transform: uppercase;
+//   letter-spacing: 0.5px;
+// }
+
+// .info-value {
+//   font-size: 16px;
+//   color: $text;
+//   font-weight: 500;
+// }
+
+// .especialidades {
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 8px;
+//   margin-top: 5px;
+// }
+
+// .especialidade-tag {
+//   padding: 4px 8px;
+//   background: $surface-2;
+//   color: $text;
+//   border-radius: 4px;
+//   font-size: 12px;
+//   font-weight: 500;
+// }
+
+// /* Listas */
+// .activity-list,
+// .certificacoes-list {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 15px;
+// }
+
+// .activity-item,
+// .certificacao-item {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 5px;
+//   padding: 12px 0;
+//   border-bottom: 1px solid $border-color;
+// }
+
+// .activity-item:last-child,
+// .certificacao-item:last-child {
+//   border-bottom: none;
+// }
+
+// .activity-title,
+// .certificacao-titulo {
+//   font-size: 16px;
+//   font-weight: 500;
+//   color: $text;
+//   margin-bottom: 4px;
+// }
+
+// .activity-details,
+// .certificacao-detalhes {
+//   font-size: 14px;
+//   color: $text-2;
+// }
+
+// .activity-time {
+//   font-size: 12px;
+//   color: $text-2;
+//   margin-top: 2px;
+// }
+
+// .nav-item {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 5px;
+//   cursor: pointer;
+//   transition: all 0.2s ease;
+//   padding: 8px 12px;
+//   border-radius: 10px;
+//   position: relative;
+// }
+
+// .nav-item i {
+//   font-size: 18px;
+//   color: $text-2;
+//   transition: color 0.2s ease;
+// }
+
+// .nav-item span {
+//   font-size: 12px;
+//   color: $text-2;
+//   font-weight: 500;
+//   transition: color 0.2s ease;
+// }
+
+// .nav-item.active i,
+// .nav-item.active span {
+//   color: $primary;
+// }
+
+// .nav-item.active::after {
+//   content: "";
+//   position: absolute;
+//   bottom: 0;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   width: 20px;
+//   height: 3px;
+//   background: $primary;
+//   border-radius: 2px;
+// }
+
+// .nav-item:hover:not(.active) i,
+// .nav-item:hover:not(.active) span {
+//   color: $text;
+// }
+
+// /* Responsividade Mobile */
+// @media (max-width: 480px) {
+//   .perfil-header {
+//     padding: 15px 15px 10px;
+//   }
+
+//   .perfil-title {
+//     font-size: 20px;
+//   }
+
+//   .header-actions {
+//     gap: 12px;
+//   }
+
+//   .notification-icon,
+//   .profile-icon {
+//     width: 36px;
+//     height: 36px;
+//   }
+
+//   .perfil-content {
+//     padding: 15px;
+//   }
+
+//   .perfil-info {
+//     padding: 20px;
+//     margin-bottom: 20px;
+//   }
+
+//   .perfil-avatar {
+//     width: 70px;
+//     height: 70px;
+//     font-size: 28px;
+//     margin-bottom: 12px;
+//   }
+
+//   .perfil-nome {
+//     font-size: 20px;
+//   }
+
+//   .perfil-cargo {
+//     font-size: 14px;
+//   }
+
+//   .stats-grid {
+//     gap: 12px;
+//     margin-top: 15px;
+//   }
+
+//   .stat-number {
+//     font-size: 20px;
+//   }
+
+//   .stat-label {
+//     font-size: 11px;
+//   }
+
+//   .perfil-section {
+//     padding: 15px;
+//     margin-bottom: 15px;
+//   }
+
+//   .section-title {
+//     font-size: 16px;
+//     margin-bottom: 12px;
+//   }
+
+//   .info-grid {
+//     gap: 12px;
+//   }
+
+//   .info-value {
+//     font-size: 14px;
+//   }
+
+//   .activity-title,
+//   .certificacao-titulo {
+//     font-size: 14px;
+//   }
+
+//   .activity-details,
+//   .certificacao-detalhes {
+//     font-size: 13px;
+//   }
+
+//   .bottom-nav {
+//     padding: 8px 0;
+//   }
+
+//   .nav-item {
+//     padding: 6px 10px;
+//   }
+
+//   .nav-item i {
+//     font-size: 16px;
+//   }
+
+//   .nav-item span {
+//     font-size: 11px;
+//   }
+// }
+
+// /* Responsividade Tablet */
+// @media (min-width: 768px) {
+//   .perfil-container {
+//     max-width: 900px;
+//     padding-bottom: 100px;
+//   }
+
+//   .perfil-header {
+//     padding: 32px 40px 24px;
+//   }
+
+//   .perfil-title {
+//     font-size: 28px;
+//   }
+
+//   .header-actions {
+//     gap: 20px;
+//   }
+
+//   .notification-icon,
+//   .profile-icon {
+//     width: 48px;
+//     height: 48px;
+//   }
+
+//   .perfil-content {
+//     padding: 32px 40px;
+//   }
+
+//   .perfil-info {
+//     padding: 32px;
+//     margin-bottom: 32px;
+//   }
+
+//   .perfil-avatar {
+//     width: 100px;
+//     height: 100px;
+//     font-size: 40px;
+//     margin-bottom: 20px;
+//   }
+
+//   .perfil-nome {
+//     font-size: 28px;
+//   }
+
+//   .perfil-cargo {
+//     font-size: 18px;
+//     margin-bottom: 25px;
+//   }
+
+//   .stats-grid {
+//     gap: 20px;
+//     margin-top: 25px;
+//   }
+
+//   .stat-number {
+//     font-size: 28px;
+//   }
+
+//   .stat-label {
+//     font-size: 14px;
+//   }
+
+//   .perfil-section {
+//     padding: 24px;
+//     margin-bottom: 24px;
+//   }
+
+//   .section-title {
+//     font-size: 20px;
+//     margin-bottom: 20px;
+//   }
+
+//   .info-grid {
+//     gap: 20px;
+//   }
+
+//   .info-label {
+//     font-size: 13px;
+//   }
+
+//   .info-value {
+//     font-size: 18px;
+//   }
+
+//   .especialidade-tag {
+//     font-size: 14px;
+//     padding: 6px 12px;
+//   }
+
+//   .activity-item,
+//   .certificacao-item {
+//     padding: 16px 0;
+//   }
+
+//   .activity-title,
+//   .certificacao-titulo {
+//     font-size: 18px;
+//   }
+
+//   .activity-details,
+//   .certificacao-detalhes {
+//     font-size: 16px;
+//   }
+
+//   .activity-time {
+//     font-size: 14px;
+//   }
+
+//   .bottom-nav {
+//     padding: 16px 0;
+//   }
+
+//   .nav-item {
+//     padding: 12px 16px;
+//   }
+
+//   .nav-item i {
+//     font-size: 20px;
+//   }
+
+//   .nav-item span {
+//     font-size: 14px;
+//   }
+// }
+
+// /* Responsividade Desktop */
+// @media (min-width: 1024px) {
+//   .perfil-container {
+//     max-width: 1200px;
+//     margin: 32px auto;
+//     padding-bottom: 120px;
+//   }
+
+//   .perfil-header {
+//     padding: 40px 60px 32px;
+//   }
+
+//   .perfil-title {
+//     font-size: 32px;
+//   }
+
+//   .perfil-content {
+//     padding: 40px 60px;
+//   }
+
+//   .perfil-info {
+//     padding: 40px;
+//     margin-bottom: 40px;
+//   }
+
+//   .perfil-avatar {
+//     width: 120px;
+//     height: 120px;
+//     font-size: 48px;
+//   }
+
+//   .perfil-nome {
+//     font-size: 32px;
+//   }
+
+//   .perfil-cargo {
+//     font-size: 20px;
+//   }
+
+//   .stats-grid {
+//     gap: 25px;
+//     margin-top: 30px;
+//   }
+
+//   .stat-number {
+//     font-size: 32px;
+//   }
+
+//   .stat-label {
+//     font-size: 16px;
+//   }
+
+//   .perfil-section {
+//     padding: 32px;
+//     margin-bottom: 32px;
+//   }
+
+//   .section-title {
+//     font-size: 24px;
+//     margin-bottom: 24px;
+//   }
+
+//   .info-grid {
+//     gap: 24px;
+//   }
+
+//   .info-label {
+//     font-size: 14px;
+//   }
+
+//   .info-value {
+//     font-size: 20px;
+//   }
+
+//   .activity-item,
+//   .certificacao-item {
+//     padding: 20px 0;
+//   }
+
+//   .activity-title,
+//   .certificacao-titulo {
+//     font-size: 20px;
+//   }
+
+//   .activity-details,
+//   .certificacao-detalhes {
+//     font-size: 18px;
+//   }
+
+//   .bottom-nav {
+//     max-width: 1200px;
+//     padding: 20px 0;
+//   }
+
+//   .nav-item {
+//     padding: 16px 20px;
+//   }
+
+//   .nav-item i {
+//     font-size: 22px;
+//   }
+
+//   .nav-item span {
+//     font-size: 16px;
+//   }
+// }

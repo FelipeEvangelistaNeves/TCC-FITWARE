@@ -1,0 +1,108 @@
+@import "../../abstract/variables";
+
+.planos-page {
+  background: $app-bg;
+  color: $color-text;
+  font-family: $font-family;
+
+  .planos-header {
+    background: $color-bg-dark;
+    padding: $spacing-xl $spacing-md;
+
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: $color-text-muted;
+    }
+  }
+
+  .planos {
+    .plan-card {
+      background: $surface-2;
+      border: 1px solid $border-color;
+      transition: all 0.3s ease;
+      height: 100%;
+
+      h4 {
+        font-size: 1.3rem;
+      }
+
+      .price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: $spacing-sm 0;
+        color: $color-purple;
+      }
+
+      .beneficios {
+        list-style: none;
+        padding: 0;
+        margin: $spacing-md 0;
+        text-align: left;
+
+        li {
+          padding: $spacing-xs 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          color: $color-text-muted;
+          font-size: $font-size-base;
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+
+      &.destaque {
+        border: 2px solid $color-purple;
+        transform: scale(1.03);
+        background: $surface-3;
+      }
+
+      &:hover {
+        box-shadow: $shadow-2;
+        transform: translateY(-4px);
+      }
+    }
+
+    .botaoplano {
+      background: none;
+      border: solid 1px $color-purple;
+      color: $color-purple;
+      border-radius: $radius-md;
+      padding: $spacing-sm $spacing-lg;
+      font-weight: 600;
+
+      &:hover {
+        background: $purple-dark;
+        color: $white;
+      }
+    }
+
+    .botaoplano2 {
+      background: $color-purple;
+      color: $white;
+      border-radius: $radius-md;
+      padding: $spacing-sm $spacing-lg;
+      font-weight: 600;
+
+      &:hover {
+        background: $purple-dark;
+      }
+    }
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .planos-header h2 {
+    font-size: 2rem;
+  }
+
+  .planos .plan-card {
+    margin-bottom: $spacing-md;
+  }
+}

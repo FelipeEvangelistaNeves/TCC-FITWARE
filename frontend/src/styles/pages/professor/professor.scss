@@ -1,0 +1,60 @@
+@import "./../../abstract/variables.scss";
+
+.page-container {
+  min-height: 100vh;
+  background: $app-bg;
+  color: $text;
+  padding-bottom: 64px; // espaço da bottom nav
+}
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  background: $surface-2;
+  border-bottom: 1px solid $border;
+  padding: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-bottom;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0.25rem;
+  background: $surface-2;
+  border-top: 1px solid $border;
+
+  a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.75rem;
+    color: $text-2;
+    border-radius: $radius-sm;
+    padding: 0.25rem;
+    &.active {
+      color: $primary-500;
+      background: rgba($primary-500, 0.08);
+    }
+  }
+}
+
+/* Cards mobile */
+.card-mobile {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: $radius-md;
+  background: $surface-1;
+  border: 1px solid $border;
+}
