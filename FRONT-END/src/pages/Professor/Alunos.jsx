@@ -46,9 +46,6 @@ export default function MensagensProf() {
               <h3 className="message-name">Filipe Melo</h3>
             </div>
           </div>
-          <div className="unread-badge">
-            <span>2</span>
-          </div>
         </div>
 
         {/* Message 2 - Personal Thiago */}
