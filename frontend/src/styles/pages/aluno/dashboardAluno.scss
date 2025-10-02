@@ -1,0 +1,427 @@
+@import "./../../abstract/variables.scss";
+
+// Dashboard do Aluno - Estilos SCSS
+.dashboard-aluno {
+  min-height: 100vh;
+  background: $app-bg;
+  color: $text;
+  padding: 0;
+  position: relative;
+  padding-bottom: 80px; // Espaço para a navegação inferior
+  font-family: "Segoe UI", "Inter", Arial, sans-serif;
+
+
+  // Header
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 15px;
+    background: $surface-1;
+    backdrop-filter: blur(10px);
+
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: $accent-yellow;
+      margin: 0;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+
+      .notification-icon {
+        width: 40px;
+        height: 40px;
+        background: $surface-2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        i {
+          color: $white;
+          font-size: 16px;
+        }
+      }
+
+      .profile-icon {
+        width: 40px;
+        height: 40px;
+        background: $primary;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        span {
+          color: $white;
+          font-weight: 600;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  // Cards de Resumo
+  .summary-cards {
+    display: flex;
+    gap: 15px;
+    padding: 0 20px 25px;
+    overflow-x: auto;
+
+    .summary-card {
+      margin-top: 20px;
+      flex: 1;
+      min-width: 100px;
+      background: $surface-1;
+      border-radius: $radius-md;
+      padding: 20px 15px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid $border-color;
+      box-shadow: $shadow-1;
+
+      h3 {
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-2;
+        margin: 0 0 10px 0;
+      }
+
+      .card-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: $text;
+        margin-bottom: 5px;
+      }
+
+      .card-subtitle {
+        font-size: 12px;
+        color: $accent-yellow;
+        font-weight: 500;
+      }
+    }
+  }
+
+  // Seção de Treinos
+  .workouts-section {
+    padding: 0 20px;
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+
+      h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: $text;
+        margin: 0;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .filter-btn {
+        margin: 5px;
+        flex: 1;
+        min-width: 80px;
+        background: $surface-2;
+        color: $text;
+        border: 1px solid $border-color;
+        padding: 8px 16px;
+        border-radius: $radius-sm;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+          background: $surface-3;
+        }
+      }
+    }
+  }
+
+  // Cards de Treino
+  .workout-card {
+    background: $surface-2;
+    border-radius: $radius-lg;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid $border-color;
+    backdrop-filter: blur(10px);
+    box-shadow: $shadow-1;
+
+    .workout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+
+      .workout-info {
+        h3 {
+          font-size: 18px;
+          font-weight: 700;
+          color: $text;
+          margin: 0 0 5px 0;
+        }
+
+        .workout-details {
+          font-size: 14px;
+          color: $text-2;
+          margin: 0;
+        }
+      }
+
+      .workout-type {
+        padding: 6px 12px;
+        border-radius: $radius-sm;
+        font-size: 12px;
+        font-weight: 600;
+        color: $white;
+
+        &.strength {
+          background: $primary;
+        }
+
+        &.cardio {
+          background: $blue-light;
+        }
+      }
+    }
+
+    .exercises-list {
+      margin-bottom: 20px;
+
+      .exercise-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid $border-color;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .exercise-number {
+          width: 24px;
+          height: 24px;
+          background: $primary-500;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: 600;
+          color: $white;
+          margin-right: 15px;
+        }
+
+        .exercise-name {
+          flex: 1;
+          font-size: 14px;
+          color: $text;
+          font-weight: 500;
+        }
+
+        .exercise-sets {
+          font-size: 14px;
+          color: $text-2;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .workout-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .trainer-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .trainer-avatar {
+          width: 32px;
+          height: 32px;
+          background: $primary;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: 600;
+          color: $white;
+        }
+
+        .trainer-name {
+          font-size: 14px;
+          color: $text-2;
+          font-weight: 500;
+        }
+      }
+
+      .start-btn {
+        background: $primary;
+        color: $white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: $radius-md;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: $shadow-1;
+
+        &:hover {
+          background: $primary-700;
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  // Responsividade para telas muito pequenas
+  @media (max-width: 360px) {
+    .workouts-section {
+      .section-header {
+        .filter-btn {
+          padding: 5px 8px;
+          font-size: 11px;
+          min-width: 50px;
+        }
+      }
+    }
+  }
+
+  // Responsividade
+  @media (max-width: 480px) {
+    .dashboard-header {
+      padding: 15px 15px 10px;
+
+      .dashboard-title {
+        font-size: 20px;
+      }
+
+      .header-actions {
+        gap: 12px;
+
+        .notification-icon,
+        .profile-icon {
+          width: 36px;
+          height: 36px;
+        }
+      }
+    }
+
+    .summary-cards {
+      padding: 0 15px 20px;
+      gap: 12px;
+
+      .summary-card {
+        padding: 15px 12px;
+
+        .card-number {
+          font-size: 24px;
+        }
+      }
+    }
+
+    .workouts-section {
+      padding: 0 15px;
+
+      .section-header {
+        gap: 8px;
+
+        h2 {
+          font-size: 18px;
+          margin-bottom: 12px;
+        }
+
+        .filter-btn {
+          margin: 2px;
+          padding: 6px 12px;
+          font-size: 12px;
+          min-width: 60px;
+        }
+      }
+
+      .workout-card {
+        padding: 15px;
+
+        .workout-header {
+          margin-bottom: 15px;
+
+          h3 {
+            font-size: 16px;
+          }
+        }
+
+        .exercises-list {
+          margin-bottom: 15px;
+
+          .exercise-item {
+            padding: 10px 0;
+          }
+        }
+      }
+    }
+
+    .bottom-nav {
+      padding: 8px 0;
+
+      .nav-item {
+        padding: 6px 10px;
+
+        i {
+          font-size: 16px;
+        }
+
+        span {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+
+  // Scrollbar personalizada
+  .summary-cards::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .summary-cards::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+  }
+
+  .summary-cards::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
+};

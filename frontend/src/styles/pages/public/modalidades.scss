@@ -1,0 +1,60 @@
+@import "../../abstract/variables.scss";
+
+.modalidades-page {
+  padding: $spacing-xl $spacing-lg;
+  background: $color-bg-dark;
+  min-height: 100vh;
+  text-align: center;
+
+  .intro {
+    margin-bottom: $spacing-xl;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: $white;
+    }
+
+    p {
+      color: $color-text-muted;
+      font-size: $font-size-base;
+      margin-top: $spacing-sm;
+    }
+  }
+
+  .modalidades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: $spacing-lg;
+
+    .modalidade-card {
+      background: $color-bg-card;
+      padding: $spacing-lg;
+      border-radius: $radius-lg;
+      box-shadow: $shadow-card;
+      text-align: center;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .icone {
+        font-size: 32px;
+        color: $color-purple;
+        margin-bottom: $spacing-md;
+      }
+
+      h4 {
+        font-size: 18px;
+        color: $white;
+        margin-bottom: $spacing-sm;
+      }
+
+      p {
+        color: $color-text-muted;
+        font-size: $font-size-small;
+      }
+    }
+  }
+}

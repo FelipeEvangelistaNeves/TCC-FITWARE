@@ -1,0 +1,173 @@
+@import "../../abstract/variables";
+
+.header-public {
+  background: $color-bg-dark;
+  color: $color-text;
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  box-shadow: $shadow-card;
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md $spacing-lg;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .logo img {
+        height: 40px;
+        width: auto;
+      }
+
+      .brand-text {
+        font-weight: 700;
+        font-size: 20px;
+        color: $white;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+
+      a {
+        color: $color-text-muted;
+        font-size: $font-size-base;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &.active {
+          color: $color-purple;
+        }
+
+        &:hover {
+          color: $color-purple;
+        }
+      }
+
+      .btn-enter {
+        background: $accent-yellow;
+        color: $black;
+        font-weight: 600;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $radius-md;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: darken($accent-yellow, 10%);
+        }
+      }
+    }
+
+    /* Botão Hamburguer */
+    .menu-toggle {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: $color-text;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-purple;
+      }
+    }
+  }
+
+  /* =========================
+     Mobile Menu (Overlay)
+  ========================= */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: $color-bg-card;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: $spacing-xl $spacing-lg;
+    transition: left 0.3s ease;
+    z-index: $z-header + 10;
+
+    &.open {
+      left: 0;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: $white;
+      font-size: 28px;
+      align-self: flex-end;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-purple;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-lg;
+      margin-top: $spacing-xl;
+
+      a {
+        font-size: 18px;
+        font-weight: 500;
+        color: $color-text;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &.active {
+          color: $color-purple;
+        }
+
+        &:hover {
+          color: $color-purple-light;
+        }
+      }
+    }
+
+    .login-area {
+      margin-top: auto;
+      text-align: center;
+
+      .btn-purple {
+        background: $color-purple;
+        color: $white;
+        padding: $spacing-sm $spacing-lg;
+        border-radius: $radius-md;
+        font-weight: 600;
+        font-size: 16px;
+        transition: background 0.2s ease;
+
+        &:hover {
+          background: $purple-dark;
+        }
+      }
+    }
+  }
+}
+
+/* =========================
+   Responsividade
+========================= */
+@media (min-width: 992px) {
+  .mobile-menu {
+    display: none !important;
+  }
+
+  .menu-toggle {
+    display: none !important;
+  }
+}

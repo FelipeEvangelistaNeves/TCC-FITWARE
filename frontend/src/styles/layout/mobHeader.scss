@@ -1,0 +1,43 @@
+@import "./../abstract/variables.scss";
+.header-professor {
+  background-color: $black; // Fundo escuro
+  color: $white;
+  border-color: $gray-800;
+
+  .page-title {
+    color: $yellow;
+    font-weight: 600;
+  }
+
+  .notification-btn {
+    background-color: $purple-dark;
+    color: $white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: lighten($purple-dark, 10%);
+    }
+  }
+
+  .profile-avatar {
+    background-color: $blue-light;
+    color: $white;
+    font-weight: bold;
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}

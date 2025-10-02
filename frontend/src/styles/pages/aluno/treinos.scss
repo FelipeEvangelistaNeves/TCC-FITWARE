@@ -1,0 +1,35 @@
+@import "./../../abstract/variables.scss";
+
+.treinos-page {
+  background: $app-bg;
+  min-height: 100vh;
+  color: #fff;
+  font-family: "Segoe UI", "Inter", Arial, sans-serif;
+  padding-bottom: 80px;
+  .page-header {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffb300;
+    padding: 1.2rem 1.5rem 0.5rem 1.5rem;
+    background: #23232a;
+    border-bottom: 1px solid #23232a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .search-section {
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    .search-input,
+    .search-bar {
+      width: 100%;
+      background: $surface-1;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 0.7rem 1.2rem;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 1rem; // aumenta o espaçamento para separar dos filtros
+      outline: none;
+    }
+  }
+}
