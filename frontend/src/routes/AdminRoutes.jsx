@@ -20,7 +20,6 @@ export default function AdminRoutes() {
         });
         if (res.status === 401) return setAuth(false);
         const data = await res.json();
-        // valida se o usuário logado é secretario
         if (data.user.role === "Secretario") {
           setAuth(true);
         } else {

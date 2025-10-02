@@ -10,14 +10,14 @@ const EscolherLogin = () => {
         <p>Escolha abaixo o seu tipo de acesso</p>
 
         <div className="botoes-login">
-          <Link to="/login/admin" className="btn btn-admin">
-            Login Admin
+          <Link to="/login/aluno" className="btn btn-aluno">
+            Login Aluno
           </Link>
           <Link to="/login/professor" className="btn btn-professor">
             Login Professor
           </Link>
-          <Link to="/login/aluno" className="btn btn-aluno">
-            Login Aluno
+          <Link to="/login/admin" className="btn btn-admin">
+            Login Admin
           </Link>
         </div>
       </div>

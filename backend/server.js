@@ -147,14 +147,13 @@ app.get("/protected", authMiddleware, async (req, res) => {
     } else if (role === "Professor") {
       user = await Funcionario.findByPk(id);
     }
+    console.log(user);
 
     if (!user) {
-      return res
-        .status(401)
-        .json({
-          message: "User / Role não setada corretamente",
-          error: "Usuário não encontrado",
-        });
+      return res.status(401).json({
+        message: "User / Role não setada corretamente",
+        error: "Usuário não encontrado",
+      });
     }
 
     res.json({

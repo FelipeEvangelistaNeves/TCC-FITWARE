@@ -24,9 +24,20 @@ export default function Header() {
     setShowDropdown(!showDropdown);
   };
 
-  const handleLogout = () => {
-    console.log("Logout");
-  };
+  async function handleLogout() {
+    try {
+      const res = await fetch("http://localhost:3000/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = "/"; // redireciona pro login
+      }
+    } catch (err) {
+      console.error("Erro ao fazer logout:", err);
+    }
+  }
 
   return (
     <header className="admin-header">

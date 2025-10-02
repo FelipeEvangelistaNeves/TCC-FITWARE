@@ -26,6 +26,7 @@ const LoginDesk = () => {
       }
     } catch (err) {
       console.error("Erro ao logar:", err);
+      alert(err.message || "Erro ao logar");
     }
   }
   return (
@@ -69,7 +70,7 @@ const LoginDesk = () => {
             <h2>Bem-vindo de volta</h2>
             <p>Acesse sua conta administrativa</p>
 
-            <form className="login-form">
+            <div className="login-form">
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -101,7 +102,7 @@ const LoginDesk = () => {
               <button className="login-button" onClick={() => Executar()}>
                 Entrar
               </button>
-            </form>
+            </div>
 
             <div className="login-footer">
               <p>© 2023 FitWare. Todos os direitos reservados.</p>
