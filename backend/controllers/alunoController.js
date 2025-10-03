@@ -1,4 +1,5 @@
 const { Aluno } = require("../models");
+const LoggerMessages = require("../loggerMessages");
 
 exports.loginAluno = async (req, res) => {
   const { email, password } = req.body;
@@ -7,7 +8,7 @@ exports.loginAluno = async (req, res) => {
     const aluno = await Aluno.findByEmail(email);
 
     if (!aluno || aluno.al_senha !== password) {
-      return res.status(401).json({ message: "Credenciais inválidas" });
+      return res.status(401).json({ message: LoggerMessages.LOGIN_FAILED });
     }
 
     req.session.user = {
@@ -16,10 +17,10 @@ exports.loginAluno = async (req, res) => {
       role: "Aluno",
     };
 
-    console.log("Sessão criada:", req.session.user);
-    res.json({ message: "Login bem-sucedido", user: req.session.user });
+    console.log(LoggerMessages.SESSION_CREATED, req.session.user);
+    res.json({ message: LoggerMessages.LOGIN_SUCCESS, user: req.session.user });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Erro no servidor" });
+    res.status(500).json({ message: LoggerMessages.SERVER_ERROR });
   }
 };

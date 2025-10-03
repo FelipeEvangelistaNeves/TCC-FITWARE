@@ -13,13 +13,13 @@ exports.protectedRoute = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        message: "User / Role não setada corretamente",
-        error: "Usuário não encontrado",
+        message: LoggerMessages.ROLE_ERROR,
+        error: LoggerMessages.USER_NOT_FOUND,
       });
     }
 
     res.json({
-      message: "Autenticado com sucesso",
+      message: LoggerMessages.AUTH_SUCCESS,
       user: {
         id: user.id,
         nome: user.al_nome || user.fu_nome,
@@ -29,14 +29,14 @@ exports.protectedRoute = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Erro no servidor" });
+    res.status(500).json({ error: LoggerMessages.SERVER_ERROR });
   }
 };
 
 exports.logout = (req, res) => {
   req.session.destroy(() => {
     res.clearCookie("connect.sid");
-    console.log("Sessão destruída");
-    res.json({ success: true, message: "Logout efetuado" });
+    console.log(LoggerMessages.SESSION_DESTROYED);
+    res.json({ success: true, message: LoggerMessages.SESSION_DESTROYED });
   });
 };

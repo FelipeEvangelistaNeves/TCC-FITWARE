@@ -13,11 +13,11 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000", // endereço do seu backend
+        url: "http://localhost:3000", // endereço do backend
       },
     ],
   },
-  apis: ["./router/*.js"], // 👈 pega as anotações das rotas
+  apis: ["./router/*.js"], // anotações das rotas
 };
 function swaggerDocs(app) {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

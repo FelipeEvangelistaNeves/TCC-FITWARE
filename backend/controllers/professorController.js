@@ -11,7 +11,7 @@ exports.loginProfessor = async (req, res) => {
       funcionario.fu_senha !== password ||
       funcionario.fu_cargo !== "Professor"
     ) {
-      return res.status(401).json({ message: "Credenciais inválidas" });
+      return res.status(401).json({ message: LoggerMessages.LOGIN_FAILED });
     }
 
     req.session.user = {
@@ -20,10 +20,10 @@ exports.loginProfessor = async (req, res) => {
       role: funcionario.fu_cargo,
     };
 
-    console.log("Sessão criada:", req.session.user);
-    res.json({ message: "Login bem-sucedido", user: req.session.user });
+    console.log(LoggerMessages.SESSION_CREATED, req.session.user);
+    res.json({ message: LoggerMessages.LOGIN_SUCESS, user: req.session.user });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Erro no servidor" });
+    res.status(500).json({ message: LoggerMessages.SERVER_ERROR });
   }
 };
