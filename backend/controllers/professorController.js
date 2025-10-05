@@ -1,4 +1,5 @@
 const { Funcionario } = require("../models");
+const LoggerMessages = require("../loggerMessages");
 
 exports.loginProfessor = async (req, res) => {
   const { email, password } = req.body;

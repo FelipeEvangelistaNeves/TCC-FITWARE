@@ -1,4 +1,5 @@
 const { Aluno, Funcionario } = require("../models");
+const LoggerMessages = require("../loggerMessages");
 
 exports.protectedRoute = async (req, res) => {
   try {

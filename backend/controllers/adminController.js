@@ -1,5 +1,5 @@
 const { Funcionario } = require("../models");
-const LoggerMessages = require("../loggerMessage");
+const LoggerMessages = require("../loggerMessages");
 
 exports.loginAdmin = async (req, res) => {
   const { email, password } = req.body;

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Funcionario } = require("../models");
 const { authMiddleware, roleMiddleware } = require("../middleware/auth");
+const { loginAdmin } = require("../controllers/adminController");
 
 /**
  * @swagger
@@ -33,7 +34,7 @@ const { authMiddleware, roleMiddleware } = require("../middleware/auth");
  *       401:
  *         description: Credenciais inválidas
  */
-router.post("/login/admin", async (req, res) => {
+router.post("/", loginAdmin, async (req, res) => {
   const { email, password } = req.body;
   try {
     const funcionario = await Funcionario.findByEmail(email);
