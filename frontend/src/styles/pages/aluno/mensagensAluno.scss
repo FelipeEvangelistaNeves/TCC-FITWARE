@@ -185,6 +185,7 @@
         margin-bottom: 8px;
 
         .message-name {
+          margin-top: 75px;
           font-size: 16px;
           font-weight: 700;
           color: white;
@@ -214,21 +215,36 @@
       }
     }
 
-    .unread-badge {
-      width: 24px;
-      height: 24px;
-      background: #8b5cf6; // Roxo
-      border-radius: 50%;
+    // Container da direita (badge + estrela)
+    .message-actions {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 10px;
       margin-left: 15px;
-      flex-shrink: 0;
 
-      span {
-        color: white;
-        font-size: 12px;
-        font-weight: 700;
+      .unread-badge {
+        width: 24px;
+        height: 24px;
+        background: #8b5cf6; // Roxo
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+      }
+
+      .favorite-btn{
+        align-items: center;
+        gap: 8px;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 20px;
+        font-weight: 50;
+        cursor: pointer;
+        transition: background 0.2s ease-in-out;
+
       }
     }
   }
@@ -298,21 +314,13 @@
           font-size: 13px;
         }
       }
-    }
-  }
 
-  .bottom-nav {
-    padding: 8px 0;
+      .message-actions {
+        gap: 8px;
 
-    .nav-item {
-      padding: 6px 10px;
-
-      i {
-        font-size: 16px;
-      }
-
-      span {
-        font-size: 11px;
+        .star-icon {
+          font-size: 16px;
+        }
       }
     }
   }

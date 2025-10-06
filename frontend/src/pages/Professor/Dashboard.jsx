@@ -1,27 +1,29 @@
 import React from "react";
-import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/professor/dashboardProf.scss";
-import { Dumbbell, Bell } from "lucide-react";
+import { Dumbbell } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function DashboardAluno() {
+  const navigate = useNavigate();
+
   return (
     <div className="dashboard-aluno">
       {/* Summary Cards */}
       <section className="summary-cards">
         <div className="summary-card">
-          <h3>Alunos</h3>
-          <div className="card-number">46</div>
-          <div className="card-subtitle">+3</div>
-        </div>
-        <div className="summary-card">
           <h3>Treinos</h3>
-          <div className="card-number">156</div>
-          <div className="card-subtitle">12</div>
+          <div className="card-number">12</div>
+          <div className="card-subtitle">Completos</div>
         </div>
         <div className="summary-card">
-          <h3>Mensagens</h3>
-          <div className="card-number">89</div>
-          <div className="card-subtitle">24</div>
+          <h3>Desafios</h3>
+          <div className="card-number">3</div>
+          <div className="card-subtitle">Ativos</div>
+        </div>
+        <div className="summary-card">
+          <h3>Calorias</h3>
+          <div className="card-number">450</div>
+          <div className="card-subtitle">Hoje</div>
         </div>
       </section>
 
@@ -29,30 +31,33 @@ export default function DashboardAluno() {
       <section className="quick-actions">
         <h2>Ações Rápidas</h2>
           <div className="actions-grid">
-            <div className="action-card">
-              <div>
-                <i class="bi bi-person"></i>
-              </div>
-              <div className="action-label">Alunos</div>
-            </div>
-            <div className="action-card">
+            <button className="action-card" onClick={() => navigate('/professor/alunos')} >
+                <div>
+                  <i class="bi bi-person"></i>
+                </div>
+                <div className="action-label">Alunos</div>
+            </button>
+
+            <button className="action-card" onClick={() => navigate('/professor/treinos')} >
               <div>
                 <Dumbbell size={22} />
               </div>
               <div className="action-label">Treinos</div>
-            </div>
-            <div className="action-card">
+            </button>
+
+            <button className="action-card" onClick={() => navigate('/professor/mensagens')} >
               <div>
                 <i class="bi bi-chat-left-text"></i>
               </div>
               <div className="action-label">Mensagens</div>
-            </div>
-            <div className="action-card">
+            </button>
+
+            <button className="action-card" onClick={() => navigate('/professor/perfil')} >
               <div>
                 <i class="bi bi-clock"></i>
               </div>
               <div className="action-label">Histórico</div>
-            </div>
+            </button>
           </div>
       </section>
 

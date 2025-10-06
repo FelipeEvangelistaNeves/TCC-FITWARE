@@ -3,6 +3,64 @@ import "../../styles/pages/aluno/mensagensAluno.scss";
 
 export default function MensagensAluno() {
   const [activeTab, setActiveTab] = useState("todas");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      name: "Personal Felipe",
+      initials: "PF",
+      color: "purple",
+      time: "10:30",
+      preview: "Como está indo o treino de força?",
+      unread: 2,
+      favorite: false,
+    },
+    {
+      id: 2,
+      name: "Personal Thiago",
+      initials: "PT",
+      color: "orange",
+      time: "Ontem",
+      preview: "Mesmo horário amanhã?",
+      unread: 0,
+      favorite: true,
+    },
+    {
+      id: 3,
+      name: "Nutricionista Alessandra",
+      initials: "NA",
+      color: "blue",
+      time: "Seg",
+      preview: "Tudo OK para a consulta de terça-feira?",
+      unread: 0,
+      favorite: false,
+    },
+  ]);
+
+  // Toggle favorito
+  const toggleFavorite = (id) => {
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === id ? { ...msg, favorite: !msg.favorite } : msg
+      )
+    );
+  };
+
+  // Filtragem
+  const filteredMessages = messages.filter((msg) => {
+    const matchesSearch =
+      msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      msg.preview.toLowerCase().includes(searchTerm.toLowerCase());
+
+    if (activeTab === "nao-lidas") {
+      return msg.unread > 0 && matchesSearch;
+    }
+    if (activeTab === "favoritas") {
+      return msg.favorite && matchesSearch;
+    }
+    return matchesSearch;
+  });
 
   return (
     <div className="mensagens-aluno">
@@ -14,6 +72,8 @@ export default function MensagensAluno() {
             type="text"
             placeholder="Buscar mensagem..."
             className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
@@ -42,52 +102,31 @@ export default function MensagensAluno() {
 
       {/* Messages List */}
       <div className="messages-list">
-        {/* Message 1 - Personal Felipe */}
-        <div className="message-item">
-          <div className="message-avatar purple">
-            <span>PF</span>
-          </div>
-          <div className="message-content">
-            <div className="message-header">
-              <h3 className="message-name">Personal Felipe</h3>
-              <span className="message-time">10:30</span>
+        {filteredMessages.map((msg) => (
+          <div className="message-item" key={msg.id}>
+            <div className={`message-avatar ${msg.color}`}>
+              <span>{msg.initials}</span>
             </div>
-            <p className="message-preview">Como está indo o treino de força?</p>
-          </div>
-          <div className="unread-badge">
-            <span>2</span>
-          </div>
-        </div>
-
-        {/* Message 2 - Personal Thiago */}
-        <div className="message-item">
-          <div className="message-avatar orange">
-            <span>PT</span>
-          </div>
-          <div className="message-content">
-            <div className="message-header">
-              <h3 className="message-name">Personal Thiago</h3>
-              <span className="message-time">Ontem</span>
+            <div className="message-content">
+              <div className="message-header">
+                <h3 className="message-name">{msg.name}</h3>
+                <span className="message-time">{msg.time}</span>
+              </div>
+              <p className="message-preview">{msg.preview}</p>
             </div>
-            <p className="message-preview">Mesmo horário amanhã?</p>
-          </div>
-        </div>
-
-        {/* Message 3 - Nutricionista Alessandra */}
-        <div className="message-item">
-          <div className="message-avatar blue">
-            <span>NA</span>
-          </div>
-          <div className="message-content">
-            <div className="message-header">
-              <h3 className="message-name">Nutricionista Alessandra</h3>
-              <span className="message-time">Seg</span>
+            <div className="message-actions">
+              {msg.unread > 0 && (
+                <div className="unread-badge">
+                  <span>{msg.unread}</span>
+                </div>
+              )}
+              <i
+                className={`favorite-btn ${msg.favorite ? "bi bi-star-fill" : "bi bi-star"}`}
+                onClick={() => toggleFavorite(msg.id)}
+              ></i>
             </div>
-            <p className="message-preview">
-              Tudo OK para a consulta de terça-feira?
-            </p>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
