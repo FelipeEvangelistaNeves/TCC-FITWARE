@@ -33,7 +33,9 @@ CREATE TABLE public.alunos (
     al_cpf character varying(11) NOT NULL,
     al_telefone character varying(11),
     al_dtnasc date NOT NULL,
-    al_pontos integer NOT NULL
+    al_pontos integer NOT NULL,
+    al_treinos_completos integer NOT NULL,
+    al_status character varying(10) NOT NULL
 );
 
 
@@ -62,6 +64,30 @@ ALTER SEQUENCE public.alunos_al_id_seq OWNED BY public.alunos.al_id;
 
 
 --
+-- Name: alunos_desafios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.alunos_desafios (
+    al_id integer NOT NULL,
+    de_id integer NOT NULL
+);
+
+
+ALTER TABLE public.alunos_desafios OWNER TO postgres;
+
+--
+-- Name: alunos_treinos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.alunos_treinos (
+    al_id integer NOT NULL,
+    tr_id integer NOT NULL
+);
+
+
+ALTER TABLE public.alunos_treinos OWNER TO postgres;
+
+--
 -- Name: alunos_turmas; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -85,7 +111,8 @@ CREATE TABLE public.desafios (
     de_tag character varying(60) NOT NULL,
     de_progresso integer NOT NULL,
     de_start timestamp without time zone NOT NULL,
-    de_end timestamp without time zone NOT NULL
+    de_end timestamp without time zone NOT NULL,
+    de_status character varying(15) NOT NULL
 );
 
 
@@ -121,7 +148,9 @@ CREATE TABLE public.exercicios (
     ex_id integer NOT NULL,
     ex_nome character varying(80) NOT NULL,
     ex_instrucao character varying(150),
-    ex_video character varying(300)
+    ex_video character varying(300),
+    ex_grupo_muscular character varying(60),
+    ex_dificuldade character varying(20)
 );
 
 
@@ -307,7 +336,9 @@ CREATE TABLE public.produtos (
     pd_id integer NOT NULL,
     pd_nome character varying(120) NOT NULL,
     pd_valor integer NOT NULL,
-    pd_descricao character varying(200)
+    pd_descricao character varying(200),
+    pd_status character varying(15) NOT NULL,
+    pd_estoque integer NOT NULL
 );
 
 
@@ -344,7 +375,7 @@ CREATE TABLE public.treinos (
     tr_prof_id integer NOT NULL,
     tr_nome character varying(80) NOT NULL,
     tr_descricao character varying(150),
-    tr_repeticoes character varying(4)
+    tr_dificuldade character varying(20)
 );
 
 
@@ -356,7 +387,10 @@ ALTER TABLE public.treinos OWNER TO postgres;
 
 CREATE TABLE public.treinos_exercicios (
     tr_id integer NOT NULL,
-    ex_id integer NOT NULL
+    ex_id integer NOT NULL,
+    te_repeticoes integer,
+    te_series integer,
+    te_descanso integer
 );
 
 
@@ -495,97 +529,137 @@ ALTER TABLE ONLY public.turmas ALTER COLUMN tu_id SET DEFAULT nextval('public.tu
 -- Data for Name: alunos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.alunos VALUES (1, 'JoÆo Silva', 'joao@email.com', '123456', '12345678901', '11988887777', '2000-05-14', 50);
-INSERT INTO public.alunos VALUES (2, 'Maria Souza', 'maria@email.com', 'abcdef', '98765432100', '11977776666', '1998-10-22', 80);
+COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_dtnasc, al_pontos, al_treinos_completos, al_status) FROM stdin;
+1	JoÆo Silva	joao@email.com	123456	12345678901	11988887777	2000-05-14	50	5	Inativo
+2	Maria Souza	maria@email.com	abcdef	98765432100	11977776666	1998-10-22	80	13	Ativo
+\.
+
+
+--
+-- Data for Name: alunos_desafios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.alunos_desafios (al_id, de_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: alunos_treinos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.alunos_treinos (al_id, tr_id) FROM stdin;
+\.
 
 
 --
 -- Data for Name: alunos_turmas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.alunos_turmas VALUES (1, 1);
-INSERT INTO public.alunos_turmas VALUES (2, 2);
+COPY public.alunos_turmas (al_id, tu_id) FROM stdin;
+1	1
+2	2
+\.
 
 
 --
 -- Data for Name: desafios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.desafios VALUES (1, 'Desafio 30 dias de corrida', 'Correr 5km por dia durante 30 dias', 300, 'corrida', 0, '2025-10-01 00:00:00', '2025-10-30 23:59:59');
-INSERT INTO public.desafios VALUES (2, 'Desafio 100 flexäes', 'Realizar 100 flexäes no menor tempo poss¡vel', 150, 'for‡a', 0, '2025-09-01 00:00:00', '2025-09-15 23:59:59');
+COPY public.desafios (de_id, de_nome, de_descricao, de_pontos, de_tag, de_progresso, de_start, de_end, de_status) FROM stdin;
+1	Desafio 30 dias de corrida	Correr 5km por dia durante 30 dias	300	corrida	0	2025-10-01 00:00:00	2025-10-30 23:59:59	Inativo
+2	Desafio 100 flexäes	Realizar 100 flexäes no menor tempo poss¡vel	150	for‡a	0	2025-09-01 00:00:00	2025-09-15 23:59:59	Ativo
+\.
 
 
 --
 -- Data for Name: exercicios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.exercicios VALUES (1, 'Supino Reto', 'Deite no banco e empurre a barra para cima', 'https://video.com/supino');
-INSERT INTO public.exercicios VALUES (2, 'Agachamento Livre', 'Agache mantendo a postura ereta', 'https://video.com/agachamento');
+COPY public.exercicios (ex_id, ex_nome, ex_instrucao, ex_video, ex_grupo_muscular, ex_dificuldade) FROM stdin;
+1	Supino Reto	Deite no banco e empurre a barra para cima	https://video.com/supino	\N	\N
+2	Agachamento Livre	Agache mantendo a postura ereta	https://video.com/agachamento	\N	\N
+\.
 
 
 --
 -- Data for Name: funcionarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.funcionarios VALUES (2, 'Fernanda Lima', 'fernanda@fitware.com', 'def456', '98765432199', '11955554444', '1990-08-20', 'Secretario', NULL);
-INSERT INTO public.funcionarios VALUES (1, 'Carlos Mendes', 'carlos@fitware.com', 'abc123', '12345678911', '11966665555', '1985-03-10', 'Professor', 'CREF123456');
+COPY public.funcionarios (fu_id, fu_nome, fu_email, fu_senha, fu_cpf, fu_telefone, fu_dtnasc, fu_cargo, fu_cref) FROM stdin;
+2	Fernanda Lima	fernanda@fitware.com	def456	98765432199	11955554444	1990-08-20	Secretario	\N
+1	Carlos Mendes	carlos@fitware.com	abc123	12345678911	11966665555	1985-03-10	Professor	CREF123456
+\.
 
 
 --
 -- Data for Name: horarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.horarios VALUES (1, '08:00:00', '09:00:00', 'Segunda');
-INSERT INTO public.horarios VALUES (2, '19:00:00', '20:00:00', 'Quarta');
+COPY public.horarios (hor_id, hor_start, hor_end, hor_dia) FROM stdin;
+1	08:00:00	09:00:00	Segunda
+2	19:00:00	20:00:00	Quarta
+\.
 
 
 --
 -- Data for Name: modalidades; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.modalidades VALUES (1, 'Muscula‡Æo', 'Treinos para for‡a e hipertrofia');
-INSERT INTO public.modalidades VALUES (2, 'Pilates', 'Exerc¡cios de flexibilidade e fortalecimento do core');
+COPY public.modalidades (mo_id, mo_nome, mo_descricao) FROM stdin;
+1	Muscula‡Æo	Treinos para for‡a e hipertrofia
+2	Pilates	Exerc¡cios de flexibilidade e fortalecimento do core
+\.
 
 
 --
 -- Data for Name: pagamentos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.pagamentos VALUES (1, 1, 150.00, 'C', 'Pago', '2025-09-01');
-INSERT INTO public.pagamentos VALUES (2, 2, 200.00, 'P', 'Pendente', '2025-09-10');
+COPY public.pagamentos (pa_id, pa_al_id, pa_valor, pa_metodo, pa_status, pa_data) FROM stdin;
+1	1	150.00	C	Pago	2025-09-01
+2	2	200.00	P	Pendente	2025-09-10
+\.
 
 
 --
 -- Data for Name: produtos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.produtos VALUES (1, 'Camiseta Dry Fit', 79, 'Camiseta esportiva leve e confort vel');
-INSERT INTO public.produtos VALUES (2, 'Garrafa T‚rmica', 59, 'Mant‚m a temperatura da bebida por 12h');
+COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_estoque) FROM stdin;
+1	Camiseta Dry Fit	79	Camiseta esportiva leve e confort vel	Disponível	17
+2	Garrafa T‚rmica	59	Mant‚m a temperatura da bebida por 12h	Acabando	3
+\.
 
 
 --
 -- Data for Name: treinos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.treinos VALUES (1, 1, 'Treino de For‡a', 'Foco em exerc¡cios de muscula‡Æo', '4x12');
-INSERT INTO public.treinos VALUES (2, 1, 'Treino de Resistˆncia', 'Exerc¡cios de alta intensidade', '3x15');
+COPY public.treinos (tr_id, tr_prof_id, tr_nome, tr_descricao, tr_dificuldade) FROM stdin;
+1	1	Treino de ForÎa	Foco em exerc­cios de musculaÎ’o	\N
+2	1	Treino de Resist^ncia	Exerc­cios de alta intensidade	\N
+\.
 
 
 --
 -- Data for Name: treinos_exercicios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.treinos_exercicios VALUES (1, 1);
-INSERT INTO public.treinos_exercicios VALUES (1, 2);
-INSERT INTO public.treinos_exercicios VALUES (2, 2);
+COPY public.treinos_exercicios (tr_id, ex_id, te_repeticoes, te_series, te_descanso) FROM stdin;
+1	1	\N	\N	\N
+1	2	\N	\N	\N
+2	2	\N	\N	\N
+\.
 
 
 --
 -- Data for Name: turmas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.turmas VALUES (1, 'Turma A - ManhÆ', 1, 1, 1);
-INSERT INTO public.turmas VALUES (2, 'Turma B - Noite', 1, 2, 2);
+COPY public.turmas (tu_id, tu_nome, tu_prof_id, tu_mod_id, tu_hor_id) FROM stdin;
+1	Turma A - ManhÆ	1	1	1
+2	Turma B - Noite	1	2	2
+\.
 
 
 --
@@ -752,6 +826,38 @@ ALTER TABLE ONLY public.treinos
 
 ALTER TABLE ONLY public.turmas
     ADD CONSTRAINT turmas_pkey PRIMARY KEY (tu_id);
+
+
+--
+-- Name: alunos_desafios alunos_desafios_al_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos_desafios
+    ADD CONSTRAINT alunos_desafios_al_id_fkey FOREIGN KEY (al_id) REFERENCES public.alunos(al_id) ON DELETE CASCADE;
+
+
+--
+-- Name: alunos_desafios alunos_desafios_de_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos_desafios
+    ADD CONSTRAINT alunos_desafios_de_id_fkey FOREIGN KEY (de_id) REFERENCES public.desafios(de_id) ON DELETE CASCADE;
+
+
+--
+-- Name: alunos_treinos alunos_treinos_al_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos_treinos
+    ADD CONSTRAINT alunos_treinos_al_id_fkey FOREIGN KEY (al_id) REFERENCES public.alunos(al_id) ON DELETE CASCADE;
+
+
+--
+-- Name: alunos_treinos alunos_treinos_tr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos_treinos
+    ADD CONSTRAINT alunos_treinos_tr_id_fkey FOREIGN KEY (tr_id) REFERENCES public.treinos(tr_id) ON DELETE CASCADE;
 
 
 --
