@@ -733,11 +733,27 @@ SELECT pg_catalog.setval('public.turmas_tu_id_seq', 2, true);
 
 
 --
+-- Name: alunos_desafios alunos_desafios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos_desafios
+    ADD CONSTRAINT alunos_desafios_pkey PRIMARY KEY (al_id, de_id);
+
+
+--
 -- Name: alunos alunos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.alunos
     ADD CONSTRAINT alunos_pkey PRIMARY KEY (al_id);
+
+
+--
+-- Name: alunos_treinos alunos_treinos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos_treinos
+    ADD CONSTRAINT alunos_treinos_pkey PRIMARY KEY (al_id, tr_id);
 
 
 --
