@@ -3,6 +3,7 @@ const router = express.Router();
 const { Funcionario } = require("../models");
 const { authMiddleware, roleMiddleware } = require("../middleware/auth");
 const { loginAdmin } = require("../controllers/adminController");
+const LoggerMessages = require("../loggerMessages");
 
 /**
  * @swagger
@@ -53,7 +54,7 @@ router.post("/", loginAdmin, async (req, res) => {
       role: funcionario.fu_cargo,
     };
 
-    res.json({ message: LoggerMessages.LOGIN_SUCESS, user: req.session.user });
+    res.json({ message: LoggerMessages.LOGIN_SUCCESS, user: req.session.user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: LoggerMessages.SERVER_ERROR });
@@ -77,8 +78,12 @@ router.get(
   authMiddleware,
   roleMiddleware(["Secretario"]),
   (req, res) => {
-    res.json({ message: "Área do admin (Secretário)" });
+    res.json({ message: LoggerMessages.ADMIN_SUCCESS });
   }
 );
+
+// router.get("/admin/treinos", treinoController, async (req, res) => {
+//   res.json({});
+// });
 
 module.exports = router;

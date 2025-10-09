@@ -7,6 +7,7 @@ const LoggerMessages = {
   AUTH_SUCCESS: "Autenticado com sucesso",
   USER_NOT_FOUND: "Usuário não encontrado",
   ROLE_ERROR: "User / Role não setada corretamente",
+  ADMIN_SUCCESS: "Área do admin (Secretário)",
 };
 
 Object.freeze(LoggerMessages); // impede alterações
