@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/pages/aluno/desafios.scss";
 
 export default function DesafiosAluno() {
+  const [remainingDays, setRemainingDays] = useState({
+    desafio7dias: 2, // tempo inicial em dias
+    desafioNutricao: 7,
+  });
+
+  useEffect(() => {
+    // Atualiza a cada 24h (86400000 ms)
+    const timer = setInterval(() => {
+      setRemainingDays((prev) => {
+        const updated = { ...prev };
+        Object.keys(updated).forEach((key) => {
+          if (updated[key] > 0) updated[key] -= 1;
+        });
+        return updated;
+      });
+    }, 86400000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="challenges-container">
       {/* cards de resumo */}
@@ -27,6 +47,7 @@ export default function DesafiosAluno() {
 
       {/* grid dos cards no desktop */}
       <div className="challenges-grid">
+        {/* === Desafio 7 Dias === */}
         <div className="challenge-card">
           <div className="header">
             <div>
@@ -42,7 +63,11 @@ export default function DesafiosAluno() {
 
           <div className="row-info">
             <span>Progresso: 71%</span>
-            <span>2 dias restantes</span>
+            <span>
+              {remainingDays.desafio7dias > 0
+                ? `${remainingDays.desafio7dias} dias restantes`
+                : "Concluído 🎉"}
+            </span>
           </div>
 
           <div className="footer">
@@ -51,6 +76,7 @@ export default function DesafiosAluno() {
           </div>
         </div>
 
+        {/* === Desafio Nutrição === */}
         <div className="challenge-card">
           <div className="header">
             <div>
@@ -66,7 +92,11 @@ export default function DesafiosAluno() {
 
           <div className="row-info">
             <span>Progresso: 30%</span>
-            <span>7 dias restantes</span>
+            <span>
+              {remainingDays.desafioNutricao > 0
+                ? `${remainingDays.desafioNutricao} dias restantes`
+                : "Concluído 🎉"}
+            </span>
           </div>
 
           <div className="footer">
@@ -75,10 +105,10 @@ export default function DesafiosAluno() {
           </div>
         </div>
 
+        {/* === Desafios Disponíveis === */}
         <div className="challenges-available">
           <h3>Desafios Disponíveis</h3>
 
-          {/* Card 1 */}
           <div className="challenge-card">
             <h4>Desafio Funcional</h4>
             <p className="challenge-subtitle">

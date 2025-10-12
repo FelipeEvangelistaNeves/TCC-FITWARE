@@ -1,10 +1,5 @@
 @import "./../../abstract/variables.scss";
 
-/* =========================================================
-   Perfil — SCSS completo (corrigido: badge azul em pagamentos,
-   botão Ver Detalhes roxo, Resgatar amarelo, espaçamentos pagos)
-   ========================================================= */
-
 /* ===== Container Geral ===== */
 .perfil-container {
   background: $app-bg;
@@ -20,10 +15,13 @@
 
 /* ===== Header ===== */
 .perfil-header {
-  text-align: center;
-  border-radius: $radius-md;
-  min-height: 35vh;
-  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 15px;
+  background: $surface-1;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid $border-color;
+
 
   .avatar {
     width: 80px;

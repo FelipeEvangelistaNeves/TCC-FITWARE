@@ -155,7 +155,12 @@
         &:hover {
           background: $surface-3;
         }
+
+        &.active {
+          background: lighten($surface-2, 10%);
+        }
       }
+
     }
   }
 
@@ -205,6 +210,23 @@
           background: $blue-light;
         }
       }
+
+      .workout-timer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+      .timer-display {
+        font-size: 16px;
+        font-weight: 600;
+        color: $text;
+        background: $surface-2;
+        padding: 8px 14px;
+        border-radius: $radius-sm;
+        border: 1px solid $border-color;
+      }
+    }
+
     }
 
     .exercises-list {
@@ -249,58 +271,54 @@
       }
     }
 
-    .workout-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+  .workout-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-      .trainer-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+  .trainer-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-        .trainer-avatar {
-          width: 32px;
-          height: 32px;
-          background: $primary;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 12px;
-          font-weight: 600;
-          color: $white;
-        }
+  .btn-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-        .trainer-name {
-          font-size: 14px;
-          color: $text-2;
-          font-weight: 500;
-        }
-      }
+  .start-btn,
+    .stop-btn {
+      background: $primary;
+      color: $white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: $radius-md;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: $shadow-1;
 
-      .start-btn {
-        background: $primary;
-        color: $white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: $radius-md;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: $shadow-1;
-
-        &:hover {
-          background: $primary-700;
-          transform: translateY(-2px);
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
-      }
+    &:hover {
+      background: $primary-700;
+      transform: translateY(-2px);
     }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .stop-btn {
+    background: $purple-dark;
+    &:hover {
+      background: darken($purple-dark, 10%);
+    }
+  }
+}
+
   }
 
   // Responsividade para telas muito pequenas

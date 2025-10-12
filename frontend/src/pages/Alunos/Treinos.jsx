@@ -1,133 +1,168 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
-import "../../styles/pages/aluno/mensagensAluno.scss";
-import { Bell } from "lucide-react";
+import "../../styles/pages/aluno/treinos.scss";
 
 export default function TreinoAluno() {
+  const treinos = [
+    {
+      id: 1,
+      tipo: "Força",
+      titulo: "Treino de Força",
+      nivel: "Intermediário",
+      tempo: 45,
+      exercicios: [
+        { nome: "Agachamento", sets: "3×12" },
+        { nome: "Supino", sets: "3×10" },
+        { nome: "Remada", sets: "3×10" },
+      ],
+      treinador: "João Paulo",
+    },
+    {
+      id: 2,
+      tipo: "Cardio",
+      titulo: "Treino de Cardio",
+      nivel: "Iniciante",
+      tempo: 30,
+      exercicios: [
+        { nome: "Corrida", sets: "20 min" },
+        { nome: "Pular corda", sets: "10 min" },
+      ],
+      treinador: "João Paulo",
+    },
+    {
+      id: 3,
+      tipo: "Funcional",
+      titulo: "Treino Funcional",
+      nivel: "Avançado",
+      tempo: 60,
+      exercicios: [
+        { nome: "Burpees", sets: "3×15" },
+        { nome: "Mountain Climbers", sets: "3×20" },
+        { nome: "Prancha", sets: "3×1 min" },
+      ],
+      treinador: "João Paulo",
+    },
+  ];
+
+  const [busca, setBusca] = useState("");
+  const [filtro, setFiltro] = useState("Todos");
+  const [treinoAtivo, setTreinoAtivo] = useState(null);
+  const [tempoRestante, setTempoRestante] = useState(0);
+  const [timerAtivo, setTimerAtivo] = useState(false);
+
+  // Filtragem por tipo e busca
+  const treinosFiltrados = treinos.filter(
+    (t) =>
+      (filtro === "Todos" || t.tipo === filtro) &&
+      t.titulo.toLowerCase().includes(busca.toLowerCase())
+  );
+
+  // Controle do cronômetro
+  useEffect(() => {
+    let intervalo;
+    if (timerAtivo && tempoRestante > 0) {
+      intervalo = setInterval(() => {
+        setTempoRestante((prev) => prev - 1);
+      }, 1000);
+    } else if (tempoRestante === 0 && treinoAtivo) {
+      setTimerAtivo(false);
+      setTreinoAtivo(null);
+    }
+    return () => clearInterval(intervalo);
+  }, [timerAtivo, tempoRestante]);
+
+  const iniciarTreino = (treino) => {
+    setTreinoAtivo(treino.id);
+    setTempoRestante(treino.tempo * 60);
+    setTimerAtivo(true);
+  };
+
+  const pararTreino = () => {
+    setTimerAtivo(false);
+    setTreinoAtivo(null);
+  };
+
+  const formatarTempo = (segundos) => {
+    const min = Math.floor(segundos / 60);
+    const sec = segundos % 60;
+    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  };
+
   return (
     <div className="dashboard-aluno">
-      
-      {/* Search Bar */}
+      {/* Barra de busca */}
       <div className="search-container">
         <div className="search-bar">
           <i className="fas fa-search search-icon"></i>
           <input
             type="text"
-            placeholder="Buscar mensagem..."
+            placeholder="Buscar treino..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
             className="search-input"
           />
         </div>
       </div>
-      {/* Workouts Section */}
+
+      {/* Seção de treinos */}
       <section className="workouts-section">
         <div className="section-header">
-          <button className="filter-btn">Todos</button>
-          <button className="filter-btn">Força</button>
-          <button className="filter-btn">Cardio</button>
-          <button className="filter-btn">Funcional</button>
+          {["Todos", "Força", "Cardio", "Funcional"].map((tipo) => (
+            <button
+              key={tipo}
+              className={`filter-btn ${filtro === tipo ? "active" : ""}`}
+              onClick={() => setFiltro(tipo)}
+            >
+              {tipo}
+            </button>
+          ))}
         </div>
 
-        {/* Strength Workout Card */}
-        <div className="workout-card">
-          <div className="workout-header">
-            <div className="workout-info">
-              <h3>Treino de Força</h3>
-              <p className="workout-details">Intermediário • 45 min</p>
+        {/* Cards de treino */}
+        {treinosFiltrados.map((treino) => (
+          <div className="workout-card" key={treino.id}>
+            <div className="workout-header">
+              <div className="workout-info">
+                <h3>{treino.titulo}</h3>
+                <p className="workout-details">
+                  {treino.nivel} • {treino.tempo} min
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div className="exercises-list">
-            <div className="exercise-item">
-              <span className="exercise-number">1</span>
-              <span className="exercise-name">Agachamento</span>
-              <span className="exercise-sets">3×12</span>
+            <div className="exercises-list">
+              {treino.exercicios.map((ex, i) => (
+                <div className="exercise-item" key={i}>
+                  <span className="exercise-number">{i + 1}</span>
+                  <span className="exercise-name">{ex.nome}</span>
+                  <span className="exercise-sets">{ex.sets}</span>
+                </div>
+              ))}
             </div>
-            <div className="exercise-item">
-              <span className="exercise-number">2</span>
-              <span className="exercise-name">Supino</span>
-              <span className="exercise-sets">3×10</span>
-            </div>
-            <div className="exercise-item">
-              <span className="exercise-number">3</span>
-              <span className="exercise-name">Remada</span>
-              <span className="exercise-sets">3×10</span>
-            </div>
-          </div>
 
-          <div className="workout-footer">
-            <div className="trainer-info">
-              <div className="trainer-avatar">JP</div>
-              <span className="trainer-name">João Paulo</span>
-            </div>
-            <button className="start-btn">Iniciar</button>
-          </div>
-        </div>
+            <div className="workout-footer">
+              <div className="trainer-info">
+                <div className="trainer-avatar">
+                  {treino.treinador[0] + treino.treinador.split(" ")[1][0]}
+                </div>
+                <span className="trainer-name">{treino.treinador}</span>
+              </div>
 
-        {/* Cardio Workout Card */}
-        <div className="workout-card">
-          <div className="workout-header">
-            <div className="workout-info">
-              <h3>Treino de Cardio</h3>
-              <p className="workout-details">Iniciante • 30 min</p>
+              {treinoAtivo === treino.id && timerAtivo ? (
+                <div className="workout-timer">
+                  <div className="timer-display">{formatarTempo(tempoRestante)}</div>
+                  <button className="stop-btn" onClick={pararTreino}>
+                    Parar
+                  </button>
+                </div>
+              ) : (
+                <button className="start-btn" onClick={() => iniciarTreino(treino)}>
+                  Iniciar
+                </button>
+              )}
             </div>
           </div>
-
-          <div className="exercises-list">
-            <div className="exercise-item">
-              <span className="exercise-number">1</span>
-              <span className="exercise-name">Corrida</span>
-              <span className="exercise-sets">20 min</span>
-            </div>
-            <div className="exercise-item">
-              <span className="exercise-number">2</span>
-              <span className="exercise-name">Pular corda</span>
-              <span className="exercise-sets">10 min</span>
-            </div>
-          </div>
-
-          <div className="workout-footer">
-            <div className="trainer-info">
-              <div className="trainer-avatar">JP</div>
-              <span className="trainer-name">João Paulo</span>
-            </div>
-            <button className="start-btn">Iniciar</button>
-          </div>
-        </div>
-
-        {/* Funcional Workout Card */}
-        <div className="workout-card">
-          <div className="workout-header">
-            <div className="workout-info">
-              <h3>Treino Funcional</h3>
-              <p className="workout-details">Avançado • 60 min</p>
-            </div>
-          </div>
-
-          <div className="exercises-list">
-            <div className="exercise-item">
-              <span className="exercise-number">1</span>
-              <span className="exercise-name">Burpees</span>
-              <span className="exercise-sets">3×15</span>
-            </div>
-            <div className="exercise-item">
-              <span className="exercise-number">2</span>
-              <span className="exercise-name">Mountain Climbers</span>
-              <span className="exercise-sets">3×20</span>
-            </div>
-            <div className="exercise-item">
-              <span className="exercise-number">3</span>
-              <span className="exercise-name">Prancha</span>
-              <span className="exercise-sets">3×1 min</span>
-            </div>
-          </div>
-          <div className="workout-footer">
-            <div className="trainer-info">
-              <div className="trainer-avatar">JP</div>
-              <span className="trainer-name">João Paulo</span>
-            </div>
-            <button className="start-btn">Iniciar</button>
-          </div>
-        </div>
+        ))}
       </section>
     </div>
   );

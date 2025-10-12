@@ -5,9 +5,10 @@
 .challenges-container {
   background-color: $app-bg;
   color: $text;
-
-  /* O container agora ocupa exatamente a área entre header e footer */
-  
+  min-height: 100vh; /* Preenche toda a tela */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   right: 0;
   left: 0;
   padding-bottom: 80px;
@@ -15,10 +16,6 @@
   box-sizing: border-box;
   padding-bottom: 80px;
   
-  /* organiza internamente */
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 /* ===== Cards de Resumo (Ativos / Concluídos / Pontos) ===== */

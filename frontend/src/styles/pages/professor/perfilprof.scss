@@ -1,20 +1,5 @@
 // @import "../../abstract/variables.scss";
 
-// /* Reset */
-// * {
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: border-box;
-// }
-
-// body {
-//   font-family: "Segoe UI", "Inter", Arial, sans-serif;
-//   background: $app-bg;
-//   color: $text;
-//   min-height: 100vh;
-//   padding: 0;
-// }
-
 // /* Perfil Container */
 // .perfil-container {
 //   min-height: 100vh;
@@ -261,53 +246,6 @@
 //   font-size: 12px;
 //   color: $text-2;
 //   margin-top: 2px;
-// }
-
-// .nav-item {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   gap: 5px;
-//   cursor: pointer;
-//   transition: all 0.2s ease;
-//   padding: 8px 12px;
-//   border-radius: 10px;
-//   position: relative;
-// }
-
-// .nav-item i {
-//   font-size: 18px;
-//   color: $text-2;
-//   transition: color 0.2s ease;
-// }
-
-// .nav-item span {
-//   font-size: 12px;
-//   color: $text-2;
-//   font-weight: 500;
-//   transition: color 0.2s ease;
-// }
-
-// .nav-item.active i,
-// .nav-item.active span {
-//   color: $primary;
-// }
-
-// .nav-item.active::after {
-//   content: "";
-//   position: absolute;
-//   bottom: 0;
-//   left: 50%;
-//   transform: translateX(-50%);
-//   width: 20px;
-//   height: 3px;
-//   background: $primary;
-//   border-radius: 2px;
-// }
-
-// .nav-item:hover:not(.active) i,
-// .nav-item:hover:not(.active) span {
-//   color: $text;
 // }
 
 // /* Responsividade Mobile */

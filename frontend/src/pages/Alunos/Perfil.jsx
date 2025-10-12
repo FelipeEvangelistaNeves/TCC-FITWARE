@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
-import "../../styles/pages/professor/perfilprof.scss";
+//import "../../styles/pages/professor/perfilprof.scss";
 import ResgatePontosModal from "./ResgatePontosModal";
 import { LogOut } from "lucide-react";
 

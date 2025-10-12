@@ -1,5 +1,44 @@
 @import "./../../abstract/variables.scss";
 
+.search-container {
+  padding: 0 20px 20px;
+
+  .search-bar {
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      color: #9ca3af;
+      font-size: 16px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px 15px 15px 45px;
+      background: $surface-1;
+      border: 1px solid rgba(107, 114, 128, 0.4);
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      backdrop-filter: blur(10px);
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #8b5cf6;
+        background: rgba(75, 85, 99, 0.9);
+      }
+    }
+  }
+}
+
 .treinos-page {
   background: $app-bg;
   min-height: 100vh;
