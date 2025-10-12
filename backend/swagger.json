@@ -1,0 +1,167 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Gerenciamento de Academias",
+    "version": "1.0.0",
+    "description": "Documentação da API de login e rotas protegidas para Aluno, Professor e Admin"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Aluno",
+      "description": "Rotas de autenticação e área do aluno"
+    },
+    {
+      "name": "Professor",
+      "description": "Rotas de autenticação e área do professor"
+    },
+    {
+      "name": "Admin",
+      "description": "Rotas de autenticação e área do administrador (Secretário)"
+    }
+  ],
+  "paths": {
+    "/login/aluno": {
+      "post": {
+        "tags": ["Aluno"],
+        "summary": "Login de aluno",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "aluno@email.com" },
+                  "password": { "type": "string", "example": "senha123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login bem-sucedido" },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
+    "/login/professor": {
+      "post": {
+        "tags": ["Professor"],
+        "summary": "Login de professor",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "professor@email.com"
+                  },
+                  "password": { "type": "string", "example": "senha123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login bem-sucedido" },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
+    "/login/admin": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Login de administrador (Secretário)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "admin@email.com" },
+                  "password": { "type": "string", "example": "senha123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login bem-sucedido" },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
+    "/protected": {
+      "get": {
+        "tags": ["Aluno", "Professor", "Admin"],
+        "summary": "Rota protegida (qualquer usuário logado)",
+        "responses": {
+          "200": {
+            "description": "Retorna usuário autenticado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Autenticado com sucesso",
+                  "user": {
+                    "id": 1,
+                    "email": "aluno@email.com",
+                    "role": "Aluno"
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Não autorizado" }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": ["Aluno", "Professor", "Admin"],
+        "summary": "Logout do usuário",
+        "responses": {
+          "200": {
+            "description": "Logout efetuado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "Logout efetuado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/professor": {
+      "get": {
+        "tags": ["Professor"],
+        "summary": "Área exclusiva do professor",
+        "responses": {
+          "200": { "description": "Acesso autorizado" },
+          "401": { "description": "Não autorizado" }
+        }
+      }
+    },
+    "/admin": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Área exclusiva do administrador (Secretário)",
+        "responses": {
+          "200": { "description": "Acesso autorizado" },
+          "401": { "description": "Não autorizado" }
+        }
+      }
+    }
+  }
+}

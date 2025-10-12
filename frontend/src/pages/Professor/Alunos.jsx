@@ -1,77 +1,82 @@
 import React, { useState } from "react";
-import "../../styles/pages/professor/mensagensProf.scss";
+//import "../../styles/pages/professor/mensagensProf.scss";
+import "../../styles/pages/professor/alunosProf.scss";
+import PerfilAluno from "./PerfilAluno";
 
-export default function MensagensProf() {
-  const [activeTab, setActiveTab] = useState("todas");
+export default function AlunosProf() {
+  const [filtro, setFiltro] = useState("Todos");
+  const [busca, setBusca] = useState("");
+  const [alunoSelecionado, setAlunoSelecionado] = useState(null);
+
+  const alunos = [
+    { id: 1, nome: "Maria Silva", turma: "Segunda", tempo: "3 meses", status: "Ativo", avatar: "MS", color: "#8b5cf6", email: "maria@email.com", telefone: "99999-0001" },
+    { id: 2, nome: "Pedro Alves", turma: "Quarta", tempo: "6 meses", status: "Ativo", avatar: "PA", color: "#22c55e", email: "pedro@email.com", telefone: "99999-0002" },
+    { id: 3, nome: "Carlos Mendes", turma: "Segunda", tempo: "1 mês", status: "Inativo", avatar: "CM", color: "#f59e0b", email: "carlos@email.com", telefone: "99999-0003" },
+    { id: 4, nome: "Ana Santos", turma: "Quarta", tempo: "2 meses", status: "Ativo", avatar: "AS", color: "#a855f7", email: "ana@email.com", telefone: "99999-0004" },
+  ];
+
+  const alunosFiltrados = alunos.filter((aluno) => {
+    const condBusca = aluno.nome.toLowerCase().includes(busca.toLowerCase());
+    const condFiltro =
+      filtro === "Todos" ||
+      (filtro === "Ativos" && aluno.status === "Ativo") ||
+      (filtro === "Inativos" && aluno.status === "Inativo") ||
+      aluno.turma === filtro;
+
+    return condBusca && condFiltro;
+  });
+
+  if (alunoSelecionado) {
+    return (
+      <PerfilAluno aluno={alunoSelecionado} onBack={() => setAlunoSelecionado(null)} />
+    );
+  }
 
   return (
-    <div className="mensagens-aluno">
-      {/* Search Bar */}
-      <div className="search-container">
-        <div className="search-bar">
-          <i className="fas fa-search search-icon"></i>
-          <input
-            type="text"
-            placeholder="Buscar mensagem..."
-            className="search-input"
-          />
-        </div>
+    <div className="alunos">
+      <input
+        type="text"
+        placeholder="Buscar aluno..."
+        value={busca}
+        onChange={(e) => setBusca(e.target.value)}
+      />
+
+      {/* 📌 Filtros */}
+      <div className="filtros">
+        {["Todos", "Ativos", "Inativos", "Segunda", "Quarta"].map((f) => (
+          <button
+            key={f}
+            className={filtro === f ? "ativo" : ""}
+            onClick={() => setFiltro(f)}
+          >
+            {f}
+          </button>
+        ))}
       </div>
 
-      {/* Filter Tabs */}
-      <div className="filter-tabs">
-        <button
-          className={`filter-tab ${activeTab === "todas" ? "active" : ""}`}
-          onClick={() => setActiveTab("todas")}
-        >
-          Todos
-        </button>
-        <button
-          className={`filter-tab ${activeTab === "favoritas" ? "active" : ""}`}
-          onClick={() => setActiveTab("favoritas")}
-        >
-          Favoritas
-        </button>
-      </div>
-
-      {/* Messages List */}
-      <div className="messages-list">
-        {/* Message 1 - Personal Felipe */}
-        <div className="message-item">
-          <div className="message-avatar purple">
-            <span>FM</span>
-          </div>
-          <div className="message-content">
-            <div className="message-header">
-              <h3 className="message-name">Filipe Melo</h3>
+      {/* 📋 Lista de alunos */}
+      <div className="lista-alunos">
+        {alunosFiltrados.map((aluno) => (
+          <div
+            key={aluno.id}
+            className="aluno-card"
+            onClick={() => setAlunoSelecionado(aluno)}
+          >
+            <div className="avatar" style={{ background: aluno.color }}>
+              {aluno.avatar}
+            </div>
+            <div className="info">
+              <div className="nome">{aluno.nome}</div>
+              <div className="detalhes">
+                Turma {aluno.turma} • {aluno.tempo}
+              </div>
             </div>
           </div>
-        </div>
+        ))}
 
-        {/* Message 2 - Personal Thiago */}
-        <div className="message-item">
-          <div className="message-avatar orange">
-            <span>FE</span>
-          </div>
-          <div className="message-content">
-            <div className="message-header">
-              <h3 className="message-name">Felipe Evangelista</h3>
-            </div>
-          </div>
-        </div>
-
-        {/* Message 3 - Nutricionista Alessandra */}
-        <div className="message-item">
-          <div className="message-avatar blue">
-            <span>TW</span>
-          </div>
-          <div className="message-content">
-            <div className="message-header">
-              <h3 className="message-name">Thiago William</h3>
-            </div>
-          </div>
-        </div>
+        {alunosFiltrados.length === 0 && <p>Nenhum aluno encontrado.</p>}
       </div>
     </div>
   );
 }
+

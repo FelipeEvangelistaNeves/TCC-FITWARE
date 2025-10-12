@@ -12,6 +12,8 @@ const Modalidade = require("./modalidades")(sequelize, DataTypes);
 const Horario = require("./horarios")(sequelize, DataTypes);
 const Turma = require("./turmas")(sequelize, DataTypes);
 const AlunoTurma = require("./alunos_turmas")(sequelize, DataTypes);
+const AlunoDesafio = require("./alunos_desafios")(sequelize, DataTypes);
+const AlunoTreino = require("./alunos_treinos")(sequelize, DataTypes);
 const Treino = require("./treinos")(sequelize, DataTypes);
 const Exercicio = require("./exercicios")(sequelize, DataTypes);
 const TreinoExercicio = require("./treinos_exercicios")(sequelize, DataTypes);
@@ -44,6 +46,26 @@ Turma.belongsToMany(Aluno, {
   foreignKey: "tu_id",
 });
 
+// 🔹 Aluno ↔ Desafio (N:N) (via alunos_desafios)
+Aluno.belongsToMany(Desafio, {
+  through: AlunoDesafio,
+  foreignKey: "al_id",
+});
+Desafio.belongsToMany(Aluno, {
+  through: AlunoDesafio,
+  foreignKey: "de_id",
+});
+
+// 🔹 Aluno ↔ Treino (N:N) (via alunos_treinos)
+Aluno.belongsToMany(Treino, {
+  through: AlunoTreino,
+  foreignKey: "al_id",
+});
+Treino.belongsToMany(Aluno, {
+  through: AlunoTreino,
+  foreignKey: "tr_id",
+});
+
 // 🔹 Funcionario ↔ Treino (1:N) (professor do treino)
 Funcionario.hasMany(Treino, { foreignKey: "tr_prof_id" });
 Treino.belongsTo(Funcionario, { foreignKey: "tr_prof_id" });
@@ -73,6 +95,8 @@ module.exports = {
   Horario,
   Turma,
   AlunoTurma,
+  AlunoDesafio,
+  AlunoTreino,
   Treino,
   Exercicio,
   TreinoExercicio,
