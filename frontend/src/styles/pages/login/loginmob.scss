@@ -47,6 +47,13 @@ $disabled-text: #aaa;
   margin-bottom: 25px;
 }
 
+.error-msg {
+  color: #ff4444;
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: center;
+}
+
 // 📝 Inputs
 .input-group {
   text-align: left;
