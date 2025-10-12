@@ -1,0 +1,133 @@
+@import "../../abstract/variables";
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: $surface-1;
+  border-radius: $radius-md;
+  box-shadow: $shadow-2;
+  padding: $spacing-xl;
+  width: 90%;
+  max-width: 500px;
+  color: $color-text;
+  font-family: $font-family;
+
+  h3 {
+    margin-bottom: $spacing-lg;
+    font-weight: 700;
+    color: $color-purple-light;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $spacing-md;
+
+    label {
+      margin-bottom: $spacing-xs;
+      color: $color-text-muted;
+      font-weight: 500;
+    }
+
+    input,
+    select {
+      background: $surface-2;
+      border: 1px solid $border-color;
+      border-radius: $radius-sm;
+      color: $color-text;
+      padding: $spacing-sm $spacing-md;
+
+      &:focus {
+        border-color: $color-purple;
+        outline: none;
+      }
+    }
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-md;
+    margin-top: $spacing-lg;
+
+    .btn-cancelar {
+      background: none;
+      color: $color-text-muted;
+      border: 1px solid $border-color;
+      border-radius: $radius-md;
+      padding: $spacing-sm $spacing-lg;
+
+      &:hover {
+        background: $surface-2;
+      }
+    }
+
+    .btn-salvar {
+      background: $color-purple;
+      color: $white;
+      border: none;
+      border-radius: $radius-md;
+      padding: $spacing-sm $spacing-lg;
+
+      &:hover {
+        background: $purple-dark;
+      }
+    }
+
+    .btn-delete {
+      background: $color-red;
+      color: $white;
+      border: none;
+      border-radius: $radius-md;
+      padding: $spacing-sm $spacing-lg;
+
+      &:hover {
+        opacity: 0.85;
+      }
+    }
+  }
+
+  &.info {
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid $border-color;
+      padding: $spacing-sm 0;
+      color: $color-text;
+
+      strong {
+        color: $color-text-muted;
+      }
+    }
+  }
+}
+.modal-content.delete {
+  border: 1px solid $color-red;
+  text-align: center;
+
+  p {
+    color: $color-text-muted;
+    margin-bottom: $spacing-lg;
+  }
+
+  .btn-delete {
+    background: $color-red;
+    color: $white;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}

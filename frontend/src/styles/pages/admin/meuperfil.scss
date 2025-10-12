@@ -1,0 +1,72 @@
+@import "../../abstract/variables";
+
+.perfil-container {
+  padding: $spacing-lg;
+  color: $color-text;
+
+  .perfil-title {
+    font-size: $font-size-heading;
+    font-weight: 700;
+    margin-bottom: $spacing-lg;
+  }
+
+  .perfil-card {
+    background: $surface-2;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    box-shadow: $shadow-card;
+
+    .perfil-info {
+      margin-bottom: $spacing-lg;
+
+      h4 {
+        margin-bottom: $spacing-md;
+        color: $color-purple;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacing-sm;
+        padding: $spacing-sm;
+        border-bottom: 1px solid $border-color;
+
+        .label {
+          font-weight: 600;
+          color: $color-text-muted;
+        }
+      }
+    }
+
+    .perfil-actions {
+      display: flex;
+      gap: $spacing-md;
+
+      .btn-edit {
+        background: $color-purple;
+        color: $white;
+        border: none;
+        border-radius: $radius-md;
+        padding: $spacing-sm $spacing-md;
+        font-weight: 600;
+
+        &:hover {
+          background: $purple-dark;
+        }
+      }
+
+      .btn-danger {
+        background: $color-red;
+        color: $white;
+        border: none;
+        border-radius: $radius-md;
+        padding: $spacing-sm $spacing-md;
+        font-weight: 600;
+
+        &:hover {
+          background: darken($color-red, 10%);
+        }
+      }
+    }
+  }
+}

@@ -45,7 +45,7 @@ export default function SideBar() {
     },
     {
       path: "/admin/brindes",
-      label: "brindes",
+      label: "Brindes",
       icon: "bi-trophy",
     },
   ];

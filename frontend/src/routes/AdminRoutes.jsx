@@ -9,6 +9,8 @@ import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import Financeiro from "./../pages/Admin/Financeiro";
 import Brindes from "./../pages/Admin/Brindes";
 import Notificacao from "./../pages/Admin/Notificacoes";
+import MeuPerfil from "../pages/Admin/AdmPerf";
+import Configuracoes from "../pages/Admin/Configuracoes";
 export default function AdminRoutes() {
   const [auth, setAuth] = useState(null);
 
@@ -48,6 +50,9 @@ export default function AdminRoutes() {
         <Route path="treinos" element={<Treinos />} />
         <Route path="brindes" element={<Brindes />} />
         <Route path="notificacoes" element={<Notificacao />} />
+        <Route path="perfil" element={<MeuPerfil />} />
+        <Route path="configuracoes" element={<Configuracoes />} />
+        <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>
     </Routes>
   );
