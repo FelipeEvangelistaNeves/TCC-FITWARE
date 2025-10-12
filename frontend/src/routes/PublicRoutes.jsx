@@ -17,6 +17,7 @@ export default function PublicRoutes() {
         <Route path="sobre" element={<Sobre />} />
         <Route path="suporte" element={<Suporte />} />
         <Route path="escolherlogin" element={<EscolherLogin />} />
+        <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>
     </Routes>
   );

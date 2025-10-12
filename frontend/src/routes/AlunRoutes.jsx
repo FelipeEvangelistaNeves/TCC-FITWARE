@@ -53,6 +53,7 @@ export default function AlunoRoutes() {
         <Route path="treinos" element={<TreinosAluno />} />
         <Route path="mensagens" element={<MensagensAluno />} />
         <Route path="perfil" element={<PerfilAluno />} />
+        <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>
     </Routes>
   );

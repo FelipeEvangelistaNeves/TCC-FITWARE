@@ -84,22 +84,22 @@ export default function Header() {
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="perfil">
                       <i className="bi bi-person me-2"></i>
                       Meu Perfil
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="configuracoes">
                       <i className="bi bi-gear me-2"></i>
                       Configurações
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="notificacoes">
                       <i className="bi bi-bell me-2"></i>
                       Notificações
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <hr className="dropdown-divider" />

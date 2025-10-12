@@ -60,11 +60,7 @@ export default function Dashboard() {
           <span className="card-value">156</span>
           <span className="card-change positive">+12% este mês</span>
         </div>
-        <div className="card">
-          <span className="card-title">Treinos Enviados</span>
-          <span className="card-value">432</span>
-          <span className="card-change positive">+18% este mês</span>
-        </div>
+
         <div className="card">
           <span className="card-title">Desafios Ativos</span>
           <span className="card-value">24</span>

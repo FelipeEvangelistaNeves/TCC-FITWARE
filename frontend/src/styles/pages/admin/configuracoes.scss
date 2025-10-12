@@ -1,0 +1,129 @@
+@import "../../abstract/variables";
+
+.admin-configuracoes {
+  padding: $spacing-xl;
+  color: $color-text;
+  background: $color-bg-dark;
+  min-height: 100vh;
+  font-family: $font-family;
+
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: $spacing-lg;
+  }
+
+  .config-section {
+    background: $surface-1;
+    border-radius: $radius-md;
+    padding: $spacing-lg;
+    margin-bottom: $spacing-lg;
+    box-shadow: $shadow-card;
+
+    h4 {
+      color: $accent-yellow;
+      margin-bottom: $spacing-md;
+    }
+
+    .config-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacing-md;
+
+      label {
+        font-weight: 500;
+        color: $color-text-muted;
+      }
+
+      input[type="email"],
+      input[type="password"] {
+        background: $surface-2;
+        border: 1px solid $border-color;
+        border-radius: $radius-sm;
+        padding: $spacing-sm $spacing-md;
+        color: $color-text;
+        width: 50%;
+        font-size: $font-size-base;
+
+        &:focus {
+          border-color: $color-purple;
+          outline: none;
+        }
+      }
+    }
+
+    .btn-salvar {
+      background: $color-purple;
+      border: none;
+      color: $white;
+      border-radius: $radius-md;
+      padding: $spacing-sm $spacing-lg;
+      font-weight: 600;
+      margin-top: $spacing-md;
+      transition: 0.3s;
+
+      &:hover {
+        background: $purple-dark;
+      }
+    }
+  }
+
+  /* ===== Toggle Switch ===== */
+  .toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 24px;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    label {
+      position: absolute;
+      cursor: pointer;
+      background: $border-color;
+      border-radius: 50px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: background 0.3s;
+
+      &::before {
+        content: "";
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background: $white;
+        border-radius: 50%;
+        transition: transform 0.3s;
+      }
+    }
+
+    input:checked + label {
+      background: $color-purple;
+
+      &::before {
+        transform: translateX(26px);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .config-item {
+      flex-direction: column;
+      align-items: flex-start;
+
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        margin-top: $spacing-sm;
+      }
+    }
+  }
+}

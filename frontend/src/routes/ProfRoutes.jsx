@@ -44,6 +44,7 @@ export default function ProfRoutes() {
         <Route path="treinos" element={<TreinosProf />} />
         <Route path="mensagens" element={<MensagensProf />} />
         <Route path="perfil" element={<PerfilProf />} />
+        <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>
     </Routes>
   );
