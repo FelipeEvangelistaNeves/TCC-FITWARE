@@ -39,11 +39,16 @@ const alunoRoutes = require("./router/alunoRoutes");
 const professorRoutes = require("./router/professorRoutes");
 const adminRoutes = require("./router/adminRoutes");
 const authRoutes = require("./router/authRoutes");
+const treinoRoutes = require("./router/treinoRoutes");
 
+// Logins
 app.use("/login/aluno", alunoRoutes);
 app.use("/login/professor", professorRoutes);
 app.use("/login/admin", adminRoutes);
 app.use("/", authRoutes);
+
+// API Fetch
+app.use("/api/treinos", treinoRoutes);
 
 // Swagger docs
 swaggerDocs(app);
