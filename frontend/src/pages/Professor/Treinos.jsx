@@ -32,7 +32,6 @@ export default function DashboardAluno() {
 
     fetchTreinos();
   }, []); // executa apenas 1x ao montar o componente
-  // colocar logger message depois
   if (erro) return <p>{erro}</p>;
 
   return (
