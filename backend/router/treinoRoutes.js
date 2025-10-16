@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const treinoController = require("../controllers/treinoController");
-const { roleMiddleware}  = require("../middleware/auth");
+const { listarTreinos } = require("../controllers/treinoController");
+const { roleMiddleware } = require("../middleware/auth");
 
 /**
  * @swagger
@@ -15,6 +15,6 @@ const { roleMiddleware}  = require("../middleware/auth");
  *       500:
  *         description: Erro ao buscar treinos
  */
-router.get("/", roleMiddleware, treinoController.listar);
+router.get("/", roleMiddleware, listarTreinos);
 
 module.exports = router;

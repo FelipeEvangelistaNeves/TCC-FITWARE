@@ -32,9 +32,7 @@ export default function DashboardAluno() {
 
     fetchTreinos();
   }, []); // executa apenas 1x ao montar o componente
-
-  if (loading) return <p>Carregando treinos...</p>; // colocar logger message depois
-  if (erro) return <p>{erro}</p>; 
+  if (erro) return <p>{erro}</p>;
 
   return (
     <div className="dashboard-aluno">
@@ -75,7 +73,9 @@ export default function DashboardAluno() {
                   <div className="exercise-item" key={ex.ex_id}>
                     <span className="exercise-number">{index + 1}</span>
                     <span className="exercise-name">{ex.ex_nome}</span>
-                    <span className="exercise-sets">{ex.ex_repeticoes || ""}</span>
+                    <span className="exercise-sets">
+                      {ex.ex_repeticoes || ""}
+                    </span>
                   </div>
                 ))}
               </div>
