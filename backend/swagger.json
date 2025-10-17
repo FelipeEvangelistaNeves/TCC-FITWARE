@@ -162,6 +162,42 @@
           "401": { "description": "Não autorizado" }
         }
       }
+    },
+    "/treinos": {
+      "get": {
+        "tags": ["Professor"],
+        "summary": "Lista todos os treinos cadastrados (somente professor)",
+        "description": "Retorna todos os treinos disponíveis para o professor logado.",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Lista de treinos obtida com sucesso",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "nome": "Treino de força",
+                    "aluno": "João",
+                    "data": "2025-10-16"
+                  }
+                ]
+              }
+            }
+          },
+          "401": { "description": "Não autorizado" },
+          "500": { "description": "Erro ao buscar treinos" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   }
 }

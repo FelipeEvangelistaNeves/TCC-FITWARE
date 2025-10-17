@@ -3,6 +3,7 @@ const router = express.Router();
 const { Funcionario } = require("../models");
 const { authMiddleware, roleMiddleware } = require("../middleware/auth");
 const { loginProfessor } = require("../controllers/professorController");
+const LoggerMessages = require("../loggerMessages");
 
 /**
  * @swagger
@@ -77,7 +78,7 @@ router.get(
   authMiddleware,
   roleMiddleware(["Professor"]),
   (req, res) => {
-    res.json({ message: "Área do professor" });
+    res.json({ message: LoggerMessages.PROFESSOR_SUCCESS });
   }
 );
 

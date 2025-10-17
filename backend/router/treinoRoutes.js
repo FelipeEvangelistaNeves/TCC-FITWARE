@@ -6,15 +6,29 @@ const { roleMiddleware } = require("../middleware/auth");
 
 /**
  * @swagger
- * /api/treinos:
- * 
- * 
+ * /treinos:
+ *   get:
+ *     tags:
+ *       - Professor
+ *     summary: Lista todos os treinos cadastrados (somente professor)
+ *     description: Retorna uma lista de treinos associados ao professor logado.
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Fetch bem-sucedido
+ *         description: Lista de treinos obtida com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1
+ *                 nome: "Treino de força"
+ *                 aluno: "João"
+ *                 data: "2025-10-16"
+ *       401:
+ *         description: Token inválido ou não autorizado
  *       500:
  *         description: Erro ao buscar treinos
  */
-router.get("/", roleMiddleware, listarTreinos);
+router.get("/", roleMiddleware("professor"), listarTreinos);
 
 module.exports = router;
