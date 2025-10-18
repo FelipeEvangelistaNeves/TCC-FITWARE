@@ -1,11 +1,19 @@
 const LoggerMessages = require("../loggerMessages");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-function authMiddleware(req, res, next) {
-  if (req.session && req.session.user) {
-    return next();
+exports.verifyToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: "Token não fornecido" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // salva dados do token na req
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: "Token inválido ou expirado" });
   }
-  return res.status(401).json({ error: LoggerMessages.AUTH_FAILED });
-}
+};
 
 function roleMiddleware(roles) {
   return (req, res, next) => {

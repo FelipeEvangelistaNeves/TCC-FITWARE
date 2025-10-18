@@ -1,15 +1,14 @@
-const express = require("express");
-const session = require("express-session");
-const cors = require("cors");
 require("dotenv").config({ quiet: true });
-
+const express = require("express");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
 
-// Swagger
 const swaggerDocs = require("./swagger");
 
-// Middlewares
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -18,21 +17,7 @@ app.use(
   })
 );
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60,
-    },
-  })
-);
+app.use(cookieParser());
 
 // Rotas
 const alunoRoutes = require("./router/alunoRoutes");
