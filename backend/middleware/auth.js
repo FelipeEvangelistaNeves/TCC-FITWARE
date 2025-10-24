@@ -2,7 +2,7 @@ const LoggerMessages = require("../loggerMessages");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.verifyToken = (req, res, next) => {
+function verifyToken(req, res, next) {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: "Token não fornecido" });
 
@@ -13,7 +13,7 @@ exports.verifyToken = (req, res, next) => {
   } catch (err) {
     return res.status(403).json({ message: "Token inválido ou expirado" });
   }
-};
+}
 
 function roleMiddleware(roles) {
   return (req, res, next) => {
@@ -28,4 +28,4 @@ function roleMiddleware(roles) {
   };
 }
 
-module.exports = { authMiddleware, roleMiddleware };
+module.exports = { verifyToken, roleMiddleware };

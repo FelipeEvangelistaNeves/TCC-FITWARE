@@ -6,27 +6,27 @@ const LoginDesk = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function Executar() {
+    setErrorMsg("");
     try {
       const response = await fetch("http://localhost:3000/login/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // necessário para cookies de sessão
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
       if (response.ok) {
-        alert("Login realizado com sucesso!");
         console.log(data);
         navigate("/admin");
       } else {
-        alert("Erro: " + data.message);
+        setErrorMsg(data.message);
       }
     } catch (err) {
-      console.error("Erro ao logar:", err);
-      alert(err.message || "Erro ao logar");
+      setErrorMsg(err.message);
     }
   }
   return (
@@ -69,7 +69,7 @@ const LoginDesk = () => {
           <div className="login-form-container">
             <h2>Bem-vindo de volta</h2>
             <p>Acesse sua conta administrativa</p>
-
+            <p className="error-msg">{errorMsg}</p>
             <div className="login-form">
               <div className="form-group">
                 <label htmlFor="email">Email</label>

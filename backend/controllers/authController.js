@@ -2,8 +2,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { Aluno, Funcionario } = require("../models");
 const LoggerMessages = require("../loggerMessages");
-require("dotenv").config();
-
+require("dotenv").config({
+  quiet: true,
+});
 exports.login = async (req, res) => {
   try {
     const { email, senha } = req.body;

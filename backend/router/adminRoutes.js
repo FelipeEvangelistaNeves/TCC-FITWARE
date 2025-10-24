@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Funcionario } = require("../models");
-const { authMiddleware, roleMiddleware } = require("../middleware/auth");
+const { roleMiddleware, verifyToken } = require("../middleware/auth");
 const { loginAdmin } = require("../controllers/adminController");
 const LoggerMessages = require("../loggerMessages");
 
@@ -35,32 +35,7 @@ const LoggerMessages = require("../loggerMessages");
  *       401:
  *         description: Credenciais inválidas
  */
-router.post("/", loginAdmin, async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const funcionario = await Funcionario.findByEmail(email);
-
-    if (
-      !funcionario ||
-      funcionario.fu_senha !== password ||
-      funcionario.fu_cargo !== "Secretario"
-    ) {
-      return res.status(401).json({ message: LoggerMessages.LOGIN_FAILED });
-    }
-
-    req.session.user = {
-      id: funcionario.fu_id,
-      email: funcionario.fu_email,
-      role: funcionario.fu_cargo,
-    };
-
-    res.json({ message: LoggerMessages.LOGIN_SUCCESS, user: req.session.user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: LoggerMessages.SERVER_ERROR });
-  }
-});
-
+router.post("/", loginAdmin);
 /**
  * @swagger
  * /admin:
@@ -75,15 +50,12 @@ router.post("/", loginAdmin, async (req, res) => {
  */
 router.get(
   "/admin",
-  authMiddleware,
-  roleMiddleware(["Secretario"]),
+  verifyToken, // middleware que valida JWT no cookie e popula req.user
+  roleMiddleware(["Secretario"]), // garante que req.user.role === "Professor"
   (req, res) => {
-    res.json({ message: LoggerMessages.ADMIN_SUCCESS });
+    res.json({
+      message: LoggerMessages.ADMIN_SUCCESS || "Acesso autorizado",
+    });
   }
 );
-
-// router.get("/admin/treinos", treinoController, async (req, res) => {
-//   res.json({});
-// });
-
 module.exports = router;

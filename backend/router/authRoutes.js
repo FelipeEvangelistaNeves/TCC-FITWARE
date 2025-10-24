@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authMiddleware, roleMiddleware } = require("../middleware/auth");
+const { verifyToken, roleMiddleware } = require("../middleware/auth");
 const { protectedRoute, logout } = require("../controllers/authController");
 
 /**
@@ -15,7 +15,7 @@ const { protectedRoute, logout } = require("../controllers/authController");
  *       401:
  *         description: Não autorizado
  */
-router.get("/protected", authMiddleware, protectedRoute);
+router.get("/protected", verifyToken, protectedRoute);
 
 /**
  * @swagger

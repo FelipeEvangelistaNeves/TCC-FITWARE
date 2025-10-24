@@ -1,7 +1,7 @@
+// routes/professorRoutes.js
 const express = require("express");
 const router = express.Router();
-const { Funcionario } = require("../models");
-const { authMiddleware, roleMiddleware } = require("../middleware/auth");
+const { verifyToken, roleMiddleware } = require("../middleware/auth");
 const { loginProfessor } = require("../controllers/professorController");
 const LoggerMessages = require("../loggerMessages");
 
@@ -35,31 +35,7 @@ const LoggerMessages = require("../loggerMessages");
  *       401:
  *         description: Credenciais inválidas
  */
-router.post("/", loginProfessor, async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const funcionario = await Funcionario.findByEmail(email);
-
-    if (
-      !funcionario ||
-      funcionario.fu_senha !== password ||
-      funcionario.fu_cargo !== "Professor"
-    ) {
-      return res.status(401).json({ message: LoggerMessages.LOGIN_FAILED });
-    }
-
-    req.session.user = {
-      id: funcionario.fu_id,
-      email: funcionario.fu_email,
-      role: funcionario.fu_cargo,
-    };
-
-    res.json({ message: LoggerMessages.LOGIN_SUCESS, user: req.session.user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: LoggerMessages.SERVER_ERROR });
-  }
-});
+router.post("/", loginProfessor); // controller trata todo o fluxo de login
 
 /**
  * @swagger
@@ -75,10 +51,12 @@ router.post("/", loginProfessor, async (req, res) => {
  */
 router.get(
   "/professor",
-  authMiddleware,
-  roleMiddleware(["Professor"]),
+  verifyToken, // middleware que valida JWT no cookie e popula req.user
+  roleMiddleware(["Professor"]), // garante que req.user.role === "Professor"
   (req, res) => {
-    res.json({ message: LoggerMessages.PROFESSOR_SUCCESS });
+    res.json({
+      message: LoggerMessages.PROFESSOR_SUCCESS || "Acesso autorizado",
+    });
   }
 );
 

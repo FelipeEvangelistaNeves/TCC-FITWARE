@@ -2,8 +2,9 @@ const { Aluno } = require("../models");
 const LoggerMessages = require("../loggerMessages");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-
+require("dotenv").config({
+  quiet: true,
+});
 exports.loginAluno = async (req, res) => {
   const { email, password } = req.body;
 

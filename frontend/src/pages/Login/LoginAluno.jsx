@@ -10,7 +10,7 @@ export default function LoginAluno() {
   const navigate = useNavigate();
 
   async function Executar() {
-    setErrorMsg(""); // limpa mensagens anteriores
+    setErrorMsg("");
 
     try {
       const response = await fetch("http://localhost:3000/login/aluno", {
