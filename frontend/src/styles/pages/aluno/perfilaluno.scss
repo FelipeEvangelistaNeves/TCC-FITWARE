@@ -1,505 +1,428 @@
 @import "./../../abstract/variables.scss";
 
-/* ===== Container Geral ===== */
 .perfil-container {
-  background: $app-bg;
+  background-color: $app-bg;
   color: $text;
   min-height: 100vh;
-  padding: 16px;
-  margin-top: var(--header-height, 64px);
+  //padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  font-family: $font-family;
+  align-items: center;
+  margin-bottom: 80px;
+
+  &.roxo {
+    .perfil-tabs button.active {
+      color: $purple-dark;
+      border-bottom: 2px solid $purple-dark;
+    }
+  }
+  &.verde {
+    .perfil-tabs button.active {
+      color: $color-green;
+      border-bottom: 2px solid $color-green;
+    }
+  }
+  &.amarelo {
+    .perfil-tabs button.active {
+      color: $accent-yellow;
+      border-bottom: 2px solid $accent-yellow;
+    }
+  }
 }
 
-/* ===== Header ===== */
 .perfil-header {
+  display: flex;
   justify-content: space-between;
+  width: 100%;
   align-items: center;
-  padding: 20px 20px 15px;
-  background: $surface-1;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid $border-color;
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $accent-yellow;
+  }
+  i {
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: $text;
+  }
+}
 
-
-  .avatar {
-    width: 80px;
-    height: 80px;
+.perfil-info {
+  text-align: center;
+  margin-top: 1.2rem;
+  .perfil-avatar {
+    background-color: $blue-light;
+    color: #fff;
+    font-weight: 600;
     border-radius: 50%;
-    background: $blue-light;
-    color: $white;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
+    margin: 0 auto;
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    margin-top: 0.8rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin: 0 auto 10px;
-  }
-
-  .nome {
-    margin: 0;
-    font-size: $font-size-heading;
-    font-weight: 700;
-    color: $text;
-  }
-
-  .sub {
-    margin: 4px 0;
-    color: $text-2;
-    font-size: $font-size-small;
-  }
-
-  .pontos-info {
-    margin-top: 8px;
-   
-
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: $radius-md;
-      font-weight: 700;
-      font-size: $font-size-small;
-    }
-
-    /* padrão: badge de pontos (quando não estiver em pagamentos) */
-    .badge.pontos {
-      background: $surface-2;
-      color: $accent-yellow;
-    }
-
-    .sub-info {
-      color: $text-2;
-      font-size: $font-size-small;
-      margin-top: 6px;
-    }
-  }
-}
-
-/* ===== Tabs ===== */
-.perfil-tabs {
-  display: flex;
-  gap: 6px;
-  border-bottom: 1px solid $border-color;
-
-  .tab-btn {
-    flex: 1;
-    padding: 12px 0;
-    background: transparent;
-    border: none;
-    font-weight: 700;
-    color: $text-2;
-    cursor: pointer;
-    position: relative;
-    font-size: $font-size-base;
-
-    &.active {
-      color: $text;
-    }
-
-    /* underlines coloridas */
-    &.purple.active {
-      &::after {
-        content: "";
-        position: absolute;
-        left: 20%;
-        right: 20%;
-        bottom: -1px;
-        height: 3px;
-        background: $primary;
-        border-radius: $radius-sm;
-      }
-    }
-    &.green.active {
-      &::after {
-        content: "";
-        position: absolute;
-        left: 20%;
-        right: 20%;
-        bottom: -1px;
-        height: 3px;
-        background: $color-green;
-        border-radius: $radius-sm;
-      }
-    }
-    &.yellow.active {
-      &::after {
-        content: "";
-        position: absolute;
-        left: 20%;
-        right: 20%;
-        bottom: -1px;
-        height: 3px;
-        background: $accent-yellow;
-        border-radius: $radius-sm;
-      }
-    }
-  }
-}
-
-/* ===========================================================
-   BADGE AZUL EM PAGAMENTOS
-   - Usa :has() quando disponível.
-   - Fallback: .pagamentos-active no .perfil-container (adicione essa classe via JSX se quiser compatibilidade total).
-   =========================================================== */
-
-/* Preferência: browsers modernos com :has() */
-.perfil-container:has(.perfil-tabs .tab-btn.green.active)
-  .pontos-info
-  .badge.pontos {
-  background: $blue-light;
-  color: $white;
-}
-
-/* Fallback (adiciona this class no container via JSX: <div className={`perfil-container ${tab}-active`}> ) */
-.perfil-container.pagamentos-active .pontos-info .badge.pontos {
-  background: $blue-light;
-  color: $white;
-}
-
-/* ===========================================================
-   CARDS — forçam override se Bootstrap existir
-   =========================================================== */
-.card {
-  background: $surface-2 !important; /* força sobre Bootstrap */
-  color: $text !important;
-  border: 1px solid $border-color;
-  border-radius: $radius-lg;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: $shadow-1;
-  position: relative;
-
-  /* garantir textos internos */
-  h4,
-  h5,
-  h6,
-  p,
-  li,
-  span,
-  a {
-    color: $text !important;
-  }
-
-  h4 {
-    font-size: 15px;
-    font-weight: 700;
-    margin: 0 0 8px 0;
-  }
-
-  /* pontos no topo direito */
-  .pontos {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    color: $accent-yellow !important;
-    font-weight: 700;
-    font-size: 14px;
   }
 
   p {
-    color: $text-2 !important;
-    margin: 6px 0;
-    font-size: $font-size-small;
+    font-size: 0.9rem;
+    color: $text;
   }
 
-  ul.exercises {
-    padding-left: 16px;
-    margin: 6px 0;
-    li {
-      margin-bottom: 6px;
-      color: $text !important;
+  .plano-btn {
+    margin-top: 0.6rem;
+    border: none;
+    border-radius: 20px;
+    padding: 0.3rem 1rem;
+    font-size: 0.85rem;
+    &.premium {
+      background-color: $blue-light;
+      color: #fff;
     }
   }
+}
 
-  .ver-todos {
-    color: $primary-500 !important;
-    font-size: 13px;
-    float: right;
-    cursor: pointer;
+.perfil-tabs {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 1.5rem;
+  button {
+    background: none;
+    border: none;
+    color: $text;
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem;
+    &.active {
+      color: $color-green;
+      font-weight: 600;
+      border-bottom: 2px solid $color-green;
+    }
   }
 }
 
-/* valores destacados */
-.card .valor {
-  color: $color-green !important;
-}
-.card .destaque {
-  color: $primary !important;
-}
+.perfil-content {
+  width: 100%;
+  margin-top: 1.2rem;
 
-/* ===========================================================
-   HISTÓRICO
-   - botão "Ver Detalhes" roxo apenas
-   - botão Resgatar amarelo forçado
-   =========================================================== */
-.historico-tab {
-  .bottom-card {
+  .card-section {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .tempo {
-    color: $text-2;
-    font-size: $font-size-small;
-  }
-
-  /* Somente roxo (primary). Removidas variações azuis. */
-  .btn-detalhes {
-    background: $primary !important;
-    color: $white !important;
-    border: none;
-    padding: 8px 12px;
-    border-radius: $radius-md;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  /* Garantir que qualquer classe .btn-blue não altere cor */
-  .btn-detalhes.btn-blue {
-    background: $primary !important;
-    color: $white !important;
-  }
-
-  /* botão resgatar — forçar amarelo (importante) */
-  .btn-resgatar {
-    background: $accent-yellow !important;
-    color: $black !important;
-    border: none;
-    border-radius: $radius-lg;
-    padding: 12px;
-    font-weight: 700;
-    width: 100%;
-    cursor: pointer;
-    box-shadow: $shadow-2;
-    margin-top: 12px;
-  }
-}
-
-/* ===========================================================
-   PAGAMENTOS
-   - espaçamento e layout interno ajustados conforme imagens
-   =========================================================== */
-.pagamentos-tab {
   .card {
-    padding: 18px 20px; /* mais espaçamento interno */
-    display: block;
-  }
+    background-color: $surface-1;
+    border-radius: 10px;
+    padding: 1rem;
+    color: $text;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-  .card h4 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .card p {
-    margin: 10px 0;
-    color: $text-2 !important;
-  }
-
-  .method-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    margin-top: 12px;
-  }
-
-  .method-left {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex: 1;
-
-    .method-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      background: $surface-3;
+    .card-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: $primary;
-      font-size: 20px;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: $accent-yellow;
+      i {
+        font-size: 1rem;
+      }
     }
 
-    .method-info {
-      .method-name {
+    .card-header-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: $text;
+      .status {
+        background-color: $color-green;
+        color: #fff;
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+      }
+      .valor {
+        color: $color-green;
         font-weight: 700;
-        color: $text;
       }
-      .method-sub {
-        font-size: $font-size-small;
-        color: $text-2;
-        margin-top: 2px;
+    }
+
+    .metodo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.6rem;
+      background-color: $surface-2;
+      padding: 0.6rem;
+      border-radius: 8px;
+      i {
+        color: $accent-yellow;
+        font-size: 1.2rem;
       }
+      .padrao {
+        background-color: $accent-yellow;
+        color: #000;
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+    }
+
+    a {
+      color: $blue-light;
+      font-size: 0.8rem;
+      text-decoration: none;
     }
   }
 
-  .method-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .badge.padrao {
-    background: $accent-yellow;
-    color: $black;
-    padding: 6px 10px;
-    border-radius: $radius-sm;
-    font-weight: 700;
-  }
-
-  .btn-outline {
-    margin-top: 12px;
-    background: transparent;
-    border: 1px solid $primary-500;
-    color: $primary-500;
-    padding: 10px;
-    border-radius: $radius-md;
-    width: 100%;
-    font-weight: 700;
-    cursor: pointer;
-
-    &:hover {
-      background: $primary-500;
-      color: $white;
+  .btn-adicionar {
+    background: none;
+    border: 1px solid $purple-dark;
+    color: $purple-dark;
+    padding: 0.4rem;
+    border-radius: 10px;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    i {
+      margin-right: 5px;
     }
-  }
-
-  .ver-todos {
-    color: $primary-500;
-  }
-
-  .cancel-wrap {
-    margin-top: 12px;
   }
 
   .btn-cancelar {
-    background: transparent;
-    border: 1px solid $color-red;
-    color: $color-red;
-    padding: 12px;
-    border-radius: $radius-lg;
-    width: 100%;
-    font-weight: 700;
-    cursor: pointer;
+    margin-top: 1rem;
+    background-color: transparent;
+    border: 1px solid red;
+    color: red;
+    border-radius: 10px;
+    padding: 0.6rem;
+    font-weight: 600;
+    i {
+      margin-right: 5px;
+    }
+  }
 
-    &:hover {
-      background: rgba(239, 68, 68, 0.08);
+  .pontos-header {
+    text-align: center;
+    .pontos-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: rgba(255, 193, 7, 0.15);
+      color: $accent-yellow;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      i {
+        font-size: 1rem;
+      }
+    }
+    p {
+      font-size: 0.85rem;
+      color: $text;
+    }
+  }
+
+  .nivel-card {
+    background-color: $surface-1;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    .nivel-header {
+      display: flex;
+      justify-content: space-between;
+      color: $accent-yellow;
+      font-weight: 600;
+    }
+    .progress {
+      background-color: $surface-2;
+      height: 8px;
+      border-radius: 5px;
+      margin-top: 0.4rem;
+      .progress-bar {
+        width: 85%;
+        height: 100%;
+        background-color: $accent-yellow;
+        border-radius: 5px;
+      }
+    }
+    small {
+      color: $text;
+      font-size: 0.8rem;
+    }
+  }
+
+  .historico-pontos {
+    margin-top: 1rem;
+    .pontos {
+      color: $accent-yellow;
+      font-weight: 700;
+    }
+  }
+
+}
+
+.perfil-info {
+  text-align: center;
+  margin-top: 1.2rem;
+  .perfil-avatar {
+    background-color: $blue-light;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    margin-top: 0.8rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $text;
+  }
+
+  .plano-btn {
+    margin-top: 0.6rem;
+    border: none;
+    border-radius: 20px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    &.premium {
+      background-color: $blue-light;
+      color: #fff;
+    }
+    &.pontos {
+      background-color: rgba($accent-yellow, 0.15);
+      color: $accent-yellow;
     }
   }
 }
 
-/* ===========================================================
-   PONTOS
-   - mantém amarelo pro progresso e resgatar
-   =========================================================== */
-.pontos-tab {
-  .nivel-card {
-    background: $surface-2;
-    border-radius: $radius-md;
-    padding: 14px;
-    margin-bottom: 12px;
+.perfil-tabs {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 1.5rem;
+  button {
+    background: none;
+    border: none;
+    color: $text;
+    font-weight: 500;
+    padding: 0.5rem;
+    transition: 0.2s;
+  }
+}
 
-    h4 {
+.perfil-content {
+  width: 100%;
+  margin-top: 1.2rem;
+
+  .titulo-secao {
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: $text;
+  }
+
+  .historico-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-treino {
+    background-color: $surface-1;
+    border-radius: 10px;
+    padding: 1rem;
+    .card-titulo {
       display: flex;
       justify-content: space-between;
-      margin: 0 0 8px 0;
+      font-weight: 600;
       color: $text;
+      .status {
+        background-color: $color-green;
+        color: #fff;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 5px;
+      }
     }
-    .badge.nivel {
-      background: $accent-yellow;
-      color: $black;
-      padding: 6px 10px;
-      border-radius: $radius-sm;
-      font-weight: 700;
+    .descricao {
+      color: $text;
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
     }
-
-    .progress {
-      height: 10px;
-      background: $surface-3;
-      border-radius: $radius-sm;
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-    .progress-bar {
-      height: 100%;
-      background: $accent-yellow;
-    }
-    .next-level {
-      color: $text-2;
-      font-size: $font-size-small;
+    .info-treino {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: $text;
+      i {
+        margin-right: 5px;
+      }
     }
   }
 
-  .pontos-historico {
-    h5 {
-      margin: 0 0 10px 0;
-      color: $text;
-      font-weight: 700;
-    }
-
-    .ponto-card {
-      background: $surface-3;
-      border-radius: $radius-md;
-      padding: 12px;
-      margin-bottom: 10px;
-      position: relative;
-
-      h6 {
-        margin: 0 0 6px 0;
-        color: $text;
-        font-weight: 700;
-      }
-      .data {
-        color: $text-2;
-        font-size: $font-size-small;
-        margin-bottom: 6px;
-      }
-      .descricao {
-        color: $text-2;
-        font-size: $font-size-small;
-      }
-      .pontos {
-        position: absolute;
-        right: 12px;
-        top: 12px;
-        color: $accent-yellow;
-        font-weight: 700;
-      }
-    }
+  .historico-pontos .card {
+    margin-bottom: 0.8rem;
   }
 
   .btn-resgatar {
-    margin-top: 12px;
-    background: $accent-yellow !important;
-    color: $black !important;
+    margin-top: 1.2rem;
+    background-color: $accent-yellow;
+    color: #000;
     border: none;
-    padding: 12px;
-    border-radius: $radius-lg;
-    font-weight: 700;
     width: 100%;
-    cursor: pointer;
+    padding: 0.7rem;
+    border-radius: 10px;
+    font-weight: 600;
+    i {
+      margin-right: 5px;
+    }
   }
 }
 
-/* ===== Responsividade ===== */
-@media (min-width: 768px) {
-  .perfil-container {
-    padding: 24px;
-  }
-  .card {
-    padding: 20px;
+.pontos-amarelo {
+  color: $accent-yellow;
+  font-weight: 600;
+}
+
+.btn-detalhes {
+  background-color: $purple-dark;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    background-color: darken($purple-dark, 8%);
   }
 }
 
-@media (min-width: 1100px) {
-  .perfil-container {
-    max-width: 980px;
-    margin: 0 auto;
-  }
+.perfil-container {
+  overflow-y: auto; // permite rolar a página até o fim
+  padding-bottom: 2rem;
 }
