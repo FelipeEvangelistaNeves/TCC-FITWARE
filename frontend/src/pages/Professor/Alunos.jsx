@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-//import "../../styles/pages/professor/mensagensProf.scss";
-import "../../styles/pages/professor/alunosProf.scss";
+import "../../styles/pages/professor/mensagensProf.scss";
 import PerfilAluno from "./PerfilAluno";
 
 export default function AlunosProf() {
@@ -27,26 +26,32 @@ export default function AlunosProf() {
   });
 
   if (alunoSelecionado) {
-    return (
-      <PerfilAluno aluno={alunoSelecionado} onBack={() => setAlunoSelecionado(null)} />
-    );
+    return <PerfilAluno aluno={alunoSelecionado} onBack={() => setAlunoSelecionado(null)} />;
   }
 
   return (
-    <div className="alunos">
-      <input
-        type="text"
-        placeholder="Buscar aluno..."
-        value={busca}
-        onChange={(e) => setBusca(e.target.value)}
-      />
+    <div className="mensagens-aluno">
+      
+      {/* Busca */}
+      <div className="search-container">
+        <div className="search-bar">
+          <i className="bi bi-search search-icon"></i>
+          <input
+            type="text"
+            placeholder="Buscar aluno..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            className="search-input"
+          />
+        </div>
+      </div>
 
-      {/* 📌 Filtros */}
-      <div className="filtros">
+      {/* Filtros */}
+      <div className="filter-tabs">
         {["Todos", "Ativos", "Inativos", "Segunda", "Quarta"].map((f) => (
           <button
             key={f}
-            className={filtro === f ? "ativo" : ""}
+            className={`filter-tab ${filtro === f ? "active" : ""}`}
             onClick={() => setFiltro(f)}
           >
             {f}
@@ -54,29 +59,40 @@ export default function AlunosProf() {
         ))}
       </div>
 
-      {/* 📋 Lista de alunos */}
-      <div className="lista-alunos">
+      {/* Lista de alunos */}
+      <div className="messages-list">
         {alunosFiltrados.map((aluno) => (
           <div
             key={aluno.id}
-            className="aluno-card"
+            className="message-item"
             onClick={() => setAlunoSelecionado(aluno)}
           >
-            <div className="avatar" style={{ background: aluno.color }}>
-              {aluno.avatar}
+            <div className="message-avatar" style={{ background: aluno.color }}>
+              <span>{aluno.avatar}</span>
             </div>
-            <div className="info">
-              <div className="nome">{aluno.nome}</div>
-              <div className="detalhes">
-                Turma {aluno.turma} • {aluno.tempo}
+
+            <div className="message-content">
+              <div className="message-header">
+                <h4 className="message-name">{aluno.nome}</h4>
+                <span className="message-time">{aluno.tempo}</span>
               </div>
+              <p className="message-preview">Turma {aluno.turma} — {aluno.status}</p>
+            </div>
+
+            <div className="message-actions">
+              {aluno.status === "Ativo" && (
+                <div className="unread-badge"></div>
+              )}
             </div>
           </div>
         ))}
 
-        {alunosFiltrados.length === 0 && <p>Nenhum aluno encontrado.</p>}
+        {alunosFiltrados.length === 0 && (
+          <p style={{ textAlign: "center", color: "#9ca3af" }}>
+            Nenhum aluno encontrado.
+          </p>
+        )}
       </div>
     </div>
   );
 }
-
