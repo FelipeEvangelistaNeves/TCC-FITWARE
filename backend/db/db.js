@@ -16,6 +16,11 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   port: DB_PORT,
   dialect: "postgres",
+  dialectOptions: {
+    charset: "utf8",
+    useUTC: false,
+  },
+  timezone: "-03:00", // Ajuste para o horário de Brasília
   logging: false, // true = queries no console
 });
 

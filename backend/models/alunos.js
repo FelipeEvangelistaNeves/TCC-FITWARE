@@ -22,5 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     return await Aluno.findOne({ where: { al_email: email } });
   };
 
+  Aluno.findByPk = async function (id, options = {}) {
+    return await Aluno.findOne({ where: { al_id: id }, ...options });
+  };
   return Aluno;
 };

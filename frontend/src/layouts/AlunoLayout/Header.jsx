@@ -2,9 +2,29 @@ import React from "react";
 import { Bell } from "lucide-react";
 import "../../styles/layout/mobHeader.scss";
 import { LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function HeaderAluno({ title }) {
+  const [iniciais, setIniciais] = useState("");
 
+  useEffect(() => {
+    const fetchAlunos = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/alunos", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!res.ok) throw new Error("Erro ao buscar dados do aluno");
+
+        const data = await res.json();
+        setIniciais(data.iniciais);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAlunos();
+  }, []); // executa apenas 1x ao montar o componente
   async function handleLogout() {
     try {
       const res = await fetch("http://localhost:3000/logout", {
@@ -38,7 +58,7 @@ export default function HeaderAluno({ title }) {
           </button>
 
           {/* Avatar com iniciais */}
-          <div className="profile-avatar">MS</div>
+          <div className="profile-avatar"> {iniciais} </div>
         </div>
       </div>
     </header>

@@ -35,6 +35,7 @@ app.use("/login/admin", adminRoutes);
 app.use("/", authRoutes);
 
 // API Fetch
+app.use("/api/alunos", alunoRoutes);
 app.use("/api/treinos", treinoRoutes);
 
 // Swagger docs

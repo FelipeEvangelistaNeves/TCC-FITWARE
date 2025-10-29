@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
 import ResgatePontosModal from "./ResgatePontosModal";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -25,6 +25,31 @@ export default function PerfilAluno() {
     return "850 Pontos";
   };
 
+  const [nome, setNome] = useState("");
+  const [iniciais, setIniciais] = useState("");
+
+  useEffect(() => {
+    const fetchAlunos = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/alunos", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json; charset=utf-8",
+          },
+        });
+        if (!res.ok) throw new Error("Erro ao buscar dados do aluno");
+
+        const data = await res.json();
+        setNome(data.nome);
+        setIniciais(data.iniciais);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAlunos();
+  }, []); // executa apenas 1x ao montar o componente
   return (
     <div className={`perfil-container ${getAbaCor()}`}>
       <div className="perfil-header">
@@ -33,8 +58,8 @@ export default function PerfilAluno() {
       </div>
 
       <div className="perfil-info">
-        <div className="perfil-avatar">MS</div>
-        <h3>Maria Silva</h3>
+        <div className="perfil-avatar">{iniciais}</div>
+        <h3>{nome}</h3>
         <p>Turma Segunda • 3 meses</p>
         <button
           className={`plano-btn ${
@@ -116,7 +141,10 @@ export default function PerfilAluno() {
             </div>
 
             {/* Botão resgatar também no histórico */}
-            <button className="btn-resgatar" onClick={() => setModalAberto(true)}>
+            <button
+              className="btn-resgatar"
+              onClick={() => setModalAberto(true)}
+            >
               <i className="bi bi-gift"></i> Resgatar Pontos
             </button>
           </div>
@@ -196,7 +224,9 @@ export default function PerfilAluno() {
                   <span>Treino de Força</span>
                   <span className="pontos">+50</span>
                 </div>
-                <p>Hoje • Treino completo com todos os exercícios realizados.</p>
+                <p>
+                  Hoje • Treino completo com todos os exercícios realizados.
+                </p>
               </div>
 
               <div className="card">
@@ -204,7 +234,9 @@ export default function PerfilAluno() {
                   <span>Treino de Cardio</span>
                   <span className="pontos">+40</span>
                 </div>
-                <p>Ontem • Treino completo com todos os exercícios realizados.</p>
+                <p>
+                  Ontem • Treino completo com todos os exercícios realizados.
+                </p>
               </div>
 
               <div className="card">
@@ -213,19 +245,25 @@ export default function PerfilAluno() {
                   <span className="pontos">+100</span>
                 </div>
                 <p>
-                  3 dias atrás • Completou 5 dias do desafio de 7 dias consecutivos.
+                  3 dias atrás • Completou 5 dias do desafio de 7 dias
+                  consecutivos.
                 </p>
               </div>
             </div>
 
-            <button className="btn-resgatar" onClick={() => setModalAberto(true)}>
+            <button
+              className="btn-resgatar"
+              onClick={() => setModalAberto(true)}
+            >
               <i className="bi bi-gift"></i> Resgatar Pontos
             </button>
           </div>
         )}
       </div>
 
-      {modalAberto && <ResgatePontosModal onClose={() => setModalAberto(false)} />}
+      {modalAberto && (
+        <ResgatePontosModal onClose={() => setModalAberto(false)} />
+      )}
     </div>
   );
 }

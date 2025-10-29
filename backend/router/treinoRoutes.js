@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { listarTreinos } = require("../controllers/treinoController");
+const { dataTreinos } = require("../controllers/treinoController");
 const { roleMiddleware } = require("../middleware/auth");
 
 /**
@@ -29,6 +29,6 @@ const { roleMiddleware } = require("../middleware/auth");
  *       500:
  *         description: Erro ao buscar treinos
  */
-router.get("/", roleMiddleware("professor"), listarTreinos);
+router.get("/", roleMiddleware("professor"), dataTreinos);
 
 module.exports = router;
