@@ -54,19 +54,18 @@ export default function Dashboard() {
       <h1>Dashboard</h1>
 
       {/* Cards Superiores */}
-      <div className="cards-grid">
-        <div className="card">
-          <span className="card-title">Total de Alunos</span>
+      <div className="cards-grid text-white">
+        <div className="card text-white">
           <span className="card-value">156</span>
           <span className="card-change positive">+12% este mês</span>
         </div>
 
-        <div className="card">
+        <div className="card text-white">
           <span className="card-title">Desafios Ativos</span>
           <span className="card-value">24</span>
           <span className="card-change negative">-3% este mês</span>
         </div>
-        <div className="card">
+        <div className="card text-white">
           <span className="card-title">Pontos Resgatados</span>
           <span className="card-value">12.5k</span>
           <span className="card-change positive">+18% este mês</span>

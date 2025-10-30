@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/tabelas.scss";
 
 export default function Brindes() {
   const [activeTab, setActiveTab] = useState("todos");
-
-  const brindes = [
+  const [busca, setBusca] = useState("");
+  const [pagina, setPagina] = useState(1);
+  const [brindes, setBrindes] = useState([
     {
       id: "BR-2305",
       nome: "Camiseta FitWare",
@@ -26,7 +28,33 @@ export default function Brindes() {
       estoque: 25,
       status: "esgotado",
     },
-  ];
+  ]);
+
+  const navigate = useNavigate();
+  const itensPorPagina = 10;
+
+  // ====== FILTRO DE BUSCA E ABA ======
+  const filtrados = brindes.filter((b) => {
+    const termo = busca.toLowerCase();
+    const correspondeBusca = b.nome.toLowerCase().includes(termo);
+    const correspondeAba = activeTab === "ativos" ? b.status === "ativo" : true;
+    return correspondeBusca && correspondeAba;
+  });
+
+  // ====== PAGINAÇÃO ======
+  const totalPaginas = Math.ceil(filtrados.length / itensPorPagina);
+  const inicio = (pagina - 1) * itensPorPagina;
+  const brindesPaginados = filtrados.slice(inicio, inicio + itensPorPagina);
+
+  const trocarPagina = (novaPagina) => {
+    if (novaPagina >= 1 && novaPagina <= totalPaginas) setPagina(novaPagina);
+  };
+
+  // ====== EXCLUIR BRINDE ======
+  const excluirBrinde = (id) => {
+    const confirmar = window.confirm("Deseja realmente excluir este brinde?");
+    if (confirmar) setBrindes(brindes.filter((b) => b.id !== id));
+  };
 
   return (
     <div className="tabela-page">
@@ -38,8 +66,12 @@ export default function Brindes() {
             type="text"
             placeholder="Buscar Brinde..."
             className="search-input"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
           />
-          <button className="add-btn">+ Criar Brinde</button>
+          <button className="add-btn" onClick={() => navigate("criar")}>
+            + Criar Brinde
+          </button>
         </div>
       </div>
 
@@ -63,7 +95,6 @@ export default function Brindes() {
       <table className="tabela">
         <thead>
           <tr>
-            <th></th>
             <th>Nome do Brinde</th>
             <th>Pontos</th>
             <th>Estoque</th>
@@ -72,41 +103,66 @@ export default function Brindes() {
           </tr>
         </thead>
         <tbody>
-          {brindes
-            .filter((brinde) =>
-              activeTab === "ativos" ? brinde.status === "ativo" : true
-            )
-            .map((brinde, index) => (
-              <tr key={index}>
-                <td>
-                  <input type="checkbox" />
-                </td>
-                <td>{brinde.nome}</td>
+          {brindesPaginados.length > 0 ? (
+            brindesPaginados.map((b, i) => (
+              <tr key={i}>
+                <td>{b.nome}</td>
                 <td>
                   <span style={{ color: "#dbac0d", fontWeight: "600" }}>
-                    ⭐ {brinde.pontos}
+                    ⭐ {b.pontos}
                   </span>
                 </td>
-                <td>{brinde.estoque}</td>
+                <td>{b.estoque}</td>
                 <td>
                   <span
                     className={`status ${
-                      brinde.status === "ativo" ? "pago" : "cancelado"
+                      b.status === "ativo" ? "pago" : "cancelado"
                     }`}
                   >
-                    {brinde.status === "ativo" ? "Ativo" : "Esgotado"}
+                    {b.status === "ativo" ? "Ativo" : "Esgotado"}
                   </span>
                 </td>
                 <td>
-                  <button className="action-btn">
-                    <i className="bi bi-list-ul"></i>
+                  {/* Editar */}
+                  <button
+                    className="action-btn"
+                    title="Editar"
+                    onClick={() =>
+                      navigate(`editar/${encodeURIComponent(b.id)}`)
+                    }
+                  >
+                    <i className="bi bi-pencil"></i>
                   </button>
-                  <button className="action-btn">
-                    <i className="bi bi-three-dots-vertical"></i>
+
+                  {/* Excluir */}
+                  <button
+                    className="action-btn"
+                    title="Excluir"
+                    onClick={() => excluirBrinde(b.id)}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+
+                  {/* Detalhes */}
+                  <button
+                    className="action-btn"
+                    title="Detalhes"
+                    onClick={() =>
+                      navigate(`detalhes/${encodeURIComponent(b.id)}`)
+                    }
+                  >
+                    <i className="bi bi-three-dots"></i>
                   </button>
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center", color: "#aaa" }}>
+                Nenhum brinde encontrado.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 
@@ -114,17 +170,34 @@ export default function Brindes() {
       <div className="paginacao">
         <div>
           Itens por página:
-          <select>
-            <option>10</option>
-            <option>20</option>
-            <option>30</option>
+          <select value={itensPorPagina} disabled>
+            <option>{itensPorPagina}</option>
           </select>
         </div>
         <div className="pages">
-          <button className="page active">1</button>
-          <button className="page">2</button>
-          <button className="page">3</button>
-          <button className="page">&gt;</button>
+          <button
+            className="page"
+            onClick={() => trocarPagina(pagina - 1)}
+            disabled={pagina === 1}
+          >
+            &lt;
+          </button>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              className={`page ${pagina === i + 1 ? "active" : ""}`}
+              onClick={() => trocarPagina(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            className="page"
+            onClick={() => trocarPagina(pagina + 1)}
+            disabled={pagina === totalPaginas}
+          >
+            &gt;
+          </button>
         </div>
       </div>
     </div>

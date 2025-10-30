@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/tabelas.scss";
 
 export default function Desafios() {
   const [activeTab, setActiveTab] = useState("ativos");
+  const [busca, setBusca] = useState("");
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [itensPorPagina, setItensPorPagina] = useState(10);
+  const navigate = useNavigate();
 
   const desafios = [
     {
@@ -35,7 +40,7 @@ export default function Desafios() {
       duracao: "14 dias",
       participantes: 35,
       pontos: 200,
-      status: "ativo",
+      status: "concluido",
       icone: "🥗",
     },
     {
@@ -46,14 +51,49 @@ export default function Desafios() {
       duracao: "30 dias",
       participantes: 18,
       pontos: 250,
-      status: "pendente",
+      status: "programado",
       icone: "💪",
     },
   ];
 
+  // ======== FILTROS ========
+  const desafiosFiltrados = desafios.filter((d) => {
+    const termo = busca.toLowerCase();
+    const correspondeBusca =
+      d.nome.toLowerCase().includes(termo) ||
+      d.tipo.toLowerCase().includes(termo) ||
+      d.descricao.toLowerCase().includes(termo);
+
+    const correspondeAba =
+      activeTab === "ativos"
+        ? d.status === "ativo"
+        : activeTab === "concluidos"
+        ? d.status === "concluido"
+        : activeTab === "programados"
+        ? d.status === "programado"
+        : true;
+
+    return correspondeBusca && correspondeAba;
+  });
+
+  // ======== PAGINAÇÃO ========
+  const totalPaginas = Math.ceil(desafiosFiltrados.length / itensPorPagina);
+  const inicio = (paginaAtual - 1) * itensPorPagina;
+  const fim = inicio + itensPorPagina;
+  const desafiosPaginados = desafiosFiltrados.slice(inicio, fim);
+
+  const mudarPagina = (novaPagina) => {
+    if (novaPagina >= 1 && novaPagina <= totalPaginas)
+      setPaginaAtual(novaPagina);
+  };
+
+  const mudarItensPorPagina = (valor) => {
+    setItensPorPagina(Number(valor));
+    setPaginaAtual(1);
+  };
+
   return (
     <div className="tabela-page">
-      {/* ===== Header ===== */}
       <div className="tabela-header">
         <h2>Desafios</h2>
         <div className="acoes-header">
@@ -61,28 +101,43 @@ export default function Desafios() {
             type="text"
             className="search-input"
             placeholder="Buscar desafio..."
+            value={busca}
+            onChange={(e) => {
+              setBusca(e.target.value);
+              setPaginaAtual(1);
+            }}
           />
-          <button className="add-btn">+ Criar Desafio</button>
+          <button className="add-btn" onClick={() => navigate("adddesafio")}>
+            + Criar Desafio
+          </button>
         </div>
       </div>
 
-      {/* ===== Tabs ===== */}
       <div className="tabs">
         <button
           className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}
+          onClick={() => {
+            setActiveTab("ativos");
+            setPaginaAtual(1);
+          }}
         >
-          Desafios Ativos
+          Ativos
         </button>
         <button
           className={`tab ${activeTab === "concluidos" ? "active" : ""}`}
-          onClick={() => setActiveTab("concluidos")}
+          onClick={() => {
+            setActiveTab("concluidos");
+            setPaginaAtual(1);
+          }}
         >
           Concluídos
         </button>
         <button
           className={`tab ${activeTab === "programados" ? "active" : ""}`}
-          onClick={() => setActiveTab("programados")}
+          onClick={() => {
+            setActiveTab("programados");
+            setPaginaAtual(1);
+          }}
         >
           Programados
         </button>
@@ -92,8 +147,8 @@ export default function Desafios() {
       <table className="tabela">
         <thead>
           <tr>
-            <th></th>
-            <th>Nome do Desafio</th>
+            <th>#</th>
+            <th>Nome</th>
             <th>Tipo</th>
             <th>Duração</th>
             <th>Participantes</th>
@@ -103,68 +158,126 @@ export default function Desafios() {
           </tr>
         </thead>
         <tbody>
-          {desafios.map((d) => (
-            <tr key={d.id}>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>
-                <div className="d-flex align-items-center gap-2">
-                  <div className="icone purple">{d.icone}</div>
-                  <div>
-                    <div>{d.nome}</div>
-                    <small className="text-muted">{d.descricao}</small>
+          {desafiosPaginados.length > 0 ? (
+            desafiosPaginados.map((d, index) => (
+              <tr key={d.id}>
+                <td>{inicio + index + 1}</td>
+                <td>
+                  <div className="d-flex align-items-center gap-2">
+                    <div className="icone purple">{d.icone}</div>
+                    <div>
+                      <div>{d.nome}</div>
+                      <small className="text-muted">{d.descricao}</small>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td>{d.tipo}</td>
-              <td>{d.duracao}</td>
-              <td>{d.participantes}</td>
-              <td>
-                <span className="status pontos">⭐ {d.pontos}</span>
-              </td>
-              <td>
-                <span
-                  className={`status ${
-                    d.status === "ativo" ? "pago" : "pendente"
-                  }`}
-                >
-                  {d.status === "ativo" ? "Ativo" : "Pendente"}
-                </span>
-              </td>
-              <td>
-                <button className="action-btn">
-                  <i className="bi bi-pencil"></i>
-                </button>
-                <button className="action-btn">
-                  <i className="bi bi-trash"></i>
-                </button>
-                <button className="action-btn">
-                  <i className="bi bi-three-dots"></i>
-                </button>
+                </td>
+                <td>{d.tipo}</td>
+                <td>{d.duracao}</td>
+                <td>{d.participantes}</td>
+                <td>⭐ {d.pontos}</td>
+                <td>
+                  <span
+                    className={`status ${
+                      d.status === "ativo"
+                        ? "pago"
+                        : d.status === "programado"
+                        ? "pendente"
+                        : "cancelado"
+                    }`}
+                  >
+                    {d.status.charAt(0).toUpperCase() + d.status.slice(1)}
+                  </span>
+                </td>
+                <td>
+                  {/* Enviar Desafio */}
+                  <button
+                    className="action-btn"
+                    title="Enviar Desafio"
+                    onClick={() =>
+                      navigate(
+                        `enviar/${encodeURIComponent(d.id.replace(/^#/, ""))}`
+                      )
+                    }
+                  >
+                    <i className="bi bi-send"></i>
+                  </button>
+
+                  {/* Excluir */}
+                  <button
+                    className="action-btn"
+                    title="Excluir"
+                    onClick={() => alert(`Excluir ${d.nome}?`)}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+
+                  {/* Detalhes */}
+                  <button
+                    className="action-btn"
+                    title="Ver detalhes"
+                    onClick={() =>
+                      navigate(
+                        `detalhes/${encodeURIComponent(d.id.replace(/^#/, ""))}`
+                      )
+                    }
+                  >
+                    <i className="bi bi-three-dots"></i>
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8" style={{ textAlign: "center", color: "#aaa" }}>
+                Nenhum desafio encontrado.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
       {/* ===== Paginação ===== */}
-      <div className="paginacao">
-        <div>
-          Itens por página:
-          <select>
-            <option>10</option>
-            <option>20</option>
-            <option>50</option>
+      {totalPaginas > 1 && (
+        <div className="paginacao">
+          <span>Itens por página:</span>
+          <select
+            value={itensPorPagina}
+            onChange={(e) => mudarItensPorPagina(e.target.value)}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
           </select>
+
+          <div className="pages">
+            <button
+              className="page"
+              onClick={() => mudarPagina(paginaAtual - 1)}
+              disabled={paginaAtual === 1}
+            >
+              <i className="bi bi-chevron-left"></i>
+            </button>
+
+            {[...Array(totalPaginas)].map((_, i) => (
+              <button
+                key={i}
+                className={`page ${paginaAtual === i + 1 ? "active" : ""}`}
+                onClick={() => mudarPagina(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              className="page"
+              onClick={() => mudarPagina(paginaAtual + 1)}
+              disabled={paginaAtual === totalPaginas}
+            >
+              <i className="bi bi-chevron-right"></i>
+            </button>
+          </div>
         </div>
-        <div className="pages">
-          <button className="page active">1</button>
-          <button className="page">2</button>
-          <button className="page">3</button>
-          <button className="page">&gt;</button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -1,0 +1,78 @@
+@import "../../abstract/variables";
+
+.detalhes-pagamento {
+  padding: 2rem;
+  color: $color-text;
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    background: $surface-2;
+    border: 1px solid $surface-3;
+    color: $color-text;
+    padding: 0.75rem;
+    border-radius: $radius-md;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $color-purple;
+      box-shadow: 0 0 5px rgba($color-purple, 0.3);
+    }
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    border: none;
+    border-radius: $radius-md;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.btn-outline {
+      background: transparent;
+      border: 1px solid $surface-3;
+      color: $color-text;
+
+      &:hover {
+        background: $surface-3;
+        border-color: $color-purple;
+      }
+    }
+
+    &.btn-purple {
+      background: $color-purple;
+      color: $white;
+      border: 1px solid $color-purple;
+
+      &:hover {
+        background: darken($color-purple, 10%);
+        box-shadow: 0 0 5px rgba($color-purple, 0.4);
+      }
+    }
+  }
+}

@@ -1,15 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/tabelas.scss";
-import "../../styles/components/admin/modais.scss";
 
 export default function Alunos() {
-  const [alunos, setAlunos] = useState([
+  const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState("todos");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const alunos = [
     {
       id: "#AL-2305",
       nome: "Maria Silva",
       turma: "Funcional",
       status: "Ativo",
-      avatar: "MS",
       cor: "blue",
     },
     {
@@ -17,7 +23,6 @@ export default function Alunos() {
       nome: "Pedro Alves",
       turma: "Cardio",
       status: "Ativo",
-      avatar: "PA",
       cor: "green",
     },
     {
@@ -25,7 +30,6 @@ export default function Alunos() {
       nome: "Carlos Mendes",
       turma: "Força",
       status: "Inativo",
-      avatar: "CM",
       cor: "orange",
     },
     {
@@ -33,29 +37,45 @@ export default function Alunos() {
       nome: "Ana Santos",
       turma: "Yoga",
       status: "Ativo",
-      avatar: "AS",
       cor: "red",
     },
-  ]);
+  ];
 
-  // Estados de controle dos modais
-  const [showAdd, setShowAdd] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
-  const [selectedAluno, setSelectedAluno] = useState(null);
+  // ======== FILTRO DE BUSCA E ABA ========
+  const alunosFiltrados = alunos.filter((a) => {
+    const termo = searchTerm.toLowerCase();
+    const correspondeBusca =
+      a.nome.toLowerCase().includes(termo) ||
+      a.turma.toLowerCase().includes(termo) ||
+      a.id.toLowerCase().includes(termo);
 
-  // Handlers simples
-  const handleAdd = (novo) => setAlunos([...alunos, novo]);
-  const handleUpdate = (editado) =>
-    setAlunos(alunos.map((a) => (a.id === editado.id ? editado : a)));
-  const handleDelete = (id) => {
-    setAlunos(alunos.filter((a) => a.id !== id));
-    setShowDelete(false);
+    const correspondeAba = activeTab === "ativos" ? a.status === "Ativo" : true;
+
+    return correspondeBusca && correspondeAba;
+  });
+
+  // ======== PAGINAÇÃO ========
+  const totalPages = Math.ceil(alunosFiltrados.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const alunosPaginados = alunosFiltrados.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  };
+
+  // ======== EXCLUIR ========
+  const handleDelete = (aluno) => {
+    if (window.confirm(`Tem certeza que deseja excluir ${aluno.nome}?`)) {
+      alert(`Aluno ${aluno.nome} removido com sucesso!`);
+    }
   };
 
   return (
     <div className="tabela-page">
+      {/* ===== Header ===== */}
       <div className="tabela-header">
         <h2>Gerenciar Alunos</h2>
         <div className="acoes-header">
@@ -63,13 +83,32 @@ export default function Alunos() {
             type="text"
             placeholder="Buscar aluno..."
             className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="add-btn" onClick={() => setShowAdd(true)}>
-            + Adicionar
+          <button className="add-btn" onClick={() => navigate("add")}>
+            + Adicionar Aluno
           </button>
         </div>
       </div>
 
+      {/* ===== Tabs ===== */}
+      <div className="tabs">
+        <button
+          className={`tab ${activeTab === "todos" ? "active" : ""}`}
+          onClick={() => setActiveTab("todos")}
+        >
+          Todos os Alunos
+        </button>
+        <button
+          className={`tab ${activeTab === "ativos" ? "active" : ""}`}
+          onClick={() => setActiveTab("ativos")}
+        >
+          Ativos
+        </button>
+      </div>
+
+      {/* ===== Tabela ===== */}
       <table className="tabela">
         <thead>
           <tr>
@@ -81,234 +120,111 @@ export default function Alunos() {
           </tr>
         </thead>
         <tbody>
-          {alunos.map((a, i) => (
-            <tr key={i}>
-              <td>{a.id}</td>
-              <td className="user-info">
-                <div className={`icone ${a.cor}`}>{a.avatar}</div>
-                {a.nome}
-              </td>
-              <td>{a.turma}</td>
-              <td>
-                <span className={`status ${a.status.toLowerCase()}`}>
-                  {a.status}
-                </span>
-              </td>
-              <td>
-                <button
-                  className="action-btn"
-                  onClick={() => {
-                    setSelectedAluno(a);
-                    setShowEdit(true);
-                  }}
-                >
-                  <i className="bi bi-pencil"></i>
-                </button>
+          {alunosPaginados.length > 0 ? (
+            alunosPaginados.map((a, i) => (
+              <tr key={i}>
+                <td>{a.id}</td>
+                <td className="user-info">
+                  <div className={`icone ${a.cor}`}>
+                    {a.nome
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                  {a.nome}
+                </td>
+                <td>{a.turma}</td>
+                <td>
+                  <span className={`status ${a.status.toLowerCase()}`}>
+                    {a.status}
+                  </span>
+                </td>
+                <td>
+                  {/* Editar */}
+                  <button
+                    className="action-btn"
+                    title="Editar Aluno"
+                    onClick={() =>
+                      navigate(
+                        `editar/${encodeURIComponent(a.id.replace("#", ""))}`
+                      )
+                    }
+                  >
+                    <i className="bi bi-pencil"></i>
+                  </button>
 
-                <button
-                  className="action-btn"
-                  onClick={() => {
-                    setSelectedAluno(a);
-                    setShowDelete(true);
-                  }}
-                >
-                  <i className="bi bi-trash"></i>
-                </button>
+                  {/* Excluir */}
+                  <button
+                    className="action-btn"
+                    title="Excluir Aluno"
+                    onClick={() => handleDelete(a)}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
 
-                <button
-                  className="action-btn"
-                  onClick={() => {
-                    setSelectedAluno(a);
-                    setShowInfo(true);
-                  }}
-                >
-                  <i className="bi bi-three-dots"></i>
-                </button>
+                  {/* Detalhes */}
+                  <button
+                    className="action-btn"
+                    title="Ver Detalhes"
+                    onClick={() =>
+                      navigate(
+                        `detalhes/${encodeURIComponent(a.id.replace("#", ""))}`
+                      )
+                    }
+                  >
+                    <i className="bi bi-three-dots"></i>
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="sem-resultado">
+                Nenhum aluno encontrado.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
-      {/* ===== MODAIS ===== */}
-      {showAdd && (
-        <ModalAdd onClose={() => setShowAdd(false)} onSave={handleAdd} />
-      )}
-      {showEdit && selectedAluno && (
-        <ModalEdit
-          aluno={selectedAluno}
-          onClose={() => setShowEdit(false)}
-          onSave={handleUpdate}
-        />
-      )}
-      {showInfo && selectedAluno && (
-        <ModalInfo aluno={selectedAluno} onClose={() => setShowInfo(false)} />
-      )}
-      {showDelete && selectedAluno && (
-        <ModalDelete
-          aluno={selectedAluno}
-          onClose={() => setShowDelete(false)}
-          onConfirm={() => handleDelete(selectedAluno.id)}
-        />
-      )}
-    </div>
-  );
-}
+      {/* ===== Paginação ===== */}
+      <div className="paginacao">
+        <span>Itens por página:</span>
+        <select
+          value={itemsPerPage}
+          onChange={(e) => {
+            setItemsPerPage(Number(e.target.value));
+            setCurrentPage(1);
+          }}
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+        </select>
 
-/* =======================
-   COMPONENTES DOS MODAIS
-=========================*/
-function ModalAdd({ onClose, onSave }) {
-  const [form, setForm] = useState({ nome: "", turma: "", status: "Ativo" });
-
-  const handleSubmit = () => {
-    const novo = {
-      id: "#AL-" + Math.floor(Math.random() * 9999),
-      nome: form.nome,
-      turma: form.turma,
-      status: form.status,
-      avatar: form.nome
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase(),
-      cor: "blue",
-    };
-    onSave(novo);
-    onClose();
-  };
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h3>Adicionar Aluno</h3>
-        <div className="form-group">
-          <label>Nome</label>
-          <input
-            value={form.nome}
-            onChange={(e) => setForm({ ...form, nome: e.target.value })}
-          />
-        </div>
-        <div className="form-group">
-          <label>Turma</label>
-          <input
-            value={form.turma}
-            onChange={(e) => setForm({ ...form, turma: e.target.value })}
-          />
-        </div>
-        <div className="form-group">
-          <label>Status</label>
-          <select
-            value={form.status}
-            onChange={(e) => setForm({ ...form, status: e.target.value })}
+        <div className="pages">
+          <button
+            className="page"
+            onClick={() => handlePageChange(currentPage - 1)}
           >
-            <option>Ativo</option>
-            <option>Inativo</option>
-          </select>
-        </div>
-        <div className="modal-actions">
-          <button onClick={onClose} className="btn-cancelar">
-            Cancelar
+            <i className="bi bi-chevron-left"></i>
           </button>
-          <button onClick={handleSubmit} className="btn-salvar">
-            Salvar
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
-function ModalEdit({ aluno, onClose, onSave }) {
-  const [form, setForm] = useState(aluno);
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              className={`page ${currentPage === i + 1 ? "active" : ""}`}
+              onClick={() => handlePageChange(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
 
-  const handleSubmit = () => {
-    onSave(form);
-    onClose();
-  };
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h3>Editar Aluno</h3>
-        <div className="form-group">
-          <label>Nome</label>
-          <input
-            value={form.nome}
-            onChange={(e) => setForm({ ...form, nome: e.target.value })}
-          />
-        </div>
-        <div className="form-group">
-          <label>Turma</label>
-          <input
-            value={form.turma}
-            onChange={(e) => setForm({ ...form, turma: e.target.value })}
-          />
-        </div>
-        <div className="form-group">
-          <label>Status</label>
-          <select
-            value={form.status}
-            onChange={(e) => setForm({ ...form, status: e.target.value })}
+          <button
+            className="page"
+            onClick={() => handlePageChange(currentPage + 1)}
           >
-            <option>Ativo</option>
-            <option>Inativo</option>
-          </select>
-        </div>
-        <div className="modal-actions">
-          <button onClick={onClose} className="btn-cancelar">
-            Cancelar
-          </button>
-          <button onClick={handleSubmit} className="btn-salvar">
-            Atualizar
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ModalInfo({ aluno, onClose }) {
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content info">
-        <h3>Detalhes do Aluno</h3>
-        <p>
-          <strong>ID:</strong> {aluno.id}
-        </p>
-        <p>
-          <strong>Nome:</strong> {aluno.nome}
-        </p>
-        <p>
-          <strong>Turma:</strong> {aluno.turma}
-        </p>
-        <p>
-          <strong>Status:</strong> {aluno.status}
-        </p>
-        <div className="modal-actions">
-          <button onClick={onClose} className="btn-cancelar">
-            Fechar
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ModalDelete({ aluno, onClose, onConfirm }) {
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content delete">
-        <h3>Excluir Aluno</h3>
-        <p>
-          Tem certeza que deseja excluir <strong>{aluno.nome}</strong>?
-        </p>
-        <div className="modal-actions">
-          <button onClick={onClose} className="btn-cancelar">
-            Cancelar
-          </button>
-          <button onClick={onConfirm} className="btn-delete">
-            Excluir
+            <i className="bi bi-chevron-right"></i>
           </button>
         </div>
       </div>

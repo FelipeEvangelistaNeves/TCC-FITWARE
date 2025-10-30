@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/tabelas.scss";
 
 export default function Treinos() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("todos");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const treinos = [
     {
@@ -17,6 +22,7 @@ export default function Treinos() {
       atribuido: 24,
       icone: "bi-lightning-charge",
       cor: "purple",
+      data: "2025-10-25",
     },
     {
       id: 2,
@@ -30,6 +36,7 @@ export default function Treinos() {
       atribuido: 36,
       icone: "bi-heart-pulse",
       cor: "blue",
+      data: "2025-10-27",
     },
     {
       id: 3,
@@ -43,6 +50,7 @@ export default function Treinos() {
       atribuido: 18,
       icone: "bi-fire",
       cor: "orange",
+      data: "2025-10-20",
     },
     {
       id: 4,
@@ -56,8 +64,29 @@ export default function Treinos() {
       atribuido: 42,
       icone: "bi-arrows-move",
       cor: "green",
+      data: "2025-10-28",
     },
   ];
+
+  // ====== FILTROS ======
+  const filteredTreinos = treinos.filter((t) => {
+    const nomeMatch = t.nome.toLowerCase().includes(searchTerm.toLowerCase());
+    if (activeTab === "recentes") {
+      const dataTreino = new Date(t.data);
+      const agora = new Date();
+      const diffDias = (agora - dataTreino) / (1000 * 60 * 60 * 24);
+      return nomeMatch && diffDias <= 7; // últimos 7 dias
+    }
+    return nomeMatch;
+  });
+
+  // ====== PAGINAÇÃO ======
+  const totalPages = Math.ceil(filteredTreinos.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const treinosExibidos = filteredTreinos.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   return (
     <div className="tabela-page">
@@ -69,8 +98,12 @@ export default function Treinos() {
             type="text"
             placeholder="Buscar treino..."
             className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="add-btn">+ Criar Treino</button>
+          <button className="add-btn" onClick={() => navigate("addtreinos")}>
+            + Criar Treino
+          </button>
         </div>
       </div>
 
@@ -88,19 +121,12 @@ export default function Treinos() {
         >
           Recentes
         </button>
-        <button
-          className={`tab ${activeTab === "populares" ? "active" : ""}`}
-          onClick={() => setActiveTab("populares")}
-        >
-          Populares
-        </button>
       </div>
 
       {/* ===== Tabela ===== */}
       <table className="tabela">
         <thead>
           <tr>
-            <th></th>
             <th>Nome do Treino</th>
             <th>Tipo</th>
             <th>Duração</th>
@@ -111,16 +137,13 @@ export default function Treinos() {
           </tr>
         </thead>
         <tbody>
-          {treinos.map((t) => (
+          {treinosExibidos.map((t) => (
             <tr key={t.id}>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td className="nome-treino">
+              <td className="nome-treino d-flex flex-row align-center gap-10">
                 <div className={`icone ${t.cor}`}>
                   <i className={`bi ${t.icone}`}></i>
                 </div>
-                <div>
+                <div className="d-flex flex-column">
                   <strong>{t.nome}</strong>
                   <small>{t.descricao}</small>
                 </div>
@@ -133,10 +156,18 @@ export default function Treinos() {
               <td>{t.exercicios}</td>
               <td>{t.atribuido}</td>
               <td>
-                <button className="action-btn">
+                <button
+                  className="action-btn"
+                  onClick={() => navigate("enviartreino")}
+                  title="Enviar Treino"
+                >
                   <i className="bi bi-play"></i>
                 </button>
-                <button className="action-btn">
+                <button
+                  className="action-btn"
+                  onClick={() => navigate("detalhestreino")}
+                  title="Detalhes do Treino"
+                >
                   <i className="bi bi-three-dots-vertical"></i>
                 </button>
               </td>
@@ -148,19 +179,36 @@ export default function Treinos() {
       {/* ===== Paginação ===== */}
       <div className="paginacao">
         <span>Itens por página:</span>
-        <select>
-          <option>10</option>
-          <option>20</option>
-          <option>50</option>
+        <select
+          value={itemsPerPage}
+          onChange={(e) => {
+            setItemsPerPage(parseInt(e.target.value));
+            setCurrentPage(1);
+          }}
+        >
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
         </select>
 
         <div className="pages">
-          <button className="page active">1</button>
-          <button className="page">2</button>
-          <button className="page">3</button>
-          <button className="page">
-            <i className="bi bi-chevron-right"></i>
-          </button>
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              className={`page ${currentPage === i + 1 ? "active" : ""}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          {currentPage < totalPages && (
+            <button
+              className="page"
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              <i className="bi bi-chevron-right"></i>
+            </button>
+          )}
         </div>
       </div>
     </div>

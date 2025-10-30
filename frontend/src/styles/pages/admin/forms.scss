@@ -1,0 +1,146 @@
+@import "../../abstract/variables";
+
+.form-page {
+  background: $surface-1;
+  color: $color-text;
+  padding: $spacing-xl;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  max-width: 700px;
+  margin: $spacing-xl auto;
+  font-family: $font-family;
+  transition: all 0.3s ease;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: $spacing-md;
+  }
+
+  p.text-muted {
+    color: $color-text-muted;
+    margin-bottom: $spacing-lg;
+  }
+
+  .form-group {
+    margin-bottom: $spacing-md;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 600;
+      margin-bottom: $spacing-xs;
+      color: $color-text;
+    }
+
+    input,
+    select,
+    textarea {
+      background: $surface-2;
+      color: $color-text;
+      border: 1px solid $border-color;
+      border-radius: $radius-sm;
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-base;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: $color-purple;
+        outline: none;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+
+      label {
+        font-weight: 400;
+        cursor: pointer;
+        input {
+          margin-right: $spacing-sm;
+        }
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-md;
+    margin-top: $spacing-lg;
+
+    .btn {
+      padding: $spacing-sm $spacing-lg;
+      border-radius: $radius-md;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.btn-purple {
+        background: $color-purple;
+        color: $white;
+        border: none;
+
+        &:hover {
+          background: $purple-dark;
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      &.btn-outline {
+        border: 1px solid $color-purple;
+        background: transparent;
+        color: $color-purple;
+
+        &:hover {
+          background: $color-purple;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  /* Sucesso ou mensagem temporária */
+  .success-message {
+    background: rgba($color-green, 0.1);
+    color: $color-green;
+    border: 1px solid rgba($color-green, 0.3);
+    padding: $spacing-md;
+    border-radius: $radius-md;
+    text-align: center;
+    margin-top: $spacing-md;
+    animation: fadeIn 0.5s ease;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form-page {
+    padding: $spacing-lg;
+    max-width: 95%;
+  }
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
