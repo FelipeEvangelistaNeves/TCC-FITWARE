@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon server.js localhost:3000",
     "dev": "nodemon server.js",
-    "testdb": "node ./db/testedb.js"
+    "testedb": "node ./db/testedb.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

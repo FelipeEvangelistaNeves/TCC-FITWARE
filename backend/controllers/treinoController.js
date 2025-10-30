@@ -1,5 +1,6 @@
+const jwt = require("jsonwebtoken");
 const LoggerMessages = require("../loggerMessages");
-const { Treino, Funcionario, Exercicio } = require("../models");
+const { Treino, Funcionario } = require("../models");
 
 const dataTreinos = async (req, res) => {
   try {
@@ -13,7 +14,7 @@ const dataTreinos = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const profId = decoded.id; // ID do prof que está logado
 
-    const prof = await prof.findByPk(profId, {
+    const prof = await Funcionario.findByPk(profId, {
       attributes: { exclude: ["fu_senha"] },
     });
 
@@ -21,16 +22,7 @@ const dataTreinos = async (req, res) => {
       return res.status(404).json({ message: "Professor não encontrado." });
     }
 
-    const treinos = await Treino.findByProfId({
-      include: [
-        { model: Funcionario, attributes: ["fu_id", "fu_nome"] },
-        {
-          model: Exercicio,
-          through: { attributes: [] },
-          attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
-        },
-      ],
-    });
+    const treinos = await Treino.findByProfId(profId);
 
     return res.status(200).json(treinos);
   } catch (error) {

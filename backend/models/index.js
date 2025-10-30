@@ -80,6 +80,24 @@ Exercicio.belongsToMany(Treino, {
   foreignKey: "ex_id",
 });
 
+// Métodos personalizados
+Treino.findByProfId = async function (profId) {
+  return await Treino.findAll({
+    where: { tr_prof_id: profId },
+    include: [
+      {
+        model: Funcionario,
+        attributes: ["fu_id", "fu_nome"],
+      },
+      {
+        model: Exercicio,
+        through: { attributes: [] },
+        attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
+      },
+    ],
+  });
+};
+
 // ==========================================================
 
 // Exportar todos os models e a conexão
