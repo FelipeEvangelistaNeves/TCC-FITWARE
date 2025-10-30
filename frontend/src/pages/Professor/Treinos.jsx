@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 
 export default function DashboardAluno() {
   const [treinos, setTreinos] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
@@ -25,8 +24,6 @@ export default function DashboardAluno() {
       } catch (error) {
         console.error(error);
         setErro("Erro ao carregar treinos"); // colocar logger message depois
-      } finally {
-        setLoading(false);
       }
     };
 

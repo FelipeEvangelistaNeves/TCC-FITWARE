@@ -1,38 +1,46 @@
 import React from "react";
 import "../../styles/pages/professor/perfilprof.scss";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function PerfilProf() {
   return (
-    <div>
-      
+    <div className="perfil-container roxo">
+      {/* Cabeçalho */}
+      <div className="perfil-header">
+        <h2>Meu Perfil</h2>
+        <i className="bi bi-gear"></i>
+      </div>
+
+      {/* Informações principais */}
+      <div className="perfil-info">
+        <div className="perfil-avatar">JP</div>
+        <h3>João Paulo</h3>
+        <p>Personal Trainer</p>
+
+        <div className="stats-grid">
+          <div className="stat-item">
+            <span className="stat-number">42</span>
+            <span className="stat-label">Alunos</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number">156</span>
+            <span className="stat-label">Treinos</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number">89</span>
+            <span className="stat-label">Mensagens</span>
+          </div>
+        </div>
+      </div>
 
       {/* Conteúdo do Perfil */}
       <div className="perfil-content">
-        {/* Informações Principais */}
-        <section className="perfil-info">
-          <div className="perfil-avatar">JP</div>
-          <h2 className="perfil-nome">João Paulo</h2>
-          <p className="perfil-cargo">Personal Trainer</p>
-          
-          <div className="stats-grid">
-            <div className="stat-item">
-              <div className="stat-number">42</div>
-              <div className="stat-label">Alunos</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">156</div>
-              <div className="stat-label">Treinos</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">89</div>
-              <div className="stat-label">Mensagens</div>
-            </div>
-          </div>
-        </section>
-
         {/* Informações Pessoais */}
-        <section className="perfil-section">
-          <h3 className="section-title">Informações Pessoais</h3>
+        <div className="card perfil-card">
+          <div className="card-header-between">
+            <h4>Informações Pessoais</h4>
+            <i className="bi bi-pencil"></i>
+          </div>
           <div className="info-grid">
             <div className="info-item">
               <span className="info-label">Email</span>
@@ -45,72 +53,70 @@ export default function PerfilProf() {
             <div className="info-item">
               <span className="info-label">Especialidades</span>
               <div className="especialidades">
-                <span className="especialidade-tag">Musculação</span>
-                <span className="especialidade-tag">Funcional</span>
-                <span className="especialidade-tag">Cardio</span>
+                <span className="tag">Musculação</span>
+                <span className="tag">Funcional</span>
+                <span className="tag">Cardio</span>
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Atividade Recente */}
-        <section className="perfil-section">
-          <h3 className="section-title">Atividade Recente</h3>
+        <div className="card perfil-card">
+          <div className="card-header-between">
+            <h4>Atividade Recente</h4>
+            <i className="bi bi-clock-history"></i>
+          </div>
           <div className="activity-list">
             <div className="activity-item">
-              <div className="activity-title">Treino enviado para Maria Silva</div>
+              <div className="activity-title">
+                <i className="bi bi-send"></i> Treino enviado para Maria Silva
+              </div>
               <div className="activity-time">Hoje, 10:30</div>
             </div>
             <div className="activity-item">
-              <div className="activity-title">Mensagem para Turma Segunda</div>
-              <div className="activity-details">Hoje, 09:15</div>
+              <div className="activity-title">
+                <i className="bi bi-chat-dots"></i> Mensagem para Turma Segunda
+              </div>
+              <div className="activity-time">Hoje, 09:15</div>
             </div>
             <div className="activity-item">
-              <div className="activity-title">Novo aluno: Carlos Mendes</div>
+              <div className="activity-title">
+                <i className="bi bi-person-plus"></i> Novo aluno: Carlos Mendes
+              </div>
               <div className="activity-time">Ontem, 16:45</div>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Certificações */}
-        <section className="perfil-section">
-          <h3 className="section-title">Certificações</h3>
-          <div className="certificacoes-list">
-            <div className="certificacao-item">
-              <div className="certificacao-titulo">CREF - Conselho Regional de Educação Física</div>
-              <div className="certificacao-detalhes">Nº 123456-6/SP</div>
+        <div className="card perfil-card">
+          <div className="card-header-between">
+            <h4>Certificações</h4>
+            <a href="#">Ver Todas</a>
+          </div>
+          <div className="cert-list">
+            <div className="cert-item">
+              <i className="bi bi-award"></i>
+              <div>
+                <p className="cert-titulo">
+                  CREF - Conselho Regional de Educação Física
+                </p>
+                <p className="cert-detalhe">Nº 123456-6/SP</p>
+              </div>
             </div>
-            <div className="certificacao-item">
-              <div className="certificacao-titulo">Especialização em Treinamento Funcional</div>
-              <div className="certificacao-detalhes">Universidade do Esporte - 2020</div>
+            <div className="cert-item">
+              <i className="bi bi-mortarboard"></i>
+              <div>
+                <p className="cert-titulo">
+                  Especialização em Treinamento Funcional
+                </p>
+                <p className="cert-detalhe">Universidade do Esporte - 2020</p>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
-
-      {/* Bottom Navigation */}
-      <nav className="bottom-nav">
-        <div className="nav-item">
-          <i className="fas fa-home"></i>
-          <span>Início</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-users"></i>
-          <span>Alunos</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-dumbbell"></i>
-          <span>Treinos</span>
-        </div>
-        <div className="nav-item">
-          <i className="fas fa-comment"></i>
-          <span>Mensagens</span>
-        </div>
-        <div className="nav-item active">
-          <i className="fas fa-user"></i>
-          <span>Perfil</span>
-        </div>
-      </nav>
     </div>
   );
 }

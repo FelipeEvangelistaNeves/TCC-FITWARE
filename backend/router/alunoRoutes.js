@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { loginAluno } = require("../controllers/alunoController");
+const { loginAluno, dataAluno } = require("../controllers/alunoController");
 
 /**
  * @swagger
@@ -28,5 +28,7 @@ const { loginAluno } = require("../controllers/alunoController");
  *         description: Credenciais inválidas
  */
 router.post("/", loginAluno);
+
+router.get("/", dataAluno);
 
 module.exports = router;

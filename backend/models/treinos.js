@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       tr_prof_id: { type: DataTypes.INTEGER, allowNull: false },
       tr_nome: { type: DataTypes.STRING(80), allowNull: false },
       tr_descricao: { type: DataTypes.STRING(150) },
-      tr_repeticoes: { type: DataTypes.STRING(4) },
+      tr_dificuldade: { type: DataTypes.STRING(20) },
     },
     {
       tableName: "treinos",

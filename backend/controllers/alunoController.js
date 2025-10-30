@@ -5,12 +5,11 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config({
   quiet: true,
 });
-exports.loginAluno = async (req, res) => {
+const loginAluno = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // 🔍 Busca aluno pelo e-mail
-    const aluno = await Aluno.findOne({ where: { al_email: email } });
+    const aluno = await Aluno.findByEmail(email);
 
     if (!aluno) {
       return res
@@ -18,7 +17,6 @@ exports.loginAluno = async (req, res) => {
         .json({ success: false, message: LoggerMessages.USER_NOT_FOUND });
     }
 
-    // 🔐 Compara senha com hash armazenado
     const senhaValida = await bcrypt.compare(password, aluno.al_senha);
     if (!senhaValida) {
       return res
@@ -26,14 +24,12 @@ exports.loginAluno = async (req, res) => {
         .json({ success: false, message: LoggerMessages.LOGIN_FAILED });
     }
 
-    // 🔑 Gera token JWT com ID e role
     const token = jwt.sign(
       { id: aluno.al_id, role: "Aluno" },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES || "1h" }
     );
 
-    // 🍪 Envia token em cookie HTTP-only
     res.cookie("token", token, {
       httpOnly: true,
       secure: false, // true apenas em produção com HTTPS
@@ -43,7 +39,6 @@ exports.loginAluno = async (req, res) => {
 
     console.log(LoggerMessages.LOGIN_SUCCESS, aluno.al_email);
 
-    // ✅ Resposta de sucesso
     return res.json({
       success: true,
       message: LoggerMessages.LOGIN_SUCCESS,
@@ -60,4 +55,45 @@ exports.loginAluno = async (req, res) => {
       .status(500)
       .json({ success: false, message: LoggerMessages.SERVER_ERROR });
   }
+};
+
+const dataAluno = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Token ausente. Faça login novamente." });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const alunoId = decoded.id; // ID do aluno que está logado
+
+    const aluno = await Aluno.findByPk(alunoId, {
+      attributes: { exclude: ["al_senha"] },
+    });
+
+    if (!aluno) {
+      return res.status(404).json({ message: "Aluno não encontrado." });
+    }
+
+    const nomeAluno = aluno.al_nome || "";
+    const [firstName, lastName] = nomeAluno.split(" ");
+    const iniciais =
+      (firstName ? firstName[0] : "") + (lastName ? lastName[0] : "");
+
+    res.json({
+      nome: aluno.al_nome,
+      email: aluno.al_email,
+      iniciais,
+    });
+  } catch (err) {
+    console.error("Erro ao buscar dados do aluno:", err);
+    return res.status(500).json({ message: "Erro ao buscar dados do aluno." });
+  }
+};
+
+module.exports = {
+  loginAluno,
+  dataAluno,
 };
