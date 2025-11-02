@@ -24,6 +24,9 @@ import BrindeDetalhes from "../pages/Admin/DetalhesBrindes";
 import AddAluno from "../pages/Admin/AddAluno";
 import EditarAluno from "../pages/Admin/EditarAluno";
 import AlunoDetalhes from "../pages/Admin/DetalhesAluno";
+import AddProfessor from "../pages/Admin/AddProfessor";
+import EditarProfessor from "../pages/Admin/EditarProfessor";
+import ProfessorDetalhes from "../pages/Admin/DetalhesProfessor";
 export default function AdminRoutes() {
   const [auth, setAuth] = useState(null);
 
@@ -81,6 +84,12 @@ export default function AdminRoutes() {
         <Route path="alunos/add" element={<AddAluno />} />
         <Route path="alunos/editar/:id" element={<EditarAluno />} />
         <Route path="alunos/detalhes/:id" element={<AlunoDetalhes />} />
+        <Route path="professores/add" element={<AddProfessor />} />
+        <Route path="professores/editar/:id" element={<EditarProfessor />} />
+        <Route
+          path="professores/detalhes/:id"
+          element={<ProfessorDetalhes />}
+        />
         <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>
     </Routes>
