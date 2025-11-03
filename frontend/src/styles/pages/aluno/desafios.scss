@@ -1,11 +1,10 @@
 @import "./../../abstract/variables.scss";
 
-
 /* ===== Página ===== */
 .challenges-container {
   background-color: $app-bg;
   color: $text;
-  min-height: 100vh; /* Preenche toda a tela */
+  min-height: 100vh; /* Preenche toda a tela c*/
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -15,7 +14,6 @@
   padding: 16px;
   box-sizing: border-box;
   padding-bottom: 80px;
-  
 }
 
 /* ===== Cards de Resumo (Ativos / Concluídos / Pontos) ===== */
@@ -57,7 +55,6 @@
     }
   }
 }
-
 
 /* ===== Título de seção ===== */
 .section-title {
@@ -138,7 +135,7 @@
 
   .footer {
     background: $surface-2;
-    border:0;
+    border: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;

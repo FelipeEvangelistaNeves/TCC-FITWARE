@@ -1,6 +1,6 @@
 @import "./../../abstract/variables.scss";
 
-/* ======================================================
+/* ==============x========================================
    ALUNOS (SCSS COMPLETO)
    ====================================================== */
 
@@ -25,7 +25,11 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
   color: $__text;
   min-height: 100vh;
   padding: 16px;
-  font-family: if(variable-exists(font-family), $font-family, "Inter, system-ui, sans-serif");
+  font-family: if(
+    variable-exists(font-family),
+    $font-family,
+    "Inter, system-ui, sans-serif"
+  );
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -41,7 +45,9 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
     color: $__text;
     font-size: if(variable-exists(font-size-base), $font-size-base, 14px);
 
-    &::placeholder { color: $__text-2; }
+    &::placeholder {
+      color: $__text-2;
+    }
   }
 
   /* =====================================================
@@ -89,7 +95,9 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
       color: $__text;
     }
 
-    &:active { transform: translateY(1px); }
+    &:active {
+      transform: translateY(1px);
+    }
 
     &.ativo,
     &.active {
@@ -119,13 +127,16 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
     gap: 12px;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     border: 1px solid rgba($__border, 0.15);
     transition: transform 0.12s ease, background 0.12s ease;
     text-decoration: none;
     color: inherit;
 
-    &:hover { transform: translateY(-3px); background: $__surface-3; }
+    &:hover {
+      transform: translateY(-3px);
+      background: $__surface-3;
+    }
 
     .avatar {
       width: 44px;
@@ -176,12 +187,19 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
         cursor: pointer;
         transition: background 0.12s, color 0.12s;
 
-        &:hover { background: rgba($__primary, 0.06); color: $__text; }
+        &:hover {
+          background: rgba($__primary, 0.06);
+          color: $__text;
+        }
       }
     }
   }
 
-  .vazio { color: $__text-2; text-align: center; padding: 12px; }
+  .vazio {
+    color: $__text-2;
+    text-align: center;
+    padding: 12px;
+  }
 
   /* =====================================================
      RESPONSIVO
@@ -190,7 +208,9 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
     padding: 12px;
 
     .filtros,
-    .filters { gap: 6px; }
+    .filters {
+      gap: 6px;
+    }
 
     .filtros > button,
     .filters > button {
@@ -204,9 +224,17 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
     padding: 20px;
 
     .filtros,
-    .filters { gap: 10px; }
+    .filters {
+      gap: 10px;
+    }
 
-    .aluno-card { padding: 14px; }
-    .avatar { width: 48px; height: 48px; font-size: 15px; }
+    .aluno-card {
+      padding: 14px;
+    }
+    .avatar {
+      width: 48px;
+      height: 48px;
+      font-size: 15px;
+    }
   }
 }

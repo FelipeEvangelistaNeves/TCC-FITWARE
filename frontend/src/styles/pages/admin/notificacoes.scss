@@ -1,40 +1,219 @@
-@import "./../../abstract/variables.scss";
 .notifications-page {
-  color: $color-text;
+  .tabela-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
 
-  .page-title {
-    font-size: 20px;
+  .add-btn {
+    background-color: #7f24c6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
     font-weight: 600;
   }
 
-  .notifications-card {
-    background: $color-bg-card;
-    border-radius: $radius-md;
-    box-shadow: $shadow-card;
+  .notificacoes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 
-    .list-group-item {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid $border-color;
-      padding: $spacing-md;
+  .notificacao-card {
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
 
-      display: flex;
-      align-items: center;
+  .notificacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
 
-      &:last-child {
-        border-bottom: none;
+    h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .tipo {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      &.informativo {
+        background: #7c4dff33;
+        color: #c2aaff;
       }
-
-      .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: $white;
-        font-weight: 600;
+      &.desafio {
+        background: #22c55e33;
+        color: #22c55e;
+      }
+      &.treino {
+        background: #3b82f633;
+        color: #3b82f6;
+      }
+      &.brinde {
+        background: #dbac0d33;
+        color: #dbac0d;
       }
     }
+  }
+
+  .notificacao-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    small {
+      color: #969292;
+    }
+    .action-btn.delete {
+      background: transparent;
+      border: none;
+      color: #ef4444;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  }
+
+  .sem-notificacoes {
+    text-align: center;
+    color: #aaa;
+    margin-top: 2rem;
+  }
+}
+/* ===== MODAL BASE ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 120;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-content {
+  background: #1e1e1e;
+  color: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.25s ease;
+}
+
+.modal-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #f5f5f5;
+}
+
+/* ===== CAMPOS ===== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #a3a3a3;
+  }
+
+  input,
+  select,
+  textarea {
+    background: #242424;
+    border: 1px solid #3c3b3b;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #f5f5f5;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #7c4dff;
+    background: #292929;
+  }
+
+  textarea {
+    resize: none;
+  }
+}
+
+/* ===== BOTÕES ===== */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+
+  .btn-cancelar {
+    background: #2a2a2a;
+    color: #a3a3a3;
+    border: 1px solid #3c3b3b;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .btn-cancelar:hover {
+    background: #333;
+    color: #fff;
+  }
+
+  .btn-salvar {
+    background: #7f24c6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .btn-salvar:hover {
+    background: #9d46ff;
+    transform: scale(1.02);
+  }
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

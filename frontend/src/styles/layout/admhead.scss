@@ -3,19 +3,20 @@ body {
 }
 
 @import "./../abstract/variables.scss";
+
 .admin-header {
-  background-color: $color-bg-dark;
+  background-color: var(--surface-1);
   height: 64px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   padding: 0 $spacing-lg;
-  font-family: $font-family;
+  font-family: var(--font-family);
 
   .header-title {
     font-size: $font-size-heading;
     font-weight: 600;
-    color: $color-text;
+    color: var(--color-text);
   }
 
   .user-section {
@@ -31,17 +32,19 @@ body {
       background: transparent;
       border: none;
       border-radius: 50%;
-      color: $color-text-muted;
+      color: var(--color-text-muted);
       justify-content: center;
-      transition: background 0.2s, color 0.2s;
+      transition: all 0.2s ease;
       cursor: pointer;
+      padding: 8px;
       &:hover,
       &:focus {
-        color: $white;
+        background-color: var(--surface-hover);
+        color: var(--text-hover);
       }
     }
     .user-profile-btn {
-      background: transparent;
+      background: transparent !important;
       border: none;
       display: flex;
       align-items: center;
@@ -52,7 +55,7 @@ body {
         height: 36px;
         border-radius: 50%;
         background: $color-purple;
-        color: $color-text;
+        color: var(--white);
         font-weight: bold;
         display: flex;
         align-items: center;
@@ -60,49 +63,326 @@ body {
       }
     }
 
-    .dropdown-menu {
-      background: $color-bg-card;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: $radius-md;
-      box-shadow: $shadow-card;
+    .fw-dropdown-menu {
+      background: var(--surface-1);
+      border: 1px solid var(--border-color);
+      display: none;
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       margin-top: $spacing-sm;
       padding: $spacing-sm;
-      min-width: 220px;
+      min-width: 240px;
       top: 100%;
       position: absolute;
       right: 0;
       transform: none;
 
-      .dropdown-header {
+      &.fw-show {
+        display: block;
+        opacity: 1;
+      }
+      .fw-dropdown-header {
         font-size: $font-size-base;
-        font-weight: bold;
-        color: $color-text;
+        font-weight: 600;
+        color: var(--color-text);
         padding: $spacing-sm;
       }
 
-      .dropdown-item {
-        font-size: $font-size-base;
-        color: $color-text-muted;
+      .theme-switch-wrapper {
+        display: flex;
+        align-items: center;
         padding: $spacing-sm $spacing-md;
-        border-radius: $radius-sm;
-        margin-top: 2px;
-        transition: background 0.2s;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        color: var(--color-text);
+
         &:hover {
-          background: $surface-2 !important;
-          color: $color-text;
+          background: var(--surface-hover);
+          color: var(--text-hover);
         }
-        &:focus {
-          background: $surface-2 !important;
-          color: $color-text;
+
+        .theme-switch {
+          position: relative;
+          width: 44px;
+          height: 22px;
+          margin-right: 8px;
+
+          .switch-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--surface-2);
+            border: 2px solid var(--border-color);
+            border-radius: 34px;
+            transition: all 0.2s ease;
+
+            &.light {
+              background: var(--color-purple-light);
+              border-color: var(--color-purple);
+            }
+          }
+
+          .switch-handle {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--white);
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            i {
+              font-size: 12px;
+              color: var(--color-purple);
+            }
+          }
+
+          .light .switch-handle {
+            transform: translateX(22px);
+            background: var(--white);
+
+            i {
+              color: var(--color-purple-light);
+            }
+          }
         }
-        &.text-danger {
-          color: $color-red;
+        height: 26px;
+
+        .switch-track {
+          width: 100%;
+          height: 100%;
+          background: $surface-3;
+          border-radius: 13px;
+          position: relative;
+          transition: all 0.3s ease;
+          border: 2px solid $surface-3;
+
+          &.light {
+            background: $color-purple;
+            border-color: $color-purple;
+
+            .switch-handle {
+              transform: translateX(24px);
+              background: $white;
+
+              i {
+                color: $color-purple;
+              }
+            }
+          }
+
+          .switch-handle {
+            width: 22px;
+            height: 22px;
+            background: $color-text-muted;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translateX(0);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            i {
+              font-size: 12px;
+              color: $surface-3;
+            }
+          }
         }
       }
-      .dropdown-item-text {
-        font-size: $font-size-small;
-        color: $color-text-muted;
+
+      span {
+        margin-left: $spacing-md;
+        font-size: $font-size-base;
+        color: $color-text;
       }
     }
+
+    .fw-dropdown-item {
+      display: block; /* ensure full-width clickable area */
+      font-size: $font-size-base;
+      color: var(--color-text-muted);
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-sm;
+      margin-top: 2px;
+      transition: background 0.15s, color 0.15s;
+
+      &:hover {
+        background: var(--surface-hover);
+        color: var(--text-hover);
+      }
+
+      &:focus {
+        background: var(--surface-hover);
+        color: var(--text-hover);
+      }
+
+      &.text-danger {
+        color: var(--color-red);
+      }
+
+      /* Theme Switch Styles (keep consistent) */
+      &.theme-switch-wrapper {
+        display: flex;
+        align-items: center;
+        padding: $spacing-sm $spacing-md;
+        cursor: pointer;
+
+        &:hover {
+          background: var(--surface-hover);
+          border-radius: $radius-sm;
+        }
+
+        .theme-switch {
+          position: relative;
+          width: 44px;
+          height: 22px;
+        }
+
+        span {
+          margin-left: $spacing-md;
+          font-size: $font-size-base;
+          color: var(--color-text);
+        }
+      }
+    }
+  }
+
+  /* Theme Switch Styles */
+  .theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    color: var(--color-text);
+
+    &:hover {
+      background: var(--surface-hover);
+      color: var(--text-hover);
+    }
+
+    .theme-switch {
+      position: relative;
+      width: 44px;
+      height: 22px;
+      margin-right: 8px;
+
+      .switch-track {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--surface-2);
+        border: 2px solid var(--border-color);
+        border-radius: 34px;
+        transition: all 0.2s ease;
+
+        &.light {
+          background: var(--color-purple-light);
+          border-color: var(--color-purple);
+
+          .switch-handle {
+            transform: translateX(22px);
+            background: var(--white);
+
+            i {
+              color: var(--color-purple-light);
+            }
+          }
+        }
+      }
+
+      .switch-handle {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 18px;
+        height: 18px;
+        background: var(--white);
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+          font-size: 12px;
+          color: var(--color-purple);
+        }
+      }
+    }
+
+    span {
+      margin-left: $spacing-sm;
+      font-size: $font-size-base;
+      color: var(--color-text);
+    }
+  }
+
+  .fw-dropdown-item {
+    color: var(--color-text);
+    padding: $spacing-sm $spacing-md;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--surface-hover);
+      color: var(--text-hover);
+    }
+
+    i {
+      color: var(--color-text-muted);
+      transition: color 0.2s ease;
+    }
+
+    &:hover i {
+      color: var(--text-hover);
+    }
+
+    &.text-danger {
+      color: var(--color-red);
+
+      &:hover {
+        background: rgba(235, 4, 0, 0.1);
+      }
+
+      i {
+        color: var(--color-red);
+      }
+    }
+  }
+
+  .fw-dropdown-item-text {
+    font-size: $font-size-small;
+    color: var(--color-text-muted);
+    padding: $spacing-sm $spacing-md;
+  }
+
+  .fw-dropdown-divider {
+    border: none;
+    height: 1px;
+    background: var(--border-color);
+    margin: $spacing-sm 0;
+  }
+
+  /* show dropdown when parent has fw-show (we don't use Bootstrap JS) */
+  .fw-dropdown.fw-show .fw-dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: none;
   }
 }

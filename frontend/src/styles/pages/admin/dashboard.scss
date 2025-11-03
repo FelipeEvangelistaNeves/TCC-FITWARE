@@ -1,7 +1,6 @@
 @import "./../../abstract/variables.scss";
 .dashboard-admin {
   padding: $spacing-lg;
-  background-color: $app-bg;
   color: $color-text;
   font-family: $font-family;
   min-height: 100vh;
@@ -22,7 +21,7 @@
     margin-bottom: $spacing-lg;
 
     .card {
-      background-color: $color-bg-card;
+      background: var(--card-bg);
       border-radius: $radius-md;
       padding: $spacing-md;
       box-shadow: $shadow-card;
@@ -72,7 +71,7 @@
     }
 
     .chart-section {
-      background-color: $color-bg-card;
+      background: var(--card-bg);
       padding: $spacing-md;
       border-radius: $radius-md;
       box-shadow: $shadow-card;
@@ -90,7 +89,7 @@
     }
 
     .activity-section {
-      background-color: $color-bg-card;
+      background: var(--card-bg);
       padding: $spacing-md;
       border-radius: $radius-md;
       box-shadow: $shadow-card;
@@ -126,7 +125,7 @@
           display: flex;
           align-items: center;
           padding: $spacing-sm 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid var(--border-color);
 
           &:last-child {
             border-bottom: none;

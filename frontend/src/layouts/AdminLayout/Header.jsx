@@ -6,6 +6,27 @@ export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
+  const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("fitware-theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light-mode");
+      setIsLight(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setIsLight(!isLight);
+
+    if (!isLight) {
+      document.body.classList.add("light-mode");
+      localStorage.setItem("fitware-theme", "light");
+    } else {
+      document.body.classList.remove("light-mode");
+      localStorage.setItem("fitware-theme", "dark");
+    }
+  };
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -51,12 +72,8 @@ export default function Header() {
 
           <div className="col-auto">
             <div className="user-section">
-              <Link to="notificacoes" className="notification-badge-btn">
-                <i className="bi bi-bell  not-adm"></i>
-              </Link>
-
               <div
-                className={`dropdown ${showDropdown ? "show" : ""}`}
+                className={`fw-dropdown ${showDropdown ? "fw-show" : ""}`}
                 ref={dropdownRef}
               >
                 <button
@@ -71,42 +88,61 @@ export default function Header() {
                   </div>
                 </button>
 
-                <ul className={`dropdown-menu  ${showDropdown ? "show" : ""}`}>
+                <ul
+                  className={`fw-dropdown-menu ${
+                    showDropdown ? "fw-show" : ""
+                  }`}
+                >
                   <li>
-                    <h6 className="dropdown-header">João Paulo</h6>
+                    <h6 className="fw-dropdown-header">João Paulo</h6>
                   </li>
                   <li>
-                    <span className="dropdown-item-text small">
+                    <span className="fw-dropdown-item-text small">
                       Administrator
                     </span>
                   </li>
                   <li>
-                    <hr className="dropdown-divider" />
+                    <hr className="fw-dropdown-divider" />
                   </li>
+
                   <li>
-                    <Link className="dropdown-item" to="perfil">
-                      <i className="bi bi-person me-2"></i>
-                      Meu Perfil
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="configuracoes">
+                    <Link className="fw-dropdown-item" to="configuracoes">
                       <i className="bi bi-gear me-2"></i>
                       Configurações
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="notificacoes">
+                    <Link className="fw-dropdown-item" to="notificacoes">
                       <i className="bi bi-bell me-2"></i>
                       Notificações
                     </Link>
                   </li>
                   <li>
-                    <hr className="dropdown-divider" />
+                    <div className="theme-switch-wrapper fw-dropdown-item">
+                      <div className="theme-switch" onClick={toggleTheme}>
+                        <div
+                          className={`switch-track ${isLight ? "light" : ""}`}
+                        >
+                          <div className="switch-handle">
+                            <i
+                              className={`bi ${
+                                isLight ? "bi-sun-fill" : "bi-moon-stars-fill"
+                              }`}
+                            ></i>
+                          </div>
+                        </div>
+                      </div>
+                      <span className="ms-2">
+                        {isLight ? "Modo Claro" : "Modo Escuro"}
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <hr className="fw-dropdown-divider" />
                   </li>
                   <li>
                     <button
-                      className="dropdown-item text-danger"
+                      className="fw-dropdown-item text-danger"
                       onClick={handleLogout}
                     >
                       <i className="bi bi-box-arrow-right me-2"></i>

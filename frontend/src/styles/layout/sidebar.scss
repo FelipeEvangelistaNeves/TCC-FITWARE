@@ -1,18 +1,18 @@
 @import "./../abstract/variables.scss";
 .sidebar-admin {
-  background-color: $color-bg-sidebar;
-  color: $color-text;
+  background-color: var(--surface-1);
+  color: var(--color-text);
   width: 260px;
   height: 100vh;
-  position: sticky; // FIXO NA ESQUERDA
+  position: sticky;
   top: 0;
   left: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: $spacing-lg $spacing-md;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  font-family: $font-family;
+  border-right: 1px solid var(--border-color);
+  font-family: var(--font-family);
   overflow: hidden; // evita rolagem no próprio sidebar
   z-index: 100; // para ficar acima do conteúdo
 
@@ -27,26 +27,27 @@
       width: 40px;
       height: 40px;
       border-radius: $radius-md;
-      background: $color-purple;
+      background: var(--color-purple);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $color-text;
+      color: var(--white);
       font-size: 20px;
       font-weight: bold;
       margin-right: $spacing-sm;
+      transition: background-color 0.2s ease;
     }
 
     .brand-text {
       font-weight: bold;
       font-size: $font-size-heading;
-      color: $color-text;
+      color: var(--color-text);
     }
   }
 
   // ===== Divider =====
   .sidebar-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-color);
     margin: $spacing-md 0;
   }
 
@@ -58,12 +59,14 @@
       margin-bottom: $spacing-sm;
       width: 100%;
 
-      .nav-link-adm {
+      /* Support both custom nav-link-adm and Bootstrap's nav-link to ensure consistent behavior */
+      .nav-link-adm,
+      .nav-link {
         display: flex;
         align-items: center;
         padding: $spacing-sm $spacing-md;
         border-radius: $radius-sm;
-        color: $color-text-muted;
+        color: var(--color-text-muted);
         width: 100%;
         font-size: $font-size-base;
         font-weight: 500;
@@ -76,13 +79,27 @@
         }
 
         &:hover {
-          background: $color-bg-hover;
-          color: $color-text;
+          background: transparent;
+          color: var(--color-purple);
         }
 
         &.active {
-          background: $color-purple;
-          color: $color-text;
+          /* follow Twitch pattern: purple text, transparent background */
+          background: transparent;
+          color: var(--color-purple);
+          position: relative;
+
+          /* subtle indicator on left */
+          &::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background: var(--color-purple);
+            border-radius: 4px;
+          }
         }
       }
     }

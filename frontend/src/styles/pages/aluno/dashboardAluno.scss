@@ -10,8 +10,7 @@
   padding-bottom: 80px; // Espaço para a navegação inferior
   font-family: "Segoe UI", "Inter", Arial, sans-serif;
 
-
-  // Header
+  // Header s
   .dashboard-header {
     display: flex;
     justify-content: space-between;
@@ -157,10 +156,9 @@
         }
 
         &.active {
-          background: lighten($surface-2, 10%);
+          background: var(--surface-2-hover);
         }
       }
-
     }
   }
 
@@ -216,17 +214,16 @@
         align-items: center;
         gap: 10px;
 
-      .timer-display {
-        font-size: 16px;
-        font-weight: 600;
-        color: $text;
-        background: $surface-2;
-        padding: 8px 14px;
-        border-radius: $radius-sm;
-        border: 1px solid $border-color;
+        .timer-display {
+          font-size: 16px;
+          font-weight: 600;
+          color: $text;
+          background: $surface-2;
+          padding: 8px 14px;
+          border-radius: $radius-sm;
+          border: 1px solid $border-color;
+        }
       }
-    }
-
     }
 
     .exercises-list {
@@ -271,54 +268,53 @@
       }
     }
 
-  .workout-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    .workout-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-  .trainer-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+      .trainer-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-  .btn-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+      .btn-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-  .start-btn,
-    .stop-btn {
-      background: $primary;
-      color: $white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: $radius-md;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: $shadow-1;
+      .start-btn,
+      .stop-btn {
+        background: $primary;
+        color: $white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: $radius-md;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: $shadow-1;
 
-    &:hover {
-      background: $primary-700;
-      transform: translateY(-2px);
+        &:hover {
+          background: $primary-700;
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+
+      .stop-btn {
+        background: $purple-dark;
+        &:hover {
+          background: darken($purple-dark, 10%);
+        }
+      }
     }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-
-  .stop-btn {
-    background: $purple-dark;
-    &:hover {
-      background: darken($purple-dark, 10%);
-    }
-  }
-}
-
   }
 
   // Responsividade para telas muito pequenas
@@ -442,4 +438,4 @@
       background: rgba(255, 255, 255, 0.5);
     }
   }
-};
+}
