@@ -10,6 +10,7 @@
     "lucide-react": "^0.541.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
+    "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^18.2.0",
     "react-dom-navigator": "^1.0.0",
     "react-icons": "^5.5.0",

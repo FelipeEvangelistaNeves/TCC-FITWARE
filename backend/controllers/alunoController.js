@@ -1,4 +1,4 @@
-const { Aluno } = require("../models");
+const { Aluno, Turma } = require("../models");
 const LoggerMessages = require("../loggerMessages");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -67,10 +67,19 @@ const dataAluno = async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const alunoId = decoded.id; // ID do aluno que está logado
+    const alunoId = decoded.id; 
 
     const aluno = await Aluno.findByPk(alunoId, {
       attributes: { exclude: ["al_senha"] },
+      include: [
+        {
+          model: Turma, // Inclui o modelo Turma
+          attributes: ['tu_id', 'tu_nome'], // Seleciona apenas o ID e o Nome da Turma
+          through: {
+            attributes: [], // Opcional: Não incluir campos da tabela de ligação (alunos_turmas)
+          }
+        }
+      ],
     });
 
     if (!aluno) {
@@ -82,16 +91,21 @@ const dataAluno = async (req, res) => {
     const iniciais =
       (firstName ? firstName[0] : "") + (lastName ? lastName[0] : "");
 
+    // 🚨 MODIFICAÇÃO CHAVE: Adicionar a propriedade 'turmas' à resposta JSON
     res.json({
       nome: aluno.al_nome,
       email: aluno.al_email,
+      pontos: aluno.al_pontos,
       iniciais,
+      turmas: aluno.Turmas, 
     });
   } catch (err) {
     console.error("Erro ao buscar dados do aluno:", err);
     return res.status(500).json({ message: "Erro ao buscar dados do aluno." });
   }
 };
+
+// ---
 
 module.exports = {
   loginAluno,

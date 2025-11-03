@@ -1,259 +1,249 @@
 @import "./../../abstract/variables.scss";
 
-/* ===== Página ===== */
-.challenges-container {
-  background-color: $app-bg;
+.desafios-container {
+  padding: $spacing-md;
   color: $text;
-  min-height: 100vh; /* Preenche toda a tela c*/
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  right: 0;
-  left: 0;
-  padding-bottom: 80px;
-  padding: 16px;
-  box-sizing: border-box;
-  padding-bottom: 80px;
+  font-family: $font-family;
+  background: $app-bg;
+  min-height: 100vh;
 }
 
-/* ===== Cards de Resumo (Ativos / Concluídos / Pontos) ===== */
-.summary-cards {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
+/* Seções */
+.desafios-section {
+  margin-top: $spacing-lg;
 
-  .summary-card {
-    margin-top: 20px;
-    flex: 1;
-    min-width: 100px;
-    background: $surface-1;
-    border-radius: $radius-md;
-    padding: 20px 15px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid $border-color;
-    box-shadow: $shadow-1;
-
-    h3 {
-      font-size: 14px;
-      font-weight: 500;
-      color: $text-2;
-      margin: 0 0 10px 0;
-    }
-
-    .card-number {
-      font-size: 28px;
-      font-weight: 700;
-      color: $text;
-      margin-bottom: 5px;
-    }
-
-    .card-subtitle {
-      font-size: 12px;
-      color: $accent-yellow;
-      font-weight: 500;
-    }
+  h2 {
+    font-size: $font-size-heading;
+    margin-bottom: $spacing-md;
+    color: $text;
   }
 }
 
-/* ===== Título de seção ===== */
-.section-title {
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
-  margin: 4px 0 8px;
-  color: $text;
-}
+.summary-cards {
+    display: flex;
+    gap: 15px;
+    padding: 0 0px 25px;
+    overflow-x: auto;
 
-/* ===== Card de Desafio ===== */
-.challenge-card {
-  background-color: $surface-2;
-  border: 1px solid $border;
-  border-radius: $radius-lg;
+    .summary-card {
+      margin-top: 20px;
+      flex: 1;
+      min-width: 100px;
+      background: $surface-1;
+      border-radius: $radius-md;
+      padding: 20px 15px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid $border-color;
+      box-shadow: $shadow-1;
+
+      h3 {
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-2;
+        margin: 0 0 10px 0;
+      }
+
+      .card-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: $text;
+        margin-bottom: 5px;
+      }
+
+      .card-subtitle {
+        font-size: 12px;
+        color: $accent-yellow;
+        font-weight: 500;
+      }
+    }
+  }
+
+/* Card de desafio */
+.desafio-card {
+  background: $surface-2;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
   box-shadow: $shadow-1;
-  padding: 16px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  border: 1px solid $border-color;
+  transition: background 0.3s;
 
-  .header {
+  &:hover {
+    background: $color-bg-hover;
+  }
+
+  .desafio-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: $spacing-xs;
 
-    .name {
+    h3 {
+      font-size: $font-size-base;
+      font-weight: 600;
       color: $text;
-      font-size: 16px;
-      font-weight: 700;
+      margin: 0;
     }
 
     .status {
-      color: $white;
-      font-weight: 700;
-      font-size: 12px;
       padding: 4px 10px;
-      border-radius: $radius-sm;
-      background-color: $primary;
+      border-radius: 20px;
+      font-size: $font-size-small;
+      font-weight: 500;
+      color: $white;
+
+      &.purple {
+        background: $purple-dark;
+      }
 
       &.blue {
-        background-color: $blue-light;
+        background: $blue-light;
       }
-      &.purple {
-        background-color: $primary;
+
+      &.gray {
+        background: $surface-3;
       }
     }
   }
 
-  .sub {
+  .subinfo {
     color: $text-2;
-    font-size: 14px;
+    font-size: $font-size-small;
+    margin-bottom: $spacing-xs;
   }
 
-  /* barra de progresso */
-  .progressbar {
-    height: 8px;
-    background-color: $surface-3;
-    border-radius: $radius-sm;
-    overflow: hidden;
-    margin-top: 6px;
+  .progress-bar {
+    background: $surface-3;
+    border-radius: 10px;
+    height: 6px;
+    margin-bottom: $spacing-xs;
 
-    .fill {
+    .progress {
       height: 100%;
-      background-color: $primary-500; /* roxo claro */
-      width: 0%; /* defina via style inline no JSX */
+      border-radius: 10px;
+      background: linear-gradient(90deg, $purple-dark, $blue-light);
     }
   }
 
-  .row-info {
-    display: flex;
-    justify-content: space-between;
+  .descricao {
     color: $text-2;
-    font-size: 13px;
-    margin-top: 2px;
+    font-size: $font-size-base;
+    margin-bottom: $spacing-sm;
   }
 
-  .footer {
-    background: $surface-2;
-    border: 0;
+  .recompensa {
+    color: $accent-yellow;
+    font-size: $font-size-small;
+    font-weight: 500;
+    margin-top: $spacing-xs;
+  }
+
+  .desafio-footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    margin-top: $spacing-sm;
 
-    .reward {
-      color: $accent-yellow;
-      font-weight: 700;
-      font-size: 14px;
+    p {
+      color: $text-2;
+      font-size: $font-size-small;
+      margin: 0;
     }
+  }
 
-    .action {
-      background-color: $primary;
-      color: $white;
-      border: none;
-      border-radius: $radius-md;
-      padding: 10px 16px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: $shadow-1;
-      transition: background-color 0.15s ease;
+  .btn {
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    color: $white;
+    font-size: $font-size-small;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &.purple {
+      background: $purple-dark;
 
       &:hover {
-        background-color: $primary-700;
+        background: lighten($purple-dark, 5%);
       }
     }
-  }
-}
 
-/* ===== Responsivo ===== */
-@media (min-width: 992px) {
-  /* desktop */
-  .challenges-container {
-    /* em desktop, mantemos preenchendo entre header/footer, mas alinhamos a largura */
-    left: 0;
-    right: 0;
-    padding: 24px 40px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+    &.blue {
+      background: $blue-light;
 
-  .summary-cards {
-    gap: 20px;
-
-    .summary-card {
-      padding: 16px;
-    }
-  }
-
-  /* dois cards por linha no desktop */
-  .challenges-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
-}
-
-.challenges-available {
-  margin-top: 1.5rem;
-
-  h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: $text;
-  }
-
-  .challenge-card {
-    background: $surface-2;
-    border-radius: $radius-md;
-    padding: 1rem;
-    margin-bottom: 1rem; // Espaçamento entre os cards
-    box-shadow: $shadow-1;
-
-    h4 {
-      color: $text;
-      font-size: 1rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .challenge-subtitle {
-      font-size: 0.85rem;
-      color: $text-2;
-      margin-bottom: 0.8rem;
-    }
-
-    .challenge-description {
-      font-size: 0.9rem;
-      color: $text-2;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-
-    .challenge-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .reward {
-        color: $accent-yellow;
-        font-weight: 700;
-        font-size: 14px;
+      &:hover {
+        background: lighten($blue-light, 5%);
       }
+    }
 
-      .challenge-button {
+    &.gray {
+      background: $surface-3;
+
+      &:hover {
         background: $surface-3;
-        color: $text;
-        padding: 0.4rem 1rem;
-        border-radius: $radius-sm;
-        font-size: 0.9rem;
-        border: none;
-        cursor: pointer;
-        transition: background 0.2s;
+      }
+    }
+  }
+}
 
-        &:hover {
-          background: $primary-500;
+/* Responsividade */
+@media (min-width: 768px) {
+
+    .summary-cards {
+      padding: 0 15px 20px;
+      gap: 12px;
+
+      .summary-card {
+        padding: 15px 12px;
+
+        .card-number {
+          font-size: 24px;
         }
       }
     }
-  }
+
+    .workouts-section {
+      padding: 0 15px;
+
+      .section-header {
+        gap: 8px;
+
+        h2 {
+          font-size: 18px;
+          margin-bottom: 12px;
+        }
+
+        .filter-btn {
+          margin: 2px;
+          padding: 6px 12px;
+          font-size: 12px;
+          min-width: 60px;
+        }
+      }
+
+      .workout-card {
+        padding: 15px;
+
+        .workout-header {
+          margin-bottom: 15px;
+
+          h3 {
+            font-size: 16px;
+          }
+        }
+
+        .exercises-list {
+          margin-bottom: 15px;
+
+          .exercise-item {
+            padding: 10px 0;
+          }
+        }
+      }
+    }
+
 }

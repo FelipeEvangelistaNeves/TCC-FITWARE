@@ -4,8 +4,9 @@
    Tabelas (Genéricas)
    Usado em: Alunos, Professores, Financeiro, Treinos
 ========================== */
+
 .tabela-page {
-  color: $color-text;
+  box-shadow: var(--shadow-card);
 
   /* ===== Header da Página ===== */
   .tabela-header {
@@ -16,7 +17,7 @@
 
     h2 {
       font-size: $font-size-heading;
-      font-weight: 600;
+      color: var(--color-text-muted);
     }
 
     .acoes-header {
@@ -25,33 +26,34 @@
       gap: $spacing-md;
 
       .search-input {
-        background: $surface-2;
-        border: 1px solid $border-color;
-        color: $color-text;
+        background: var(--surface-2);
+        border: 1px solid var(--border-color);
+        color: var(--color-text);
         padding: $spacing-sm $spacing-md;
         border-radius: $radius-md;
         font-size: $font-size-base;
         width: 250px;
+        transition: border-color 0.2s ease;
 
         &:focus {
           outline: none;
-          border-color: $color-purple;
+          border-color: var(--color-purple);
         }
       }
 
       .add-btn {
-        background: $color-purple;
-        color: $white;
+        background: var(--color-purple);
+        color: var(--white);
         border: none;
         border-radius: $radius-md;
-        padding: $spacing-sm $spacing-md;
         font-size: $font-size-base;
         font-weight: 500;
+        padding: $spacing-sm $spacing-md;
         cursor: pointer;
         transition: background 0.2s ease;
 
         &:hover {
-          background: $purple-dark;
+          background: var(--color-purple-light);
         }
       }
     }
@@ -69,13 +71,13 @@
       font-size: $font-size-base;
       font-weight: 500;
       padding: $spacing-sm 0;
-      color: $color-text-muted;
+      color: var(--color-text-muted);
       cursor: pointer;
       position: relative;
       transition: color 0.2s ease;
 
       &:hover {
-        color: $color-text;
+        color: var(--color-text);
       }
 
       &.active {
@@ -88,7 +90,7 @@
           bottom: -2px;
           width: 100%;
           height: 2px;
-          background: $color-purple;
+          background: var(--color-purple);
           border-radius: $radius-sm;
         }
       }
@@ -99,7 +101,7 @@
   .tabela {
     width: 100%;
     border-collapse: collapse;
-    background: $surface-1;
+    background: var(--surface-1);
     border-radius: $radius-md;
     box-shadow: $shadow-card;
     overflow: hidden;
@@ -112,8 +114,8 @@
     }
 
     thead {
-      background: $surface-2;
-      color: $color-text-muted;
+      background: var(--surface-2);
+      color: var(--color-text-muted);
 
       th {
         font-weight: 500;
@@ -122,12 +124,11 @@
 
     tbody {
       tr {
-        border-bottom: 1px solid $border-color;
+        border-bottom: 1px solid var(--border-color);
+        transition: background 0.2s ease;
 
         &:hover {
-          /* use theme surface hover so light/dark modes behave correctly */
           background: var(--surface-hover);
-          color: var(--color-text);
         }
 
         td {
@@ -146,19 +147,22 @@
             margin-right: $spacing-sm;
 
             &.blue {
-              background: $blue-light;
+              background: var(--color-purple-light);
             }
+
             &.green {
-              background: $color-green;
+              background: rgba(var(--color-green), 0.15);
+              color: var(--color-green);
             }
+
             &.orange {
-              background: $accent-yellow;
+              background: rgba(var(--accent-yellow), 0.15);
+              color: var(--accent-yellow);
             }
+
             &.red {
-              background: $color-red;
-            }
-            &.purple {
-              background: $color-purple;
+              background: rgba(var(--color-red), 0.15);
+              color: var(--color-red);
             }
           }
 
@@ -173,10 +177,12 @@
               background: rgba($color-green, 0.15);
               color: $color-green;
             }
+
             &.intermediario {
-              background: rgba($blue-light, 0.15);
-              color: $blue-light;
+              background: rgba($accent-yellow, 0.15);
+              color: $accent-yellow;
             }
+
             &.avancado {
               background: rgba($color-red, 0.15);
               color: $color-red;
@@ -194,10 +200,12 @@
               background: rgba($color-green, 0.15);
               color: $color-green;
             }
+
             &.pendente {
               background: rgba($accent-yellow, 0.15);
               color: $accent-yellow;
             }
+
             &.cancelado {
               background: rgba($color-red, 0.15);
               color: $color-red;
@@ -208,13 +216,14 @@
           .action-btn {
             background: transparent;
             border: none;
-            color: $color-text-muted;
+            color: var(--color-text-muted);
             cursor: pointer;
             margin-right: $spacing-sm;
             font-size: 16px;
+            transition: color 0.2s ease;
 
             &:hover {
-              color: $color-purple;
+              color: var(--color-purple);
             }
           }
         }
@@ -229,13 +238,13 @@
     justify-content: space-between;
     margin-top: $spacing-md;
     font-size: $font-size-small;
-    color: $color-text-muted;
+    color: var(--color-text-muted);
 
     select {
-      background: $surface-2;
-      border: 1px solid $border-color;
+      background: var(--surface-2);
+      border: 1px solid var(--border-color);
       border-radius: $radius-sm;
-      color: $color-text;
+      color: var(--color-text);
       padding: $spacing-xs $spacing-sm;
       margin-left: $spacing-sm;
     }
@@ -245,20 +254,21 @@
       gap: $spacing-sm;
 
       .page {
-        background: $surface-2;
+        background: var(--surface-2);
         border: none;
-        color: $color-text;
+        color: var(--color-text);
         border-radius: $radius-sm;
         padding: $spacing-xs $spacing-sm;
         cursor: pointer;
+        transition: background 0.2s ease;
 
         &.active {
-          background: $color-purple;
-          color: $white;
+          background: var(--color-purple);
+          color: var(--white);
         }
 
         &:hover:not(.active) {
-          background: $color-bg-hover;
+          background: var(--surface-hover);
         }
       }
     }

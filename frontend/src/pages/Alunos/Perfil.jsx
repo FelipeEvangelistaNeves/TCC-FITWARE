@@ -4,6 +4,38 @@ import ResgatePontosModal from "./ResgatePontosModal";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function PerfilAluno() {
+
+  const [nome, setNome] = useState("");
+  const [iniciais, setIniciais] = useState("");
+  const[pontos, setPontos] = useState(0);
+  const[email, setEmail] = useState("");
+  const[turma, setTurma] = useState("");
+  useEffect(() => {
+    const fetchAlunos = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/alunos", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json; charset=utf-8",
+          },
+        });
+        if (!res.ok) throw new Error("Erro ao buscar dados do aluno");
+
+        const data = await res.json();
+        setNome(data.nome);
+        setIniciais(data.iniciais);
+        setPontos(data.pontos);
+        setEmail(data.email);
+        setTurma(data.turmas[0].tu_nome);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAlunos();
+  }, []); // executa apenas 1x ao montar o componente
+
   const [abaAtiva, setAbaAtiva] = useState("historico");
   const [modalAberto, setModalAberto] = useState(false);
 
@@ -22,34 +54,10 @@ export default function PerfilAluno() {
 
   const getTextoBotao = () => {
     if (abaAtiva === "pagamento") return "Plano Premium";
-    return "850 Pontos";
+    return pontos + " Pontos";
   };
 
-  const [nome, setNome] = useState("");
-  const [iniciais, setIniciais] = useState("");
 
-  useEffect(() => {
-    const fetchAlunos = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/alunos", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json; charset=utf-8",
-          },
-        });
-        if (!res.ok) throw new Error("Erro ao buscar dados do aluno");
-
-        const data = await res.json();
-        setNome(data.nome);
-        setIniciais(data.iniciais);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchAlunos();
-  }, []); // executa apenas 1x ao montar o componente
   return (
     <div className={`perfil-container ${getAbaCor()}`}>
       <div className="perfil-header">
@@ -60,7 +68,7 @@ export default function PerfilAluno() {
       <div className="perfil-info">
         <div className="perfil-avatar">{iniciais}</div>
         <h3>{nome}</h3>
-        <p>Turma Segunda • 3 meses</p>
+        <p>{turma} • 3 meses</p>
         <button
           className={`plano-btn ${
             abaAtiva === "pagamento" ? "premium" : "pontos"
@@ -171,7 +179,7 @@ export default function PerfilAluno() {
                   <i className="bi bi-credit-card"></i>
                   <div>
                     <p>Mercado Pago</p>
-                    <small>Conta: maria.silva@email.com</small>
+                    <small>Conta: {email}</small>
                   </div>
                   <span className="padrao">Padrão</span>
                 </div>

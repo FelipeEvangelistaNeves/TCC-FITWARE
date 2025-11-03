@@ -2,7 +2,7 @@ import React from "react";
 import { Bell } from "lucide-react";
 import "../../styles/layout/mobHeader.scss";
 import { LogOut } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function HeaderAluno({ title }) {
   const [iniciais, setIniciais] = useState("");
@@ -40,25 +40,36 @@ export default function HeaderAluno({ title }) {
     }
   }
 
+  // Dropdown state
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    }
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
   return (
     <header className="header-professor py-3 px-4 border-bottom">
       <div className="container-fluid d-flex justify-content-between align-items-center">
-        {/* Título da Página */}
         <h5 className="page-title m-0">{title}</h5>
-
-        <button onClick={handleLogout} className="logout-btn">
-          <LogOut size={20} /> Sair
-        </button>
-
-        {/* Ícones e Perfil */}
         <div className="d-flex align-items-center gap-3">
-          {/* Notificação */}
-          <button className="btn notification-btn rounded-circle">
-            <Bell size={20} />
-          </button>
-
-          {/* Avatar com iniciais */}
           <div className="profile-avatar"> {iniciais} </div>
+
+          <button onClick={handleLogout} className="logout-btn">
+            <LogOut size={20} />
+          </button>
         </div>
       </div>
     </header>

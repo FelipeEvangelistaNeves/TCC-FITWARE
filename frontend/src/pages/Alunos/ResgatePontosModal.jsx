@@ -2,6 +2,7 @@ import React from "react";
 import "../../styles/pages/aluno/resgatePontos.scss";
 
 export default function ResgatePontosModal({ onClose }) {
+  
   return (
     <div className="resgate-modal">
       <div className="resgate-header">

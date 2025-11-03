@@ -74,8 +74,7 @@ export default function Header() {
             <div className="user-section">
               <div
                 className={`fw-dropdown ${showDropdown ? "fw-show" : ""}`}
-                ref={dropdownRef}
-              >
+                ref={dropdownRef}>
                 <button
                   className="btn user-profile-btn"
                   type="button"
@@ -96,14 +95,6 @@ export default function Header() {
                   <li>
                     <h6 className="fw-dropdown-header">João Paulo</h6>
                   </li>
-                  <li>
-                    <span className="fw-dropdown-item-text small">
-                      Administrator
-                    </span>
-                  </li>
-                  <li>
-                    <hr className="fw-dropdown-divider" />
-                  </li>
 
                   <li>
                     <Link className="fw-dropdown-item" to="configuracoes">
@@ -119,27 +110,28 @@ export default function Header() {
                   </li>
                   <li>
                     <div className="theme-switch-wrapper fw-dropdown-item">
+                       
+                    <i
+                              className={`bi ${
+                                isLight ? "bi-sun-fill" : "bi-moon-stars-fill"
+                              }`}
+                            ></i>
+                        <span >
+                        {isLight ? "Modo Claro" : "Modo Escuro"}
+                      </span>
                       <div className="theme-switch" onClick={toggleTheme}>
                         <div
                           className={`switch-track ${isLight ? "light" : ""}`}
                         >
                           <div className="switch-handle">
-                            <i
-                              className={`bi ${
-                                isLight ? "bi-sun-fill" : "bi-moon-stars-fill"
-                              }`}
-                            ></i>
+                          
                           </div>
                         </div>
                       </div>
-                      <span className="ms-2">
-                        {isLight ? "Modo Claro" : "Modo Escuro"}
-                      </span>
+                    
                     </div>
                   </li>
-                  <li>
-                    <hr className="fw-dropdown-divider" />
-                  </li>
+                  
                   <li>
                     <button
                       className="fw-dropdown-item text-danger"

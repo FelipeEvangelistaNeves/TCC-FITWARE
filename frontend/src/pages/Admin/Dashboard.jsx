@@ -1,8 +1,61 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Chart from "chart.js/auto";
 import "../../styles/pages/admin/dashboard.scss";
 
 export default function Dashboard() {
+  const [showModal, setShowModal] = useState(false);
+
+  const atividades = [
+    {
+      id: 1,
+      nome: "Maria Silva",
+      acao: "completou o treino de força",
+      hora: "Hoje, 14:30",
+      cor: "#5A67D8",
+      iniciais: "MS",
+    },
+    {
+      id: 2,
+      nome: "Pedro Alves",
+      acao: "resgatou pontos por uma consulta",
+      hora: "Hoje, 12:15",
+      cor: "#48BB78",
+      iniciais: "PA",
+    },
+    {
+      id: 3,
+      nome: "Carlos Mendes",
+      acao: "iniciou o desafio de 7 dias",
+      hora: "Ontem, 18:45",
+      cor: "#F6AD55",
+      iniciais: "CM",
+    },
+    {
+      id: 4,
+      nome: "Ana Santos",
+      acao: "completou o desafio de nutrição",
+      hora: "Ontem, 10:20",
+      cor: "#FC8181",
+      iniciais: "AS",
+    },
+    {
+      id: 5,
+      nome: "Lucas Pereira",
+      acao: "alcançou 1000 pontos de fidelidade",
+      hora: "2 dias atrás, 09:00",
+      cor: "#9F7AEA",
+      iniciais: "LP",
+    },
+    {
+      id: 6,
+      nome: "Juliana Costa",
+      acao: "participou da aula de HIIT",
+      hora: "2 dias atrás, 17:40",
+      cor: "#4299E1",
+      iniciais: "JC",
+    },
+  ];
+
   useEffect(() => {
     const ctx = document.getElementById("activityChart").getContext("2d");
     const chartInstance = new Chart(ctx, {
@@ -23,56 +76,42 @@ export default function Dashboard() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            labels: {
-              color: "#000000ff",
-            },
-          },
-        },
+        plugins: { legend: { labels: { color: "#fff" } } },
         scales: {
-          x: {
-            ticks: { color: "#000000ff" },
-            grid: { color: "rgba(255,255,255,0.1)" },
-          },
-          y: {
-            ticks: { color: "#ffffff" },
-            grid: { color: "rgba(255,255,255,0.1)" },
-          },
+          x: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } },
+          y: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } },
         },
       },
     });
 
-    // Cleanup: destrói o gráfico ao desmontar ou atualizar
-    return () => {
-      chartInstance.destroy();
-    };
+    return () => chartInstance.destroy();
   }, []);
 
   return (
     <div className="dashboard-admin">
       <h1>Dashboard</h1>
 
-      {/* Cards Superiores */}
+      {/* Cards */}
       <div className="cards-grid text-white">
-        <div className="card text-white">
+        <div className="card">
           <span className="card-value">156</span>
           <span className="card-change positive">+12% este mês</span>
         </div>
 
-        <div className="card text-white">
+        <div className="card">
           <span className="card-title">Desafios Ativos</span>
           <span className="card-value">24</span>
           <span className="card-change negative">-3% este mês</span>
         </div>
-        <div className="card text-white">
+
+        <div className="card">
           <span className="card-title">Pontos Resgatados</span>
           <span className="card-value">12.5k</span>
           <span className="card-change positive">+18% este mês</span>
         </div>
       </div>
 
-      {/* Gráfico e Atividade */}
+      {/* Gráfico + Atividade */}
       <div className="content-grid">
         {/* Gráfico */}
         <div className="chart-section" style={{ height: "320px" }}>
@@ -84,56 +123,59 @@ export default function Dashboard() {
         <div className="activity-section">
           <div className="section-header">
             <h2 className="section-title">Atividade Recente</h2>
-            <a href="#">Ver Tudo</a>
+            <button className="ver-tudo-btn" onClick={() => setShowModal(true)}>
+              Ver Tudo
+            </button>
           </div>
           <ul className="activity-list">
-            <li className="activity-item">
-              <div className="avatar" style={{ background: "#5A67D8" }}>
-                MS
-              </div>
-              <div className="activity-info">
-                <span className="name">
-                  Maria Silva completou o treino de força
-                </span>
-                <span className="time">Hoje, 14:30</span>
-              </div>
-            </li>
-            <li className="activity-item">
-              <div className="avatar" style={{ background: "#48BB78" }}>
-                PA
-              </div>
-              <div className="activity-info">
-                <span className="name">
-                  Pedro Alves resgatou pontos por uma consulta
-                </span>
-                <span className="time">Hoje, 12:15</span>
-              </div>
-            </li>
-            <li className="activity-item">
-              <div className="avatar" style={{ background: "#F6AD55" }}>
-                CM
-              </div>
-              <div className="activity-info">
-                <span className="name">
-                  Carlos Mendes iniciou o desafio de 7 dias
-                </span>
-                <span className="time">Ontem, 18:45</span>
-              </div>
-            </li>
-            <li className="activity-item">
-              <div className="avatar" style={{ background: "#FC8181" }}>
-                AS
-              </div>
-              <div className="activity-info">
-                <span className="name">
-                  Ana Santos completou o desafio de nutrição
-                </span>
-                <span className="time">Ontem, 10:20</span>
-              </div>
-            </li>
+            {atividades.slice(0, 4).map((a) => (
+              <li className="activity-item" key={a.id}>
+                <div className="avatar" style={{ background: a.cor }}>
+                  {a.iniciais}
+                </div>
+                <div className="activity-info">
+                  <span className="name">
+                    {a.nome} {a.acao}
+                  </span>
+                  <span className="time">{a.hora}</span>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
+
+      {/* MODAL */}
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header">
+              <h3>Atividades Recentes</h3>
+              <button className="close-btn" onClick={() => setShowModal(false)}>
+                ✕
+              </button>
+            </div>
+            <ul className="modal-list">
+              {atividades.map((a) => (
+                <li className="activity-item" key={a.id}>
+                  <div className="avatar" style={{ background: a.cor }}>
+                    {a.iniciais}
+                  </div>
+                  <div className="activity-info">
+                    <span className="name">
+                      {a.nome} {a.acao}
+                    </span>
+                    <span className="time">{a.hora}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

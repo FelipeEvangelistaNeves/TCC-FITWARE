@@ -1,173 +1,174 @@
-@import "../../abstract/variables";
-
-.admin-configuracoes {
-  padding: $spacing-xl;
-  color: $color-text;
-  background: $color-bg-dark;
-  min-height: 100vh;
-  font-family: $font-family;
-
+.config-page {
   .page-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: $spacing-lg;
+    margin-bottom: 1.5rem;
+  }
+
+  .config-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+
+    .tab {
+      background: transparent;
+      color: var(--color-text-muted);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.active {
+        background: transparent;
+        color:var(--color-purple);
+      }
+
+      &:hover {
+        background: transparent;
+         color:var(--color-purple);
+      }
+    }
   }
 
   .config-section {
-    background: $surface-1;
-    border-radius: $radius-md;
-    padding: $spacing-lg;
-    margin-bottom: $spacing-lg;
-    box-shadow: $shadow-card;
+    background: var(--surface-1);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-card);
 
     h4 {
-      color: $accent-yellow;
-      margin-bottom: $spacing-md;
+      color: var(--yellow);
+      margin-bottom: 16px;
+      font-size: 18px;
     }
 
     .config-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: $spacing-md;
+      margin-bottom: 16px;
 
       label {
         font-weight: 500;
-        color: $color-text-muted;
+        color: var(--color-text);
       }
 
-      input[type="email"],
-      input[type="password"] {
-        background: $surface-2;
-        border: 1px solid $border-color;
-        border-radius: $radius-sm;
-        padding: $spacing-sm $spacing-md;
-        color: $color-text;
-        width: 50%;
-        font-size: $font-size-base;
+      input {
+        background: var(--surface-2);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: var(--color-text);
+        width: 300px;
+      }
 
-        &:focus {
-          border-color: $color-purple;
-          outline: none;
+      .toggle-switch {
+        position: relative;
+        width: 46px;
+        height: 24px;
+
+        input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        label {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: #555;
+          border-radius: 24px;
+          transition: 0.3s;
+
+          &::after {
+            content: "";
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+          }
+        }
+
+        input:checked + label {
+          background: var(--color-purple);
+
+          &::after {
+            transform: translateX(22px);
+          }
         }
       }
     }
 
-    .btn-salvar {
-      background: $color-purple;
+    .btn-salvar,
+    .btn-edit {
+      background: var(--color-purple);
       border: none;
-      color: $white;
-      border-radius: $radius-md;
-      padding: $spacing-sm $spacing-lg;
+      border-radius: 8px;
+      color: #fff;
+      padding: 10px 16px;
       font-weight: 600;
-      margin-top: $spacing-md;
-      transition: 0.3s;
+      cursor: pointer;
+      transition: 0.2s;
 
       &:hover {
-        background: $purple-dark;
+        background: var(--color-purple-light);
       }
     }
-  }
 
-  /* ===== Toggle Switch ===== */
-  .toggle-switch {
-    position: relative;
-    width: 50px;
-    height: 24px;
-
-    input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    label {
-      position: absolute;
+    .btn-cancelar {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--color-text-muted);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
       cursor: pointer;
-      background: $border-color;
-      border-radius: 50px;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transition: background 0.3s;
 
-      &::before {
-        content: "";
-        position: absolute;
-        height: 18px;
-        width: 18px;
-        left: 3px;
-        bottom: 3px;
-        background: $white;
-        border-radius: 50%;
-        transition: transform 0.3s;
-      }
-    }
-
-    input:checked + label {
-      background: $color-purple;
-
-      &::before {
-        transform: translateX(26px);
+      &:hover {
+        background: var(--surface-hover);
       }
     }
   }
 
-  @media (max-width: 768px) {
-    .config-item {
-      flex-direction: column;
-      align-items: flex-start;
+  .alert-sucesso {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
 
-      input[type="email"],
-      input[type="password"] {
-        width: 100%;
-        margin-top: $spacing-sm;
+  .perfil-section {
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      align-items: center;
+
+      .label {
+        font-weight: 500;
+        color: var(--color-text-muted);
+      }
+
+      input {
+        width: 250px;
       }
     }
+
+    .perfil-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
   }
-}
-.alert-sucesso {
-  background: #1e1e1e;
-  border: 1px solid #3c3b3b;
-  color: #22c55e;
-  padding: 10px 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.btn-salvar,
-.btn-edit,
-.btn-save {
-  background: #7f24c6;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-salvar:hover,
-.btn-edit:hover,
-.btn-save:hover {
-  background: #9d46ff;
-}
-
-.btn-cancel {
-  background: #2a2a2a;
-  color: #ccc;
-  border: 1px solid #3c3b3b;
-  border-radius: 8px;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-cancel:hover {
-  background: #3a3a3a;
-  color: #fff;
 }
