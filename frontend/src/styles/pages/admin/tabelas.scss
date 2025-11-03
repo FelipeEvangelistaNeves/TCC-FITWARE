@@ -79,7 +79,7 @@
       }
 
       &.active {
-        color: $white;
+        color: var(--color-purple);
 
         &::after {
           content: "";
@@ -125,7 +125,9 @@
         border-bottom: 1px solid $border-color;
 
         &:hover {
-          background: $color-bg-hover;
+          /* use theme surface hover so light/dark modes behave correctly */
+          background: var(--surface-hover);
+          color: var(--color-text);
         }
 
         td {

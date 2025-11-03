@@ -48,6 +48,11 @@ export default function SideBar() {
       label: "Brindes",
       icon: "bi-trophy",
     },
+    {
+      path: "/admin/notificacoes",
+      label: "Notificações",
+      icon: "bi-bell",
+    },
   ];
 
   return (

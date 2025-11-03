@@ -290,7 +290,9 @@
     }
 
     tbody tr:hover {
-      background: $surface-3;
+      /* theme-aware hover */
+      background: var(--surface-hover);
+      color: var(--color-text);
     }
   }
 

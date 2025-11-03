@@ -127,3 +127,47 @@
     }
   }
 }
+.alert-sucesso {
+  background: #1e1e1e;
+  border: 1px solid #3c3b3b;
+  color: #22c55e;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn-salvar,
+.btn-edit,
+.btn-save {
+  background: #7f24c6;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-salvar:hover,
+.btn-edit:hover,
+.btn-save:hover {
+  background: #9d46ff;
+}
+
+.btn-cancel {
+  background: #2a2a2a;
+  color: #ccc;
+  border: 1px solid #3c3b3b;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #3a3a3a;
+  color: #fff;
+}

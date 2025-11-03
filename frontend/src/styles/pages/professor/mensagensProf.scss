@@ -10,7 +10,7 @@
   padding-bottom: 80px; // Espaço para a navegação inferior
 }
 
-// Header
+// Headers
 .mensagens-header {
   display: flex;
   justify-content: space-between;
@@ -231,10 +231,9 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-
       }
 
-      .favorite-btn{
+      .favorite-btn {
         align-items: center;
         gap: 8px;
         border: none;
@@ -244,7 +243,6 @@
         font-weight: 50;
         cursor: pointer;
         transition: background 0.2s ease-in-out;
-
       }
     }
   }

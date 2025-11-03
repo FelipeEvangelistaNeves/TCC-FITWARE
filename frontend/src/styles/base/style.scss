@@ -11,9 +11,9 @@ body,
 }
 body {
   margin: 0;
-  font-family: "Segoe UI", system-ui, Roboto, Arial, sans-serif;
-  color: $text;
-  background: $app-bg;
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background: var(--app-bg);
 }
 
 /* Tipografia */
@@ -29,3 +29,254 @@ p {
 }
 
 /* Inputs */
+/* ===== Tema Claro ===== */
+/* Elementos Base */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--link-hover);
+  }
+}
+
+button {
+  font-family: var(--font-family);
+}
+
+/* Cards e superfícies */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: var(--card-hover);
+  }
+}
+
+/* Inputs e formulários */
+input,
+select,
+textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--border-color);
+  color: var(--color-text);
+  border-radius: 4px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-purple);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-purple-light);
+    box-shadow: 0 0 0 2px var(--color-purple-hover);
+  }
+}
+
+/* Botões */
+.btn-primary {
+  background: var(--color-purple);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-purple-hover);
+  }
+}
+
+/* Header: use theme variables so header follows dark/light themes */
+.admin-header,
+.header-public,
+.navbar {
+  background: var(--surface-1) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--color-text) !important;
+}
+
+/* Light-mode specific tweaks kept minimal; prefer CSS vars over hard-coded colors */
+body.light-mode .admin-header,
+body.light-mode .header-public,
+body.light-mode .navbar {
+  background: var(
+    --surface-1
+  ) !important; /* surface-1 in light mode maps to light card */
+  color: var(--color-text) !important;
+}
+
+/* Sidebar */
+body.light-mode .sidebar-admin {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-right: 1px solid #e9e9e9 !important;
+  box-shadow: none !important;
+}
+body.light-mode .sidebar-admin .brand-icon {
+  background: #7f24c6 !important; /* mantém cor da marca */
+}
+body.light-mode .sidebar-admin .nav-link {
+  color: #48515a !important;
+}
+/* In light mode prefer purple text only (no full purple background) to match Twitch style */
+body.light-mode .sidebar-admin .nav-link.active,
+body.light-mode .sidebar-admin .nav-link:hover {
+  background: transparent !important;
+  color: var(--color-purple) !important;
+}
+
+/* Conteúdo / cartões / painéis */
+body.light-mode .tabela-page,
+body.light-mode .card,
+body.light-mode .surface-card,
+body.light-mode .tabela,
+body.light-mode .notifications-card,
+body.light-mode .perfil-card,
+body.light-mode .modal-content {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #e6e6e6 !important;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.06) !important;
+}
+
+/* Tabelas */
+body.light-mode .tabela thead {
+  background: #f5f7fa !important;
+  color: #111827 !important;
+  border-bottom: 1px solid #ececec !important;
+}
+body.light-mode .tabela tbody tr {
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+body.light-mode .tabela th,
+body.light-mode .tabela td {
+  color: #111827 !important;
+}
+
+/* Avatares / badges */
+body.light-mode .icone,
+body.light-mode .avatar {
+  box-shadow: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Status labels (pago/pendente/cancelado) */
+body.light-mode .status.pago {
+  background: rgba(34, 197, 94, 0.12) !important;
+  color: #16a34a !important;
+}
+body.light-mode .status.pendente {
+  background: rgba(219, 172, 13, 0.12) !important;
+  color: #b45309 !important;
+}
+body.light-mode .status.cancelado {
+  background: rgba(239, 68, 68, 0.08) !important;
+  color: #dc2626 !important;
+}
+
+/* Inputs / selects / search */
+body.light-mode input,
+body.light-mode textarea,
+body.light-mode select,
+body.light-mode .search-input {
+  background: #fff !important;
+  color: #111827 !important;
+  border: 1px solid #e3e6ea !important;
+  box-shadow: none !important;
+}
+
+/* Botões */
+body.light-mode .btn,
+body.light-mode .add-btn,
+body.light-mode .add-btn:focus,
+body.light-mode .action-btn {
+  background: #7f24c6 !important;
+  color: #fff !important;
+  border: none !important;
+}
+body.light-mode .btn-outline,
+body.light-mode .btn-outline-purple {
+  background: transparent !important;
+  color: #7f24c6 !important;
+  border: 1px solid #e6e6e6 !important;
+}
+
+/* Paginação e rodapé da tabela */
+body.light-mode .paginacao,
+body.light-mode .pages .page {
+  color: #374151 !important;
+}
+body.light-mode .pages .page.active {
+  background: #7f24c6 !important;
+  color: #fff !important;
+}
+
+/* Dropdowns / menus de usuário (namespaced to avoid Bootstrap clash) */
+body.light-mode .fw-dropdown-menu,
+body.light-mode .user-section .fw-dropdown-menu {
+  background: #fff !important;
+  color: #111827 !important;
+  border: 1px solid #e6e6e6 !important;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.06) !important;
+}
+
+/* Modais */
+body.light-mode .modal-overlay {
+  background: rgba(0, 0, 0, 0.35) !important; /* máscara escura padrão */
+}
+body.light-mode .modal-content {
+  background: #fff !important;
+  color: #111827 !important;
+}
+
+/* Charts (se houver fundo do container) */
+body.light-mode .chart-container,
+body.light-mode .card-chart {
+  background: #fff !important;
+}
+
+/* Links */
+body.light-mode a,
+body.light-mode .nav-links a,
+body.light-mode .nav-link {
+  color: #374151 !important;
+}
+
+/* Ajustes finais para evitar contorno branco inesperado */
+/* Force non-button text to use theme text color in light mode so hard-coded white doesn't remain visible */
+body.light-mode * {
+  outline-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Some older components used hard-coded white; ensure they switch to dark text in light mode
+   but keep button/brand/avatar text white for contrast on colored backgrounds. */
+body.light-mode
+  *:not(.btn):not(button):not(.brand-icon):not(.user-avatar):not(.badge):not(
+    .status
+  ) {
+  color: var(--color-text) !important;
+}
+
+/* Exceptions: keep primary button and brand/avatar text light for contrast */
+body.light-mode .btn-primary,
+body.light-mode .brand-icon,
+body.light-mode .user-avatar {
+  color: var(--white) !important;
+}
+
+/* Pequenos sajustes responsivos */
+@media (max-width: 992px) {
+  body.light-mode .sidebar-admin {
+    background: #ffffff !important;
+  }
+}

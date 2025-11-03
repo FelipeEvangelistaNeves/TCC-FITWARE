@@ -1,3 +1,58 @@
+$ROOT: true;
+/* Theme CSS variables: defaults = DARK theme. Toggling `body.light-mode` switches to light palette. */
+:root {
+  /* dark (default - inspirado na Twitch) */
+  --color-bg: #0e0e10;
+  --color-text: #efeff1;
+  --surface-1: #18181b;
+  --surface-2: #1f1f23;
+  --surface-3: #26262c;
+  --surface-hover: #2a2a30;
+  --border-color: #2f2f35;
+  --white: #ffffff;
+  --black: #0e0e10;
+  --yellow: #ffb300;
+  --color-purple: #9147ff;
+  --color-purple-light: #a970ff;
+  --color-purple-hover: #7d3fdb;
+  --color-green: #1dad52;
+  --color-red: #eb0400;
+  --color-text-muted: #adadb8;
+  --text-hover: #ffffff;
+  --link-color: #bf94ff;
+  --link-hover: #a970ff;
+  --font-family: "Inter", system-ui, -apple-system, sans-serif;
+  --app-bg: #0e0e10;
+  --card-bg: #18181b;
+  --card-hover: #1f1f23;
+}
+
+/* Light mode overrides applied when <body class="light-mode"> */
+body.light-mode {
+  --color-bg: #ffffff;
+  --color-text: #0e0e10;
+  --surface-1: #f7f7f8;
+  --surface-2: #efeff1;
+  --surface-3: #e6e6ea;
+  --surface-hover: #dbdbdc;
+  --border-color: #dedee3;
+  --white: #0e0e10;
+  --black: #ffffff;
+  --yellow: #e6a200;
+  --color-purple: #772ce8;
+  --color-purple-light: #9147ff;
+  --color-purple-hover: #5c16c5;
+  --color-green: #00a352;
+  --color-red: #d10000;
+  --color-text-muted: #53535f;
+  --text-hover: #0e0e10;
+  --link-color: #772ce8;
+  --link-hover: #5c16c5;
+  --app-bg: #f7f7f8;
+  --card-bg: #ffffff;
+  --card-hover: #f7f7f8;
+}
+
 /* ===== Design Tokens (FitWare) ===== */
 $white: #ffffff;
 $black: #000000;
@@ -14,7 +69,7 @@ $blue-light: #7c4dff;
 $gray-800: #242424;
 // ==========================
 // Colors
-// ==========================
+// ======ss====================
 $color-bg-dark: #121212;
 $color-bg-sidebar: #1a1a1a;
 $color-bg-card: #1e1e1e;
@@ -63,6 +118,38 @@ $shadow-2: 0 6px 18px rgba($black, 0.3);
 // ==========================
 $z-header: 50;
 $z-bottom: 40;
+/* ===== CSS variable wrappers (map SCSS vars -> CSS custom properties) ===== */
+// These reassignments come after the original tokens so they take precedence
+// at compile time but resolve to var(--...) at runtime, allowing theme toggling.
+$white: var(--white, #ffffff);
+$black: var(--black, #000000);
+$black-fundo: var(--surface-2, #1e1e1e);
+$surface-1: var(--surface-1, #1e1e1e);
+$surface-2: var(--surface-2, #292929);
+$surface-3: var(--surface-3, #333333);
+$border: var(--border-color, #3c3b3b);
+$text: var(--color-text, #f5f5f5);
+$text-2: var(--color-text-muted, #a3a3a3);
+$yellow: var(--yellow, #dbac0d);
+$purple-dark: var(--color-purple, #8b5cf6);
+$blue-light: var(--color-purple-light, #a78bfa);
+$gray-800: var(--gray-800, #242424);
+$color-bg-dark: var(--color-bg, #121212);
+$color-bg-sidebar: var(--surface-2, #1a1a1a);
+$color-bg-card: var(--surface-1, #1e1e1e);
+$color-bg-hover: var(--surface-2, #2a2a2a);
+$color-purple: var(--color-purple, #8b5cf6);
+$color-purple-light: var(--color-purple-light, #a78bfa);
+$color-green: var(--color-green, #22c55e);
+$color-red: var(--color-red, #ef4444);
+$color-text: var(--color-text, #f5f5f5);
+$color-text-muted: var(--color-text-muted, #a3a3a3);
+$font-family: var(--font-family, "Inter", sans-serif);
+$app-bg: var(--app-bg, #000000);
+$border-color: var(--border-color, #404040);
+
+/* small helper for transitions on theme change */
+$theme-transition: 0.18s ease;
 
 // ==========================
 // Extras (adicionadas)

@@ -7,7 +7,7 @@
   color: $text;
   padding: 0;
   position: relative;
-  padding-bottom: 80px; // Espaço para a navegação inferior
+  padding-bottom: 80px; // cEspaço para a navegação inferior
 }
 
 // Header
@@ -231,10 +231,9 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-
       }
 
-      .favorite-btn{
+      .favorite-btn {
         align-items: center;
         gap: 8px;
         border: none;
@@ -244,7 +243,6 @@
         font-weight: 50;
         cursor: pointer;
         transition: background 0.2s ease-in-out;
-
       }
     }
   }
