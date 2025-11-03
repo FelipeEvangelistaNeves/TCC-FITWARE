@@ -1,21 +1,5 @@
-@import "../../abstract/variables.scss";
-<<<<<<< HEAD
-=======
+@import "./../../abstract/variables.scss";
 /* Resetx */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Segoe UI", "Inter", Arial, sans-serif;
-  background: $app-bg;
-  color: $text;
-  min-height: 100vh;
-  padding: 0;
-}
->>>>>>> 0b1bc67ad2f51cd119d146838f376a3926812290
 
 /* Quick Actions Section */
 .quick-actions {

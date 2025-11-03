@@ -1,4 +1,11 @@
+@import "./../../abstract/variables.scss";
+
+/* ===============================
+   PÁGINA DE NOTIFICAÇÕES
+================================*/
 .notifications-page {
+  transition: background-color $theme-transition, color $theme-transition;
+
   .tabela-header {
     display: flex;
     justify-content: space-between;
@@ -7,13 +14,19 @@
   }
 
   .add-btn {
-    background-color: #7f24c6;
-    color: white;
+    background-color: $purple-dark;
+    color: $white;
     border: none;
     padding: 8px 14px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+
+    &:hover {
+      background-color: lighten($purple-dark, 8%);
+      transform: scale(1.03);
+    }
   }
 
   .notificacoes-lista {
@@ -23,10 +36,18 @@
   }
 
   .notificacao-card {
-    background: #1e1e1e;
+    background: var(--color-bg-card);
+    border: 1px solid $border;
     border-radius: 12px;
     padding: 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: $shadow-card;
+    color: $color-text;
+    transition: background-color $theme-transition, color $theme-transition,
+      border-color $theme-transition;
+
+    &:hover {
+      background: var(--surface-hover);
+    }
   }
 
   .notificacao-header {
@@ -38,6 +59,8 @@
     h4 {
       margin: 0;
       font-size: 16px;
+      font-weight: 600;
+      color: $color-text;
     }
 
     .tipo {
@@ -45,21 +68,25 @@
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
+
       &.informativo {
-        background: #7c4dff33;
-        color: #c2aaff;
+        background: rgba($color-purple-light, 0.15);
+        color: $color-purple-light;
       }
+
       &.desafio {
-        background: #22c55e33;
-        color: #22c55e;
+        background: rgba($color-green, 0.15);
+        color: $color-green;
       }
+
       &.treino {
-        background: #3b82f633;
-        color: #3b82f6;
+        background: rgba($blue-light, 0.15);
+        color: $blue-light;
       }
+
       &.brinde {
-        background: #dbac0d33;
-        color: #dbac0d;
+        background: rgba($yellow, 0.15);
+        color: $yellow;
       }
     }
   }
@@ -68,58 +95,74 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     small {
-      color: #969292;
+      color: $color-text-muted;
     }
+
     .action-btn.delete {
       background: transparent;
       border: none;
-      color: #ef4444;
+      color: $color-red;
       font-size: 18px;
       cursor: pointer;
+      transition: transform 0.15s ease;
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 
   .sem-notificacoes {
     text-align: center;
-    color: #aaa;
+    color: $color-text-muted;
     margin-top: 2rem;
   }
 }
-/* ===== MODAL BASE ===== */
+
+/* ===============================
+   MODAL BASE
+================================*/
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba($black, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 120;
   animation: fadeIn 0.2s ease-in-out;
+  transition: background-color $theme-transition;
 }
 
 .modal-content {
-  background: #1e1e1e;
-  color: #fff;
+  background: $color-bg-card;
+  color: $color-text;
   border-radius: 16px;
   padding: 24px;
   width: 90%;
   max-width: 500px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: $shadow-2;
   animation: slideUp 0.25s ease;
+  border: 1px solid $border;
+  transition: background-color $theme-transition, color $theme-transition,
+    border-color $theme-transition;
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: $color-text;
+  }
 }
 
-.modal-content h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #f5f5f5;
-}
-
-/* ===== CAMPOS ===== */
+/* ===============================
+   CAMPOS DE FORMULÁRIO
+================================*/
 .form-group {
   display: flex;
   flex-direction: column;
@@ -129,27 +172,25 @@
   label {
     font-size: 14px;
     font-weight: 600;
-    color: #a3a3a3;
+    color: $color-text-muted;
   }
 
   input,
   select,
   textarea {
-    background: #242424;
-    border: 1px solid #3c3b3b;
+    background: $surface-2;
+    border: 1px solid $border;
     border-radius: 8px;
     padding: 10px 12px;
-    color: #f5f5f5;
+    color: $color-text;
     font-size: 14px;
     outline: none;
     transition: all 0.2s ease;
-  }
 
-  input:focus,
-  select:focus,
-  textarea:focus {
-    border-color: #7c4dff;
-    background: #292929;
+    &:focus {
+      border-color: $color-purple-light;
+      background: $surface-3;
+    }
   }
 
   textarea {
@@ -157,7 +198,9 @@
   }
 }
 
-/* ===== BOTÕES ===== */
+/* ===============================
+   BOTÕES DO MODAL
+================================*/
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -165,39 +208,41 @@
   margin-top: 10px;
 
   .btn-cancelar {
-    background: #2a2a2a;
-    color: #a3a3a3;
-    border: 1px solid #3c3b3b;
+    background: $surface-2;
+    color: $color-text-muted;
+    border: 1px solid $border;
     border-radius: 8px;
     padding: 8px 14px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s ease;
-  }
 
-  .btn-cancelar:hover {
-    background: #333;
-    color: #fff;
+    &:hover {
+      background: $surface-3;
+      color: $color-text;
+    }
   }
 
   .btn-salvar {
-    background: #7f24c6;
-    color: #fff;
+    background: $purple-dark;
+    color: $white;
     border: none;
     border-radius: 8px;
     padding: 8px 16px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s ease;
-  }
 
-  .btn-salvar:hover {
-    background: #9d46ff;
-    transform: scale(1.02);
+    &:hover {
+      background: lighten($purple-dark, 8%);
+      transform: scale(1.02);
+    }
   }
 }
 
-/* ===== ANIMAÇÕES ===== */
+/* ===============================
+   ANIMAÇÕES
+================================*/
 @keyframes fadeIn {
   from {
     opacity: 0;

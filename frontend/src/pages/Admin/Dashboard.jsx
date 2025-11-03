@@ -26,13 +26,13 @@ export default function Dashboard() {
         plugins: {
           legend: {
             labels: {
-              color: "#ffffff",
+              color: "#000000ff",
             },
           },
         },
         scales: {
           x: {
-            ticks: { color: "#ffffff" },
+            ticks: { color: "#000000ff" },
             grid: { color: "rgba(255,255,255,0.1)" },
           },
           y: {
