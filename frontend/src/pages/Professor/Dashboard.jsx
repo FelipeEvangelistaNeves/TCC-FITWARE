@@ -3,8 +3,27 @@ import "../../styles/pages/professor/dashboardProf.scss";
 import { Dumbbell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-export default function DashboardAluno() {
+export default function DashboardProf() {
   const navigate = useNavigate();
+
+  const atividades = [
+  {
+    id: 1,
+    tipo: "Treino enviado para Maria",
+    horario: "Hoje, 14:30",
+  },
+  {
+    id: 2,
+    tipo: "Mensagem para Turma Segunda",
+    horario: "Hoje, 10:15",
+  },
+  {
+    id: 3,
+    tipo: "Novo aluno: Carlos Mendes",
+    horario: "Ontem, 16:45",
+  },
+];
+
 
   return (
     <div className="dashboard-aluno">
@@ -61,82 +80,25 @@ export default function DashboardAluno() {
           </div>
       </section>
 
-      {/* Workouts Section */}
-      <section className="workouts-section">
-        <div className="section-header">
-          <button className="filter-btn">Todos</button>
-          <button className="filter-btn">Força</button>
-          <button className="filter-btn">Cardio</button>
-          <button className="filter-btn">Funcional</button>
-        </div>
+    <div className="atividade-card">
+      <div className="atividade-header">
+        <h3>Atividade Recente</h3>
+        <button className="ver-tudo">Ver Tudo</button>
+      </div>
 
-        {/* Strength Workout Card */}
-        <div className="workout-card">
-          <div className="workout-header">
-            <div className="workout-info">
-              <h3>Treino de Força</h3>
-              <p className="workout-details">Intermediário • 45 min</p>
+      <ul className="atividade-lista">
+        {atividades.map((item) => (
+          <li key={item.id} className="atividade-item">
+            <div className="atividade-icone">{item.icon}</div>
+            <div className="atividade-info">
+              <p className="atividade-titulo">{item.tipo}</p>
+              <span className="atividade-horario">{item.horario}</span>
             </div>
-          </div>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-          <div className="exercises-list">
-            <div className="exercise-item">
-              <span className="exercise-number">1</span>
-              <span className="exercise-name">Agachamento</span>
-              <span className="exercise-sets">3×12</span>
-            </div>
-            <div className="exercise-item">
-              <span className="exercise-number">2</span>
-              <span className="exercise-name">Supino</span>
-              <span className="exercise-sets">3×10</span>
-            </div>
-            <div className="exercise-item">
-              <span className="exercise-number">3</span>
-              <span className="exercise-name">Remada</span>
-              <span className="exercise-sets">3×10</span>
-            </div>
-          </div>
-
-          <div className="workout-footer">
-            <div className="trainer-info">
-              <div className="trainer-avatar">JP</div>
-              <span className="trainer-name">João Paulo</span>
-            </div>
-            <button className="start-btn">Iniciar</button>
-          </div>
-        </div>
-
-        {/* Cardio Workout Card */}
-        <div className="workout-card">
-          <div className="workout-header">
-            <div className="workout-info">
-              <h3>Treino de Cardio</h3>
-              <p className="workout-details">Iniciante • 30 min</p>
-            </div>
-          </div>
-
-          <div className="exercises-list">
-            <div className="exercise-item">
-              <span className="exercise-number">1</span>
-              <span className="exercise-name">Corrida</span>
-              <span className="exercise-sets">20 min</span>
-            </div>
-            <div className="exercise-item">
-              <span className="exercise-number">2</span>
-              <span className="exercise-name">Pular corda</span>
-              <span className="exercise-sets">10 min</span>
-            </div>
-          </div>
-
-          <div className="workout-footer">
-            <div className="trainer-info">
-              <div className="trainer-avatar">JP</div>
-              <span className="trainer-name">João Paulo</span>
-            </div>
-            <button className="start-btn">Iniciar</button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

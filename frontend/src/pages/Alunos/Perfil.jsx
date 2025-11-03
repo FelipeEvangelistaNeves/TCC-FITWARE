@@ -68,11 +68,6 @@ export default function PerfilAluno() {
         >
           {getTextoBotao()}
         </button>
-        <div className="pontos-header">
-          <div className="pontos-info">
-            <p>Nível Prata • Ranking #5</p>
-          </div>
-        </div>
       </div>
 
       {/* Abas */}
@@ -156,8 +151,8 @@ export default function PerfilAluno() {
             <div className="card-section">
               <div className="card">
                 <div className="card-header-between">
-                  <span>mensalidade</span>
-                  <span className="status pago">paga</span>
+                  <span>Mensalidade</span>
+                  <span className="status pago">Paga</span>
                 </div>
                 <p>
                   Valor: <strong>R$ 99,90/mês</strong>
@@ -191,7 +186,7 @@ export default function PerfilAluno() {
                   <a href="#">Ver Todos</a>
                 </div>
                 <p>
-                  mensalidade • 15/05/2025{" "}
+                  Mensalidade • 15/05/2025{" "}
                   <span className="valor">R$ 99,90</span>
                 </p>
               </div>
@@ -206,17 +201,6 @@ export default function PerfilAluno() {
         {/* Aba Pontos */}
         {abaAtiva === "pontos" && (
           <div className="tab-section">
-            <div className="nivel-card">
-              <div className="nivel-header">
-                <span>Nível Prata</span>
-                <span>850/1000</span>
-              </div>
-              <div className="progress">
-                <div className="progress-bar"></div>
-              </div>
-              <small>150 pontos para o nível Ouro</small>
-            </div>
-
             <div className="historico-pontos">
               <h4>Histórico de Pontos</h4>
               <div className="card">

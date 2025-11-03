@@ -10,19 +10,6 @@ export default function ResgatePontosModal({ onClose }) {
         </button>
         <h2>Resgate de Pontos</h2>
       </div>
-
-      <div className="resgate-pontos">
-        <div className="circle">
-          <span className="pontos">850</span>
-          <span className="label">pontos</span>
-        </div>
-        <p className="nivel">Você está no nível Prata</p>
-        <div className="progress-bar">
-          <div className="progress" style={{ width: "85%" }}></div>
-        </div>
-        <span className="meta">850/1000 para o nível Ouro</span>
-      </div>
-
       <div className="resgate-opcoes">
         <h3>Opções de Resgate</h3>
 

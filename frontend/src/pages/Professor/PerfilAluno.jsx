@@ -24,15 +24,9 @@ export default function PerfilAluno({ aluno, onBack }) {
         </div>
       </div>
 
-      <div className="acoes">
-        <button className="acao">📞<span>Ligar</span></button>
-        <button className="acao">💬<span>Mensagem</span></button>
-        <button className="acao">🏋️<span>Treino</span></button>
-      </div>
 
       <div className="tabs">
         <button className="ativo">Histórico</button>
-        <button>Informações</button>
       </div>
 
       <div className="lista-treinos">

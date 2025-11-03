@@ -1,19 +1,4 @@
 @import "../../abstract/variables.scss";
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Segoe UI", "Inter", Arial, sans-serif;
-  background: $app-bg;
-  color: $text;
-  min-height: 100vh;
-  padding: 0;
-}
-
 
 /* Quick Actions Section */
 .quick-actions {
@@ -75,4 +60,93 @@ body {
   font-weight: 500;
   color: $text-2;
   transition: color 0.2s ease;
+}
+
+.atividade-card {
+  background-color: $surface-2;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+  color: $text;
+  font-family: $font-family;
+  width: 100%;
+}
+
+.atividade-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-sm;
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: $accent-yellow;
+    margin: 0;
+  }
+
+  .ver-tudo {
+    background: none;
+    border: none;
+    color: $purple-dark;
+    font-size: $font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $purple-500;
+    }
+  }
+}
+
+.atividade-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .atividade-item {
+    display: flex;
+    align-items: center;
+    background-color: $surface-3;
+    border-radius: $radius-md;
+    padding: $spacing-sm;
+    margin-bottom: $spacing-sm;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: $color-bg-hover;
+    }
+
+    .atividade-icone {
+      background-color: $surface-2;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: $spacing-sm;
+      font-size: 1.2rem;
+      color: $accent-yellow;
+      flex-shrink: 0;
+    }
+
+    .atividade-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .atividade-titulo {
+        font-size: $font-size-base;
+        color: $text;
+        margin: 0;
+      }
+
+      .atividade-horario {
+        font-size: $font-size-small;
+        color: $text-2;
+      }
+    }
+  }
 }
