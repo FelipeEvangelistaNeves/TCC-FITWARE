@@ -17,6 +17,9 @@ const AlunoTreino = require("./alunos_treinos")(sequelize, DataTypes);
 const Treino = require("./treinos")(sequelize, DataTypes);
 const Exercicio = require("./exercicios")(sequelize, DataTypes);
 const TreinoExercicio = require("./treinos_exercicios")(sequelize, DataTypes);
+const Aviso = require("./avisos")(sequelize, DataTypes);
+const Mensagem = require("./mensagens")(sequelize, DataTypes);
+const Conversa = require("./conversas")(sequelize, DataTypes);
 
 // ==================== RELACIONAMENTOS ====================
 
@@ -35,6 +38,18 @@ Turma.belongsTo(Horario, { foreignKey: "tu_hor_id" });
 // 🔹 Funcionario ↔ Turma (1:N) (professor da turma)
 Funcionario.hasMany(Turma, { foreignKey: "tu_prof_id" });
 Turma.belongsTo(Funcionario, { foreignKey: "tu_prof_id" });
+
+// 🔹 Aluno ↔ Conversa (1:N)
+Aluno.hasMany(Conversa, { foreignKey: "al_id" }); 
+Conversa.belongsTo(Aluno, { foreignKey: "al_id" });
+
+// 🔹 Professor (Funcionario) ↔ Conversa (1:N)
+Funcionario.hasMany(Conversa, { foreignKey: "prof_id" });
+Conversa.belongsTo(Funcionario, { foreignKey: "prof_id" });
+
+// 🔹 Conversa ↔ Mensagem (1:N)
+Conversa.hasMany(Mensagem, { foreignKey: "co_id" });
+Mensagem.belongsTo(Conversa, { foreignKey: "co_id" });
 
 // 🔹 Aluno ↔ Turma (N:N) (via alunos_turmas)
 Aluno.belongsToMany(Turma, {
@@ -81,6 +96,20 @@ Exercicio.belongsToMany(Treino, {
 });
 
 // Métodos personalizados
+
+// Alunos
+
+Aluno.findByEmail = async function (email) {
+    return await Aluno.findOne({ where: { al_email: email } });
+  };
+
+  Aluno.findByPk = async function (id, options = {}) {
+    return await Aluno.findOne({ where: { al_id: id }, ...options });
+  };
+
+
+// Treinos
+
 Treino.findByProfId = async function (profId) {
   return await Treino.findAll({
     where: { tr_prof_id: profId },

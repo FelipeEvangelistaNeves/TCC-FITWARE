@@ -17,13 +17,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  // 🔹 métodos customizados
-  Aluno.findByEmail = async function (email) {
-    return await Aluno.findOne({ where: { al_email: email } });
-  };
-
-  Aluno.findByPk = async function (id, options = {}) {
-    return await Aluno.findOne({ where: { al_id: id }, ...options });
-  };
   return Aluno;
 };
