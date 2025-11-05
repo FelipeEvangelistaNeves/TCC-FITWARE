@@ -35,7 +35,9 @@ const LoggerMessages = require("../loggerMessages");
  *       401:
  *         description: Credenciais inválidas
  */
-router.post("/", loginProfessor); // controller trata todo o fluxo de login
+
+// controller trata todo o fluxo de login
+router.post("/login", loginProfessor); 
 
 /**
  * @swagger
@@ -49,8 +51,9 @@ router.post("/", loginProfessor); // controller trata todo o fluxo de login
  *       401:
  *         description: Não autorizado
  */
+
 router.get(
-  "/professor",
+  "/fetch",
   verifyToken, // middleware que valida JWT no cookie e popula req.user
   roleMiddleware(["Professor"]), // garante que req.user.role === "Professor"
   (req, res) => {

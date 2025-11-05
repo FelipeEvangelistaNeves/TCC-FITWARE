@@ -30,14 +30,13 @@ const treinoRoutes = require("./router/treinoRoutes");
 const desafioRoutes = require("./router/desafioRoutes");
 
 // Logins
-app.use("/login/aluno", alunoRoutes);
-app.use("/login/professor", professorRoutes);
-app.use("/login/admin", adminRoutes);
+app.use("/aluno", alunoRoutes);
+app.use("/professor", professorRoutes);
+app.use("/admin", adminRoutes);
 app.use("/", authRoutes);
 
 // API Fetch
 app.use("/api/alunos", alunoRoutes);
-
 app.use("/api/treinos", treinoRoutes);
 app.use("/api/desafios", desafioRoutes);
 // Swagger docs

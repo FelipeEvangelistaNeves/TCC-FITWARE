@@ -7,7 +7,7 @@ require("dotenv").config({
   quiet: true,
 });
 
-exports.loginProfessor = async (req, res) => {
+const loginProfessor = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -78,4 +78,67 @@ exports.loginProfessor = async (req, res) => {
       message: LoggerMessages.SERVER_ERROR || "Erro no servidor",
     });
   }
+};
+
+const dataProfessor = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Token ausente. Faça login novamente." });
+    }
+
+    // 🔹 Decodifica o token JWT
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const professorId = decoded.id;
+
+    // 🔹 Busca o professor e inclui seus treinos e exercícios
+    const professor = await Funcionario.findByPk(professorId, {
+      attributes: { exclude: ["fu_senha"] },
+      include: [
+        {
+          model: Treino,
+          attributes: ["tr_id", "tr_nome", "tr_descricao", "tr_dificuldade"],
+          include: [
+            {
+              model: Exercicio,
+              attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
+              through: {
+                attributes: ["te_series", "te_repeticoes", "te_descanso"],
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!professor) {
+      return res.status(404).json({ message: "Professor não encontrado." });
+    }
+
+    // 🔹 Gera iniciais do nome
+    const nomeProfessor = professor.fu_nome || "";
+    const [firstName, lastName] = nomeProfessor.split(" ");
+    const iniciais =
+      (firstName ? firstName[0] : "") + (lastName ? lastName[0] : "");
+
+    // 🔹 Resposta JSON final
+    res.json({
+      nome: professor.fu_nome,
+      email: professor.fu_email,
+      cargo: professor.fu_cargo,
+      telefone: professor.fu_telefone,
+      iniciais,
+      treinos: professor.Treinos || [],
+    });
+  } catch (err) {
+    console.error("Erro ao buscar dados do professor:", err);
+    return res.status(500).json({ message: "Erro ao buscar dados do professor." });
+  }
+};
+
+module.exports = {
+  loginProfessor,
+  dataProfessor,
 };

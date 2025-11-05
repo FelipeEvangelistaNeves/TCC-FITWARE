@@ -3,6 +3,43 @@ import "../../styles/pages/professor/perfilprof.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function PerfilProf() {
+  
+  const [nome, setNome] = useState("");
+  const [iniciais, setIniciais] = useState("");
+  const [email, setEmail] = useState("");
+  const [cargo, setCargo] = useState("");
+
+  useEffect(() => {
+    const fetchProfessor = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/professor/fetch", {
+          method: "GET",
+          credentials: "include", // envia cookie JWT automaticamente
+          headers: {
+            Accept: "application/json; charset=utf-8",
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Erro ao buscar dados do professor");
+        }
+
+        const data = await res.json();
+
+        // Atualiza os estados com as informações retornadas
+        setNome(data.nome);
+        setIniciais(data.iniciais);
+        setEmail(data.email);
+        setCargo(data.cargo);
+        setTreinos(data.treinos || []); // evita erro caso não haja treinos
+      } catch (error) {
+        console.error("Erro ao carregar dados do professor:", error);
+      }
+    };
+
+    fetchProfessor();
+  }, []);
+
   return (
     <div className="perfil-container roxo">
       {/* Cabeçalho */}

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config({
   quiet: true,
 });
+
 const loginAluno = async (req, res) => {
   const { email, password } = req.body;
 

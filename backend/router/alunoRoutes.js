@@ -27,7 +27,7 @@ const { loginAluno, dataAluno } = require("../controllers/alunoController");
  *       401:
  *         description: Credenciais inválidas
  */
-router.post("/", loginAluno);
+router.post("/login", loginAluno);
 
 router.get("/", dataAluno);
 

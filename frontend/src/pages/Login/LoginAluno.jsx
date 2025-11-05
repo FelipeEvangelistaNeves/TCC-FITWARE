@@ -13,7 +13,7 @@ export default function LoginAluno() {
     setErrorMsg("");
 
     try {
-      const response = await fetch("http://localhost:3000/login/aluno", {
+      const response = await fetch("http://localhost:3000/aluno/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // garante envio/recebimento de cookies

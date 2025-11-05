@@ -35,7 +35,7 @@ const LoggerMessages = require("../loggerMessages");
  *       401:
  *         description: Credenciais inválidas
  */
-router.post("/", loginAdmin);
+router.post("/login", loginAdmin);
 /**
  * @swagger
  * /admin:

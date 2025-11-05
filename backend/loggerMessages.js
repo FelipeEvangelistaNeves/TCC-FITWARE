@@ -10,7 +10,7 @@ const LoggerMessages = {
   AUTH_SUCCESS: "Autenticado com sucesso",
   AUTH_FAILED: "Falha na autenticação",
 
-  ACESS_DENIED: "Acesso negado",
+  ACCESS_DENIED: "Acesso negado",
   USER_NOT_FOUND: "Usuário não encontrado",
   ROLE_ERROR: "User / Role não setada corretamente",
 

@@ -11,7 +11,7 @@ const LoginDesk = () => {
   async function Executar() {
     setErrorMsg("");
     try {
-      const response = await fetch("http://localhost:3000/login/admin", {
+      const response = await fetch("http://localhost:3000/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

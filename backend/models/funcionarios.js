@@ -18,13 +18,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Funcionario.findByEmail = async function (email) {
-    return await Funcionario.findOne({ where: { fu_email: email } });
-  };
-
-  Funcionario.findByPk = async function (id) {
-    return await Funcionario.findOne({ where: { fu_id: id } });
-  };
-
   return Funcionario;
 };

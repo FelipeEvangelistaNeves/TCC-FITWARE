@@ -12,7 +12,7 @@ export default function LoginProfessor() {
   async function Executar() {
     setErrorMsg("");
     try {
-      const response = await fetch("http://localhost:3000/login/professor", {
+      const response = await fetch("http://localhost:3000/professor/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -95,17 +95,28 @@ Exercicio.belongsToMany(Treino, {
   foreignKey: "ex_id",
 });
 
-// Métodos personalizados
+// ================ Métodos personalizados ================ //
 
 // Alunos
 
 Aluno.findByEmail = async function (email) {
-    return await Aluno.findOne({ where: { al_email: email } });
-  };
+  return await Aluno.findOne({ where: { al_email: email } });
+};
 
-  Aluno.findByPk = async function (id, options = {}) {
-    return await Aluno.findOne({ where: { al_id: id }, ...options });
-  };
+Aluno.findByPk = async function (id, options = {}) {
+  return await Aluno.findOne({ where: { al_id: id }, ...options });
+};
+
+
+// Funcionarios
+
+Funcionario.findByEmail = async function (email) {
+  return await Funcionario.findOne({ where: { fu_email: email } });
+};
+
+Funcionario.findByPk = async function (id) {
+  return await Funcionario.findOne({ where: { fu_id: id } });
+};
 
 
 // Treinos
