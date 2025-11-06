@@ -25,6 +25,8 @@ export default function PerfilProf() {
           },
         });
 
+        console.log("📥 Resposta recebida:", res.status);
+
         if (!res.ok) {
           throw new Error("Erro ao buscar dados do professor");
         }
@@ -34,18 +36,18 @@ export default function PerfilProf() {
         // Atualiza os estados com as informações retornadas
         setProfessor(data.professor);
         setIniciais(data.iniciais);
+
+        setNome(data.professor.nome);
+        setEmail(data.professor.email);
+        setCargo(data.professor.cargo);
+        setTelefone(data.professor.telefone);
+        setCref(data.professor.cref);
       } catch (error) {
         console.error("Erro ao carregar dados do professor:", error);
       }
     };
 
     fetchProfessor();
-
-    setNome(professor.nome);
-    setEmail(professor.email);
-    setCargo(professor.cargo);
-    setTelefone(professor.telefone);
-    setCref(professor.cref);
   }, []);
 
   return (
@@ -56,7 +58,8 @@ export default function PerfilProf() {
         <i
           className="bi bi-gear"
           onClick={() => setShowConfigProf(true)}
-          style={{ cursor: "pointer", fontSize: "1.5rem" }}></i>
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}
+        ></i>
 
         <ConfigProf
           isOpen={showConfigProf}

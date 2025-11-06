@@ -112,10 +112,75 @@ const deletarProduto = async (req, res) => {
   }
 };
 
+/**
+ * 🔹 Resgatar produto (debita pontos e reduz estoque)
+ */
+const resgatarProduto = async (req, res) => {
+  try {
+    const { produtoId } = req.body;
+    const aluno = req.user; // vem do verifyToken
+
+    if (!produtoId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "ID do produto é obrigatório." });
+    }
+
+    // Buscar produto
+    const produto = await Produto.findByPk(produtoId);
+    if (!produto) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Produto não encontrado." });
+    }
+
+    if (produto.pd_estoque <= 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Produto indisponível." });
+    }
+
+    // Buscar aluno e verificar saldo
+    const { Aluno } = require("../models");
+    const alunoData = await Aluno.findByPk(aluno.id); // ou aluno.al_id dependendo da sua tabela
+
+    if (!alunoData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Aluno não encontrado." });
+    }
+
+    if (alunoData.al_pontos < produto.pd_valor) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Pontos insuficientes." });
+    }
+
+    // Atualizar saldo e estoque
+    alunoData.al_pontos -= produto.pd_valor;
+    produto.pd_estoque -= 1;
+
+    await alunoData.save();
+    await produto.save();
+
+    res.json({
+      success: true,
+      message: `Produto "${produto.pd_nome}" resgatado com sucesso!`,
+      novoSaldo: alunoData.al_pontos,
+    });
+  } catch (err) {
+    console.error("Erro ao resgatar produto:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Erro interno ao resgatar produto." });
+  }
+};
+
 module.exports = {
   criarProduto,
   listarProdutos,
   buscarProdutoPorId,
   atualizarProduto,
   deletarProduto,
+  resgatarProduto,
 };

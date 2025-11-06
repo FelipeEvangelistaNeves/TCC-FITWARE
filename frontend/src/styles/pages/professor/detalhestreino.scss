@@ -1,0 +1,134 @@
+@import "./../../abstract/variables.scss";
+
+.treino-detalhes {
+  background: $color-bg-dark;
+  color: $color-text;
+  font-family: $font-family;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  max-width: 450px;
+  margin: 0 auto;
+
+  .treino-header {
+    margin-bottom: $spacing-lg;
+
+    .tags {
+      display: flex;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-sm;
+
+      .tag {
+        background: $surface-3;
+        color: $color-text;
+        padding: 4px 10px;
+        border-radius: $radius-sm;
+        font-size: $font-size-small;
+
+        &.nivel {
+          background: $color-purple;
+        }
+        &.tipo {
+          background: $blue-light;
+        }
+        &.duracao {
+          background: $yellow;
+          color: $black;
+        }
+      }
+    }
+
+    .descricao {
+      color: $color-text-muted;
+      font-size: $font-size-base;
+      margin-bottom: $spacing-md;
+    }
+
+    .info-boxes {
+      display: flex;
+      justify-content: space-between;
+      background: $surface-1;
+      padding: $spacing-md;
+      border-radius: $radius-md;
+
+      div {
+        text-align: center;
+        strong {
+          display: block;
+          color: $color-purple-light;
+          font-size: 18px;
+        }
+        span {
+          font-size: $font-size-small;
+          color: $color-text-muted;
+        }
+      }
+    }
+  }
+
+  .exercicios {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    .exercicio-card {
+      background: $surface-2;
+      border-radius: $radius-md;
+      padding: $spacing-sm;
+
+      .exercicio-toggle {
+        background: none;
+        color: $color-text;
+        border: none;
+        width: 100%;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: $font-size-base;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-purple-light;
+        }
+      }
+
+      .exercicio-detalhes {
+        margin-top: $spacing-sm;
+        padding-left: $spacing-sm;
+        color: $color-text-muted;
+        font-size: $font-size-small;
+
+        .instrucao {
+          margin-top: $spacing-xs;
+          font-style: italic;
+        }
+      }
+    }
+  }
+
+  .iniciar-treino {
+    margin-top: $spacing-lg;
+    width: 100%;
+    background: $color-purple;
+    color: $white;
+    border: none;
+    padding: $spacing-md;
+    border-radius: $radius-md;
+    cursor: pointer;
+    font-size: $font-size-base;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-sm;
+
+    &:hover {
+      background: $color-purple;
+    }
+
+    &.ativo {
+      background: $color-green;
+      color: $black;
+    }
+  }
+}

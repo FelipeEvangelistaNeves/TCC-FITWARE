@@ -72,3 +72,91 @@
     }
   }
 }
+.workout-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+
+  .trainer-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .trainer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #8b5cf6;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .trainer-name {
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+  }
+
+  .workout-timer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+
+    .timer-display {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .stop-btn {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #dc2626;
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  /* Botão de iniciar treino */
+  .start-btn {
+    background: #8b5cf6;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem 1.4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #7c3aed;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}

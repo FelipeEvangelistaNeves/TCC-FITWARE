@@ -7,12 +7,15 @@ const {
   buscarProdutoPorId,
   atualizarProduto,
   deletarProduto,
+  resgatarProduto,
 } = require("../controllers/produtosController");
-// ✅ Todas as rotas protegidas com JWT
-router.post("/", verifyToken, criarProduto);
-router.get("/", verifyToken, listarProdutos);
-router.get("/:id", verifyToken, buscarProdutoPorId);
-router.put("/:id", verifyToken, atualizarProduto);
-router.delete("/:id", verifyToken, deletarProduto);
+
+router.post("/resgatar", verifyToken, resgatarProduto);
+
+router.post("/create", verifyToken, criarProduto);
+router.get("/all", verifyToken, listarProdutos);
+router.get("/search/:id", verifyToken, buscarProdutoPorId);
+router.put("/update/:id", verifyToken, atualizarProduto);
+router.delete("/delete/:id", verifyToken, deletarProduto);
 
 module.exports = router;

@@ -2,7 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const { verifyToken, roleMiddleware } = require("../middleware/auth");
-const { loginProfessor } = require("../controllers/professorController");
+const {
+  loginProfessor,
+  dataProfessor,
+} = require("../controllers/professorController");
 const LoggerMessages = require("../loggerMessages");
 
 /**
@@ -37,7 +40,7 @@ const LoggerMessages = require("../loggerMessages");
  */
 
 // controller trata todo o fluxo de login
-router.post("/login", loginProfessor); 
+router.post("/login", loginProfessor);
 
 /**
  * @swagger
@@ -52,15 +55,6 @@ router.post("/login", loginProfessor);
  *         description: Não autorizado
  */
 
-router.get(
-  "/fetch",
-  verifyToken, // middleware que valida JWT no cookie e popula req.user
-  roleMiddleware(["Professor"]), // garante que req.user.role === "Professor"
-  (req, res) => {
-    res.json({
-      message: LoggerMessages.PROFESSOR_SUCCESS || "Acesso autorizado",
-    });
-  }
-);
+router.get("/fetch", verifyToken, roleMiddleware(["Professor"]), dataProfessor);
 
 module.exports = router;

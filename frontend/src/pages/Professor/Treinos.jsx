@@ -4,10 +4,13 @@ import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/professor/treinosprof.scss";
 import { Bell } from "lucide-react";
 import { useState, useEffect } from "react";
+import DetalhesTreino from "./DetalhesTreino";
 
 export default function DashboardAluno() {
   const [treinos, setTreinos] = useState([]);
   const [erro, setErro] = useState(null);
+  const [treinoSelecionado, setTreinoSelecionado] = useState(null);
+  const [mostrarDetalhes, setMostrarDetalhes] = useState(false);
 
   useEffect(() => {
     const fetchTreinos = async () => {
@@ -30,6 +33,16 @@ export default function DashboardAluno() {
     fetchTreinos();
   }, []); // executa apenas 1x ao montar o componente
   if (erro) return <p>{erro}</p>;
+
+  const abrirDetalhes = (treino) => {
+    setTreinoSelecionado(treino);
+    setMostrarDetalhes(true);
+  };
+
+  const fecharDetalhes = () => {
+    setMostrarDetalhes(false);
+    setTreinoSelecionado(null);
+  };
 
   return (
     <div className="dashboard-aluno">
@@ -93,40 +106,21 @@ export default function DashboardAluno() {
 
               <div className="treino-actions">
                 <div className="btn-atribuir">Atribuir</div>
-                <div className="btn-detalhes">Detalhes</div>
+                <div
+                  className="btn-detalhes"
+                  onClick={() => abrirDetalhes(treino)}
+                >
+                  Detalhes
+                </div>
               </div>
             </div>
           ))
         )}
       </section>
+
+      {mostrarDetalhes && treinoSelecionado && (
+        <DetalhesTreino treino={treinoSelecionado} onClose={fecharDetalhes} />
+      )}
     </div>
   );
 }
-
-{
-  /* Bottom Navigation */
-}
-<>
-  <nav className="bottom-nav">
-    <div className="nav-item">
-      <i className="fas fa-home"></i>
-      <span>Início</span>
-    </div>
-    <div className="nav-item">
-      <i className="fas fa-users"></i>
-      <span>Alunos</span>
-    </div>
-    <div className="nav-item active">
-      <i className="fas fa-dumbbell"></i>
-      <span>Treinos</span>
-    </div>
-    <div className="nav-item">
-      <i className="fas fa-comment"></i>
-      <span>Mensagens</span>
-    </div>
-    <div className="nav-item">
-      <i className="fas fa-user"></i>
-      <span>Perfil</span>
-    </div>
-  </nav>
-</>;

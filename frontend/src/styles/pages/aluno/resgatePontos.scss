@@ -1,301 +1,140 @@
 @import "./../../abstract/variables.scss";
-aluno-resgate-modal {
+
+.resgate-modal {
   font-family: $font-family;
-
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba($black, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: $z-header;
-  }
-
-  .modal-content {
-    background: $surface-1;
-    border-radius: $radius-lg;
-    padding: $spacing-lg;
-    width: 90%;
-    max-width: 400px;
-    color: $text;
-    max-height: 95%;
-    overflow-y: auto;
-    box-shadow: $shadow-card;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #121212;
+  color: #fff;
+  padding: 20px;
+  z-index: 9999; // garante que fica por cima
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
   /* Header */
-  .modal-header {
+  .resgate-header {
     display: flex;
     align-items: center;
-    gap: $spacing-md;
-    margin-bottom: $spacing-lg;
+    gap: 10px;
+    margin-bottom: 20px;
 
     h2 {
-      font-size: $font-size-heading;
-      color: $yellow;
+      flex: 1;
+      text-align: center;
+      font-size: 18px;
       font-weight: 600;
     }
 
     .back-btn {
       background: none;
       border: none;
-      color: $text;
+      color: #fff;
       font-size: 20px;
       cursor: pointer;
     }
   }
 
-  /* Pontos c*/
-  .pontos-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: $spacing-xl;
+  /* Seção de pontos */
+  .resgate-pontos {
+    text-align: center;
+    margin: 20px 0;
 
-    .circle-pontos {
-      border: 3px solid $yellow;
-      border-radius: 50%;
+    .circle {
       width: 120px;
       height: 120px;
+      border: 4px solid #f39c12;
+      border-radius: 50%;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
 
-      .valor {
+      .pontos {
         font-size: 28px;
         font-weight: bold;
-        color: $yellow;
+        color: #f39c12;
       }
-
       .label {
-        font-size: $font-size-small;
-        color: $text-2;
+        font-size: 14px;
+        color: #ccc;
       }
     }
 
     .nivel {
-      margin-top: $spacing-sm;
-      font-size: $font-size-base;
-      color: $text;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
     }
 
     .progress-bar {
-      width: 100%;
+      background: #333;
+      border-radius: 10px;
       height: 6px;
-      background: $border;
-      border-radius: $radius-sm;
-      margin: $spacing-sm 0;
+      margin: 10px 0;
+      overflow: hidden;
 
       .progress {
+        background: #f39c12;
         height: 100%;
-        background: $yellow;
-        border-radius: $radius-sm;
+        border-radius: 10px;
       }
     }
 
-    .proximo {
-      font-size: $font-size-small;
-      color: $text-2;
+    .meta {
+      font-size: 12px;
+      color: #aaa;
     }
   }
 
-  /* Resgate */
+  /* Opções de resgate */
   .resgate-opcoes {
     h3 {
-      font-size: $font-size-base;
-      margin-bottom: $spacing-md;
+      margin: 20px 0 10px;
+      font-size: 16px;
+      font-weight: 600;
       color: $text;
     }
 
-    .card-opcao {
-      background: $surface-2;
-      border-radius: $radius-md;
-      padding: $spacing-md;
-      margin-bottom: $spacing-md;
+    .resgate-card {
+      background: #1e1e1e;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
 
       .info {
         flex: 1;
-        margin-right: $spacing-md;
+        margin-right: 10px;
 
         h4 {
-          font-size: $font-size-base;
-          font-weight: 600;
-          margin-bottom: $spacing-xs;
+          margin: 0 0 5px;
+          font-size: 14px;
         }
 
         p {
-          font-size: $font-size-small;
-          color: $text-2;
-          margin-bottom: $spacing-sm;
+          font-size: 12px;
+          color: #ccc;
+          margin: 0 0 5px;
         }
 
-        .pontos {
-          font-size: $font-size-small;
-          color: $yellow;
-          font-weight: bold;
-        }
-      }
-
-      .resgatar-btn {
-        background: $purple-dark;
-        color: $white;
-        border: none;
-        padding: $spacing-sm $spacing-md;
-        border-radius: $radius-sm;
-        cursor: pointer;
-        font-size: $font-size-small;
-        font-weight: 500;
-
-        &:hover {
-          background: $color-purple;
-        }
-      }
-
-      &.purple {
-        border-left: 6px solid $purple-dark;
-      }
-
-      &.blue {
-        border-left: 6px solid $blue-light;
-      }
-
-      &.green {
-        border-left: 6px solid $color-green;
-      }
-    }
-  }
-  .resgate-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #121212;
-    color: #fff;
-    padding: 20px;
-    z-index: 9999; // garante que fica por cima
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-
-    .resgate-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      h2 {
-        flex: 1;
-        text-align: center;
-        font-size: 18px;
-        font-weight: 600;
-      }
-
-      .back-btn {
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-      }
-    }
-
-    .resgate-pontos {
-      text-align: center;
-      margin: 20px 0;
-
-      .circle {
-        width: 120px;
-        height: 120px;
-        border: 4px solid #f39c12;
-        border-radius: 50%;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        .pontos {
-          font-size: 28px;
+        .pontos-custo {
+          font-size: 12px;
           font-weight: bold;
           color: #f39c12;
         }
-        .label {
-          font-size: 14px;
-          color: #ccc;
-        }
       }
 
-      .nivel {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #aaa;
-      }
-
-      .progress-bar {
-        background: #333;
-        border-radius: 10px;
-        height: 6px;
-        margin: 10px 0;
-        overflow: hidden;
-
-        .progress {
-          background: #f39c12;
-          height: 100%;
-          border-radius: 10px;
-        }
-      }
-
-      .meta {
-        font-size: 12px;
-        color: #aaa;
-      }
-    }
-
-    .resgate-opcoes {
-      h3 {
-        margin: 20px 0 10px;
-        font-size: 16px;
-        font-weight: 600;
-      }
-
-      .resgate-card {
-        background: #1e1e1e;
-        border-radius: 10px;
-        padding: 15px;
-        margin-bottom: 15px;
+      .acoes {
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-
-        .info {
-          flex: 1;
-          margin-right: 10px;
-
-          h4 {
-            margin: 0 0 5px;
-            font-size: 14px;
-          }
-
-          p {
-            font-size: 12px;
-            color: #ccc;
-            margin: 0 0 5px;
-          }
-
-          .pontos-custo {
-            font-size: 12px;
-            font-weight: bold;
-            color: #f39c12;
-          }
-        }
+        flex-direction: column;
+        align-items: center;
 
         .resgatar {
           border: none;
@@ -305,22 +144,97 @@ aluno-resgate-modal {
           color: #fff;
           cursor: pointer;
           flex-shrink: 0;
+          margin-bottom: 5px;
 
           &:hover {
             opacity: 0.9;
           }
         }
 
-        &.purple .resgatar {
-          background: #8e44ad;
-        }
-        &.blue .resgatar {
-          background: #2980b9;
-        }
-        &.green .resgatar {
-          background: #27ae60;
+        .status {
+          font-size: 12px;
+          margin-top: 4px;
+          &.disponível {
+            color: #27ae60;
+          }
+          &.acabando {
+            color: #f1c40f;
+          }
+          &.indisponível {
+            color: #e74c3c;
+          }
         }
       }
+
+      &.purple .resgatar {
+        background: #8e44ad;
+      }
+      &.blue .resgatar {
+        background: #2980b9;
+      }
+      &.green .resgatar {
+        background: #27ae60;
+      }
+    }
+  }
+}
+
+.mensagem-retorno {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f3f0ff;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+}
+
+.saldo {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5e35b1;
+  margin-left: auto;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-confirmacao {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+  .botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+
+    button {
+      flex: 1;
+      margin: 0 5px;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .confirmar {
+      background: #673ab7;
+      color: white;
+    }
+
+    .cancelar {
+      background: #ccc;
     }
   }
 }

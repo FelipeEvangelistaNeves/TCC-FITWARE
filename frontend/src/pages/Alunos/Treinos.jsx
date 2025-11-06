@@ -150,13 +150,18 @@ export default function TreinoAluno() {
 
               {treinoAtivo === treino.id && timerAtivo ? (
                 <div className="workout-timer">
-                  <div className="timer-display">{formatarTempo(tempoRestante)}</div>
+                  <div className="timer-display">
+                    {formatarTempo(tempoRestante)}
+                  </div>
                   <button className="stop-btn" onClick={pararTreino}>
                     Parar
                   </button>
                 </div>
               ) : (
-                <button className="start-btn" onClick={() => iniciarTreino(treino)}>
+                <button
+                  className="start-btn"
+                  onClick={() => iniciarTreino(treino)}
+                >
                   Iniciar
                 </button>
               )}
