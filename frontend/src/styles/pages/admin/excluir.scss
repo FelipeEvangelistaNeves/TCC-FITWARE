@@ -1,0 +1,110 @@
+@import "../../abstract/variables";
+
+.admin-modal {
+  /* === Overlay === */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.25s ease-in-out forwards;
+  }
+
+  /* === Conteúdo do modal === */
+  .modal-content {
+    background: var(--surface-1);
+    color: var(--color-text);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-md;
+    width: 90%;
+    max-width: 420px;
+    padding: $spacing-lg;
+    text-align: center;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.25s ease-out;
+
+    @media (prefers-color-scheme: light) {
+      background: var(--surface-2);
+      color: var(--color-text);
+    }
+
+    h3 {
+      font-size: $font-size-heading;
+      font-weight: 600;
+      margin-bottom: $spacing-md;
+    }
+
+    p {
+      color: var(--color-text-muted);
+      font-size: $font-size-base;
+      line-height: 1.5;
+      margin-bottom: $spacing-lg;
+
+      strong {
+        color: var(--color-text);
+      }
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: $spacing-md;
+
+      button {
+        padding: $spacing-sm $spacing-md;
+        border-radius: $radius-md;
+        font-weight: 600;
+        font-size: $font-size-base;
+        cursor: pointer;
+        transition: 0.25s ease;
+      }
+
+      .btn-cancelar {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--color-text-muted);
+
+        &:hover {
+          background: var(--surface-2);
+          color: var(--color-text);
+        }
+      }
+
+      .btn-excluir {
+        background: var(--color-red);
+        color: #fff;
+        border: none;
+
+        &:hover {
+          background: lighten($color-red, 10%);
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  /* === Animações === */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

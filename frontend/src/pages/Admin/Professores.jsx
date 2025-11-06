@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/tabelas.scss";
 
-export default function Professores() {
-  const navigate = useNavigate();
+import AddProfessor from "./AddProfessor";
+import EditarProfessor from "./EditarProfessor";
+import DetalhesProfessor from "./DetalhesProfessor";
+import ExcluirProfessor from "./ExcluirProfessor";
 
-  const [searchTerm, setSearchTerm] = useState("");
+export default function Professores() {
   const [activeTab, setActiveTab] = useState("todos");
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const professores = [
+  const [professores, setProfessores] = useState([
     {
       id: "#PROF-102",
       nome: "Maria Souza",
@@ -32,22 +34,27 @@ export default function Professores() {
       status: "Inativo",
       cor: "green",
     },
-  ];
+  ]);
 
-  // ======== FILTRO ========
+  // === Estados dos modais ===
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedProfessor, setSelectedProfessor] = useState(null);
+
+  // === Filtro ===
   const professoresFiltrados = professores.filter((p) => {
     const termo = searchTerm.toLowerCase();
     const correspondeBusca =
       p.nome.toLowerCase().includes(termo) ||
       p.especialidade.toLowerCase().includes(termo) ||
       p.id.toLowerCase().includes(termo);
-
     const correspondeAba = activeTab === "ativos" ? p.status === "Ativo" : true;
-
     return correspondeBusca && correspondeAba;
   });
 
-  // ======== PAGINAÇÃO ========
+  // === Paginação ===
   const totalPages = Math.ceil(professoresFiltrados.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const professoresPaginados = professoresFiltrados.slice(
@@ -59,15 +66,28 @@ export default function Professores() {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  const handleDelete = (prof) => {
-    if (window.confirm(`Deseja realmente excluir ${prof.nome}?`)) {
-      alert(`Professor ${prof.nome} excluído com sucesso!`);
-    }
+  // === CRUD ===
+  const handleAddProfessor = (novo) => {
+    const nextId = `#PROF-${Math.floor(100 + Math.random() * 900)}`;
+    setProfessores((prev) => [{ id: nextId, ...novo }, ...prev]);
+    setShowAddModal(false);
+  };
+
+  const handleUpdateProfessor = (editado) => {
+    setProfessores((prev) =>
+      prev.map((p) => (p.id === editado.id ? editado : p))
+    );
+    setShowEditModal(false);
+  };
+
+  const handleDeleteProfessor = (prof) => {
+    setProfessores((prev) => prev.filter((p) => p.id !== prof.id));
+    setShowDeleteModal(false);
   };
 
   return (
     <div className="tabela-page">
-      {/* ===== Header ===== */}
+      {/* ===== HEADER ===== */}
       <div className="tabela-header">
         <h2>Gerenciar Professores</h2>
         <div className="acoes-header">
@@ -78,29 +98,27 @@ export default function Professores() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="add-btn" onClick={() => navigate("add")}>
+          <button className="add-btn" onClick={() => setShowAddModal(true)}>
             + Adicionar Professor
           </button>
         </div>
       </div>
 
-      {/* ===== Tabs ===== */}
+      {/* ===== TABS ===== */}
       <div className="tabs">
         <button
           className={`tab ${activeTab === "todos" ? "active" : ""}`}
-          onClick={() => setActiveTab("todos")}
-        >
+          onClick={() => setActiveTab("todos")}>
           Todos os Professores
         </button>
         <button
           className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}
-        >
+          onClick={() => setActiveTab("ativos")}>
           Ativos
         </button>
       </div>
 
-      {/* ===== Tabela ===== */}
+      {/* ===== TABELA ===== */}
       <table className="tabela">
         <thead>
           <tr>
@@ -113,8 +131,8 @@ export default function Professores() {
         </thead>
         <tbody>
           {professoresPaginados.length > 0 ? (
-            professoresPaginados.map((p, i) => (
-              <tr key={i}>
+            professoresPaginados.map((p) => (
+              <tr key={p.id}>
                 <td>{p.id}</td>
                 <td className="user-info">
                   <div className={`icone ${p.cor}`}>
@@ -132,38 +150,31 @@ export default function Professores() {
                   </span>
                 </td>
                 <td>
-                  {/* Editar */}
                   <button
                     className="action-btn"
-                    title="Editar Professor"
-                    onClick={() =>
-                      navigate(
-                        `editar/${encodeURIComponent(p.id.replace("#", ""))}`
-                      )
-                    }
-                  >
+                    title="Editar"
+                    onClick={() => {
+                      setSelectedProfessor(p);
+                      setShowEditModal(true);
+                    }}>
                     <i className="bi bi-pencil"></i>
                   </button>
-
-                  {/* Excluir */}
                   <button
                     className="action-btn"
-                    title="Excluir Professor"
-                    onClick={() => handleDelete(p)}
-                  >
+                    title="Excluir"
+                    onClick={() => {
+                      setSelectedProfessor(p);
+                      setShowDeleteModal(true);
+                    }}>
                     <i className="bi bi-trash"></i>
                   </button>
-
-                  {/* Detalhes */}
                   <button
                     className="action-btn"
-                    title="Ver Detalhes"
-                    onClick={() =>
-                      navigate(
-                        `detalhes/${encodeURIComponent(p.id.replace("#", ""))}`
-                      )
-                    }
-                  >
+                    title="Detalhes"
+                    onClick={() => {
+                      setSelectedProfessor(p);
+                      setShowDetailsModal(true);
+                    }}>
                     <i className="bi bi-three-dots"></i>
                   </button>
                 </td>
@@ -179,7 +190,7 @@ export default function Professores() {
         </tbody>
       </table>
 
-      {/* ===== Paginação ===== */}
+      {/* ===== PAGINAÇÃO ===== */}
       <div className="paginacao">
         <span>Itens por página:</span>
         <select
@@ -187,8 +198,7 @@ export default function Professores() {
           onChange={(e) => {
             setItemsPerPage(Number(e.target.value));
             setCurrentPage(1);
-          }}
-        >
+          }}>
           <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={20}>20</option>
@@ -197,8 +207,7 @@ export default function Professores() {
         <div className="pages">
           <button
             className="page"
-            onClick={() => handlePageChange(currentPage - 1)}
-          >
+            onClick={() => handlePageChange(currentPage - 1)}>
             <i className="bi bi-chevron-left"></i>
           </button>
 
@@ -206,20 +215,49 @@ export default function Professores() {
             <button
               key={i}
               className={`page ${currentPage === i + 1 ? "active" : ""}`}
-              onClick={() => handlePageChange(i + 1)}
-            >
+              onClick={() => handlePageChange(i + 1)}>
               {i + 1}
             </button>
           ))}
 
           <button
             className="page"
-            onClick={() => handlePageChange(currentPage + 1)}
-          >
+            onClick={() => handlePageChange(currentPage + 1)}>
             <i className="bi bi-chevron-right"></i>
           </button>
         </div>
       </div>
+
+      {/* ===== MODAIS ===== */}
+      {showAddModal && (
+        <AddProfessor
+          onClose={() => setShowAddModal(false)}
+          onSave={handleAddProfessor}
+        />
+      )}
+
+      {showEditModal && selectedProfessor && (
+        <EditarProfessor
+          professor={selectedProfessor}
+          onClose={() => setShowEditModal(false)}
+          onSave={handleUpdateProfessor}
+        />
+      )}
+
+      {showDetailsModal && selectedProfessor && (
+        <DetalhesProfessor
+          professor={selectedProfessor}
+          onClose={() => setShowDetailsModal(false)}
+        />
+      )}
+
+      {showDeleteModal && selectedProfessor && (
+        <ExcluirProfessor
+          professor={selectedProfessor}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeleteProfessor}
+        />
+      )}
     </div>
   );
 }

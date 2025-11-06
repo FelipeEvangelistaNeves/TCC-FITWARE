@@ -78,8 +78,14 @@ export default function Dashboard() {
         maintainAspectRatio: false,
         plugins: { legend: { labels: { color: "#fff" } } },
         scales: {
-          x: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } },
-          y: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } },
+          x: {
+            ticks: { color: "#fff" },
+            grid: { color: "rgba(255,255,255,0.1)" },
+          },
+          y: {
+            ticks: { color: "#fff" },
+            grid: { color: "rgba(255,255,255,0.1)" },
+          },
         },
       },
     });
@@ -94,19 +100,19 @@ export default function Dashboard() {
       {/* Cards */}
       <div className="cards-grid text-white">
         <div className="card">
-          <span className="card-value">156</span>
+          <span className="card-value text-white">156</span>
           <span className="card-change positive">+12% este mês</span>
         </div>
 
         <div className="card">
           <span className="card-title">Desafios Ativos</span>
-          <span className="card-value">24</span>
+          <span className="card-value text-white">24</span>
           <span className="card-change negative">-3% este mês</span>
         </div>
 
         <div className="card">
           <span className="card-title">Pontos Resgatados</span>
-          <span className="card-value">12.5k</span>
+          <span className="card-value text-white">12.5k</span>
           <span className="card-change positive">+18% este mês</span>
         </div>
       </div>
@@ -148,10 +154,7 @@ export default function Dashboard() {
       {/* MODAL */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Atividades Recentes</h3>
               <button className="close-btn" onClick={() => setShowModal(false)}>

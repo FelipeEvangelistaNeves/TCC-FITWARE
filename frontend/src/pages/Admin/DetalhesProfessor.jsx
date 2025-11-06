@@ -1,52 +1,44 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "../../styles/pages/admin/treinos.scss";
+import "../../styles/pages/admin/forms.scss";
 
-export default function ProfessorDetalhes() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  // Mock temporário
-  const professor = {
-    id,
-    nome: "Maria Souza",
-    especialidade: "Treinos Funcionais",
-    status: "Ativo",
-    alunos: 28,
-    aulas: 12,
-    dataCadastro: "20/04/2024",
-  };
-
+export default function DetalhesProfessor({ professor, onClose }) {
   return (
-    <div className="detalhes-treino">
-      <h2>{professor.nome}</h2>
-      <div className="info">
-        <span>{professor.especialidade}</span> • <span>{professor.status}</span>
-      </div>
+    <div className="admin-modal">
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <h3>Detalhes do Professor</h3>
 
-      <p className="descricao">
-        <strong>Data de Cadastro:</strong> {professor.dataCadastro}
-        <br />
-        <strong>Total de Alunos:</strong> {professor.alunos}
-        <br />
-        <strong>Total de Aulas Ministradas:</strong> {professor.aulas}
-      </p>
+          <div className="form-card">
+            <div className="form-group">
+              <label>ID:</label>
+              <span>{professor.id}</span>
+            </div>
 
-      <div className="actions">
-        <button
-          className="btn btn-outline"
-          onClick={() => navigate("/admin/professores")}
-        >
-          Voltar
-        </button>
-        <button
-          className="btn btn-purple"
-          onClick={() =>
-            navigate(`/admin/professores/editar/${encodeURIComponent(id)}`)
-          }
-        >
-          Editar Professor
-        </button>
+            <div className="form-group">
+              <label>Nome:</label>
+              <span>{professor.nome}</span>
+            </div>
+
+            <div className="form-group">
+              <label>Especialidade:</label>
+              <span>{professor.especialidade}</span>
+            </div>
+
+            <div className="form-group">
+              <label>Status:</label>
+              <span
+                className={`status-badge ${professor.status.toLowerCase()}`}>
+                {professor.status}
+              </span>
+            </div>
+          </div>
+
+          <div className="modal-actions">
+            <button className="btn-cancelar" onClick={onClose}>
+              Fechar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

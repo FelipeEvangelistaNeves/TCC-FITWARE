@@ -1,0 +1,64 @@
+@import "../../abstract/variables";
+
+.enviar-treino-modal {
+  max-height: 90vh;
+  overflow-y: auto;
+
+  h3 {
+    color: $color-text;
+    margin-bottom: $spacing-md;
+  }
+
+  .form-group {
+    margin-bottom: $spacing-md;
+  }
+
+  .lista-alunos {
+    display: grid;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+
+      .icone {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #fff;
+        font-weight: 600;
+        text-transform: uppercase;
+
+        &.purple {
+          background: $color-purple;
+        }
+        &.green {
+          background: $color-green;
+        }
+        &.orange {
+          background: $color-orange;
+        }
+        &.red {
+          background: $color-red;
+        }
+        &.blue {
+          background: $color-blue;
+        }
+      }
+    }
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+}

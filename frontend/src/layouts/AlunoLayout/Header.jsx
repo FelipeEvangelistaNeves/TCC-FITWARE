@@ -61,22 +61,15 @@ export default function HeaderAluno({ title }) {
 
   return (
     <>
-      <header className="header-professor py-3 px-4 border-bottom">
+      <header className="header-professor py-3 px-4">
         <div className="container-fluid d-flex justify-content-between align-items-center">
           <h5 className="page-title m-0">{title}</h5>
           <div className="d-flex align-items-center gap-3">
             <button
               className="notification-btn position-relative"
               type="button"
-              onClick={() => setShowDropdown(true)}
-            >
+              onClick={() => setShowDropdown(true)}>
               <Bell size={20} />
-            </button>
-
-            <div className="profile-avatar">{iniciais}</div>
-
-            <button onClick={handleLogout} className="logout-btn">
-              <LogOut size={20} />
             </button>
           </div>
         </div>

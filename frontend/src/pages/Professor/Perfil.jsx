@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/professor/perfilprof.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import ConfigProf from "../../components/Professor/configProf";
 
 export default function PerfilProf() {
   const [professor, setProfessor] = useState([]);
@@ -10,6 +11,8 @@ export default function PerfilProf() {
   const [cargo, setCargo] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cref, setCref] = useState("");
+
+  const [showConfigProf, setShowConfigProf] = useState(false);
 
   useEffect(() => {
     const fetchProfessor = async () => {
@@ -49,8 +52,16 @@ export default function PerfilProf() {
     <div className="perfil-container roxo">
       {/* Cabeçalho */}
       <div className="perfil-header">
-        <h2>Meu Perfil</h2>
-        <i className="bi bi-gear"></i>
+        <h2></h2>
+        <i
+          className="bi bi-gear"
+          onClick={() => setShowConfigProf(true)}
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}></i>
+
+        <ConfigProf
+          isOpen={showConfigProf}
+          onClose={() => setShowConfigProf(false)}
+        />
       </div>
 
       {/* Informações principais */}

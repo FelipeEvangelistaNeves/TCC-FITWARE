@@ -1,0 +1,187 @@
+@import "./../../abstract/variables.scss";
+
+.aluno-prof-config-modal {
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: $z-header;
+    backdrop-filter: blur(2px);
+  }
+
+  .config-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: $surface-2;
+    color: $text;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: $shadow-card;
+    z-index: $z-header + 1;
+    animation: fadeIn 0.2s ease;
+
+    h2 {
+      margin-bottom: $spacing-md;
+      font-size: $font-size-heading;
+      text-align: center;
+    }
+
+    .config-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: $surface-1;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-sm;
+      margin-bottom: $spacing-sm;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: $color-bg-hover;
+      }
+
+      span {
+        font-size: $font-size-base;
+      }
+
+      i {
+        font-size: 1rem;
+        color: $text-2;
+      }
+
+      &.logout {
+        color: $color-red;
+
+        i {
+          color: $color-red;
+        }
+      }
+    }
+
+    /* Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 22px;
+
+      input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $surface-3;
+        transition: 0.3s;
+        border-radius: 34px;
+
+        &:before {
+          position: absolute;
+          content: "";
+          height: 16px;
+          width: 16px;
+          left: 4px;
+          bottom: 3px;
+          background-color: $white;
+          transition: 0.3s;
+          border-radius: 50%;
+        }
+      }
+
+      input:checked + .slider {
+        background-color: $purple-dark;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(18px);
+      }
+    }
+
+    /* Formulário dentro do modal de conta */
+    &.account {
+      h2 {
+        text-align: left;
+        margin-bottom: $spacing-md;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: $spacing-sm;
+
+        label {
+          color: $text-2;
+          font-size: $font-size-small;
+          margin-bottom: 4px;
+        }
+
+        input {
+          background: $surface-1;
+          border: 1px solid $border-color;
+          color: $text;
+          border-radius: $radius-sm;
+          padding: $spacing-sm;
+          outline: none;
+          font-family: $font-family;
+          transition: border-color 0.2s ease;
+
+          &:focus {
+            border-color: $purple-dark;
+          }
+        }
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: $spacing-sm;
+        margin-top: $spacing-md;
+
+        .btn {
+          border: none;
+          padding: $spacing-sm $spacing-md;
+          border-radius: $radius-sm;
+          font-weight: 600;
+          cursor: pointer;
+
+          &.cancel {
+            background: $surface-3;
+            color: $text-2;
+          }
+
+          &.save {
+            background: $purple-dark;
+            color: $white;
+
+            &:hover {
+              background: lighten($purple-dark, 5%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

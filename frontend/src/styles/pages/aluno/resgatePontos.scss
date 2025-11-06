@@ -1,322 +1,325 @@
 @import "./../../abstract/variables.scss";
+aluno-resgate-modal {
+  font-family: $font-family;
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba($black, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: $z-header;
-}
-
-.modal-content {
-  background: $surface-1;
-  border-radius: $radius-lg;
-  padding: $spacing-lg;
-  width: 90%;
-  max-width: 400px;
-  color: $text;
-  max-height: 95%;
-  overflow-y: auto;
-  box-shadow: $shadow-card;
-}
-
-/* Header */
-.modal-header {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-  margin-bottom: $spacing-lg;
-
-  h2 {
-    font-size: $font-size-heading;
-    color: $yellow;
-    font-weight: 600;
-  }
-
-  .back-btn {
-    background: none;
-    border: none;
-    color: $text;
-    font-size: 20px;
-    cursor: pointer;
-  }
-}
-
-/* Pontos c*/
-.pontos-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: $spacing-xl;
-
-  .circle-pontos {
-    border: 3px solid $yellow;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($black, 0.8);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    .valor {
-      font-size: 28px;
-      font-weight: bold;
-      color: $yellow;
-    }
-
-    .label {
-      font-size: $font-size-small;
-      color: $text-2;
-    }
+    z-index: $z-header;
   }
 
-  .nivel {
-    margin-top: $spacing-sm;
-    font-size: $font-size-base;
+  .modal-content {
+    background: $surface-1;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+    width: 90%;
+    max-width: 400px;
     color: $text;
+    max-height: 95%;
+    overflow-y: auto;
+    box-shadow: $shadow-card;
   }
 
-  .progress-bar {
-    width: 100%;
-    height: 6px;
-    background: $border;
-    border-radius: $radius-sm;
-    margin: $spacing-sm 0;
-
-    .progress {
-      height: 100%;
-      background: $yellow;
-      border-radius: $radius-sm;
-    }
-  }
-
-  .proximo {
-    font-size: $font-size-small;
-    color: $text-2;
-  }
-}
-
-/* Resgate */
-.resgate-opcoes {
-  h3 {
-    font-size: $font-size-base;
-    margin-bottom: $spacing-md;
-    color: $text;
-  }
-
-  .card-opcao {
-    background: $surface-2;
-    border-radius: $radius-md;
-    padding: $spacing-md;
-    margin-bottom: $spacing-md;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .info {
-      flex: 1;
-      margin-right: $spacing-md;
-
-      h4 {
-        font-size: $font-size-base;
-        font-weight: 600;
-        margin-bottom: $spacing-xs;
-      }
-
-      p {
-        font-size: $font-size-small;
-        color: $text-2;
-        margin-bottom: $spacing-sm;
-      }
-
-      .pontos {
-        font-size: $font-size-small;
-        color: $yellow;
-        font-weight: bold;
-      }
-    }
-
-    .resgatar-btn {
-      background: $purple-dark;
-      color: $white;
-      border: none;
-      padding: $spacing-sm $spacing-md;
-      border-radius: $radius-sm;
-      cursor: pointer;
-      font-size: $font-size-small;
-      font-weight: 500;
-
-      &:hover {
-        background: $color-purple;
-      }
-    }
-
-    &.purple {
-      border-left: 6px solid $purple-dark;
-    }
-
-    &.blue {
-      border-left: 6px solid $blue-light;
-    }
-
-    &.green {
-      border-left: 6px solid $color-green;
-    }
-  }
-}
-.resgate-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #121212;
-  color: #fff;
-  padding: 20px;
-  z-index: 9999; // garante que fica por cima
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-
-  .resgate-header {
+  /* Header */
+  .modal-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
 
     h2 {
-      flex: 1;
-      text-align: center;
-      font-size: 18px;
+      font-size: $font-size-heading;
+      color: $yellow;
       font-weight: 600;
     }
 
     .back-btn {
       background: none;
       border: none;
-      color: #fff;
+      color: $text;
       font-size: 20px;
       cursor: pointer;
     }
   }
 
-  .resgate-pontos {
-    text-align: center;
-    margin: 20px 0;
+  /* Pontos c*/
+  .pontos-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: $spacing-xl;
 
-    .circle {
+    .circle-pontos {
+      border: 3px solid $yellow;
+      border-radius: 50%;
       width: 120px;
       height: 120px;
-      border: 4px solid #f39c12;
-      border-radius: 50%;
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
 
-      .pontos {
+      .valor {
         font-size: 28px;
         font-weight: bold;
-        color: #f39c12;
+        color: $yellow;
       }
+
       .label {
-        font-size: 14px;
-        color: #ccc;
+        font-size: $font-size-small;
+        color: $text-2;
       }
     }
 
     .nivel {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #aaa;
+      margin-top: $spacing-sm;
+      font-size: $font-size-base;
+      color: $text;
     }
 
     .progress-bar {
-      background: #333;
-      border-radius: 10px;
+      width: 100%;
       height: 6px;
-      margin: 10px 0;
-      overflow: hidden;
+      background: $border;
+      border-radius: $radius-sm;
+      margin: $spacing-sm 0;
 
       .progress {
-        background: #f39c12;
         height: 100%;
-        border-radius: 10px;
+        background: $yellow;
+        border-radius: $radius-sm;
       }
     }
 
-    .meta {
-      font-size: 12px;
-      color: #aaa;
+    .proximo {
+      font-size: $font-size-small;
+      color: $text-2;
     }
   }
 
+  /* Resgate */
   .resgate-opcoes {
     h3 {
-      margin: 20px 0 10px;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: $font-size-base;
+      margin-bottom: $spacing-md;
+      color: $text;
     }
 
-    .resgate-card {
-      background: #1e1e1e;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
+    .card-opcao {
+      background: $surface-2;
+      border-radius: $radius-md;
+      padding: $spacing-md;
+      margin-bottom: $spacing-md;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
 
       .info {
         flex: 1;
-        margin-right: 10px;
+        margin-right: $spacing-md;
 
         h4 {
-          margin: 0 0 5px;
-          font-size: 14px;
+          font-size: $font-size-base;
+          font-weight: 600;
+          margin-bottom: $spacing-xs;
         }
 
         p {
-          font-size: 12px;
-          color: #ccc;
-          margin: 0 0 5px;
+          font-size: $font-size-small;
+          color: $text-2;
+          margin-bottom: $spacing-sm;
         }
 
-        .pontos-custo {
-          font-size: 12px;
+        .pontos {
+          font-size: $font-size-small;
+          color: $yellow;
+          font-weight: bold;
+        }
+      }
+
+      .resgatar-btn {
+        background: $purple-dark;
+        color: $white;
+        border: none;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $radius-sm;
+        cursor: pointer;
+        font-size: $font-size-small;
+        font-weight: 500;
+
+        &:hover {
+          background: $color-purple;
+        }
+      }
+
+      &.purple {
+        border-left: 6px solid $purple-dark;
+      }
+
+      &.blue {
+        border-left: 6px solid $blue-light;
+      }
+
+      &.green {
+        border-left: 6px solid $color-green;
+      }
+    }
+  }
+  .resgate-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #121212;
+    color: #fff;
+    padding: 20px;
+    z-index: 9999; // garante que fica por cima
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .resgate-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      h2 {
+        flex: 1;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .back-btn {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .resgate-pontos {
+      text-align: center;
+      margin: 20px 0;
+
+      .circle {
+        width: 120px;
+        height: 120px;
+        border: 4px solid #f39c12;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .pontos {
+          font-size: 28px;
           font-weight: bold;
           color: #f39c12;
         }
-      }
-
-      .resgatar {
-        border: none;
-        border-radius: 8px;
-        padding: 6px 12px;
-        font-size: 12px;
-        color: #fff;
-        cursor: pointer;
-        flex-shrink: 0;
-
-        &:hover {
-          opacity: 0.9;
+        .label {
+          font-size: 14px;
+          color: #ccc;
         }
       }
 
-      &.purple .resgatar {
-        background: #8e44ad;
+      .nivel {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #aaa;
       }
-      &.blue .resgatar {
-        background: #2980b9;
+
+      .progress-bar {
+        background: #333;
+        border-radius: 10px;
+        height: 6px;
+        margin: 10px 0;
+        overflow: hidden;
+
+        .progress {
+          background: #f39c12;
+          height: 100%;
+          border-radius: 10px;
+        }
       }
-      &.green .resgatar {
-        background: #27ae60;
+
+      .meta {
+        font-size: 12px;
+        color: #aaa;
+      }
+    }
+
+    .resgate-opcoes {
+      h3 {
+        margin: 20px 0 10px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .resgate-card {
+        background: #1e1e1e;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .info {
+          flex: 1;
+          margin-right: 10px;
+
+          h4 {
+            margin: 0 0 5px;
+            font-size: 14px;
+          }
+
+          p {
+            font-size: 12px;
+            color: #ccc;
+            margin: 0 0 5px;
+          }
+
+          .pontos-custo {
+            font-size: 12px;
+            font-weight: bold;
+            color: #f39c12;
+          }
+        }
+
+        .resgatar {
+          border: none;
+          border-radius: 8px;
+          padding: 6px 12px;
+          font-size: 12px;
+          color: #fff;
+          cursor: pointer;
+          flex-shrink: 0;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+
+        &.purple .resgatar {
+          background: #8e44ad;
+        }
+        &.blue .resgatar {
+          background: #2980b9;
+        }
+        &.green .resgatar {
+          background: #27ae60;
+        }
       }
     }
   }

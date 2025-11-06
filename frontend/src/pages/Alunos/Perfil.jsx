@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
 import ResgatePontosModal from "./ResgatePontosModal";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import ConfigModal from "../../components/Alunos/configModal";
 
 export default function PerfilAluno() {
   const [nome, setNome] = useState("");
@@ -56,11 +57,33 @@ export default function PerfilAluno() {
     return pontos + " Pontos";
   };
 
+  const [showConfig, setShowConfig] = useState(false);
+
+  async function handleLogout() {
+    try {
+      const res = await fetch("http://localhost:3000/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = "/"; // redireciona pro login
+      }
+    } catch (err) {
+      console.error("Erro ao fazer logout:", err);
+    }
+  }
+
   return (
     <div className={`perfil-container ${getAbaCor()}`}>
       <div className="perfil-header">
         <h2></h2>
-        <i className="bi bi-gear"></i>
+        <i
+          className="bi bi-gear"
+          onClick={() => setShowConfig(true)}
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}></i>
+
+        <ConfigModal isOpen={showConfig} onClose={() => setShowConfig(false)} />
       </div>
 
       <div className="perfil-info">
@@ -70,8 +93,7 @@ export default function PerfilAluno() {
         <button
           className={`plano-btn ${
             abaAtiva === "pagamento" ? "premium" : "pontos"
-          }`}
-        >
+          }`}>
           {getTextoBotao()}
         </button>
       </div>
@@ -80,20 +102,17 @@ export default function PerfilAluno() {
       <div className="perfil-tabs">
         <button
           className={abaAtiva === "historico" ? "active" : ""}
-          onClick={() => setAbaAtiva("historico")}
-        >
+          onClick={() => setAbaAtiva("historico")}>
           Histórico
         </button>
         <button
           className={abaAtiva === "pagamento" ? "active" : ""}
-          onClick={() => setAbaAtiva("pagamento")}
-        >
+          onClick={() => setAbaAtiva("pagamento")}>
           Pagamento
         </button>
         <button
           className={abaAtiva === "pontos" ? "active" : ""}
-          onClick={() => setAbaAtiva("pontos")}
-        >
+          onClick={() => setAbaAtiva("pontos")}>
           Pontos
         </button>
       </div>
@@ -144,8 +163,7 @@ export default function PerfilAluno() {
             {/* Botão resgatar também no histórico */}
             <button
               className="btn-resgatar"
-              onClick={() => setModalAberto(true)}
-            >
+              onClick={() => setModalAberto(true)}>
               <i className="bi bi-gift"></i> Resgatar Pontos
             </button>
           </div>
@@ -243,8 +261,7 @@ export default function PerfilAluno() {
 
             <button
               className="btn-resgatar"
-              onClick={() => setModalAberto(true)}
-            >
+              onClick={() => setModalAberto(true)}>
               <i className="bi bi-gift"></i> Resgatar Pontos
             </button>
           </div>

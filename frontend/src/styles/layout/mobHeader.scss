@@ -2,15 +2,13 @@
 .header-professor {
   background-color: $black; // Fundo escuro
   color: $white;
-  border-color: $gray-800;
-
   .page-title {
     color: $yellow;
     font-weight: 600;
   }
 
   .notification-btn {
-    background-color: $purple-dark;
+    background-color: transparent;
     color: $white;
     border: none;
     width: 40px;
@@ -22,8 +20,8 @@
     border-radius: 50%;
     transition: background 0.3s ease;
 
-    &:hover {
-      background-color: lighten($purple-dark, 10%);
+    &:active {
+      color: var(--color-purple-light);
     }
   }
 

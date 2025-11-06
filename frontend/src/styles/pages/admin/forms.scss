@@ -1,146 +1,149 @@
-@import "../../abstract/variables";
+@import "./../../abstract/variables.scss"; // importa tuas variáveis globais
 
-.form-page {
-  background: $surface-1;
-  color: $color-text;
-  padding: $spacing-xl;
-  border-radius: $radius-md;
-  box-shadow: $shadow-card;
-  max-width: 700px;
-  margin: $spacing-xl auto;
-  font-family: $font-family;
-  transition: all 0.3s ease;
-
-  h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: $color-text;
-    margin-bottom: $spacing-md;
+.admin-modal {
+  // Overlay
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.25s ease-in-out;
   }
 
-  p.text-muted {
-    color: $color-text-muted;
-    margin-bottom: $spacing-lg;
+  // Caixa principal
+  .modal-content {
+    color: var(--color-text);
+    border-radius: var(--radius-md, 12px);
+    width: 90%;
+    max-width: 520px;
+    box-shadow: var(--shadow-card, 0 4px 10px rgba(0, 0, 0, 0.3));
+    padding: var(--spacing-lg, 24px);
+    animation: slideUp 0.25s ease-out;
+    position: relative;
+
+    h3 {
+      margin-bottom: var(--spacing-md, 16px);
+      font-size: var(--font-size-heading, 20px);
+      font-weight: 600;
+    }
+  }
+
+  // Form padrão
+  .form-card {
+    display: flex;
+    background: var(--card-bg);
+    flex-direction: column;
+    gap: var(--spacing-md, 16px);
   }
 
   .form-group {
-    margin-bottom: $spacing-md;
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-xs, 4px);
 
     label {
-      font-weight: 600;
-      margin-bottom: $spacing-xs;
-      color: $color-text;
+      font-size: var(--font-size-small, 12px);
+      color: var(--color-text-muted);
     }
 
     input,
     select,
     textarea {
-      background: $surface-2;
-      color: $color-text;
-      border: 1px solid $border-color;
-      border-radius: $radius-sm;
-      padding: $spacing-sm $spacing-md;
-      font-size: $font-size-base;
-      transition: border-color 0.3s ease;
+      background: var(--surface-2);
+      color: var(--color-text);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm, 6px);
+      padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
       &:focus {
-        border-color: $color-purple;
-        outline: none;
+        border-color: var(--color-purple);
+        box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb, 139, 92, 246), 0.2);
       }
     }
 
     textarea {
+      min-height: 80px;
       resize: vertical;
-      min-height: 120px;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: $spacing-xs;
-
-      label {
-        font-weight: 400;
-        cursor: pointer;
-        input {
-          margin-right: $spacing-sm;
-        }
-      }
     }
   }
 
-  .actions {
+  // Ações (botões)
+  .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: $spacing-md;
-    margin-top: $spacing-lg;
+    gap: var(--spacing-sm, 8px);
+    margin-top: var(--spacing-lg, 24px);
 
-    .btn {
-      padding: $spacing-sm $spacing-lg;
-      border-radius: $radius-md;
-      font-weight: 600;
+    .btn-cancelar {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--color-text-muted);
+      padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+      border-radius: var(--radius-sm, 6px);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: 0.25s;
 
-      &.btn-purple {
-        background: $color-purple;
-        color: $white;
-        border: none;
-
-        &:hover {
-          background: $purple-dark;
-        }
-
-        &:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
+      &:hover {
+        background: var(--surface-hover);
+        color: var(--white);
       }
+    }
 
-      &.btn-outline {
-        border: 1px solid $color-purple;
-        background: transparent;
-        color: $color-purple;
+    .btn-salvar {
+      background: var(--color-purple);
+      color: #fff;
+      border: none;
+      padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+      border-radius: var(--radius-sm, 6px);
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.25s ease;
 
-        &:hover {
-          background: $color-purple;
-          color: $white;
-        }
+      &:hover {
+        background: var(--color-purple-light);
+        transform: scale(1.02);
       }
     }
   }
 
-  /* Sucesso ou mensagem temporária */
-  .success-message {
-    background: rgba($color-green, 0.1);
-    color: $color-green;
-    border: 1px solid rgba($color-green, 0.3);
-    padding: $spacing-md;
-    border-radius: $radius-md;
-    text-align: center;
-    margin-top: $spacing-md;
-    animation: fadeIn 0.5s ease;
+  // Animações
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .form-page {
-    padding: $spacing-lg;
-    max-width: 95%;
-  }
-}
-
-/* Animação de entrada */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Fallback values for CSS variables */
+:root {
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --font-size-small: 12px;
+  --font-size-heading: 20px;
+  --shadow-card: 0 4px 10px rgba(0, 0, 0, 0.3);
+  --color-purple-rgb: 139, 92, 246;
 }

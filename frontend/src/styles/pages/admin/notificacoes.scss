@@ -119,127 +119,126 @@
     color: $color-text-muted;
     margin-top: 2rem;
   }
-}
 
-/* ===============================
+  /* ===============================
    MODAL BASE
 ================================*/
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba($black, 0.85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 120;
-  animation: fadeIn 0.2s ease-in-out;
-  transition: background-color $theme-transition;
-}
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($black, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 120;
+    animation: fadeIn 0.2s ease-in-out;
+    transition: background-color $theme-transition;
+  }
 
-.modal-content {
-  background: $color-bg-card;
-  color: $color-text;
-  border-radius: 16px;
-  padding: 24px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: $shadow-2;
-  animation: slideUp 0.25s ease;
-  border: 1px solid $border;
-  transition: background-color $theme-transition, color $theme-transition,
-    border-color $theme-transition;
-
-  h3 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
+  .modal-content {
+    background: $color-bg-card;
     color: $color-text;
-  }
-}
-
-/* ===============================
-   CAMPOS DE FORMULÁRIO
-================================*/
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
-
-  label {
-    font-size: 14px;
-    font-weight: 600;
-    color: $color-text-muted;
-  }
-
-  input,
-  select,
-  textarea {
-    background: $surface-2;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: $shadow-2;
+    animation: slideUp 0.25s ease;
     border: 1px solid $border;
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: $color-text;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.2s ease;
+    transition: background-color $theme-transition, color $theme-transition,
+      border-color $theme-transition;
 
-    &:focus {
-      border-color: $color-purple-light;
-      background: $surface-3;
-    }
-  }
-
-  textarea {
-    resize: none;
-  }
-}
-
-/* ===============================
-   BOTÕES DO MODAL
-================================*/
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
-
-  .btn-cancelar {
-    background: $surface-2;
-    color: $color-text-muted;
-    border: 1px solid $border;
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: $surface-3;
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
       color: $color-text;
     }
   }
 
-  .btn-salvar {
-    background: $purple-dark;
-    color: $white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
+  /* ===============================
+   CAMPOS DE FORMULÁRIO
+================================*/
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
 
-    &:hover {
-      background: lighten($purple-dark, 8%);
-      transform: scale(1.02);
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: $color-text-muted;
+    }
+
+    input,
+    select,
+    textarea {
+      background: $surface-2;
+      border: 1px solid $border;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: $color-text;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+
+      &:focus {
+        border-color: $color-purple-light;
+        background: $surface-3;
+      }
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    /* ===============================
+   BOTÕES DO MODAL
+================================*/
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+
+      .btn-cancelar {
+        background: $surface-2;
+        color: $color-text-muted;
+        border: 1px solid $border;
+        border-radius: 8px;
+        padding: 8px 14px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: $surface-3;
+          color: $color-text;
+        }
+      }
+
+      .btn-salvar {
+        background: $purple-dark;
+        color: $white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: lighten($purple-dark, 8%);
+          transform: scale(1.02);
+        }
+      }
     }
   }
 }
-
 /* ===============================
    ANIMAÇÕES
 ================================*/

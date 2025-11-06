@@ -1,77 +1,76 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/forms.scss";
 
-export default function AddProfessor() {
-  const navigate = useNavigate();
+export default function AddProfessor({ onClose, onSave }) {
   const [form, setForm] = useState({
     nome: "",
     especialidade: "",
     status: "Ativo",
   });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Professor ${form.nome} adicionado com sucesso!`);
-    navigate("/admin/professores");
+    if (!form.nome || !form.especialidade) return;
+    onSave(form);
   };
 
   return (
-    <div className="form-page">
-      <div className="form-header">
-        <h2>Adicionar Professor</h2>
-        <p>Cadastre um novo professor no sistema FitWare.</p>
+    <div className="admin-modal">
+      <div className="modal-overlay" onClick={onClose}>
+        <div
+          className="modal-content form-card"
+          onClick={(e) => e.stopPropagation()}>
+          <h3>Adicionar Novo Professor</h3>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Nome do Professor</label>
+              <input
+                type="text"
+                name="nome"
+                value={form.nome}
+                onChange={handleChange}
+                placeholder="Ex: Lucas Rocha"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Especialidade</label>
+              <input
+                type="text"
+                name="especialidade"
+                value={form.especialidade}
+                onChange={handleChange}
+                placeholder="Ex: Musculação"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Status</label>
+              <select name="status" value={form.status} onChange={handleChange}>
+                <option>Ativo</option>
+                <option>Inativo</option>
+              </select>
+            </div>
+
+            <div className="modal-actions">
+              <button type="button" className="btn-cancelar" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn-salvar">
+                Adicionar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Nome Completo</label>
-          <input
-            type="text"
-            required
-            value={form.nome}
-            onChange={(e) => setForm({ ...form, nome: e.target.value })}
-            placeholder="Digite o nome do professor"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Especialidade</label>
-          <input
-            type="text"
-            required
-            value={form.especialidade}
-            onChange={(e) =>
-              setForm({ ...form, especialidade: e.target.value })
-            }
-            placeholder="Ex: Musculação, Yoga, Funcional..."
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Status</label>
-          <select
-            value={form.status}
-            onChange={(e) => setForm({ ...form, status: e.target.value })}
-          >
-            <option>Ativo</option>
-            <option>Inativo</option>
-          </select>
-        </div>
-
-        <div className="form-actions">
-          <button
-            type="button"
-            className="btn-outline"
-            onClick={() => navigate("/admin/professores")}
-          >
-            Cancelar
-          </button>
-          <button type="submit" className="btn-purple">
-            Salvar
-          </button>
-        </div>
-      </form>
     </div>
   );
 }

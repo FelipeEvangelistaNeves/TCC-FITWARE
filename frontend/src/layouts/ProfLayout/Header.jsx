@@ -1,7 +1,7 @@
 import React from "react";
 import { Bell, LogOut } from "lucide-react";
-
 import "../../styles/layout/mobHeader.scss";
+
 export default function HeaderProfessor({ title }) {
   async function handleLogout() {
     try {
@@ -22,17 +22,9 @@ export default function HeaderProfessor({ title }) {
       <div className="container-fluid d-flex justify-content-between align-items-center">
         <h5 className="page-title m-0">{title}</h5>
         <div className="d-flex align-items-center gap-3">
-          
           <button className="btn notification-btn rounded-circle">
             <Bell size={20} />
           </button>
-
-          <div className="profile-avatar">MS</div>
-
-          <button onClick={handleLogout} className="logout-btn">
-            <LogOut size={20} />
-          </button>
-          
         </div>
       </div>
     </header>

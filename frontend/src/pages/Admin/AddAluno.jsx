@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/forms.scss";
 
-export default function AddAluno() {
-  const navigate = useNavigate();
+export default function AddAluno({ onClose, onSave }) {
   const [form, setForm] = useState({
     nome: "",
     turma: "",
     status: "Ativo",
+    observacoes: "",
   });
 
   const handleChange = (e) => {
@@ -17,60 +16,72 @@ export default function AddAluno() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Aluno "${form.nome}" adicionado com sucesso!`);
-    navigate("/admin/alunos");
+    if (!form.nome || !form.turma) return;
+    onSave(form);
   };
 
   return (
-    <div className="form-page">
-      <h2>Adicionar Novo Aluno</h2>
+    <div className="admin-modal">
+      <div className="modal-overlay" onClick={onClose}>
+        <div
+          className="modal-content form-card"
+          onClick={(e) => e.stopPropagation()}>
+          <h3>Adicionar Novo Aluno</h3>
 
-      <form onSubmit={handleSubmit} className="form-card">
-        <div className="form-group">
-          <label>Nome do Aluno</label>
-          <input
-            type="text"
-            name="nome"
-            value={form.nome}
-            onChange={handleChange}
-            placeholder="Ex: Maria Silva"
-            required
-          />
-        </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Nome do Aluno</label>
+              <input
+                type="text"
+                name="nome"
+                value={form.nome}
+                onChange={handleChange}
+                placeholder="Ex: Maria Silva"
+                required
+              />
+            </div>
 
-        <div className="form-group">
-          <label>Turma</label>
-          <input
-            type="text"
-            name="turma"
-            value={form.turma}
-            onChange={handleChange}
-            placeholder="Ex: Cardio"
-            required
-          />
-        </div>
+            <div className="form-group">
+              <label>Turma</label>
+              <input
+                type="text"
+                name="turma"
+                value={form.turma}
+                onChange={handleChange}
+                placeholder="Ex: Funcional"
+                required
+              />
+            </div>
 
-        <div className="form-group">
-          <label>Status</label>
-          <select name="status" value={form.status} onChange={handleChange}>
-            <option>Ativo</option>
-            <option>Inativo</option>
-          </select>
-        </div>
+            <div className="form-group">
+              <label>Observações</label>
+              <textarea
+                name="observacoes"
+                value={form.observacoes}
+                onChange={handleChange}
+                placeholder="Ex: Aluna nova na academia"
+              />
+            </div>
 
-        <div className="form-actions">
-          <button
-            type="button"
-            className="btn-outline"
-            onClick={() => navigate("/admin/alunos")}
-          >
-            Cancelar
-          </button>
-          <button type="submit" className="btn-purple">
-            Adicionar Aluno
-          </button>
+            <div className="form-group">
+              <label>Status</label>
+              <select name="status" value={form.status} onChange={handleChange}>
+                <option>Ativo</option>
+                <option>Inativo</option>
+              </select>
+            </div>
+
+            <div className="modal-actions">
+              <button type="button" className="btn-cancelar" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn-salvar">
+                Adicionar
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

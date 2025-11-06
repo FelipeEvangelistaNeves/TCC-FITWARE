@@ -119,8 +119,7 @@ export default function Desafios() {
           onClick={() => {
             setActiveTab("ativos");
             setPaginaAtual(1);
-          }}
-        >
+          }}>
           Ativos
         </button>
         <button
@@ -128,8 +127,7 @@ export default function Desafios() {
           onClick={() => {
             setActiveTab("concluidos");
             setPaginaAtual(1);
-          }}
-        >
+          }}>
           Concluídos
         </button>
         <button
@@ -137,8 +135,7 @@ export default function Desafios() {
           onClick={() => {
             setActiveTab("programados");
             setPaginaAtual(1);
-          }}
-        >
+          }}>
           Programados
         </button>
       </div>
@@ -167,7 +164,7 @@ export default function Desafios() {
                     <div className="icone purple">{d.icone}</div>
                     <div>
                       <div>{d.nome}</div>
-                      <small className="text-muted">{d.descricao}</small>
+                      <small className="text-white">{d.descricao}</small>
                     </div>
                   </div>
                 </td>
@@ -183,8 +180,7 @@ export default function Desafios() {
                         : d.status === "programado"
                         ? "pendente"
                         : "cancelado"
-                    }`}
-                  >
+                    }`}>
                     {d.status.charAt(0).toUpperCase() + d.status.slice(1)}
                   </span>
                 </td>
@@ -197,8 +193,7 @@ export default function Desafios() {
                       navigate(
                         `enviar/${encodeURIComponent(d.id.replace(/^#/, ""))}`
                       )
-                    }
-                  >
+                    }>
                     <i className="bi bi-send"></i>
                   </button>
 
@@ -206,8 +201,7 @@ export default function Desafios() {
                   <button
                     className="action-btn"
                     title="Excluir"
-                    onClick={() => alert(`Excluir ${d.nome}?`)}
-                  >
+                    onClick={() => alert(`Excluir ${d.nome}?`)}>
                     <i className="bi bi-trash"></i>
                   </button>
 
@@ -219,8 +213,7 @@ export default function Desafios() {
                       navigate(
                         `detalhes/${encodeURIComponent(d.id.replace(/^#/, ""))}`
                       )
-                    }
-                  >
+                    }>
                     <i className="bi bi-three-dots"></i>
                   </button>
                 </td>
@@ -242,8 +235,7 @@ export default function Desafios() {
           <span>Itens por página:</span>
           <select
             value={itensPorPagina}
-            onChange={(e) => mudarItensPorPagina(e.target.value)}
-          >
+            onChange={(e) => mudarItensPorPagina(e.target.value)}>
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
@@ -253,8 +245,7 @@ export default function Desafios() {
             <button
               className="page"
               onClick={() => mudarPagina(paginaAtual - 1)}
-              disabled={paginaAtual === 1}
-            >
+              disabled={paginaAtual === 1}>
               <i className="bi bi-chevron-left"></i>
             </button>
 
@@ -262,8 +253,7 @@ export default function Desafios() {
               <button
                 key={i}
                 className={`page ${paginaAtual === i + 1 ? "active" : ""}`}
-                onClick={() => mudarPagina(i + 1)}
-              >
+                onClick={() => mudarPagina(i + 1)}>
                 {i + 1}
               </button>
             ))}
@@ -271,8 +261,7 @@ export default function Desafios() {
             <button
               className="page"
               onClick={() => mudarPagina(paginaAtual + 1)}
-              disabled={paginaAtual === totalPaginas}
-            >
+              disabled={paginaAtual === totalPaginas}>
               <i className="bi bi-chevron-right"></i>
             </button>
           </div>

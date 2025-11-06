@@ -1,78 +1,69 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/forms.scss";
 
-export default function EditarProfessor() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+export default function EditarProfessor({ professor, onClose, onSave }) {
+  const [form, setForm] = useState({ ...professor });
 
-  // Mock de dados (simula carregamento de professor)
-  const [form, setForm] = useState({
-    nome: "Maria Souza",
-    especialidade: "Treinos Funcionais",
-    status: "Ativo",
-  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Professor ${form.nome} atualizado com sucesso!`);
-    navigate("/admin/professores");
+    onSave(form);
   };
 
   return (
-    <div className="form-page">
-      <div className="form-header">
-        <h2>Editar Professor</h2>
-        <p>Modifique as informações do professor #{id}</p>
+    <div className="admin-modal">
+      <div className="modal-overlay" onClick={onClose}>
+        <div
+          className="modal-content form-card"
+          onClick={(e) => e.stopPropagation()}>
+          <h3>Editar Professor</h3>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Nome do Professor</label>
+              <input
+                type="text"
+                name="nome"
+                value={form.nome}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Especialidade</label>
+              <input
+                type="text"
+                name="especialidade"
+                value={form.especialidade}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Status</label>
+              <select name="status" value={form.status} onChange={handleChange}>
+                <option>Ativo</option>
+                <option>Inativo</option>
+              </select>
+            </div>
+
+            <div className="modal-actions">
+              <button type="button" className="btn-cancelar" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn-salvar">
+                Salvar Alterações
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Nome Completo</label>
-          <input
-            type="text"
-            required
-            value={form.nome}
-            onChange={(e) => setForm({ ...form, nome: e.target.value })}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Especialidade</label>
-          <input
-            type="text"
-            required
-            value={form.especialidade}
-            onChange={(e) =>
-              setForm({ ...form, especialidade: e.target.value })
-            }
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Status</label>
-          <select
-            value={form.status}
-            onChange={(e) => setForm({ ...form, status: e.target.value })}
-          >
-            <option>Ativo</option>
-            <option>Inativo</option>
-          </select>
-        </div>
-
-        <div className="form-actions">
-          <button
-            type="button"
-            className="btn-outline"
-            onClick={() => navigate("/admin/professores")}
-          >
-            Voltar
-          </button>
-          <button type="submit" className="btn-purple">
-            Salvar Alterações
-          </button>
-        </div>
-      </form>
     </div>
   );
 }

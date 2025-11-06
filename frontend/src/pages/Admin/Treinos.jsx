@@ -1,15 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/tabelas.scss";
+import "../../styles/pages/admin/forms.scss";
+
+// ==== IMPORTS DE MODAIS ====
+import AddTreinoModal from "./AddTreinos";
+import EditTreinoModal from "./EditarTreinos";
+import DetalhesTreinoModal from "./DetalhesTreinos";
+import DeleteTreinoModal from "./ExcluirTreino";
 
 export default function Treinos() {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("todos");
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const treinos = [
+  // ==== MODAIS ====
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedTreino, setSelectedTreino] = useState(null);
+
+  // ==== LISTA DE TREINOS ====
+  const [treinos, setTreinos] = useState([
     {
       id: 1,
       nome: "Treino de Força",
@@ -52,35 +65,21 @@ export default function Treinos() {
       cor: "orange",
       data: "2025-10-20",
     },
-    {
-      id: 4,
-      nome: "Treino de Flexibilidade",
-      descricao: "Alongamentos e mobilidade",
-      tipo: "Flexibilidade",
-      duracao: "25 min",
-      nivel: "Iniciante",
-      nivelClass: "iniciante",
-      exercicios: 10,
-      atribuido: 42,
-      icone: "bi-arrows-move",
-      cor: "green",
-      data: "2025-10-28",
-    },
-  ];
+  ]);
 
-  // ====== FILTROS ======
+  // ==== FILTROS ====
   const filteredTreinos = treinos.filter((t) => {
     const nomeMatch = t.nome.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeTab === "recentes") {
       const dataTreino = new Date(t.data);
       const agora = new Date();
       const diffDias = (agora - dataTreino) / (1000 * 60 * 60 * 24);
-      return nomeMatch && diffDias <= 7; // últimos 7 dias
+      return nomeMatch && diffDias <= 7;
     }
     return nomeMatch;
   });
 
-  // ====== PAGINAÇÃO ======
+  // ==== PAGINAÇÃO ====
   const totalPages = Math.ceil(filteredTreinos.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const treinosExibidos = filteredTreinos.slice(
@@ -88,128 +87,221 @@ export default function Treinos() {
     startIndex + itemsPerPage
   );
 
+  // ==== CRUD HANDLERS ====
+  const handleAddTreino = (novo) => {
+    const novoTreino = {
+      ...novo,
+      id: Date.now(),
+      cor: "purple",
+      icone: "bi-lightning-charge",
+      nivelClass:
+        novo.nivel === "Iniciante"
+          ? "iniciante"
+          : novo.nivel === "Intermediário"
+          ? "intermediario"
+          : "avancado",
+      exercicios: novo.exercicios?.length || 0,
+      atribuido: 0,
+      data: new Date().toISOString().split("T")[0],
+    };
+    setTreinos((prev) => [novoTreino, ...prev]);
+    setShowAddModal(false);
+  };
+
+  const handleUpdateTreino = (editado) => {
+    setTreinos((prev) => prev.map((t) => (t.id === editado.id ? editado : t)));
+    setShowEditModal(false);
+  };
+
+  const handleDeleteTreino = (id) => {
+    setTreinos((prev) => prev.filter((t) => t.id !== id));
+    setShowDeleteModal(false);
+  };
+
+  const openDetailsModal = (treino) => {
+    setSelectedTreino(treino);
+    setShowDetailsModal(true);
+  };
+
+  const openEditModal = (treino) => {
+    setSelectedTreino(treino);
+    setShowEditModal(true);
+  };
+
+  const openDeleteModal = (treino) => {
+    setSelectedTreino(treino);
+    setShowDeleteModal(true);
+  };
+
   return (
-    <div className="tabela-page">
-      {/* ===== Header ===== */}
-      <div className="tabela-header">
-        <h2>Enviar Treinos</h2>
-        <div className="acoes-header">
-          <input
-            type="text"
-            placeholder="Buscar treino..."
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="add-btn" onClick={() => navigate("addtreinos")}>
-            + Criar Treino
+    <div className="admin-modal">
+      <div className="tabela-page">
+        {/* HEADER */}
+        <div className="tabela-header">
+          <h2>Gerenciar Treinos</h2>
+          <div className="acoes-header">
+            <input
+              type="text"
+              placeholder="Buscar treino..."
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="add-btn" onClick={() => setShowAddModal(true)}>
+              + Criar Treino
+            </button>
+          </div>
+        </div>
+
+        {/* TABS */}
+        <div className="tabs">
+          <button
+            className={`tab ${activeTab === "todos" ? "active" : ""}`}
+            onClick={() => setActiveTab("todos")}>
+            Todos os Treinos
+          </button>
+          <button
+            className={`tab ${activeTab === "recentes" ? "active" : ""}`}
+            onClick={() => setActiveTab("recentes")}>
+            Recentes
           </button>
         </div>
-      </div>
 
-      {/* ===== Tabs ===== */}
-      <div className="tabs">
-        <button
-          className={`tab ${activeTab === "todos" ? "active" : ""}`}
-          onClick={() => setActiveTab("todos")}
-        >
-          Todos os Treinos
-        </button>
-        <button
-          className={`tab ${activeTab === "recentes" ? "active" : ""}`}
-          onClick={() => setActiveTab("recentes")}
-        >
-          Recentes
-        </button>
-      </div>
-
-      {/* ===== Tabela ===== */}
-      <table className="tabela">
-        <thead>
-          <tr>
-            <th>Nome do Treino</th>
-            <th>Tipo</th>
-            <th>Duração</th>
-            <th>Nível</th>
-            <th>Exercícios</th>
-            <th>Atribuído</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {treinosExibidos.map((t) => (
-            <tr key={t.id}>
-              <td className="nome-treino d-flex flex-row align-center gap-10">
-                <div className={`icone ${t.cor}`}>
-                  <i className={`bi ${t.icone}`}></i>
-                </div>
-                <div className="d-flex flex-column">
-                  <strong>{t.nome}</strong>
-                  <small>{t.descricao}</small>
-                </div>
-              </td>
-              <td>{t.tipo}</td>
-              <td>{t.duracao}</td>
-              <td>
-                <span className={`nivel ${t.nivelClass}`}>{t.nivel}</span>
-              </td>
-              <td>{t.exercicios}</td>
-              <td>{t.atribuido}</td>
-              <td>
-                <button
-                  className="action-btn"
-                  onClick={() => navigate("enviartreino")}
-                  title="Enviar Treino"
-                >
-                  <i className="bi bi-play"></i>
-                </button>
-                <button
-                  className="action-btn"
-                  onClick={() => navigate("detalhestreino")}
-                  title="Detalhes do Treino"
-                >
-                  <i className="bi bi-three-dots-vertical"></i>
-                </button>
-              </td>
+        {/* TABELA */}
+        <table className="tabela">
+          <thead>
+            <tr>
+              <th>Nome do Treino</th>
+              <th>Tipo</th>
+              <th>Duração</th>
+              <th>Nível</th>
+              <th>Exercícios</th>
+              <th>Atribuído</th>
+              <th>Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {treinosExibidos.length > 0 ? (
+              treinosExibidos.map((t) => (
+                <tr key={t.id}>
+                  <td className="nome-treino">
+                    <div className={`icone ${t.cor}`}>
+                      <i className={`bi ${t.icone}`}></i>
+                    </div>
+                    <div>
+                      <strong>{t.nome}</strong>
+                      <small>{t.descricao}</small>
+                    </div>
+                  </td>
+                  <td>{t.tipo}</td>
+                  <td>{t.duracao}</td>
+                  <td>
+                    <span className={`nivel ${t.nivelClass}`}>{t.nivel}</span>
+                  </td>
+                  <td>{t.exercicios}</td>
+                  <td>{t.atribuido}</td>
+                  <td>
+                    <button
+                      className="action-btn"
+                      title="Editar"
+                      onClick={() => openEditModal(t)}>
+                      <i className="bi bi-pencil"></i>
+                    </button>
+                    <button
+                      className="action-btn"
+                      title="Excluir"
+                      onClick={() => openDeleteModal(t)}>
+                      <i className="bi bi-trash"></i>
+                    </button>
+                    <button
+                      className="action-btn"
+                      title="Detalhes"
+                      onClick={() => openDetailsModal(t)}>
+                      <i className="bi bi-three-dots"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="sem-resultado">
+                  Nenhum treino encontrado.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
-      {/* ===== Paginação ===== */}
-      <div className="paginacao">
-        <span>Itens por página:</span>
-        <select
-          value={itemsPerPage}
-          onChange={(e) => {
-            setItemsPerPage(parseInt(e.target.value));
-            setCurrentPage(1);
-          }}
-        >
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-          <option value={50}>50</option>
-        </select>
+        {/* PAGINAÇÃO */}
+        <div className="paginacao">
+          <span>Itens por página:</span>
+          <select
+            value={itemsPerPage}
+            onChange={(e) => {
+              setItemsPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
 
-        <div className="pages">
-          {[...Array(totalPages)].map((_, i) => (
+          <div className="pages">
             <button
-              key={i}
-              className={`page ${currentPage === i + 1 ? "active" : ""}`}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
+              className="page"
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}>
+              <i className="bi bi-chevron-left"></i>
             </button>
-          ))}
-          {currentPage < totalPages && (
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                className={`page ${currentPage === i + 1 ? "active" : ""}`}
+                onClick={() => setCurrentPage(i + 1)}>
+                {i + 1}
+              </button>
+            ))}
+
             <button
               className="page"
               onClick={() => setCurrentPage(currentPage + 1)}
-            >
+              disabled={currentPage === totalPages}>
               <i className="bi bi-chevron-right"></i>
             </button>
-          )}
+          </div>
         </div>
+
+        {/* MODAIS */}
+        {showAddModal && (
+          <AddTreinoModal
+            onClose={() => setShowAddModal(false)}
+            onSave={(novo) => handleAddTreino(novo)}
+          />
+        )}
+
+        {showEditModal && selectedTreino && (
+          <EditTreinoModal
+            treino={selectedTreino}
+            onClose={() => setShowEditModal(false)}
+            onSave={(editado) => handleUpdateTreino(editado)}
+          />
+        )}
+
+        {showDetailsModal && selectedTreino && (
+          <DetalhesTreinoModal
+            treino={selectedTreino}
+            onClose={() => setShowDetailsModal(false)}
+          />
+        )}
+
+        {showDeleteModal && selectedTreino && (
+          <DeleteTreinoModal
+            treino={selectedTreino}
+            onClose={() => setShowDeleteModal(false)}
+            onConfirm={() => handleDeleteTreino(selectedTreino.id)}
+          />
+        )}
       </div>
     </div>
   );

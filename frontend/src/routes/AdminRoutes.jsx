@@ -11,22 +11,7 @@ import Brindes from "./../pages/Admin/Brindes";
 import Notificacao from "./../pages/Admin/Notificacoes";
 import MeuPerfil from "../pages/Admin/AdmPerf";
 import Configuracoes from "../pages/Admin/Configuracoes";
-import AdicionarTreino from "../pages/Admin/AddTreinos";
-import EnviarTreino from "../pages/Admin/EnviarTreinos";
-import TreinoDetalhes from "../pages/Admin/TreinosDetalhes";
-import FinanceiroDetalhes from "../pages/Admin/FinanceiroDetalhe";
-import AddDesafio from "../pages/Admin/AddDesafios";
-import EnviarDesafio from "../pages/Admin/EnviarDesafios";
-import DetalhesDesafio from "../pages/Admin/DetalhesDesafios";
-import AddBrinde from "../pages/Admin/AddBrindes";
-import EditarBrinde from "../pages/Admin/EditarBrinde";
-import BrindeDetalhes from "../pages/Admin/DetalhesBrindes";
-import AddAluno from "../pages/Admin/AddAluno";
-import EditarAluno from "../pages/Admin/EditarAluno";
-import AlunoDetalhes from "../pages/Admin/DetalhesAluno";
-import AddProfessor from "../pages/Admin/AddProfessor";
-import EditarProfessor from "../pages/Admin/EditarProfessor";
-import ProfessorDetalhes from "../pages/Admin/DetalhesProfessor";
+
 export default function AdminRoutes() {
   const [auth, setAuth] = useState(null);
 
@@ -68,28 +53,7 @@ export default function AdminRoutes() {
         <Route path="notificacoes" element={<Notificacao />} />
         <Route path="perfil" element={<MeuPerfil />} />
         <Route path="configuracoes" element={<Configuracoes />} />
-        <Route path="treinos/addtreinos" element={<AdicionarTreino />} />
-        <Route path="treinos/enviartreino" element={<EnviarTreino />} />
-        <Route path="treinos/detalhestreino" element={<TreinoDetalhes />} />
-        <Route
-          path="financeiro/detalhes/:id"
-          element={<FinanceiroDetalhes />}
-        />
-        <Route path="desafios/adddesafio" element={<AddDesafio />} />
-        <Route path="desafios/enviar/:id" element={<EnviarDesafio />} />
-        <Route path="desafios/detalhes/:id" element={<DetalhesDesafio />} />
-        <Route path="brindes/criar" element={<AddBrinde />} />
-        <Route path="brindes/editar/:id" element={<EditarBrinde />} />
-        <Route path="brindes/detalhes/:id" element={<BrindeDetalhes />} />
-        <Route path="alunos/add" element={<AddAluno />} />
-        <Route path="alunos/editar/:id" element={<EditarAluno />} />
-        <Route path="alunos/detalhes/:id" element={<AlunoDetalhes />} />
-        <Route path="professores/add" element={<AddProfessor />} />
-        <Route path="professores/editar/:id" element={<EditarProfessor />} />
-        <Route
-          path="professores/detalhes/:id"
-          element={<ProfessorDetalhes />}
-        />
+
         <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>
     </Routes>

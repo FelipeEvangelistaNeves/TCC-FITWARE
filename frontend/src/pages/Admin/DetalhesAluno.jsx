@@ -1,53 +1,48 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "../../styles/pages/admin/treinos.scss";
+import "../../styles/pages/admin/forms.scss";
 
-export default function AlunoDetalhes() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  // Simula dados
-  const aluno = {
-    id,
-    nome: "Maria Silva",
-    turma: "Funcional",
-    status: "Ativo",
-    descricao:
-      "Aluno dedicada, participa das aulas de treino funcional 3x por semana e está evoluindo muito bem.",
-  };
-
+export default function DetalhesAluno({ aluno, onClose }) {
   return (
-    <div className="detalhes-treino">
-      <h2>{aluno.nome}</h2>
-      <p className="descricao">{aluno.descricao}</p>
+    <div className="admin-modal">
+      <div className="modal-overlay" onClick={onClose}>
+        <div
+          className="modal-content form-card"
+          onClick={(e) => e.stopPropagation()}>
+          <h3>Detalhes do Aluno</h3>
 
-      <div className="info">
-        <p>
-          <strong>ID:</strong> {aluno.id}
-        </p>
-        <p>
-          <strong>Turma:</strong> {aluno.turma}
-        </p>
-        <p>
-          <strong>Status:</strong> {aluno.status}
-        </p>
-      </div>
+          <div className="form-group">
+            <label>ID</label>
+            <input type="text" value={aluno.id} readOnly />
+          </div>
 
-      <div className="actions">
-        <button
-          className="btn btn-outline"
-          onClick={() => navigate("/admin/alunos")}
-        >
-          Voltar
-        </button>
-        <button
-          className="btn btn-purple"
-          onClick={() =>
-            navigate(`/admin/alunos/editar/${encodeURIComponent(id)}`)
-          }
-        >
-          Editar Aluno
-        </button>
+          <div className="form-group">
+            <label>Nome</label>
+            <input type="text" value={aluno.nome} readOnly />
+          </div>
+
+          <div className="form-group">
+            <label>Turma</label>
+            <input type="text" value={aluno.turma} readOnly />
+          </div>
+
+          <div className="form-group">
+            <label>Status</label>
+            <input type="text" value={aluno.status} readOnly />
+          </div>
+
+          {aluno.observacoes && (
+            <div className="form-group">
+              <label>Observações</label>
+              <textarea value={aluno.observacoes} readOnly />
+            </div>
+          )}
+
+          <div className="modal-actions">
+            <button className="btn-cancelar" onClick={onClose}>
+              Fechar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
