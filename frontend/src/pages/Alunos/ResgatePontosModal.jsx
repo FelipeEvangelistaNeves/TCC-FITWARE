@@ -4,6 +4,7 @@ import { use } from "react";
 
 export default function ResgatePontosModal({ onClose }) {
   const [produtos, setProdutos] = useState([]);
+  const [estoqueStatus, setEstoqueStatus] = useState("");
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
@@ -15,8 +16,16 @@ export default function ResgatePontosModal({ onClose }) {
           },
         });
         const data = await res.json();
-        if (data.sucess) {
+        if (data.success) {
           setProdutos(data.produtos);
+        }
+
+        if (produtos.pd_estoque <= 0) {
+          setEstoqueStatus("indisponível");
+        } else if (produtos.pd_estoque <= 5) {
+          setEstoqueStatus("acabando");
+        } else if (produtos.pd_estoque > 5) {
+          setEstoqueStatus("disponível");
         }
         if (!res.ok) throw new Error("Erro ao buscar dados dos produtos");
       } catch (error) {
@@ -44,6 +53,7 @@ export default function ResgatePontosModal({ onClose }) {
                 <span className="pontos-custo">{produto.pd_valor} pontos</span>
               </div>
               <button className="resgatar">Resgatar</button>
+              <span className="status"> arrumar isso dps </span>
             </div>
           ))
         ) : (

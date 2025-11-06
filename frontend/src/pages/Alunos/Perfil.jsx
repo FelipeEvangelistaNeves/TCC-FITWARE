@@ -58,7 +58,10 @@ export default function PerfilAluno() {
 
   return (
     <div className={`perfil-container ${getAbaCor()}`}>
-      <div className="perfil-header"></div>
+      <div className="perfil-header">
+        <h2></h2>
+        <i className="bi bi-gear"></i>
+      </div>
 
       <div className="perfil-info">
         <div className="perfil-avatar">{iniciais}</div>
