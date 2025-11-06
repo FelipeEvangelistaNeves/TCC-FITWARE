@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       de_progresso: { type: DataTypes.INTEGER, allowNull: false },
       de_start: { type: DataTypes.DATE, allowNull: false },
       de_end: { type: DataTypes.DATE, allowNull: false },
+      de_status: { type: DataTypes.STRING(15), allowNull: false },
     },
     {
       tableName: "desafios",

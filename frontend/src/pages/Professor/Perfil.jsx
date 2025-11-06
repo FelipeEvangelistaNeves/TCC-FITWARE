@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/professor/perfilprof.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function PerfilProf() {
-  
-  const [nome, setNome] = useState("");
+  const [professor, setProfessor] = useState([]);
   const [iniciais, setIniciais] = useState("");
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cargo, setCargo] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [cref, setCref] = useState("");
 
   useEffect(() => {
     const fetchProfessor = async () => {
@@ -27,17 +29,20 @@ export default function PerfilProf() {
         const data = await res.json();
 
         // Atualiza os estados com as informações retornadas
-        setNome(data.nome);
+        setProfessor(data.professor);
         setIniciais(data.iniciais);
-        setEmail(data.email);
-        setCargo(data.cargo);
-        setTreinos(data.treinos || []); // evita erro caso não haja treinos
       } catch (error) {
         console.error("Erro ao carregar dados do professor:", error);
       }
     };
 
     fetchProfessor();
+
+    setNome(professor.nome);
+    setEmail(professor.email);
+    setCargo(professor.cargo);
+    setTelefone(professor.telefone);
+    setCref(professor.cref);
   }, []);
 
   return (
@@ -50,8 +55,8 @@ export default function PerfilProf() {
 
       {/* Informações principais */}
       <div className="perfil-info">
-        <div className="perfil-avatar">JP</div>
-        <h3>João Paulo</h3>
+        <div className="perfil-avatar">{iniciais}</div>
+        <h3>{nome}</h3>
         <p>Personal Trainer</p>
 
         <div className="stats-grid">
@@ -81,11 +86,11 @@ export default function PerfilProf() {
           <div className="info-grid">
             <div className="info-item">
               <span className="info-label">Email</span>
-              <span className="info-value">joao.paulo@fitware.com</span>
+              <span className="info-value">{email}</span>
             </div>
             <div className="info-item">
               <span className="info-label">Telefone</span>
-              <span className="info-value">(11) 98765-4321</span>
+              <span className="info-value">{telefone}</span>
             </div>
             <div className="info-item">
               <span className="info-label">Especialidades</span>
@@ -139,7 +144,7 @@ export default function PerfilProf() {
                 <p className="cert-titulo">
                   CREF - Conselho Regional de Educação Física
                 </p>
-                <p className="cert-detalhe">Nº 123456-6/SP</p>
+                <p className="cert-detalhe">{cref}</p>
               </div>
             </div>
             <div className="cert-item">

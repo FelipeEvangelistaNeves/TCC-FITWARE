@@ -28,7 +28,8 @@ const adminRoutes = require("./router/adminRoutes");
 const authRoutes = require("./router/authRoutes");
 const treinoRoutes = require("./router/treinoRoutes");
 const desafioRoutes = require("./router/desafioRoutes");
-
+const avisosRoutes = require("./router/avisosRoutes");
+const produtosRoutes = require("./router/produtosRoutes");
 // Logins
 app.use("/aluno", alunoRoutes);
 app.use("/professor", professorRoutes);
@@ -39,6 +40,13 @@ app.use("/", authRoutes);
 app.use("/api/alunos", alunoRoutes);
 app.use("/api/treinos", treinoRoutes);
 app.use("/api/desafios", desafioRoutes);
+
+//avisos
+app.use("/api/Allavisos", avisosRoutes);
+
+//brindes / produtos
+app.use("/api/produtos", produtosRoutes);
+
 // Swagger docs
 swaggerDocs(app);
 

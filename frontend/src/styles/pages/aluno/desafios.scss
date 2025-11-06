@@ -20,44 +20,44 @@
 }
 
 .summary-cards {
-    display: flex;
-    gap: 15px;
-    padding: 0 0px 25px;
-    overflow-x: auto;
+  display: flex;
+  gap: 15px;
+  padding: 0 0px 25px;
+  overflow-x: auto;
 
-    .summary-card {
-      margin-top: 20px;
-      flex: 1;
-      min-width: 100px;
-      background: $surface-1;
-      border-radius: $radius-md;
-      padding: 20px 15px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      border: 1px solid $border-color;
-      box-shadow: $shadow-1;
+  .summary-card {
+    margin-top: 20px;
+    flex: 1;
+    min-width: 100px;
+    background: $surface-1;
+    border-radius: $radius-md;
+    padding: 20px 15px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid $border-color;
+    box-shadow: $shadow-1;
 
-      h3 {
-        font-size: 14px;
-        font-weight: 500;
-        color: $text-2;
-        margin: 0 0 10px 0;
-      }
+    h3 {
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-2;
+      margin: 0 0 10px 0;
+    }
 
-      .card-number {
-        font-size: 28px;
-        font-weight: 700;
-        color: $text;
-        margin-bottom: 5px;
-      }
+    .card-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: $text;
+      margin-bottom: 5px;
+    }
 
-      .card-subtitle {
-        font-size: 12px;
-        color: $accent-yellow;
-        font-weight: 500;
-      }
+    .card-subtitle {
+      font-size: 12px;
+      color: $accent-yellow;
+      font-weight: 500;
     }
   }
+}
 
 /* Card de desafio */
 .desafio-card {
@@ -192,58 +192,175 @@
 
 /* Responsividade */
 @media (min-width: 768px) {
+  .summary-cards {
+    padding: 0 15px 20px;
+    gap: 12px;
 
-    .summary-cards {
-      padding: 0 15px 20px;
-      gap: 12px;
+    .summary-card {
+      padding: 15px 12px;
 
-      .summary-card {
-        padding: 15px 12px;
+      .card-number {
+        font-size: 24px;
+      }
+    }
+  }
 
-        .card-number {
-          font-size: 24px;
+  .workouts-section {
+    padding: 0 15px;
+
+    .section-header {
+      gap: 8px;
+
+      h2 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+
+      .filter-btn {
+        margin: 2px;
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: 60px;
+      }
+    }
+
+    .workout-card {
+      padding: 15px;
+
+      .workout-header {
+        margin-bottom: 15px;
+
+        h3 {
+          font-size: 16px;
+        }
+      }
+
+      .exercises-list {
+        margin-bottom: 15px;
+
+        .exercise-item {
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+}
+
+/* ==== Novo layout de cards de desafio ==== */
+
+.desafios-section {
+  h2 {
+    font-size: $font-size-heading;
+    color: $text;
+    margin-bottom: $spacing-md;
+  }
+
+  .desafio-card {
+    background: $surface-2;
+    border-radius: $radius-md;
+    box-shadow: $shadow-1;
+    padding: $spacing-md;
+    margin-bottom: $spacing-md;
+    border: 1px solid $border-color;
+    transition: transform 0.2s ease, background 0.3s;
+
+    &:hover {
+      transform: translateY(-3px);
+      background: $surface-2;
+    }
+
+    &.ativo {
+      .status-badge {
+        background: $purple-dark;
+      }
+
+      .btn.purple {
+        background: $purple-dark;
+        color: $white;
+
+        &:hover {
+          background: lighten($purple-dark, 5%);
         }
       }
     }
 
-    .workouts-section {
-      padding: 0 15px;
+    &.inativo {
+      opacity: 0.7;
 
-      .section-header {
+      .btn.gray {
+        background: $surface-3;
+        color: $text-2;
+        cursor: not-allowed;
+      }
+    }
+
+    .desafio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacing-xs;
+
+      .titulo-wrapper {
+        display: flex;
+        align-items: center;
         gap: 8px;
 
-        h2 {
-          font-size: 18px;
-          margin-bottom: 12px;
+        .trophy-icon {
+          color: $accent-yellow;
+          font-size: 20px;
         }
 
-        .filter-btn {
-          margin: 2px;
-          padding: 6px 12px;
-          font-size: 12px;
-          min-width: 60px;
+        h3 {
+          font-size: $font-size-base;
+          font-weight: 600;
+          color: $text;
+          margin: 0;
         }
       }
 
-      .workout-card {
-        padding: 15px;
-
-        .workout-header {
-          margin-bottom: 15px;
-
-          h3 {
-            font-size: 16px;
-          }
-        }
-
-        .exercises-list {
-          margin-bottom: 15px;
-
-          .exercise-item {
-            padding: 10px 0;
-          }
-        }
+      .status-badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: $font-size-small;
+        color: $white;
+        font-weight: 500;
       }
     }
 
+    .descricao {
+      color: $text-2;
+      font-size: $font-size-base;
+      margin: $spacing-xs 0 $spacing-sm 0;
+    }
+
+    .desafio-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: $spacing-xs;
+
+      .pontos {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: $accent-yellow;
+        font-weight: 500;
+        font-size: $font-size-small;
+
+        .pontos-icon {
+          color: $accent-yellow;
+        }
+      }
+
+      .btn {
+        border: none;
+        border-radius: 20px;
+        padding: 6px 16px;
+        font-size: $font-size-small;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+    }
+  }
 }

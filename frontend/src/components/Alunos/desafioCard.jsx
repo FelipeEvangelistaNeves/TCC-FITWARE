@@ -1,58 +1,48 @@
-// src/components/DesafioCard.jsx
-
 import React, { useState } from "react";
 import { Trophy, CheckCircle, PlayCircle } from "react-bootstrap-icons";
 import "./../../styles/pages/aluno/desafios.scss";
+import { FaTrophy } from "react-icons/fa";
 
-// Este componente recebe as props do desafio individual
-export default function DesafioCard({ titulo, descricao, pontos }) { 
-    
-    // Mantenha os estados de controle do desafio individual
-    const [status, setStatus] = useState("disponivel"); 
+export default function DesafioCard({ titulo, descricao, pontos }) {
+  const [status, setStatus] = useState("Inativo");
 
-    const handleAction = () => {
-        if (status === "disponivel") setStatus("ativo");
-        else if (status === "ativo") setStatus("concluido");
-    };
+  const handleAction = () => {
+    if (status === "Inativo") setStatus("Ativo");
+    else if (status === "Ativo") setStatus("concluido");
+  };
 
-    const getButtonText = () => {
-        if (status === "disponivel") return "Iniciar";
-        if (status === "ativo") return "Registrar";
-        return "Concluído";
-    };
+  const getButtonText = () => {
+    if (status === "Inativo") return "Iniciar";
+    if (status === "Ativo") return "Registrar";
+    return "Concluído";
+  };
 
-    const getButtonClass = () => {
-        if (status === "disponivel") return "btn-iniciar";
-        if (status === "ativo") return "btn-registrar";
-        return "btn-concluido";
-    };
+  const getButtonClass = () => {
+    if (status === "Inativo") return "btn-iniciar";
+    if (status === "Ativo") return "btn-registrar";
+    return "btn-concluido";
+  };
 
-    return (
-        // O card de um único desafio
-        <div className={`desafio-card ${status}`}>
-            <div className="icon-section">
-                <Trophy className="trophy-icon" />
-            </div>
-
-            <div className="text-section">
-                <h3>{titulo}</h3>
-                <p>{descricao}</p>
-                <span className="pontos">+{pontos} pts</span>
-            </div>
-
-            <div className="action-section">
-                {status !== "concluido" ? (
-                    <button
-                        className={`action-btn ${getButtonClass()}`}
-                        onClick={handleAction}
-                    >
-                        {status === "disponivel" ? <PlayCircle /> : <CheckCircle />}
-                        {getButtonText()}
-                    </button>
-                ) : (
-                    <span className="status-final">✅ Concluído</span>
-                )}
-            </div>
+  return (
+    <div className={`desafio-card ${status}`}>
+      <div className="desafio-header">
+        <div className="titulo-wrapper">
+          <FaTrophy className="trophy-icon" />
+          <h3>{titulo}</h3>
         </div>
-    );
+        <span className="status-badge">Em andamento</span>
+      </div>
+
+      <p className="descricao">{descricao}</p>
+
+      <div className="desafio-footer">
+        <div className="pontos">
+          <FaTrophy className="pontos-icon" />
+          <span>{pontos} pontos</span>
+        </div>
+
+        <button className="btn purple">Registrar</button>
+      </div>
+    </div>
+  );
 }

@@ -68,18 +68,18 @@ const dataAluno = async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const alunoId = decoded.id; 
+    const alunoId = decoded.id;
 
     const aluno = await Aluno.findByPk(alunoId, {
       attributes: { exclude: ["al_senha"] },
       include: [
         {
           model: Turma, // Inclui o modelo Turma
-          attributes: ['tu_id', 'tu_nome'], // Seleciona apenas o ID e o Nome da Turma
+          attributes: ["tu_id", "tu_nome"], // Seleciona apenas o ID e o Nome da Turma
           through: {
             attributes: [], // Opcional: Não incluir campos da tabela de ligação (alunos_turmas)
-          }
-        }
+          },
+        },
       ],
     });
 
@@ -98,7 +98,7 @@ const dataAluno = async (req, res) => {
       email: aluno.al_email,
       pontos: aluno.al_pontos,
       iniciais,
-      turmas: aluno.Turmas, 
+      turmas: aluno.Turmas,
     });
   } catch (err) {
     console.error("Erro ao buscar dados do aluno:", err);

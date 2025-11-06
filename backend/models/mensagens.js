@@ -3,14 +3,17 @@ module.exports = (sequelize, DataTypes) => {
     "Mensagem",
     {
       co_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-      al_id: { type: DataTypes.INTEGER, allowNull: false },
-      prof_id: { type: DataTypes.INTEGER, allowNull: false },
+      remetente_id: { type: DataTypes.INTEGER, allowNull: false },
+      destinatario_id: { type: DataTypes.INTEGER, allowNull: false },
+      me_conteudo: { type: DataTypes.TEXT, allowNull: false },
+      me_tempo: { type: DataTypes.DATE, allowNull: false },
+      me_lida: { type: DataTypes.BOOLEAN, allowNull: false },
     },
     {
       tableName: "mensagens",
       timestamps: false,
     }
   );
-  
+
   return Mensagem;
 };

@@ -31,4 +31,6 @@ router.post("/login", loginAluno);
 
 router.get("/", dataAluno);
 
+// router.get("/avisos", dataAvisos);
+
 module.exports = router;

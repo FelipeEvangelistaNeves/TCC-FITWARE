@@ -55,7 +55,7 @@ const loginProfessor = async (req, res) => {
     // Envia token como cookie HTTP-only
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "lax",
       maxAge: 1000 * 60 * 60, // 1 hora
     });
@@ -95,22 +95,7 @@ const dataProfessor = async (req, res) => {
 
     // 🔹 Busca o professor e inclui seus treinos e exercícios
     const professor = await Funcionario.findByPk(professorId, {
-      attributes: { exclude: ["fu_senha"] },
-      include: [
-        {
-          model: Treino,
-          attributes: ["tr_id", "tr_nome", "tr_descricao", "tr_dificuldade"],
-          include: [
-            {
-              model: Exercicio,
-              attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
-              through: {
-                attributes: ["te_series", "te_repeticoes", "te_descanso"],
-              },
-            },
-          ],
-        },
-      ],
+      attributes: ["fu_nome", "fu_email", "fu_cargo", "fu_telefone", "fu_cref"],
     });
 
     if (!professor) {
@@ -125,16 +110,22 @@ const dataProfessor = async (req, res) => {
 
     // 🔹 Resposta JSON final
     res.json({
-      nome: professor.fu_nome,
-      email: professor.fu_email,
-      cargo: professor.fu_cargo,
-      telefone: professor.fu_telefone,
+      professor: {
+        nome: professor.fu_nome,
+        email: professor.fu_email,
+        cargo: professor.fu_cargo,
+        telefone: professor.fu_telefone,
+        cref: professor.fu_cref,
+      },
       iniciais,
-      treinos: professor.Treinos || [],
     });
+
+    console.log(professor);
   } catch (err) {
     console.error("Erro ao buscar dados do professor:", err);
-    return res.status(500).json({ message: "Erro ao buscar dados do professor." });
+    return res
+      .status(500)
+      .json({ message: "Erro ao buscar dados do professor." });
   }
 };
 

@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       pd_nome: { type: DataTypes.STRING(120), allowNull: false },
       pd_valor: { type: DataTypes.INTEGER, allowNull: false },
       pd_descricao: { type: DataTypes.STRING(200) },
+      pd_status: { type: DataTypes.STRING(15), allowNull: false },
+      pd_estoque: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       tableName: "produtos",

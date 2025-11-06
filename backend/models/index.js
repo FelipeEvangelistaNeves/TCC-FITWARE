@@ -40,7 +40,7 @@ Funcionario.hasMany(Turma, { foreignKey: "tu_prof_id" });
 Turma.belongsTo(Funcionario, { foreignKey: "tu_prof_id" });
 
 // 🔹 Aluno ↔ Conversa (1:N)
-Aluno.hasMany(Conversa, { foreignKey: "al_id" }); 
+Aluno.hasMany(Conversa, { foreignKey: "al_id" });
 Conversa.belongsTo(Aluno, { foreignKey: "al_id" });
 
 // 🔹 Professor (Funcionario) ↔ Conversa (1:N)
@@ -107,7 +107,6 @@ Aluno.findByPk = async function (id, options = {}) {
   return await Aluno.findOne({ where: { al_id: id }, ...options });
 };
 
-
 // Funcionarios
 
 Funcionario.findByEmail = async function (email) {
@@ -117,7 +116,6 @@ Funcionario.findByEmail = async function (email) {
 Funcionario.findByPk = async function (id) {
   return await Funcionario.findOne({ where: { fu_id: id } });
 };
-
 
 // Treinos
 
@@ -145,17 +143,20 @@ module.exports = {
   sequelize,
   Sequelize,
   Aluno,
-  Funcionario,
-  Produto,
-  Desafio,
-  Pagamento,
-  Modalidade,
-  Horario,
-  Turma,
-  AlunoTurma,
   AlunoDesafio,
   AlunoTreino,
-  Treino,
+  AlunoTurma,
+  Aviso,
+  Conversa,
+  Desafio,
   Exercicio,
+  Funcionario,
+  Horario,
+  Mensagem,
+  Modalidade,
+  Pagamento,
+  Produto,
+  Treino,
   TreinoExercicio,
+  Turma,
 };

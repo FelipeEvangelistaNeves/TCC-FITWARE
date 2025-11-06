@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       al_telefone: { type: DataTypes.STRING(11) },
       al_dtnasc: { type: DataTypes.DATEONLY, allowNull: false },
       al_pontos: { type: DataTypes.INTEGER, allowNull: false },
+      al_treinos_completos: { type: DataTypes.INTEGER, allowNull: false },
+      al_status: { type: DataTypes.STRING(10), allowNull: false },
     },
     {
       tableName: "alunos",

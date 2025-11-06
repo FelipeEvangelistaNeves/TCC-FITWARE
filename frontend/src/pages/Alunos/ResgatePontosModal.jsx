@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/resgatePontos.scss";
+import { use } from "react";
 
 export default function ResgatePontosModal({ onClose }) {
-  
+  const [produtos, setProdutos] = useState([]);
+  useEffect(() => {
+    const fetchProdutos = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/produtos", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json; charset=utf-8",
+          },
+        });
+        const data = await res.json();
+        if (data.sucess) {
+          setProdutos(data.produtos);
+        }
+        if (!res.ok) throw new Error("Erro ao buscar dados dos produtos");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProdutos();
+  }, []);
   return (
     <div className="resgate-modal">
       <div className="resgate-header">
@@ -13,33 +35,20 @@ export default function ResgatePontosModal({ onClose }) {
       </div>
       <div className="resgate-opcoes">
         <h3>Opções de Resgate</h3>
-
-        <div className="resgate-card purple">
-          <div className="info">
-            <h4>Sessão de Treino Personalizada</h4>
-            <p>Uma sessão exclusiva com seu personal trainer para focar em seus objetivos específicos.</p>
-            <span className="pontos-custo">500 pontos</span>
-          </div>
-          <button className="resgatar">Resgatar</button>
-        </div>
-
-        <div className="resgate-card blue">
-          <div className="info">
-            <h4>Consulta com Nutricionista</h4>
-            <p>Uma consulta com nutricionista para criar um plano alimentar personalizado para seus objetivos.</p>
-            <span className="pontos-custo">400 pontos</span>
-          </div>
-          <button className="resgatar">Resgatar</button>
-        </div>
-
-        <div className="resgate-card green">
-          <div className="info">
-            <h4>Desconto em Produtos</h4>
-            <p>15% de desconto em produtos da loja parceira (suplementos, roupas e acessórios).</p>
-            <span className="pontos-custo">300 pontos</span>
-          </div>
-          <button className="resgatar">Resgatar</button>
-        </div>
+        {produtos && produtos.length > 0 ? (
+          produtos.map((produto) => (
+            <div className="resgate-card purple">
+              <div className="info">
+                <h4>{produto.pd_nome}</h4>
+                <p>{produto.pd_descricao}</p>
+                <span className="pontos-custo">{produto.pd_valor} pontos</span>
+              </div>
+              <button className="resgatar">Resgatar</button>
+            </div>
+          ))
+        ) : (
+          <p>Nenhum produto disponível para resgate no momento.</p>
+        )}
       </div>
     </div>
   );

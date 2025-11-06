@@ -23,20 +23,6 @@ export default function HeaderAluno({ title }) {
     fetchAlunos();
   }, []);
 
-  // 🔒 Bloqueia o scroll da página principal quando o popup está aberto
-  useEffect(() => {
-    if (showDropdown) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    // limpa o efeito se o componente desmontar
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [showDropdown]);
-
   async function handleLogout() {
     try {
       const res = await fetch("http://localhost:3000/logout", {
@@ -49,6 +35,29 @@ export default function HeaderAluno({ title }) {
       console.error("Erro ao fazer logout:", err);
     }
   }
+
+  const token = localStorage.getItem("token");
+
+  const [avisos, setAvisos] = useState([]);
+  useEffect(() => {
+    const fetchAvisos = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/Allavisos", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        if (data.success) {
+          setAvisos(data.avisos);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar avisos:", error);
+      }
+    };
+    fetchAvisos();
+  }, []);
 
   return (
     <>
@@ -82,18 +91,28 @@ export default function HeaderAluno({ title }) {
               <span>Voltar</span>
             </button>
             <h6>Notificações</h6>
-            <button className="back-btn" onClick={() => setShowDropdown(false)}>
-              <ArrowLeft size={20} />
-              <span>Voltar</span>
-            </button>
           </div>
 
           <div className="notification-list">
-            {Array.from({ length: 30 }).map((_, i) => (
-              <div key={i} className="notification-item">
-                Notificação {i + 1} — João Paulo
+            {avisos && avisos.length > 0 ? (
+              avisos.map((aviso, index) => (
+                <div key={aviso.av_id} className="notification-item">
+                  <h6 className="notification-title">
+                    {aviso.av_titulo ?? "Aviso"}
+                  </h6>
+                  <p className="notification-body">{aviso.av_mensagem}</p>
+                  {aviso.av_data_inicio && (
+                    <time className="notification-time">
+                      {new Date(aviso.av_data_inicio).toLocaleString()}
+                    </time>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="notification-item no-notifications">
+                Sem notificações
               </div>
-            ))}
+            )}
           </div>
         </div>
       )}

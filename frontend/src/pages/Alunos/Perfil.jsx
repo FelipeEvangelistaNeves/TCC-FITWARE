@@ -4,12 +4,11 @@ import ResgatePontosModal from "./ResgatePontosModal";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function PerfilAluno() {
-
   const [nome, setNome] = useState("");
   const [iniciais, setIniciais] = useState("");
-  const[pontos, setPontos] = useState(0);
-  const[email, setEmail] = useState("");
-  const[turma, setTurma] = useState("");
+  const [pontos, setPontos] = useState(0);
+  const [email, setEmail] = useState("");
+  const [turma, setTurma] = useState("");
   useEffect(() => {
     const fetchAlunos = async () => {
       try {
@@ -57,13 +56,9 @@ export default function PerfilAluno() {
     return pontos + " Pontos";
   };
 
-
   return (
     <div className={`perfil-container ${getAbaCor()}`}>
-      <div className="perfil-header">
-        <h2>Meu Perfil</h2>
-        <i className="bi bi-gear"></i>
-      </div>
+      <div className="perfil-header"></div>
 
       <div className="perfil-info">
         <div className="perfil-avatar">{iniciais}</div>
