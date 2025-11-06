@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { loginAluno, dataAluno } = require("../controllers/alunoController");
+const {
+  loginAluno,
+  dataAluno,
+  atualizarAluno,
+} = require("../controllers/alunoController");
+const { verifyToken } = require("../middleware/auth");
 
 /**
  * @swagger
@@ -31,6 +36,7 @@ router.post("/login", loginAluno);
 
 router.get("/", dataAluno);
 
-// router.get("/avisos", dataAvisos);
+router.get("/me", verifyToken, dataAluno);
 
+router.put("/update", verifyToken, atualizarAluno);
 module.exports = router;

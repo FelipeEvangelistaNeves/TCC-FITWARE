@@ -5,8 +5,8 @@ const { verifyToken, roleMiddleware } = require("../middleware/auth");
 const {
   loginProfessor,
   dataProfessor,
+  atualizarProfessor,
 } = require("../controllers/professorController");
-const LoggerMessages = require("../loggerMessages");
 
 /**
  * @swagger
@@ -57,4 +57,6 @@ router.post("/login", loginProfessor);
 
 router.get("/fetch", verifyToken, roleMiddleware(["Professor"]), dataProfessor);
 
+router.get("/me", dataProfessor);
+router.put("/update", verifyToken, atualizarProfessor);
 module.exports = router;

@@ -50,8 +50,8 @@ router.post("/login", loginAdmin);
  */
 router.get(
   "/admin",
-  verifyToken, // middleware que valida JWT no cookie e popula req.user
-  roleMiddleware(["Secretario"]), // garante que req.user.role === "Professor"
+  verifyToken,
+  roleMiddleware(["Secretario"]),
   (req, res) => {
     res.json({
       message: LoggerMessages.ADMIN_SUCCESS || "Acesso autorizado",

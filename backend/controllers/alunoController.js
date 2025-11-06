@@ -2,10 +2,11 @@ const { Aluno, Turma } = require("../models");
 const LoggerMessages = require("../loggerMessages");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({
-  quiet: true,
-});
+require("dotenv").config({ quiet: true });
 
+/**
+ * 🔹 Login do aluno
+ */
 const loginAluno = async (req, res) => {
   const { email, password } = req.body;
 
@@ -35,7 +36,7 @@ const loginAluno = async (req, res) => {
       httpOnly: true,
       secure: false, // true apenas em produção com HTTPS
       sameSite: "lax",
-      maxAge: 3600000, // 1h
+      maxAge: 3600000,
     });
 
     console.log(LoggerMessages.LOGIN_SUCCESS, aluno.al_email);
@@ -58,14 +59,16 @@ const loginAluno = async (req, res) => {
   }
 };
 
+/**
+ * 🔹 Dados do aluno logado
+ */
 const dataAluno = async (req, res) => {
   try {
     const token = req.cookies.token;
-    if (!token) {
+    if (!token)
       return res
         .status(401)
         .json({ message: "Token ausente. Faça login novamente." });
-    }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const alunoId = decoded.id;
@@ -74,25 +77,21 @@ const dataAluno = async (req, res) => {
       attributes: { exclude: ["al_senha"] },
       include: [
         {
-          model: Turma, // Inclui o modelo Turma
-          attributes: ["tu_id", "tu_nome"], // Seleciona apenas o ID e o Nome da Turma
-          through: {
-            attributes: [], // Opcional: Não incluir campos da tabela de ligação (alunos_turmas)
-          },
+          model: Turma,
+          attributes: ["tu_id", "tu_nome"],
+          through: { attributes: [] },
         },
       ],
     });
 
-    if (!aluno) {
+    if (!aluno)
       return res.status(404).json({ message: "Aluno não encontrado." });
-    }
 
     const nomeAluno = aluno.al_nome || "";
     const [firstName, lastName] = nomeAluno.split(" ");
     const iniciais =
       (firstName ? firstName[0] : "") + (lastName ? lastName[0] : "");
 
-    // 🚨 MODIFICAÇÃO CHAVE: Adicionar a propriedade 'turmas' à resposta JSON
     res.json({
       nome: aluno.al_nome,
       email: aluno.al_email,
@@ -106,9 +105,44 @@ const dataAluno = async (req, res) => {
   }
 };
 
-// ---
+/**
+ * 🔹 Atualizar informações do aluno logado
+ */
+const atualizarAluno = async (req, res) => {
+  try {
+    const alunoId = req.user.id;
+    const { nome, email } = req.body;
 
-module.exports = {
-  loginAluno,
-  dataAluno,
+    if (!nome || !email)
+      return res
+        .status(400)
+        .json({ success: false, message: "Preencha todos os campos." });
+
+    const aluno = await Aluno.findByPk(alunoId);
+    if (!aluno)
+      return res
+        .status(404)
+        .json({ success: false, message: "Aluno não encontrado." });
+
+    aluno.al_nome = nome;
+    aluno.al_email = email;
+    await aluno.save();
+
+    res.json({
+      success: true,
+      message: "Dados atualizados com sucesso!",
+      aluno: {
+        id: aluno.al_id,
+        nome: aluno.al_nome,
+        email: aluno.al_email,
+      },
+    });
+  } catch (error) {
+    console.error("Erro ao atualizar aluno:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Erro interno ao atualizar dados." });
+  }
 };
+
+module.exports = { loginAluno, dataAluno, atualizarAluno };

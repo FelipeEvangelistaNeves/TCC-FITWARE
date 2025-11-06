@@ -80,6 +80,9 @@ const loginProfessor = async (req, res) => {
   }
 };
 
+/**
+ * 🔹 Buscar dados do professor logado (pelo token)
+ */
 const dataProfessor = async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -89,47 +92,88 @@ const dataProfessor = async (req, res) => {
         .json({ message: "Token ausente. Faça login novamente." });
     }
 
-    // 🔹 Decodifica o token JWT
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const professorId = decoded.id;
+    const funcionarioId = decoded.id;
 
-    // 🔹 Busca o professor e inclui seus treinos e exercícios
-    const professor = await Funcionario.findByPk(professorId, {
-      attributes: ["fu_nome", "fu_email", "fu_cargo", "fu_telefone", "fu_cref"],
+    const funcionario = await Funcionario.findByPk(funcionarioId, {
+      attributes: { exclude: ["fu_senha"] },
     });
 
-    if (!professor) {
-      return res.status(404).json({ message: "Professor não encontrado." });
+    if (!funcionario) {
+      return res.status(404).json({ message: "Funcionário não encontrado." });
     }
 
-    // 🔹 Gera iniciais do nome
-    const nomeProfessor = professor.fu_nome || "";
-    const [firstName, lastName] = nomeProfessor.split(" ");
+    const nomeFuncionario = funcionario.fu_nome || "";
+    const [firstName, lastName] = nomeFuncionario.split(" ");
     const iniciais =
       (firstName ? firstName[0] : "") + (lastName ? lastName[0] : "");
 
-    // 🔹 Resposta JSON final
     res.json({
-      professor: {
-        nome: professor.fu_nome,
-        email: professor.fu_email,
-        cargo: professor.fu_cargo,
-        telefone: professor.fu_telefone,
-        cref: professor.fu_cref,
-      },
+      nome: funcionario.fu_nome,
+      email: funcionario.fu_email,
+      cargo: funcionario.fu_cargo,
+      cpf: funcionario.fu_cpf,
+      telefone: funcionario.fu_telefone,
       iniciais,
     });
-
-    console.log(professor);
   } catch (err) {
-    console.error("Erro ao buscar dados do professor:", err);
+    console.error("Erro ao buscar dados do funcionário:", err);
     return res
       .status(500)
-      .json({ message: "Erro ao buscar dados do professor." });
+      .json({ message: "Erro ao buscar dados do funcionário." });
+  }
+};
+
+/**
+ * 🔹 Atualizar informações do professor logado
+ */
+const atualizarProfessor = async (req, res) => {
+  try {
+    const professorId = req.user.id; // vem do verifyToken
+    const { nome, email, telefone, cargo } = req.body;
+
+    if (!nome || !email) {
+      return res.status(400).json({
+        success: false,
+        message: "Preencha todos os campos obrigatórios.",
+      });
+    }
+
+    const funcionario = await Funcionario.findByPk(professorId);
+    if (!funcionario) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Funcionário não encontrado." });
+    }
+
+    funcionario.fu_nome = nome;
+    funcionario.fu_email = email;
+    funcionario.fu_telefone = telefone || funcionario.fu_telefone;
+    funcionario.fu_cargo = cargo || funcionario.fu_cargo;
+
+    await funcionario.save();
+
+    res.json({
+      success: true,
+      message: "Dados atualizados com sucesso!",
+      funcionario: {
+        id: funcionario.fu_id,
+        nome: funcionario.fu_nome,
+        email: funcionario.fu_email,
+        telefone: funcionario.fu_telefone,
+        cargo: funcionario.fu_cargo,
+      },
+    });
+  } catch (error) {
+    console.error("Erro ao atualizar funcionário:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Erro interno ao atualizar dados." });
   }
 };
 
 module.exports = {
   loginProfessor,
   dataProfessor,
+  atualizarProfessor,
 };

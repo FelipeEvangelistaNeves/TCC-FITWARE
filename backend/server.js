@@ -12,7 +12,7 @@ const swaggerDocs = require("./swagger");
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
@@ -38,6 +38,7 @@ app.use("/", authRoutes);
 
 // API Fetch
 app.use("/api/alunos", alunoRoutes);
+app.use("/api/professores", professorRoutes);
 app.use("/api/treinos", treinoRoutes);
 app.use("/api/desafios", desafioRoutes);
 

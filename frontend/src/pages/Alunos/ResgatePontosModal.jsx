@@ -30,7 +30,7 @@ export default function ResgatePontosModal({ onClose }) {
       });
       const data = await res.json();
       if (data.success) {
-        setSaldo(data.al_pontos);
+        setSaldo(data.pontos);
       }
     } catch (err) {
       console.error(err);
