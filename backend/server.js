@@ -38,7 +38,7 @@ app.use("/", authRoutes);
 
 // API Fetch
 app.use("/api/alunos", alunoRoutes);
-app.use("/api/professores", professorRoutes);
+app.use("/api/professor", professorRoutes);
 app.use("/api/treinos", treinoRoutes);
 app.use("/api/desafios", desafioRoutes);
 

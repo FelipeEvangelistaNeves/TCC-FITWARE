@@ -4,7 +4,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import ConfigProf from "../../components/Professor/configProf";
 
 export default function PerfilProf() {
-  const [professor, setProfessor] = useState([]);
   const [iniciais, setIniciais] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -17,7 +16,7 @@ export default function PerfilProf() {
   useEffect(() => {
     const fetchProfessor = async () => {
       try {
-        const res = await fetch("http://localhost:3000/professor/fetch", {
+        const res = await fetch("http://localhost:3000/api/professor/me", {
           method: "GET",
           credentials: "include", // envia cookie JWT automaticamente
           headers: {
@@ -33,15 +32,15 @@ export default function PerfilProf() {
 
         const data = await res.json();
 
+        console.log(data);
         // Atualiza os estados com as informações retornadas
-        setProfessor(data.professor);
         setIniciais(data.iniciais);
 
-        setNome(data.professor.nome);
-        setEmail(data.professor.email);
-        setCargo(data.professor.cargo);
-        setTelefone(data.professor.telefone);
-        setCref(data.professor.cref);
+        setNome(data.nome);
+        setEmail(data.email);
+        setCargo(data.cargo);
+        setTelefone(data.telefone);
+        setCref(data.cref);
       } catch (error) {
         console.error("Erro ao carregar dados do professor:", error);
       }

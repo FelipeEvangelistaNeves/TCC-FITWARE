@@ -12,7 +12,7 @@ export default function ContaProf({ isOpen, onClose }) {
   // 🔹 Buscar dados do professor ao abrir o modal
   useEffect(() => {
     if (isOpen) {
-      fetch("http://localhost:3000/api/professores/me", {
+      fetch("http://localhost:3000/api/professor/me", {
         method: "GET",
         credentials: "include", // inclui o cookie com o token
       })
@@ -42,7 +42,7 @@ export default function ContaProf({ isOpen, onClose }) {
 
   const handleSave = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/professores/update", {
+      const res = await fetch("http://localhost:3000/api/professor/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

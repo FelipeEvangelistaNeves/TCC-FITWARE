@@ -93,27 +93,28 @@ const dataProfessor = async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const funcionarioId = decoded.id;
+    const professorId = decoded.id;
 
-    const funcionario = await Funcionario.findByPk(funcionarioId, {
+    const professor = await Funcionario.findByPk(professorId, {
       attributes: { exclude: ["fu_senha"] },
     });
 
-    if (!funcionario) {
+    if (!professor) {
       return res.status(404).json({ message: "Funcionário não encontrado." });
     }
 
-    const nomeFuncionario = funcionario.fu_nome || "";
-    const [firstName, lastName] = nomeFuncionario.split(" ");
+    const nomeProfessor = professor.fu_nome || "";
+    const [firstName, lastName] = nomeProfessor.split(" ");
     const iniciais =
       (firstName ? firstName[0] : "") + (lastName ? lastName[0] : "");
 
     res.json({
-      nome: funcionario.fu_nome,
-      email: funcionario.fu_email,
-      cargo: funcionario.fu_cargo,
-      cpf: funcionario.fu_cpf,
-      telefone: funcionario.fu_telefone,
+      nome: professor.fu_nome,
+      email: professor.fu_email,
+      cargo: professor.fu_cargo,
+      cpf: professor.fu_cpf,
+      telefone: professor.fu_telefone,
+      cref: professor.fu_cref,
       iniciais,
     });
   } catch (err) {

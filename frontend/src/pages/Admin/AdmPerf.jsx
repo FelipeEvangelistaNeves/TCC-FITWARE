@@ -4,8 +4,8 @@ import "../../styles/pages/admin/meuperfil.scss";
 export default function MeuPerfil() {
   const [editando, setEditando] = useState(false);
   const [user, setUser] = useState({
-    nome: "Fernanda Lima",
-    email: "fernanda@fitware.com",
+    nome: "Ana Leonel",
+    email: "ana@fitware.com",
     cpf: "987.654.321-99",
     telefone: "(11) 95555-4444",
     dtNasc: "1990-08-20",

@@ -55,8 +55,6 @@ router.post("/login", loginProfessor);
  *         description: Não autorizado
  */
 
-router.get("/fetch", verifyToken, roleMiddleware(["Professor"]), dataProfessor);
-
-router.get("/me", dataProfessor);
+router.get("/me", verifyToken, dataProfessor);
 router.put("/update", verifyToken, atualizarProfessor);
 module.exports = router;
