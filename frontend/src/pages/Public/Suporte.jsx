@@ -46,6 +46,7 @@ const Suporte = () => {
       {/* FAQ Expandível */}
       <section className="suporte-faq container">
         <h2>Perguntas Frequentes</h2>
+
         <div className="faq-item">
           <h4>Como redefinir minha senha?</h4>
           <p>
@@ -53,6 +54,7 @@ const Suporte = () => {
             instruções enviadas por e-mail.
           </p>
         </div>
+
         <div className="faq-item">
           <h4>Como alterar meu plano?</h4>
           <p>
@@ -60,11 +62,52 @@ const Suporte = () => {
             desejado.
           </p>
         </div>
+
         <div className="faq-item">
           <h4>Posso cancelar quando quiser?</h4>
           <p>
             Sim, você pode cancelar sua assinatura a qualquer momento sem custos
             adicionais.
+          </p>
+        </div>
+
+        <div className="faq-item">
+          <h4>Posso fazer uma aula experimental?</h4>
+          <p>
+            Sim! Oferecemos uma aula gratuita para novos alunos. É só preencher
+            o formulário no site.
+          </p>
+        </div>
+
+        <div className="faq-item">
+          <h4>A academia oferece acompanhamento com personal trainer?</h4>
+          <p>
+            Sim, temos profissionais credenciados disponíveis. O serviço pode
+            ser contratado à parte.
+          </p>
+        </div>
+
+        <div className="faq-item">
+          <h4>Quais formas de pagamento são aceitas?</h4>
+          <p>
+            Aceitamos PIX, cartão de crédito, débito e pagamento mensal via
+            boleto.
+          </p>
+        </div>
+
+        <div className="faq-item">
+          <h4>Como faço para pausar meu plano?</h4>
+          <p>
+            Basta entrar em contato com a recepção ou pelo portal do aluno e
+            solicitar a pausa temporária.
+          </p>
+        </div>
+
+        <div className="faq-item">
+          <h4>A academia oferece nutricionista ou avaliação física?</h4>
+          <p>
+            Sim! Contamos com avaliação física gratuita e nutricionista com
+            horários agendados.
           </p>
         </div>
       </section>
