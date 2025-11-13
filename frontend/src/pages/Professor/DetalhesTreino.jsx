@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../styles/pages/professor/detalhesTreino.scss";
+import "../../styles/pages/professor/detalhestreino.scss";
 
 export default function DetalhesTreino({ treino, onClose }) {
   const [detalhes, setDetalhes] = useState(null);

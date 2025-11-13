@@ -1,0 +1,120 @@
+@import "./../../abstract/variables.scss";
+
+.chat-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  &.active {
+    display: flex;
+  }
+
+  // ===== Container principal do chat =====
+  .chat-window {
+    background-color: $color-bg-card;
+    width: 90%;
+    max-width: 400px;
+    height: 80%;
+    border-radius: $radius-md;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: $color-text;
+    box-shadow: $shadow-card;
+
+    // ===== Cabeçalho =====
+    .chat-header {
+      background-color: darken($color-bg-card, 5%);
+      padding: $spacing-md;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: $font-size-base;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      .close {
+        cursor: pointer;
+        font-size: $font-size-large;
+        color: $color-text-muted;
+        transition: 0.2s;
+
+        &:hover {
+          color: $color-purple;
+        }
+      }
+    }
+
+    // ===== Corpo do Chat =====
+    .chat-body {
+      flex: 1;
+      padding: $spacing-md;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-sm;
+      background-color: $app-bg;
+
+      .msg {
+        margin: $spacing-xs 0;
+        max-width: 70%;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $radius-md;
+        font-size: $font-size-small;
+        line-height: 1.4;
+
+        &.recebida {
+          background-color: lighten($color-bg-card, 5%);
+          align-self: flex-start;
+        }
+
+        &.enviada {
+          background-color: $color-purple;
+          align-self: flex-end;
+        }
+      }
+    }
+
+    // ===== Rodapé =====
+    .chat-footer {
+      display: flex;
+      align-items: center;
+      padding: $spacing-sm $spacing-md;
+      background-color: darken($color-bg-card, 5%);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+      input {
+        flex: 1;
+        padding: $spacing-sm $spacing-md;
+        border: none;
+        border-radius: $radius-md;
+        outline: none;
+        background-color: $color-bg-card;
+        color: $color-text;
+        font-size: $font-size-small;
+      }
+
+      button {
+        background-color: $color-purple;
+        color: $color-text;
+        border: none;
+        border-radius: $radius-md;
+        margin-left: $spacing-sm;
+        padding: $spacing-sm $spacing-md;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: $font-size-small;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: lighten($color-purple, 5%);
+        }
+      }
+    }
+  }
+}
+

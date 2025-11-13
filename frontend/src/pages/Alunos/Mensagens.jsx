@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "../../styles/pages/aluno/mensagensAluno.scss";
+import ChatModal from "../../pages/Professor/ModalMensagemProf";
 
-export default function MensagensAluno() {
+export default function MensagensProf() {
   const [activeTab, setActiveTab] = useState("todas");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
 
+  // ===== Declare `messages` antes de qualquer uso =====
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -38,33 +42,50 @@ export default function MensagensAluno() {
     },
   ]);
 
-  // Toggle favorito
-  const toggleFavorite = (id) => {
+  // ===== Toggle favorito =====
+  const toggleFavorite = (id, e) => {
+    // evitar que o clique no botão de favorito abra o modal
+    if (e && typeof e.stopPropagation === "function") e.stopPropagation();
+
     setMessages((prev) =>
-      prev.map((msg) =>
-        msg.id === id ? { ...msg, favorite: !msg.favorite } : msg
-      )
+      prev.map((msg) => (msg.id === id ? { ...msg, favorite: !msg.favorite } : msg))
     );
   };
 
-  // Filtragem
+  // ===== Filtragem — versão segura =====
   const filteredMessages = messages.filter((msg) => {
-    const matchesSearch =
-      msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      msg.preview.toLowerCase().includes(searchTerm.toLowerCase());
+    const name = msg && msg.name ? String(msg.name).toLowerCase() : "";
+    const preview = msg && msg.preview ? String(msg.preview).toLowerCase() : "";
+    const search = searchTerm ? String(searchTerm).toLowerCase() : "";
+
+    const matchesSearch = name.includes(search) || preview.includes(search);
 
     if (activeTab === "nao-lidas") {
-      return msg.unread > 0 && matchesSearch;
+      return (msg.unread > 0) && matchesSearch;
     }
+
     if (activeTab === "favoritas") {
-      return msg.favorite && matchesSearch;
+      return (msg.favorite === true) && matchesSearch;
     }
+
     return matchesSearch;
   });
 
+  // ===== Abrir / fechar chat =====
+  const openChat = (contact) => {
+    // console.log("Abrindo chat com:", contact); // descomente para debugar
+    setSelectedContact(contact);
+    setIsChatOpen(true);
+  };
+
+  const closeChat = () => {
+    setIsChatOpen(false);
+    setSelectedContact(null);
+  };
+
   return (
     <div className="mensagens-aluno">
-      {/* Search Bar */}
+      {/* ===== Search Bar ===== */}
       <div className="search-container">
         <div className="search-bar">
           <i className="fas fa-search search-icon"></i>
@@ -78,7 +99,7 @@ export default function MensagensAluno() {
         </div>
       </div>
 
-      {/* Filter Tabs */}
+      {/* ===== Filter Tabs ===== */}
       <div className="filter-tabs">
         <button
           className={`filter-tab ${activeTab === "todas" ? "active" : ""}`}
@@ -100,34 +121,63 @@ export default function MensagensAluno() {
         </button>
       </div>
 
-      {/* Messages List */}
+      {/* ===== Messages List ===== */}
       <div className="messages-list">
-        {filteredMessages.map((msg) => (
-          <div className="message-item" key={msg.id}>
-            <div className={`message-avatar ${msg.color}`}>
-              <span>{msg.initials}</span>
-            </div>
-            <div className="message-content">
-              <div className="message-header">
-                <h3 className="message-name">{msg.name}</h3>
-                <span className="message-time">{msg.time}</span>
+        {filteredMessages.length === 0 ? (
+          <div className="no-messages">Nenhuma mensagem encontrada.</div>
+        ) : (
+          filteredMessages.map((msg) => (
+            <div
+              className="message-item"
+              key={msg.id}
+              onClick={() => openChat(msg)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") openChat(msg);
+              }}
+            >
+              <div className={`message-avatar ${msg.color}`}>
+                <span>{msg.initials}</span>
               </div>
-              <p className="message-preview">{msg.preview}</p>
-            </div>
-            <div className="message-actions">
-              {msg.unread > 0 && (
-                <div className="unread-badge">
-                  <span>{msg.unread}</span>
+
+              <div className="message-content">
+                <div className="message-header">
+                  <h3 className="message-name">{msg.name}</h3>
+                  <span className="message-time">{msg.time}</span>
                 </div>
-              )}
-              <i
-                className={`favorite-btn ${msg.favorite ? "bi bi-star-fill" : "bi bi-star"}`}
-                onClick={() => toggleFavorite(msg.id)}
-              ></i>
+                <p className="message-preview">{msg.preview}</p>
+              </div>
+
+              <div
+                className="message-actions"
+                onClick={(e) => {
+                  // evita a propagação do clique para o item inteiro
+                  e.stopPropagation();
+                }}
+              >
+                {msg.unread > 0 && (
+                  <div className="unread-badge">
+                    <span>{msg.unread}</span>
+                  </div>
+                )}
+                <i
+                  className={`favorite-btn ${msg.favorite ? "bi bi-star-fill" : "bi bi-star"}`}
+                  onClick={(e) => toggleFavorite(msg.id, e)}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
+
+      {/* ===== Modal do Chat ===== */}
+      <ChatModal
+        isOpen={isChatOpen}
+        onClose={closeChat}
+        contactName={selectedContact ? selectedContact.name : null}
+        messages={messages}
+      />
     </div>
   );
 }
