@@ -21,7 +21,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
     };
 
     openChat($co_id);
-  });
+  }, []);
 
   useEffect(() => {
     if (chatBodyRef.current) {
