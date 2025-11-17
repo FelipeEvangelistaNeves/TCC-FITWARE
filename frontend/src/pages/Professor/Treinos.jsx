@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/mensagensAluno.scss";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/professor/treinosprof.scss";
-import { Bell } from "lucide-react";
-import { useState, useEffect } from "react";
 import DetalhesTreino from "./DetalhesTreino";
 
 export default function DashboardAluno() {
