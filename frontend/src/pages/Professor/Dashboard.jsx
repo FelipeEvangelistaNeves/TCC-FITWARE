@@ -83,7 +83,6 @@ export default function DashboardProf() {
     <div className="atividade-card">
       <div className="atividade-header">
         <h3>Atividade Recente</h3>
-        <button className="ver-tudo">Ver Tudo</button>
       </div>
 
       <ul className="atividade-lista">
