@@ -1,11 +1,14 @@
 // routes/professorRoutes.js
 const express = require("express");
 const router = express.Router();
-const { verifyToken, roleMiddleware } = require("../middleware/auth");
+const { verifyToken } = require("../middleware/auth");
 const {
   loginProfessor,
   dataProfessor,
   atualizarProfessor,
+  dataProfAlunos,
+  dataProfConversas,
+  dataProfMensagens,
 } = require("../controllers/professorController");
 
 /**
@@ -56,5 +59,9 @@ router.post("/login", loginProfessor);
  */
 
 router.get("/me", verifyToken, dataProfessor);
+router.get("/allAlunos", verifyToken, dataProfAlunos);
+router.get("/conversas", verifyToken, dataProfConversas);
+router.get("/mensagens", verifyToken, dataProfMensagens);
+
 router.put("/update", verifyToken, atualizarProfessor);
 module.exports = router;

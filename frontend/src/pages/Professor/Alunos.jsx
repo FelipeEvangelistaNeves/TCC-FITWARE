@@ -1,37 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/professor/mensagensProf.scss";
 import PerfilAluno from "./PerfilAluno";
 
 export default function AlunosProf() {
+  const [alunos, setAlunos] = useState([]);
   const [filtro, setFiltro] = useState("Todos");
   const [busca, setBusca] = useState("");
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
 
-  const alunos = [
-    { id: 1, nome: "Maria Silva", turma: "Segunda", tempo: "3 meses", status: "Ativo", avatar: "MS", color: "#8b5cf6", email: "maria@email.com", telefone: "99999-0001" },
-    { id: 2, nome: "Pedro Alves", turma: "Quarta", tempo: "6 meses", status: "Ativo", avatar: "PA", color: "#22c55e", email: "pedro@email.com", telefone: "99999-0002" },
-    { id: 3, nome: "Carlos Mendes", turma: "Segunda", tempo: "1 mês", status: "Inativo", avatar: "CM", color: "#f59e0b", email: "carlos@email.com", telefone: "99999-0003" },
-    { id: 4, nome: "Ana Santos", turma: "Quarta", tempo: "2 meses", status: "Ativo", avatar: "AS", color: "#a855f7", email: "ana@email.com", telefone: "99999-0004" },
-  ];
+  useEffect(() => {
+    const fetchAlunos = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/professor/allAlunos", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if(!res.ok) throw new Error("Erro ao buscar alunos");
+
+        const data = await res.json();
+
+        setAlunos(data.alunos);
+      } catch (error) {
+        console.error(error);
+        setErro("Erro ao carregar alunos");
+      }
+    }
+
+    fetchAlunos();
+  }, []);
 
   const alunosFiltrados = alunos.filter((aluno) => {
-    const condBusca = aluno.nome.toLowerCase().includes(busca.toLowerCase());
+    const condBusca = aluno.al_nome
+      ?.toLowerCase()
+      .includes(busca.toLowerCase());
+  
     const condFiltro =
       filtro === "Todos" ||
-      (filtro === "Ativos" && aluno.status === "Ativo") ||
-      (filtro === "Inativos" && aluno.status === "Inativo") ||
-      aluno.turma === filtro;
-
+      (filtro === "Ativos" && aluno.al_status === "Ativo") ||
+      (filtro === "Inativos" && aluno.al_status === "Inativo");
+  
     return condBusca && condFiltro;
   });
-
+  
   if (alunoSelecionado) {
-    return <PerfilAluno aluno={alunoSelecionado} onBack={() => setAlunoSelecionado(null)} />;
+    return (
+      <PerfilAluno
+        aluno={alunoSelecionado}
+        onBack={() => setAlunoSelecionado(null)}
+      />
+    );
   }
-
+  
   return (
     <div className="mensagens-aluno">
-      
       {/* Busca */}
       <div className="search-container">
         <div className="search-bar">
@@ -45,10 +67,10 @@ export default function AlunosProf() {
           />
         </div>
       </div>
-
+  
       {/* Filtros */}
       <div className="filter-tabs">
-        {["Todos", "Ativos", "Inativos", "Segunda", "Quarta"].map((f) => (
+        {["Todos", "Ativos", "Inativos"].map((f) => (
           <button
             key={f}
             className={`filter-tab ${filtro === f ? "active" : ""}`}
@@ -58,35 +80,48 @@ export default function AlunosProf() {
           </button>
         ))}
       </div>
-
+  
       {/* Lista de alunos */}
       <div className="messages-list">
-        {alunosFiltrados.map((aluno) => (
-          <div
-            key={aluno.id}
-            className="message-item"
-            onClick={() => setAlunoSelecionado(aluno)}
-          >
-            <div className="message-avatar" style={{ background: aluno.color }}>
-              <span>{aluno.avatar}</span>
-            </div>
-
-            <div className="message-content">
-              <div className="message-header">
-                <h4 className="message-name">{aluno.nome}</h4>
-                <span className="message-time">{aluno.tempo}</span>
+        {alunosFiltrados.map((aluno) => {
+          const initials = aluno.al_nome
+            ? aluno.al_nome.split(" ").map((w) => w[0]).join("").toUpperCase()
+            : "A";
+  
+          return (
+            <div
+              key={aluno.al_id}
+              className="message-item"
+              onClick={() => setAlunoSelecionado(aluno)}
+            >
+              <div className="message-avatar" style={{ background: "#7f24c6" }}>
+                <span>{initials}</span>
               </div>
-              <p className="message-preview">Turma {aluno.turma} — {aluno.status}</p>
+  
+              <div className="message-content">
+                <div className="message-header">
+                  <h4 className="message-name">{aluno.al_nome}</h4>
+                  <span className="message-time">{aluno.al_email}</span>
+                </div>
+  
+                <p className="message-preview">
+                  Pontos {aluno.al_pontos} — {aluno.al_status}
+                </p>
+  
+                <p className="message-preview">
+                  Treinos completos: {aluno.al_treinos_completos}
+                </p>
+              </div>
+  
+              <div className="message-actions">
+                {aluno.al_status === "Ativo" && (
+                  <div className="unread-badge"></div>
+                )}
+              </div>
             </div>
-
-            <div className="message-actions">
-              {aluno.status === "Ativo" && (
-                <div className="unread-badge"></div>
-              )}
-            </div>
-          </div>
-        ))}
-
+          );
+        })}
+  
         {alunosFiltrados.length === 0 && (
           <p style={{ textAlign: "center", color: "#9ca3af" }}>
             Nenhum aluno encontrado.

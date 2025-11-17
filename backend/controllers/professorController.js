@@ -1,5 +1,5 @@
 // controllers/professorController.js
-const { Funcionario } = require("../models");
+const { Aluno, Funcionario, Conversa, Mensagem } = require("../models");
 const LoggerMessages = require("../loggerMessages");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -173,8 +173,115 @@ const atualizarProfessor = async (req, res) => {
   }
 };
 
+const dataProfAlunos = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Token ausente. Faça login novamente." });
+    }
+
+    const alunos = await Aluno.findAll({
+      attributes:  ["al_id", "al_nome", "al_email", "al_telefone", "al_pontos", "al_status", "al_treinos_completos"],
+    });
+
+    if (alunos.length === 0) {
+      return res.status(404).json({ message: "Nenhum aluno encontrado" });
+    }
+
+    res.json({
+      alunos,
+    });
+  } catch (err) {
+    console.error("Erro ao buscar dados dos alunos:", err);
+    return res
+      .status(500)
+      .json({ message: "Erro ao buscar dados dos alunos." });
+  }
+};
+
+const dataProfConversas = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Token ausente. Faça login novamente." });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const professorId = decoded.id;
+
+    // Busca todas as conversas onde o professor participa
+    const conversas = await Conversa.findAll({
+      where: { prof_id: professorId },
+      include: [
+        {
+          model: Aluno,
+          attributes: ["al_id", "al_nome", "al_email", "al_telefone", "al_pontos"],
+        },
+      ],
+      order: [["co_id", "DESC"]],
+    });
+
+    res.json({ conversas });
+
+  } catch (err) {
+    console.error("Erro ao buscar dados de conversas:", err);
+    return res 
+      .status(500)
+      .json({ message: "Erro ao buscar dados de conversas." });
+  }
+};
+
+const dataProfMensagens = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "Token ausente. Faça login novamente." });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const professorId = decoded.id;
+
+    // ID da conversa vindo da rota
+    const { co_id } = req.params;
+
+    if (!co_id) {
+      return res.status(400).json({ message: "ID da conversa é obrigatório." });
+    }
+
+    // Verificar se a conversa pertence a este professor
+    const conversa = await Conversa.findOne({
+      where: { co_id, prof_id: professorId }
+    });
+
+    if (!conversa) {
+      return res.status(403).json({ message: "Acesso negado a esta conversa." });
+    }
+
+    // Buscar mensagens relacionadas a esta conversa
+    const mensagens = await Mensagem.findAll({
+      where: { co_id },
+      order: [["me_tempo", "ASC"]] // ordem natural de chat
+    });
+
+    res.json({ mensagens });
+
+  } catch (err) {
+    console.error("Erro ao buscar mensagens da conversa:", err);
+    return res.status(500).json({
+      message: "Erro ao buscar mensagens da conversa."
+    });
+  }
+};
+
 module.exports = {
   loginProfessor,
   dataProfessor,
   atualizarProfessor,
+  dataProfAlunos,
+  dataProfConversas,
+  dataProfMensagens,
 };

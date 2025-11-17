@@ -35,7 +35,7 @@ Turma.belongsTo(Modalidade, { foreignKey: "tu_mod_id" });
 Horario.hasMany(Turma, { foreignKey: "tu_hor_id" });
 Turma.belongsTo(Horario, { foreignKey: "tu_hor_id" });
 
-// 🔹 Funcionario ↔ Turma (1:N) (professor da turma)
+// 🔹 Funcionario ↔ Turma (1:N)
 Funcionario.hasMany(Turma, { foreignKey: "tu_prof_id" });
 Turma.belongsTo(Funcionario, { foreignKey: "tu_prof_id" });
 
