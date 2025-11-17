@@ -92,7 +92,7 @@ ALTER TABLE public.alunos OWNER TO postgres;
 
 CREATE SEQUENCE public.alunos_al_id_seq
     AS integer
-    START WITH 1
+    START WITH 6
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -169,7 +169,7 @@ ALTER TABLE public.avisos OWNER TO postgres;
 
 CREATE SEQUENCE public.avisos_av_id_seq
     AS integer
-    START WITH 1
+    START WITH 9
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -204,7 +204,7 @@ ALTER TABLE public.conversas OWNER TO postgres;
 
 CREATE SEQUENCE public.conversas_id_seq
     AS integer
-    START WITH 1
+    START WITH 26
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -245,7 +245,7 @@ ALTER TABLE public.desafios OWNER TO postgres;
 
 CREATE SEQUENCE public.desafios_de_id_seq
     AS integer
-    START WITH 1
+    START WITH 9
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -283,7 +283,7 @@ ALTER TABLE public.exercicios OWNER TO postgres;
 
 CREATE SEQUENCE public.exercicios_ex_id_seq
     AS integer
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -324,7 +324,7 @@ ALTER TABLE public.funcionarios OWNER TO postgres;
 
 CREATE SEQUENCE public.funcionarios_fu_id_seq
     AS integer
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -360,7 +360,7 @@ ALTER TABLE public.horarios OWNER TO postgres;
 
 CREATE SEQUENCE public.horarios_hor_id_seq
     AS integer
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -401,7 +401,7 @@ ALTER TABLE public.mensagens OWNER TO postgres;
 
 CREATE SEQUENCE public.mensagens_me_id_seq
     AS integer
-    START WITH 1
+    START WITH 51
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -436,7 +436,7 @@ ALTER TABLE public.modalidades OWNER TO postgres;
 
 CREATE SEQUENCE public.modalidades_mo_id_seq
     AS integer
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -474,7 +474,7 @@ ALTER TABLE public.pagamentos OWNER TO postgres;
 
 CREATE SEQUENCE public.pagamentos_pa_id_seq
     AS integer
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -512,7 +512,7 @@ ALTER TABLE public.produtos OWNER TO postgres;
 
 CREATE SEQUENCE public.produtos_pd_id_seq
     AS integer
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -564,7 +564,7 @@ ALTER TABLE public.treinos_exercicios OWNER TO postgres;
 
 CREATE SEQUENCE public.treinos_tr_id_seq
     AS integer
-    START WITH 1
+    START WITH 9
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -601,7 +601,7 @@ ALTER TABLE public.turmas OWNER TO postgres;
 
 CREATE SEQUENCE public.turmas_tu_id_seq
     AS integer
-    START WITH 1
+    START WITH 9
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1089,91 +1089,91 @@ COPY public.turmas (tu_id, tu_nome, tu_prof_id, tu_mod_id, tu_hor_id) FROM stdin
 -- Name: alunos_al_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.alunos_al_id_seq', 1, false);
+SELECT pg_catalog.setval('public.alunos_al_id_seq', (SELECT MAX(al_id) FROM public.alunos) + 1, true);
 
 
 --
 -- Name: avisos_av_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.avisos_av_id_seq', 1, false);
+SELECT pg_catalog.setval('public.avisos_av_id_seq', (SELECT MAX(av_id) FROM public.avisos) + 1, true);
 
 
 --
 -- Name: conversas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.conversas_id_seq', 1, false);
+SELECT pg_catalog.setval('public.conversas_id_seq', (SELECT MAX(co_id) FROM public.conversas) + 1, true);
 
 
 --
 -- Name: desafios_de_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.desafios_de_id_seq', 1, false);
+SELECT setval('desafios_de_id_seq', (SELECT MAX(de_id) FROM public.desafios) + 1, true);
 
 
 --
 -- Name: exercicios_ex_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercicios_ex_id_seq', 1, false);
+SELECT pg_catalog.setval('public.exercicios_ex_id_seq', (SELECT MAX(ex_id) FROM public.exercicios) + 1, true);
 
 
 --
 -- Name: funcionarios_fu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.funcionarios_fu_id_seq', 1, false);
+SELECT pg_catalog.setval('public.funcionarios_fu_id_seq', (SELECT MAX(fu_id) FROM public.funcionarios) + 1, true);
 
 
 --
 -- Name: horarios_hor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.horarios_hor_id_seq', 1, false);
+SELECT pg_catalog.setval('public.horarios_hor_id_seq', (SELECT MAX(hor_id) FROM public.horarios) + 1, true);
 
 
 --
 -- Name: mensagens_me_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.mensagens_me_id_seq', 1, false);
+SELECT pg_catalog.setval('public.mensagens_me_id_seq', (SELECT MAX(me_id) FROM public.mensagens) + 1, true);
 
 
 --
 -- Name: modalidades_mo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.modalidades_mo_id_seq', 1, false);
+SELECT pg_catalog.setval('public.modalidades_mo_id_seq', (SELECT MAX(mo_id) FROM public.modalidades) + 1, true);
 
 
 --
 -- Name: pagamentos_pa_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pagamentos_pa_id_seq', 1, false);
+SELECT pg_catalog.setval('public.pagamentos_pa_id_seq', (SELECT MAX(pa_id) FROM public.pagamentos) + 1, true);
 
 
 --
 -- Name: produtos_pd_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.produtos_pd_id_seq', 1, false);
+SELECT pg_catalog.setval('public.produtos_pd_id_seq', (SELECT MAX(pd_id) FROM public.produtos) + 1, true);
 
 
 --
 -- Name: treinos_tr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.treinos_tr_id_seq', 1, false);
+SELECT pg_catalog.setval('public.treinos_tr_id_seq', (SELECT MAX(tr_id) FROM public.treinos) + 1, true);
 
 
 --
 -- Name: turmas_tu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.turmas_tu_id_seq', 1, false);
+SELECT pg_catalog.setval('public.turmas_tu_id_seq', (SELECT MAX(tu_id) FROM public.turmas) + 1, true);
 
 
 --

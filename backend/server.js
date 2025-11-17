@@ -43,7 +43,7 @@ app.use("/api/treinos", treinoRoutes);
 app.use("/api/desafios", desafioRoutes);
 
 //avisos
-app.use("/api/Allavisos", avisosRoutes);
+app.use("/api/avisos", avisosRoutes);
 
 //brindes / produtos
 app.use("/api/produtos", produtosRoutes);

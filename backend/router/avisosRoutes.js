@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { listarAvisos } = require("../controllers/avisosController");
+const { listarAvisos, criarAviso } = require("../controllers/avisosController");
+const { verifyToken } = require("../middleware/auth");
 
-router.get("/", listarAvisos);
+router.get("/allAvisos", listarAvisos);
+router.post("/createAvisos", verifyToken, criarAviso);
 
 module.exports = router;

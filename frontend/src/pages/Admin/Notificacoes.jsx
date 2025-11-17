@@ -1,61 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/notificacoes.scss";
 
 export default function Notificacoes() {
-  const [notificacoes, setNotificacoes] = useState([
-    {
-      id: 1,
-      titulo: "Bônus Especial Amanhã 🎁",
-      mensagem:
-        "Amanhã teremos um bônus especial para os alunos que completarem todos os treinos do dia!",
-      data: "02/11/2025 - 15:30",
-      tipo: "Informativo",
-    },
-    {
-      id: 2,
-      titulo: "Novo Desafio Disponível 💪",
-      mensagem:
-        "Participe do Desafio de Força 7 Dias e acumule pontos extras no FitWare!",
-      data: "01/11/2025 - 10:00",
-      tipo: "Desafio",
-    },
-    {
-      id: 3,
-      titulo: "Treino Atualizado 🔥",
-      mensagem:
-        "O treino de perna foi atualizado com novos exercícios. Confira com seu professor!",
-      data: "31/10/2025 - 17:45",
-      tipo: "Atualização",
-    },
-  ]);
-
+  const [notificacoes, setNotificacoes] = useState([]);
   const [novaNotificacao, setNovaNotificacao] = useState({
-    titulo: "",
-    mensagem: "",
-    tipo: "Informativo",
+    av_titulo: "",
+    av_mensagem: "",
+    av_tipo: "Informativo",
+    av_destinatario_tipo: "Geral",
   });
 
   const [showForm, setShowForm] = useState(false);
 
-  const handleAdd = () => {
-    if (!novaNotificacao.titulo || !novaNotificacao.mensagem) return;
+  // ===== BUSCAR AVISOS =====
+  async function fetchAvisos() {
+    try {
+      const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
+        method: "GET",
+        credentials: "include",
+      });
 
-    const nova = {
-      id: notificacoes.length + 1,
-      titulo: novaNotificacao.titulo,
-      mensagem: novaNotificacao.mensagem,
-      data: new Date().toLocaleString("pt-BR"),
-      tipo: novaNotificacao.tipo,
-    };
+      const data = await res.json();
+      setNotificacoes(data.avisos);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-    setNotificacoes([nova, ...notificacoes]);
-    setNovaNotificacao({ titulo: "", mensagem: "", tipo: "Informativo" });
-    setShowForm(false);
-  };
+  useEffect(() => {
+    fetchAvisos();
+  }, []);
 
-  const handleDelete = (id) => {
-    setNotificacoes(notificacoes.filter((n) => n.id !== id));
-  };
+  // ===== CRIAR AVISO =====
+  async function create() {
+    try {
+      const res = await fetch("http://localhost:3000/api/avisos/createAvisos", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(novaNotificacao),
+      });
+
+      if (!res.ok) throw new Error("Erro ao criar notificação");
+
+      const updated = await res.json();
+
+      // Adicionar aviso mantendo a ordem da data
+      setNotificacoes((prev) => {
+        const lista = [...prev, updated.aviso];
+        return lista.sort(
+          (a, b) => new Date(b.av_data_inicio) - new Date(a.av_data_inicio)
+        );
+      });
+
+      // Resetar formulário
+      setNovaNotificacao({
+        av_titulo: "",
+        av_mensagem: "",
+        av_tipo: "Informativo",
+        av_destinatario_tipo: "Geral",
+      });
+
+      setShowForm(false);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  console.log(notificacoes);
 
   return (
     <div className="notifications-page">
@@ -76,14 +90,13 @@ export default function Notificacoes() {
               <label>Título</label>
               <input
                 type="text"
-                value={novaNotificacao.titulo}
+                value={novaNotificacao.av_titulo}
                 onChange={(e) =>
                   setNovaNotificacao({
                     ...novaNotificacao,
-                    titulo: e.target.value,
+                    av_titulo: e.target.value,
                   })
                 }
-                placeholder="Ex: Bônus especial amanhã 🎁"
               />
             </div>
 
@@ -91,32 +104,48 @@ export default function Notificacoes() {
               <label>Mensagem</label>
               <textarea
                 rows="3"
-                value={novaNotificacao.mensagem}
+                value={novaNotificacao.av_mensagem}
                 onChange={(e) =>
                   setNovaNotificacao({
                     ...novaNotificacao,
-                    mensagem: e.target.value,
+                    av_mensagem: e.target.value,
                   })
                 }
-                placeholder="Ex: Amanhã teremos um bônus especial para os alunos que completarem todos os treinos do dia!"
               />
             </div>
 
             <div className="form-group">
               <label>Tipo</label>
               <select
-                value={novaNotificacao.tipo}
+                value={novaNotificacao.av_tipo}
                 onChange={(e) =>
                   setNovaNotificacao({
                     ...novaNotificacao,
-                    tipo: e.target.value,
+                    av_tipo: e.target.value,
                   })
                 }
               >
-                <option>Informativo</option>
-                <option>Desafio</option>
-                <option>Treino</option>
-                <option>Brinde</option>
+                <option value="Informativo">Informativo</option>
+                <option value="Desafio">Desafio</option>
+                <option value="Treino">Treino</option>
+                <option value="Brinde">Brinde</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Destinatário</label>
+              <select
+                value={novaNotificacao.av_destinatario_tipo}
+                onChange={(e) =>
+                  setNovaNotificacao({
+                    ...novaNotificacao,
+                    av_destinatario_tipo: e.target.value,
+                  })
+                }
+              >
+                <option value="Geral">Geral</option>
+                <option value="Alunos">Alunos</option>
+                <option value="Professores">Professores</option>
               </select>
             </div>
 
@@ -127,7 +156,8 @@ export default function Notificacoes() {
               >
                 Cancelar
               </button>
-              <button className="btn-salvar" onClick={handleAdd}>
+
+              <button className="btn-salvar" onClick={create}>
                 Enviar Notificação
               </button>
             </div>
@@ -135,26 +165,28 @@ export default function Notificacoes() {
         </div>
       )}
 
-      {/* ===== LISTA DE NOTIFICAÇÕES ===== */}
+      {/* ===== LISTA ===== */}
       <div className="notificacoes-lista">
-        {notificacoes.map((n) => (
-          <div key={n.id} className="notificacao-card">
-            <div className="notificacao-header">
-              <h4>{n.titulo}</h4>
-              <span className={`tipo ${n.tipo.toLowerCase()}`}>{n.tipo}</span>
+        {notificacoes
+          .filter((n) => n && n.av_titulo)
+          .map((n) => (
+            <div key={n.av_id} className="notificacao-card">
+              <div className="notificacao-header">
+                <h4>{n.av_titulo}</h4>
+                <span className={`tipo ${n.av_tipo.toLowerCase()}`}>
+                  {n.av_tipo}
+                </span>
+              </div>
+
+              <p>{n.av_mensagem}</p>
+
+              <div className="notificacao-footer">
+                <small>
+                  {new Date(n.av_data_inicio).toLocaleString("pt-BR")}
+                </small>
+              </div>
             </div>
-            <p>{n.mensagem}</p>
-            <div className="notificacao-footer">
-              <small>{n.data}</small>
-              <button
-                className="action-btn delete"
-                onClick={() => handleDelete(n.id)}
-              >
-                <i className="bi bi-trash"></i>
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
 
         {notificacoes.length === 0 && (
           <p className="sem-notificacoes">Nenhuma notificação criada.</p>
