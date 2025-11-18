@@ -20,7 +20,7 @@ export default function PerfilAluno({ aluno, onBack }) {
         <div className="avatar blue">MS</div>
         <div className="info">
           <h2>{aluno.nome}</h2>
-          <p className="sub">{aluno.turma} • {aluno.tempo}</p>
+          <p className="sub">Pontos {aluno.al_pontos} • {aluno.al_status}</p>
         </div>
       </div>
 

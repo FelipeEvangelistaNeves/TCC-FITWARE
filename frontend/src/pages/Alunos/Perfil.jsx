@@ -81,7 +81,8 @@ export default function PerfilAluno() {
         <i
           className="bi bi-gear"
           onClick={() => setShowConfig(true)}
-          style={{ cursor: "pointer", fontSize: "1.5rem" }}></i>
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}
+        ></i>
 
         <ConfigModal isOpen={showConfig} onClose={() => setShowConfig(false)} />
       </div>
@@ -93,7 +94,8 @@ export default function PerfilAluno() {
         <button
           className={`plano-btn ${
             abaAtiva === "pagamento" ? "premium" : "pontos"
-          }`}>
+          }`}
+        >
           {getTextoBotao()}
         </button>
       </div>
@@ -102,17 +104,20 @@ export default function PerfilAluno() {
       <div className="perfil-tabs">
         <button
           className={abaAtiva === "historico" ? "active" : ""}
-          onClick={() => setAbaAtiva("historico")}>
+          onClick={() => setAbaAtiva("historico")}
+        >
           Histórico
         </button>
         <button
           className={abaAtiva === "pagamento" ? "active" : ""}
-          onClick={() => setAbaAtiva("pagamento")}>
+          onClick={() => setAbaAtiva("pagamento")}
+        >
           Pagamento
         </button>
         <button
           className={abaAtiva === "pontos" ? "active" : ""}
-          onClick={() => setAbaAtiva("pontos")}>
+          onClick={() => setAbaAtiva("pontos")}
+        >
           Pontos
         </button>
       </div>
@@ -163,7 +168,8 @@ export default function PerfilAluno() {
             {/* Botão resgatar também no histórico */}
             <button
               className="btn-resgatar"
-              onClick={() => setModalAberto(true)}>
+              onClick={() => setModalAberto(true)}
+            >
               <i className="bi bi-gift"></i> Resgatar Pontos
             </button>
           </div>
@@ -261,7 +267,8 @@ export default function PerfilAluno() {
 
             <button
               className="btn-resgatar"
-              onClick={() => setModalAberto(true)}>
+              onClick={() => setModalAberto(true)}
+            >
               <i className="bi bi-gift"></i> Resgatar Pontos
             </button>
           </div>

@@ -1,8 +1,10 @@
-import React from "react";
-import { Bell, LogOut } from "lucide-react";
+import React, { useState } from "react";
+import { Bell, LogOut, ArrowLeft } from "lucide-react";
 import "../../styles/layout/mobHeader.scss";
 
-export default function HeaderProfessor({ title }) {
+export default function HeaderProfessor({ title, avisos }) {
+  const [showDropdown, setShowDropdown] = useState(false);
+
   async function handleLogout() {
     try {
       const res = await fetch("http://localhost:3000/logout", {
@@ -11,22 +13,67 @@ export default function HeaderProfessor({ title }) {
       });
       const data = await res.json();
       if (data.success) {
-        window.location.href = "/"; // redireciona pro login
+        window.location.href = "/";
       }
     } catch (err) {
       console.error("Erro ao fazer logout:", err);
     }
   }
+
   return (
-    <header className="header-professor py-3 px-4 border-bottom">
-      <div className="container-fluid d-flex justify-content-between align-items-center">
-        <h5 className="page-title m-0">{title}</h5>
-        <div className="d-flex align-items-center gap-3">
-          <button className="btn notification-btn rounded-circle">
-            <Bell size={20} />
-          </button>
+    <>
+      <header className="header-professor py-3 px-4 border-bottom">
+        <div className="container-fluid d-flex justify-content-between align-items-center">
+          <h5 className="page-title m-0">{title}</h5>
+
+          <div className="d-flex align-items-center gap-3">
+            <button
+              className="btn notification-btn rounded-circle"
+              onClick={() => setShowDropdown(true)}
+            >
+              <Bell size={20} />
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* === Overlay de notificações === */}
+      {showDropdown && (
+        <div className="notification-overlay">
+          <div className="notification-header">
+            <button
+              className="back-btn"
+              onClick={() => setShowDropdown(false)}
+            >
+              <ArrowLeft size={20} />
+              <span>Voltar</span>
+            </button>
+            <h6>Notificações</h6>
+          </div>
+
+          <div className="notification-list">
+            {avisos && avisos.length > 0 ? (
+              avisos.map((aviso) => (
+                <div key={aviso.av_id} className="notification-item">
+                  <h6 className="notification-title">
+                    {aviso.av_titulo ?? "Aviso"}
+                  </h6>
+                  <p className="notification-body">{aviso.av_mensagem}</p>
+                  {aviso.av_data_inicio && (
+                    <time className="notification-time">
+                      {new Date(aviso.av_data_inicio).toLocaleString()}
+                    </time>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="notification-item no-notifications">
+                Sem notificações
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -9,6 +9,20 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
   const [inputValue, setInputValue] = useState("");
   const chatBodyRef = useRef(null);
 
+  useEffect(()=> {
+    const openChat = async (co_id) => {
+      const res = await fetch(
+        `http://localhost:3000/api/professor/conversas/${co_id}/mensagens`,
+        { credentials: "include" }
+      );
+    
+      const data = await res.json();
+      setMensagens(data.mensagens);
+    };
+
+    openChat($co_id);
+  }, []);
+
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
@@ -20,7 +34,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
       const viewportHeight = window.innerHeight;
       const windowHeight = document.documentElement.clientHeight;
       
-      if(vieportHeigh < windowHeight -100){
+      if(viewportHeight < windowHeight -100){
         chatFooterRef.current?.scrollIntoView({ behavior: 'smooth'});
       }
 

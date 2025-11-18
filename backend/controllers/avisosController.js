@@ -15,12 +15,12 @@ const criarAviso = async (req, res) => {
       av_data_fim,
     } = req.body;
 
-    // Exemplo: apenas Professor ou Secretário podem criar avisos
-    if (req.user.role !== "Professor" && req.user.role !== "Secretario") {
+    if (req.user.role !== "Secretario") {
       return res
         .status(403)
         .json({ message: "Apenas funcionários podem criar avisos." });
     }
+    console.log("BODY:", req.body);
 
     const novoAviso = await Aviso.create({
       av_titulo,
