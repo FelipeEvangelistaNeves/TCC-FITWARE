@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../../styles/pages/public/publichead.scss";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLight, setIsLight] = useState(false);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("fitware-theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light-mode");
+      setIsLight(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setIsLight(!isLight);
+
+    if (!isLight) {
+      document.body.classList.add("light-mode");
+      localStorage.setItem("fitware-theme", "light");
+    } else {
+      document.body.classList.remove("light-mode");
+      localStorage.setItem("fitware-theme", "dark");
+    }
+  };
   return (
     <header className="header-public">
       <nav className="navbar container-fluid">
@@ -31,6 +51,18 @@ export default function Header() {
           <NavLink to="/modalidades">Modalidades</NavLink>
           <NavLink to="/sobre">Sobre</NavLink>
           <NavLink to="/suporte">Suporte</NavLink>
+
+          <div className="theme-switch-wrapper fw-dropdown-item">
+            <i
+              className={`bi ${isLight ? "bi-sun-fill" : "bi-moon-stars-fill"}`}
+            ></i>
+            <span>{isLight ? "Modo Claro" : "Modo Escuro"}</span>
+            <div className="theme-switch" onClick={toggleTheme}>
+              <div className={`switch-track ${isLight ? "light" : ""}`}>
+                <div className="switch-handle"></div>
+              </div>
+            </div>
+          </div>
           <Link to="/escolherlogin" className="btn btn-warning btn-enter">
             Login
           </Link>
@@ -68,6 +100,19 @@ export default function Header() {
             <NavLink to="/suporte" onClick={() => setMenuOpen(false)}>
               Suporte
             </NavLink>
+            <div className="theme-switch-wrapper fw-dropdown-item">
+              <i
+                className={`bi ${
+                  isLight ? "bi-sun-fill" : "bi-moon-stars-fill"
+                }`}
+              ></i>
+              <span>{isLight ? "Modo Claro" : "Modo Escuro"}</span>
+              <div className="theme-switch" onClick={toggleTheme}>
+                <div className={`switch-track ${isLight ? "light" : ""}`}>
+                  <div className="switch-handle"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="login-area">

@@ -39,7 +39,9 @@ export default function LoginProfessor() {
       <div className="login-card">
         <img src={Logo} alt="logo fitware" className="login-avatar" />
         <h2 className="login-title">FitWare</h2>
-        <p className="login-subtitle">Logue em sua conta e seja Fitware!</p>
+        <p className="login-subtitle">
+          Logue em sua conta professor e seja Fitware!
+        </p>
 
         <p className="error-msg">{errorMsg}</p>
 

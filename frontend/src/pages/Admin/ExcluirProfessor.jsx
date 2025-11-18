@@ -3,7 +3,7 @@ import "../../styles/pages/admin/excluir.scss"; // mesmo estilo do excluir aluno
 
 export default function ExcluirProfessor({ professor, onClose, onConfirm }) {
   return (
-    <div className="admin-modal">
+    <div className="admin-excluir">
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <h3>Excluir Professor</h3>
@@ -19,7 +19,8 @@ export default function ExcluirProfessor({ professor, onClose, onConfirm }) {
             </button>
             <button
               className="btn-excluir"
-              onClick={() => onConfirm(professor)}>
+              onClick={() => onConfirm(professor)}
+            >
               Excluir
             </button>
           </div>

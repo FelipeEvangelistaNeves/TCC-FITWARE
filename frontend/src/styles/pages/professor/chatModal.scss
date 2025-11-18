@@ -35,7 +35,7 @@
       justify-content: space-between;
       font-weight: bold;
       font-size: $font-size-base;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(var(--white-rgb), 0.1);
 
       .close {
         cursor: pointer;
@@ -68,7 +68,7 @@
         line-height: 1.4;
 
         &.recebida {
-          background-color: lighten($color-bg-card, 5%);
+          background-color: var(--surface-2);
           align-self: flex-start;
         }
 
@@ -85,7 +85,7 @@
       align-items: center;
       padding: $spacing-sm $spacing-md;
       background-color: darken($color-bg-card, 5%);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(var(--white-rgb), 0.1);
 
       input {
         flex: 1;
@@ -111,10 +111,9 @@
         transition: background-color 0.2s ease;
 
         &:hover {
-          background-color: lighten($color-purple, 5%);
+          background-color: var(--color-purple-light);
         }
       }
     }
   }
 }
-

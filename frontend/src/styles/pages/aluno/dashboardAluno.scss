@@ -311,7 +311,7 @@
       .stop-btn {
         background: $purple-dark;
         &:hover {
-          background: darken($purple-dark, 10%);
+          background: var(--color-purple-hover);
         }
       }
     }

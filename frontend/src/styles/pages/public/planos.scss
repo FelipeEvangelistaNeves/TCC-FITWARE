@@ -46,7 +46,7 @@
 
         li {
           padding: $spacing-xs 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid rgba(var(--white-rgb), 0.05);
           color: $color-text-muted;
           font-size: $font-size-base;
 

@@ -3,11 +3,12 @@ import "../../styles/pages/admin/forms.scss";
 
 export default function ExcluirTreino({ treino, onClose, onDelete }) {
   return (
-    <div className="admin-modal">
+    <div className="admin-excluir">
       <div className="modal-overlay" onClick={onClose}>
         <div
           className="modal-content form-card excluir-modal"
-          onClick={(e) => e.stopPropagation()}>
+          onClick={(e) => e.stopPropagation()}
+        >
           <h3>Excluir Treino</h3>
 
           <p>
@@ -29,7 +30,8 @@ export default function ExcluirTreino({ treino, onClose, onDelete }) {
               onClick={() => {
                 onDelete(treino);
                 onClose();
-              }}>
+              }}
+            >
               Excluir
             </button>
           </div>

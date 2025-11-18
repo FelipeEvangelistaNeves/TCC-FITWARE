@@ -43,7 +43,7 @@
 
       .add-btn {
         background: var(--color-purple);
-        color: var(--white);
+        color: $white;
         border: none;
         border-radius: $radius-md;
         font-size: $font-size-base;
@@ -66,7 +66,7 @@
     margin-bottom: $spacing-md;
 
     .tab {
-      background: transparent;
+      background: transparent !important;
       border: none;
       font-size: $font-size-base;
       font-weight: 500;

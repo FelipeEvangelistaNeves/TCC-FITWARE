@@ -1,6 +1,6 @@
 @import "../../abstract/variables";
 
-.admin-modal {
+.admin-excluir {
   /* === Overlay === */
   .modal-overlay {
     position: fixed;
@@ -24,7 +24,7 @@
     max-width: 420px;
     padding: $spacing-lg;
     text-align: center;
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 30px rgba(var(--shadow-rgb), 0.3);
     animation: slideUp 0.25s ease-out;
 
     @media (prefers-color-scheme: light) {
@@ -76,11 +76,11 @@
 
       .btn-excluir {
         background: var(--color-red);
-        color: #fff;
+        color: var(--white);
         border: none;
 
         &:hover {
-          background: lighten($color-red, 10%);
+          background: var(--color-red);
           transform: scale(1.05);
         }
       }

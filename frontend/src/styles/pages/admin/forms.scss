@@ -132,6 +132,79 @@
       opacity: 1;
     }
   }
+  /* ===== Forms / Modal tweaks para admin-modal ===== */
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-width: 840px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: var(--card-bg);
+    color: var(--color-text);
+    border: 1px solid var(--border-color);
+    animation: modalPop 0.18s ease-out;
+  }
+
+  .form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-group label {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--color-text);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .btn-salvar,
+  .btn-purple {
+    background: var(--color-purple);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+@keyframes modalPop {
+  from {
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 /* Fallback values for CSS variables */

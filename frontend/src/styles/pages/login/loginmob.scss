@@ -1,11 +1,16 @@
 @import "./../../abstract/variables.scss";
-// 🎨 Variáveis
-$primary: #a78bfa;
-$background: #111;
-$input-bg: #333;
-$text-color: #fff;
-$disabled-bg: #444;
-$disabled-text: #aaa;
+// 🎨 Map local tokens to global design tokens (theme-aware)
+// Use the SCSS wrappers defined in `variables.scss` which resolve to CSS vars at runtime.
+$primary: $color-purple-light; // accent
+$background: $app-bg;
+$input-bg: $surface-2;
+$text-color: $color-text;
+$disabled-bg: $border-color;
+$disabled-text: $color-text-muted;
+$card-bg: $color-bg-card;
+$card-hover: $color-bg-hover;
+$transition: $theme-transition;
+$ff: $font-family;
 
 // 🔲 Container principal
 .login-container {
@@ -15,127 +20,164 @@ $disabled-text: #aaa;
   min-height: 100vh;
   background-color: $background;
   padding: 20px; // espaçamento mobile
-}
 
-// 📦 Card
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  background: transparent;
-  border-radius: 12px;
-  text-align: center;
-  color: $text-color;
-}
+  // 📦 Card
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    background: $card-bg;
+    border-radius: 12px;
+    text-align: center;
+    color: $text-color;
+    padding: 28px 20px;
+    font-family: $ff;
+    transition: background $transition, color $transition;
+  }
 
-// 👤 Avatar
-.login-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #d9d9d9;
-  margin: 0 auto 20px auto;
-}
+  // 👤 Avatar
+  .login-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: $white;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 2px 6px rgba(var(--shadow-rgb), 0.08);
+  }
 
-// 📌 Títulos
-.login-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.login-subtitle {
-  color: $primary;
-  margin-bottom: 25px;
-}
-
-.error-msg {
-  color: #ff4444;
-  font-weight: 600;
-  margin-top: 10px;
-  text-align: center;
-}
-
-// 📝 Inputs
-.input-group {
-  text-align: left;
-  margin-bottom: 15px;
-
-  label {
-    display: block;
-    font-size: 14px;
+  // 📌 Títulos
+  .login-title {
+    font-weight: bold;
     margin-bottom: 5px;
   }
 
-  input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px !important;
-    border: 1px solid transparent;
-    background-color: $input-bg;
-    color: $text-color;
-    font-size: 16px;
-    caret-color: $primary;
+  .login-subtitle {
+    color: $primary;
+    margin-bottom: 25px;
+  }
 
-    &:focus {
-      border: 1px solid $primary;
-      box-shadow: 0 0 5px rgba($primary, 0.4);
-      outline: none;
+  .error-msg {
+    color: #ff4444;
+    font-weight: 600;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  // 📝 Inputs
+  .input-group {
+    text-align: left;
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: $color-text-muted;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px !important;
+      border: 1px solid transparent;
+      background-color: var(--surface-1);
+      color: $text-color;
+      font-size: 16px;
+      caret-color: $primary;
+      transition: border $transition, box-shadow $transition,
+        background $transition;
+
+      &:focus {
+        border: 0, 5px solid $primary;
+        /* use theme RGB token for an alpha ring so no hard-coded rgba is needed */
+
+        outline: none;
+      }
     }
   }
-}
 
-// 🔗 Esqueceu a senha
-.forgot-password {
-  text-align: left;
-  margin-bottom: 20px;
+  // 🔗 Esqueceu a senha
+  .forgot-password {
+    text-align: left;
+    margin-bottom: 20px;
 
-  a {
-    font-size: 14px;
-    color: $primary;
-    text-decoration: none;
+    a {
+      font-size: 14px;
+      color: $primary;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // 🔘 Botão
+  .button-log-mob {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px !important;
+    background: var(
+      --surface-1
+    ); // $primary -> $color-purple-light (mapeado para var(--...))
+    color: $white; // usa $white (mapeado para var(--white))
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-family: $ff;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: background $transition, color $transition, transform 0.08s,
+      box-shadow $transition;
+    box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.08);
 
     &:hover {
-      text-decoration: underline;
+      /* usa um tom de destaque já definido pelo tema */
+      background: $color-purple; /* var(--color-purple) */
+      box-shadow: 0 8px 22px rgba(var(--shadow-rgb), 0.1);
+    }
+
+    &:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(var(--shadow-rgb), 0.08);
+    }
+
+    &:focus {
+      outline: none;
+      /* fallback: usar borda de contraste com a cor principal (funciona com CSS vars) */
+      border: 1px solid $color-purple;
+      /* use CSS var RGB token to keep ring theme-aware and avoid fixed colors */
+      box-shadow: 0 0 0 4px rgba(var(--color-purple-rgb), 0.12);
+    }
+
+    /* estado desabilitado */
+    &.disabled,
+    &:disabled {
+      background: $disabled-bg; /* ex: $border-color */
+      color: $disabled-text; /* ex: $color-text-muted */
+      cursor: not-allowed;
+      opacity: 0.95;
+      box-shadow: none;
+      transform: none;
     }
   }
-}
 
-// 🔘 Botão
-.button-log-mob {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px !important; // 🔥 sempre arredondado
-  background-color: $disabled-bg;
-  color: $disabled-text;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover {
-    background-color: lighten($disabled-bg, 10%);
+  // 📱 Responsividade
+  @media (min-width: 480px) {
+    .login-card {
+      padding: 40px 30px;
+    }
   }
 
-  &:active {
-    background-color: $primary;
-    color: $text-color;
+  @media (min-width: 768px) {
+    .login-card {
+      max-width: 500px;
+    }
   }
-}
 
-// 📱 Responsividade
-@media (min-width: 480px) {
-  .login-card {
-    padding: 40px 30px;
-  }
-}
-
-@media (min-width: 768px) {
-  .login-card {
-    max-width: 500px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .login-card {
-    max-width: 600px;
+  @media (min-width: 1024px) {
+    .login-card {
+      max-width: 600px;
+    }
   }
 }

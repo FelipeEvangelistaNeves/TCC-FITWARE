@@ -168,7 +168,7 @@
       background: $purple-dark;
 
       &:hover {
-        background: lighten($purple-dark, 5%);
+        background: var(--color-purple-light);
       }
     }
 
@@ -176,7 +176,7 @@
       background: $blue-light;
 
       &:hover {
-        background: lighten($blue-light, 5%);
+        background: rgba(var(--color-purple-light-rgb), 0.3);
       }
     }
 
@@ -279,7 +279,7 @@
         color: $white;
 
         &:hover {
-          background: lighten($purple-dark, 5%);
+          background: var(--color-purple-light);
         }
       }
     }

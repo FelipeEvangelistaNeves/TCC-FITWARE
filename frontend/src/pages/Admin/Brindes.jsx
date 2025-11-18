@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../../styles/pages/admin/tabelas.scss";
+import AddBrinde from "./AddBrindes";
+import EditarBrinde from "./EditarBrinde";
+import DetalhesBrinde from "./DetalhesBrindes";
 
 export default function Brindes() {
   const [activeTab, setActiveTab] = useState("todos");
   const [busca, setBusca] = useState("");
   const [pagina, setPagina] = useState(1);
+  const [itensPorPagina] = useState(10);
+
   const [brindes, setBrindes] = useState([
     {
       id: "BR-2305",
@@ -30,10 +34,11 @@ export default function Brindes() {
     },
   ]);
 
-  const navigate = useNavigate();
-  const itensPorPagina = 10;
+  const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [selected, setSelected] = useState(null);
 
-  // ====== FILTRO DE BUSCA E ABA ======
   const filtrados = brindes.filter((b) => {
     const termo = busca.toLowerCase();
     const correspondeBusca = b.nome.toLowerCase().includes(termo);
@@ -41,164 +46,178 @@ export default function Brindes() {
     return correspondeBusca && correspondeAba;
   });
 
-  // ====== PAGINAÇÃO ======
   const totalPaginas = Math.ceil(filtrados.length / itensPorPagina);
   const inicio = (pagina - 1) * itensPorPagina;
-  const brindesPaginados = filtrados.slice(inicio, inicio + itensPorPagina);
+  const paginados = filtrados.slice(inicio, inicio + itensPorPagina);
 
-  const trocarPagina = (novaPagina) => {
-    if (novaPagina >= 1 && novaPagina <= totalPaginas) setPagina(novaPagina);
+  const trocarPagina = (p) => p >= 1 && p <= totalPaginas && setPagina(p);
+
+  const handleAdd = (novo) => {
+    setBrindes((prev) => [
+      { id: `BR-${Math.floor(Math.random() * 9000) + 1000}`, ...novo },
+      ...prev,
+    ]);
+    setShowAdd(false);
   };
 
-  // ====== EXCLUIR BRINDE ======
-  const excluirBrinde = (id) => {
-    const confirmar = window.confirm("Deseja realmente excluir este brinde?");
-    if (confirmar) setBrindes(brindes.filter((b) => b.id !== id));
+  const handleUpdate = (editado) => {
+    setBrindes((prev) => prev.map((b) => (b.id === editado.id ? editado : b)));
+    setShowEdit(false);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Deseja realmente excluir este brinde?")) {
+      setBrindes((prev) => prev.filter((b) => b.id !== id));
+    }
   };
 
   return (
-    <div className="tabela-page">
-      {/* ===== Header ===== */}
-      <div className="tabela-header">
-        <h2>Gerenciar Brindes</h2>
-        <div className="acoes-header">
-          <input
-            type="text"
-            placeholder="Buscar Brinde..."
-            className="search-input"
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-          />
-          <button className="add-btn" onClick={() => navigate("criar")}>
-            + Criar Brinde
+    <div className="admin-modal">
+      <div className="tabela-page">
+        <div className="tabela-header">
+          <h2>Gerenciar Brindes</h2>
+          <div className="acoes-header">
+            <input
+              type="text"
+              placeholder="Buscar Brinde..."
+              className="search-input"
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+            />
+            <button className="add-btn" onClick={() => setShowAdd(true)}>
+              + Criar Brinde
+            </button>
+          </div>
+        </div>
+
+        <div className="tabs">
+          <button
+            className={`tab ${activeTab === "todos" ? "active" : ""}`}
+            onClick={() => setActiveTab("todos")}
+          >
+            Todos os Brindes
+          </button>
+          <button
+            className={`tab ${activeTab === "ativos" ? "active" : ""}`}
+            onClick={() => setActiveTab("ativos")}
+          >
+            Ativos
           </button>
         </div>
-      </div>
 
-      {/* ===== Tabs ===== */}
-      <div className="tabs">
-        <button
-          className={`tab ${activeTab === "todos" ? "active" : ""}`}
-          onClick={() => setActiveTab("todos")}
-        >
-          Todos os Brindes
-        </button>
-        <button
-          className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}
-        >
-          Ativos
-        </button>
-      </div>
-
-      {/* ===== Tabela ===== */}
-      <table className="tabela">
-        <thead>
-          <tr>
-            <th>Nome do Brinde</th>
-            <th>Pontos</th>
-            <th>Estoque</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {brindesPaginados.length > 0 ? (
-            brindesPaginados.map((b, i) => (
-              <tr key={i}>
-                <td>{b.nome}</td>
-                <td>
-                  <span style={{ color: "#dbac0d", fontWeight: "600" }}>
-                    ⭐ {b.pontos}
-                  </span>
-                </td>
-                <td>{b.estoque}</td>
-                <td>
-                  <span
-                    className={`status ${
-                      b.status === "ativo" ? "pago" : "cancelado"
-                    }`}
-                  >
-                    {b.status === "ativo" ? "Ativo" : "Esgotado"}
-                  </span>
-                </td>
-                <td>
-                  {/* Editar */}
-                  <button
-                    className="action-btn"
-                    title="Editar"
-                    onClick={() =>
-                      navigate(`editar/${encodeURIComponent(b.id)}`)
-                    }
-                  >
-                    <i className="bi bi-pencil"></i>
-                  </button>
-
-                  {/* Excluir */}
-                  <button
-                    className="action-btn"
-                    title="Excluir"
-                    onClick={() => excluirBrinde(b.id)}
-                  >
-                    <i className="bi bi-trash"></i>
-                  </button>
-
-                  {/* Detalhes */}
-                  <button
-                    className="action-btn"
-                    title="Detalhes"
-                    onClick={() =>
-                      navigate(`detalhes/${encodeURIComponent(b.id)}`)
-                    }
-                  >
-                    <i className="bi bi-three-dots"></i>
-                  </button>
+        <table className="tabela">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Pontos</th>
+              <th>Estoque</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginados.length > 0 ? (
+              paginados.map((b) => (
+                <tr key={b.id}>
+                  <td>{b.nome}</td>
+                  <td>
+                    <span style={{ color: "#dbac0d", fontWeight: "600" }}>
+                      ⭐ {b.pontos}
+                    </span>
+                  </td>
+                  <td>{b.estoque}</td>
+                  <td>
+                    <span
+                      className={`status ${
+                        b.status === "ativo" ? "pago" : "cancelado"
+                      }`}
+                    >
+                      {b.status === "ativo" ? "Ativo" : "Esgotado"}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="action-btn"
+                      onClick={() => {
+                        setSelected(b);
+                        setShowEdit(true);
+                      }}
+                    >
+                      <i className="bi bi-pencil"></i>
+                    </button>
+                    <button
+                      className="action-btn"
+                      onClick={() => handleDelete(b.id)}
+                    >
+                      <i className="bi bi-trash"></i>
+                    </button>
+                    <button
+                      className="action-btn"
+                      onClick={() => {
+                        setSelected(b);
+                        setShowDetails(true);
+                      }}
+                    >
+                      <i className="bi bi-three-dots"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="sem-resultado">
+                  Nenhum brinde encontrado.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" style={{ textAlign: "center", color: "#aaa" }}>
-                Nenhum brinde encontrado.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
 
-      {/* ===== Paginação ===== */}
-      <div className="paginacao">
-        <div>
-          Itens por página:
-          <select value={itensPorPagina} disabled>
-            <option>{itensPorPagina}</option>
-          </select>
-        </div>
-        <div className="pages">
-          <button
-            className="page"
-            onClick={() => trocarPagina(pagina - 1)}
-            disabled={pagina === 1}
-          >
-            &lt;
-          </button>
-          {[...Array(totalPaginas)].map((_, i) => (
+        <div className="paginacao">
+          <div className="pages">
             <button
-              key={i}
-              className={`page ${pagina === i + 1 ? "active" : ""}`}
-              onClick={() => trocarPagina(i + 1)}
+              className="page"
+              onClick={() => trocarPagina(pagina - 1)}
+              disabled={pagina === 1}
             >
-              {i + 1}
+              &lt;
             </button>
-          ))}
-          <button
-            className="page"
-            onClick={() => trocarPagina(pagina + 1)}
-            disabled={pagina === totalPaginas}
-          >
-            &gt;
-          </button>
+            {Array.from({ length: totalPaginas }, (_, i) => (
+              <button
+                key={i}
+                className={`page ${pagina === i + 1 ? "active" : ""}`}
+                onClick={() => trocarPagina(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              className="page"
+              onClick={() => trocarPagina(pagina + 1)}
+              disabled={pagina === totalPaginas}
+            >
+              &gt;
+            </button>
+          </div>
         </div>
+
+        {/* === MODAIS === */}
+        {showAdd && (
+          <AddBrinde onClose={() => setShowAdd(false)} onSave={handleAdd} />
+        )}
+        {showEdit && selected && (
+          <EditarBrinde
+            brinde={selected}
+            onClose={() => setShowEdit(false)}
+            onSave={handleUpdate}
+          />
+        )}
+        {showDetails && selected && (
+          <DetalhesBrinde
+            brinde={selected}
+            onClose={() => setShowDetails(false)}
+          />
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import "../../styles/pages/admin/excluir.scss";
 
 export default function ExcluirAluno({ aluno, onClose, onConfirm }) {
   return (
-    <div className="admin-modal">
+    <div className="admin-excluir">
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <h3>Excluir Aluno</h3>

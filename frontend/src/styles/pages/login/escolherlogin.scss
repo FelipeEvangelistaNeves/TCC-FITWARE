@@ -1,7 +1,7 @@
 @import "../../abstract/variables.scss";
 
 .escolher-login-container {
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +16,7 @@
     text-align: center;
     width: 100%;
     max-width: 420px;
-
+    margin-bottom: 5%;
     h2 {
       color: $white;
       margin-bottom: $spacing-md;
@@ -46,7 +46,7 @@
         color: $white;
 
         &:hover {
-          background: darken($color-purple, 8%);
+          background: var(--color-purple-hover);
         }
       }
 
@@ -56,7 +56,7 @@
         color: $color-purple;
 
         &:hover {
-          background: rgba($color-purple, 0.15);
+          background: rgba(var(--color-purple-rgb), 0.15);
         }
       }
 
@@ -65,7 +65,7 @@
         color: $black;
 
         &:hover {
-          background: darken($accent-yellow, 8%);
+          background: var(--yellow);
         }
       }
     }

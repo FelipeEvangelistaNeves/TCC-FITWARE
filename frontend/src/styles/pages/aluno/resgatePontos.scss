@@ -7,8 +7,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #121212;
-  color: #fff;
+  background: var(--app-bg);
+  color: var(--white);
   padding: 20px;
   z-index: 9999; // garante que fica por cima
   overflow-y: auto;
@@ -32,7 +32,7 @@
     .back-btn {
       background: none;
       border: none;
-      color: #fff;
+      color: var(--white);
       font-size: 20px;
       cursor: pointer;
     }
@@ -57,29 +57,29 @@
       .pontos {
         font-size: 28px;
         font-weight: bold;
-        color: #f39c12;
+        color: var(--yellow);
       }
       .label {
         font-size: 14px;
-        color: #ccc;
+        color: var(--color-text-muted);
       }
     }
 
     .nivel {
       margin-top: 10px;
       font-size: 14px;
-      color: #aaa;
+      color: var(--color-text-muted);
     }
 
     .progress-bar {
-      background: #333;
+      background: var(--surface-3);
       border-radius: 10px;
       height: 6px;
       margin: 10px 0;
       overflow: hidden;
 
       .progress {
-        background: #f39c12;
+        background: var(--yellow);
         height: 100%;
         border-radius: 10px;
       }
@@ -120,7 +120,7 @@
 
         p {
           font-size: 12px;
-          color: #ccc;
+          color: var(--color-text-muted);
           margin: 0 0 5px;
         }
 
@@ -141,7 +141,7 @@
           border-radius: 8px;
           padding: 6px 12px;
           font-size: 12px;
-          color: #fff;
+          color: var(--white);
           cursor: pointer;
           flex-shrink: 0;
           margin-bottom: 5px;
@@ -167,13 +167,13 @@
       }
 
       &.purple .resgatar {
-        background: #8e44ad;
+        background: var(--color-purple);
       }
       &.blue .resgatar {
         background: #2980b9;
       }
       &.green .resgatar {
-        background: #27ae60;
+        background: var(--color-green);
       }
     }
   }
@@ -184,7 +184,7 @@
   padding: 10px;
   border-radius: 8px;
   background: #f3f0ff;
-  color: #333;
+  color: var(--color-text);
   font-size: 14px;
   text-align: center;
 }
@@ -206,12 +206,12 @@
 }
 
 .modal-confirmacao {
-  background: white;
+  background: var(--white);
   padding: 20px;
   border-radius: 12px;
   width: 320px;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(var(--shadow-rgb), 0.3);
 
   .botoes {
     display: flex;

@@ -15,8 +15,17 @@ $ROOT: true;
   --color-purple: #9147ff;
   --color-purple-light: #a970ff;
   --color-purple-hover: #7d3fdb;
+  /* RGB tokens for alpha uses */
+  --color-purple-rgb: 145, 71, 255;
+  --color-purple-light-rgb: 169, 112, 255;
+  --color-purple-hover-rgb: 125, 63, 219;
   --color-green: #1dad52;
+  --color-green-rgb: 29, 173, 82;
   --color-red: #eb0400;
+  --color-red-rgb: 235, 4, 0;
+  --white-rgb: 255, 255, 255;
+  --black-rgb: 14, 14, 16;
+  --shadow-rgb: 0, 0, 0;
   --color-text-muted: #adadb8;
   --text-hover: #ffffff;
   --link-color: #bf94ff;
@@ -25,6 +34,11 @@ $ROOT: true;
   --app-bg: #0e0e10;
   --card-bg: #18181b;
   --card-hover: #1f1f23;
+  --yellow: #ffb300;
+  --yellow-rgb: 255, 179, 0;
+  /* Scrollbar tokens (default = dark theme) */
+  --scroll-thumb: rgba(var(--shadow-rgb), 0.35);
+  --scroll-track: var(--surface-2);
 }
 
 /* Light mode overrides applied when <body class="light-mode"> */
@@ -42,8 +56,17 @@ body.light-mode {
   --color-purple: #772ce8;
   --color-purple-light: #9147ff;
   --color-purple-hover: #5c16c5;
+  /* RGB tokens for alpha uses */
+  --color-purple-rgb: 119, 44, 232;
+  --color-purple-light-rgb: 145, 71, 255;
+  --color-purple-hover-rgb: 92, 22, 197;
   --color-green: #00a352;
+  --color-green-rgb: 0, 163, 82;
   --color-red: #d10000;
+  --color-red-rgb: 209, 0, 0;
+  --white-rgb: 0, 14, 16;
+  --black-rgb: 255, 255, 255;
+  --shadow-rgb: 0, 0, 0;
   --color-text-muted: #53535f;
   --text-hover: #0e0e10;
   --link-color: #772ce8;
@@ -51,6 +74,11 @@ body.light-mode {
   --app-bg: #f7f7f8;
   --card-bg: #ffffff;
   --card-hover: #f7f7f8;
+  --yellow: #e6a200;
+  --yellow-rgb: 230, 162, 0;
+  /* Scrollbar tokens for light theme */
+  --scroll-thumb: rgba(0, 0, 0, 0.12);
+  --scroll-track: var(--surface-3);
 }
 
 /* ===== Design Tokens (FitWare) ===== */
@@ -99,9 +127,17 @@ $spacing-md: 16px;
 $spacing-lg: 24px;
 $spacing-xl: 32px;
 
+/* global shadow rgb token for alpha shadows instead of hard-coded rgba(0,0,0,...) */
+
 // ==========================
 // Border Radius
 // ==========================
+/* Oculta as setas para a maioria dos navegadores baseados em Chromium/Webkit */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Remove a margem padrão que pode sobrar */
+}
 $radius-sm: 6px;
 $radius-md: 12px;
 $radius-lg: 20px;
@@ -109,14 +145,15 @@ $radius-lg: 20px;
 // ==========================
 // Shadows
 // ==========================
-$shadow-card: 0 4px 10px rgba(0, 0, 0, 0.3);
-$shadow-1: 0 1px 3px rgba($black, 0.25);
-$shadow-2: 0 6px 18px rgba($black, 0.3);
+$shadow-card: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
+$shadow-1: 0 1px 3px rgba(var(--shadow-rgb), 0.25);
+$shadow-2: 0 6px 18px rgba(var(--shadow-rgb), 0.3);
 
 // ==========================
 // Z-Index
 // ==========================
 $z-header: 50;
+
 $z-bottom: 40;
 /* ===== CSS variable wrappers (map SCSS vars -> CSS custom properties) ===== */
 // These reassignments come after the original tokens so they take precedence

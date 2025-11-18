@@ -19,7 +19,11 @@
       cursor: pointer;
     }
 
-    h3 { margin: 0; color: $yellow; font-weight: 700; }
+    h3 {
+      margin: 0;
+      color: $yellow;
+      font-weight: 700;
+    }
   }
 
   .perfil {
@@ -45,8 +49,16 @@
     .info {
       text-align: center;
 
-      h2 { margin: 0; color: $text; font-size: $font-size-heading; }
-      .sub { color: $text-2; font-size: $font-size-small; margin-top: 4px; }
+      h2 {
+        margin: 0;
+        color: $text;
+        font-size: $font-size-heading;
+      }
+      .sub {
+        color: $text-2;
+        font-size: $font-size-small;
+        margin-top: 4px;
+      }
     }
   }
 
@@ -66,8 +78,13 @@
       font-size: 14px;
       cursor: pointer;
 
-      span { font-size: 12px; color: $text-2; }
-      &:hover { color: $yellow; }
+      span {
+        font-size: 12px;
+        color: $text-2;
+      }
+      &:hover {
+        color: $yellow;
+      }
     }
   }
 
@@ -85,7 +102,10 @@
       cursor: pointer;
       padding: 6px 8px;
 
-      &.ativo { color: $text; border-bottom: 2px solid $primary; }
+      &.ativo {
+        color: $text;
+        border-bottom: 2px solid $primary;
+      }
     }
   }
 
@@ -106,15 +126,24 @@
         align-items: center;
         margin-bottom: 8px;
 
-        .titulo { color: $yellow; font-weight: 700; }
-        .data { color: $text-2; font-size: $font-size-small; }
+        .titulo {
+          color: $yellow;
+          font-weight: 700;
+        }
+        .data {
+          color: $text-2;
+          font-size: $font-size-small;
+        }
       }
 
       ul {
         margin: 0 0 12px 0;
         padding-left: 16px;
 
-        li { color: $text; margin-bottom: 6px; }
+        li {
+          color: $text;
+          margin-bottom: 6px;
+        }
       }
 
       .acoes-card {
@@ -129,121 +158,128 @@
           padding: 6px 8px;
           border-radius: $radius-sm;
 
-          &.detalhes { color: $primary; font-weight: 700; }
-          &.duplicar { color: $primary-500; }
+          &.detalhes {
+            color: $primary;
+            font-weight: 700;
+          }
+          &.duplicar {
+            color: $primary-500;
+          }
 
-          &:hover { opacity: 0.9; }
+          &:hover {
+            opacity: 0.9;
+          }
         }
       }
     }
   }
 
-.messages-list {
-  padding: 0 20px;
+  .messages-list {
+    padding: 0 20px;
 
-  .message-item {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 15px;
-    background: $surface-1;
-    border-radius: 16px;
-    border: 1px solid rgba(107, 114, 128, 0.4);
-    backdrop-filter: blur(10px);
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(75, 85, 99, 0.8);
-      transform: translateY(-2px);
-    }
-
-    .message-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
+    .message-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin-right: 15px;
-      flex-shrink: 0;
+      padding: 20px;
+      margin-bottom: 15px;
+      background: $surface-1;
+      border-radius: 16px;
+      border: 1px solid rgba(var(--shadow-rgb), 0.4);
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
 
-      span {
-        color: white;
-        font-weight: 700;
-        font-size: 16px;
+      &:hover {
+        background: rgba(var(--shadow-rgb), 0.8);
+        transform: translateY(-2px);
       }
 
-      &.purple {
-        background: #8b5cf6; // Roxo
-      }
-
-      &.orange {
-        background: #f97316; // Laranja
-      }
-
-      &.blue {
-        background: #3b82f6; // Azul
-      }
-    }
-
-    .message-content {
-      flex: 1;
-      min-width: 0;
-
-      .message-header {
+      .message-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 8px;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
 
-        .message-name {
-          margin-top: 75px;
-          font-size: 16px;
-          font-weight: 700;
+        span {
           color: white;
+          font-weight: 700;
+          font-size: 16px;
+        }
+
+        &.purple {
+          background: #8b5cf6; // Roxo
+        }
+
+        &.orange {
+          background: #f97316; // Laranja
+        }
+
+        &.blue {
+          background: #3b82f6; // Azul
+        }
+      }
+
+      .message-content {
+        flex: 1;
+        min-width: 0;
+
+        .message-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+
+          .message-name {
+            margin-top: 75px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .message-time {
+            font-size: 12px;
+            color: #9ca3af;
+            font-weight: 500;
+            flex-shrink: 0;
+            margin-left: 10px;
+          }
+        }
+
+        .message-preview {
+          font-size: 14px;
+          color: #d1d5db;
           margin: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          line-height: 1.4;
         }
+      }
 
-        .message-time {
+      .unread-badge {
+        width: 24px;
+        height: 24px;
+        background: #8b5cf6; // Roxo
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        flex-shrink: 0;
+
+        span {
+          color: white;
           font-size: 12px;
-          color: #9ca3af;
-          font-weight: 500;
-          flex-shrink: 0;
-          margin-left: 10px;
+          font-weight: 700;
         }
-      }
-
-      .message-preview {
-        font-size: 14px;
-        color: #d1d5db;
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1.4;
-      }
-    }
-
-    .unread-badge {
-      width: 24px;
-      height: 24px;
-      background: #8b5cf6; // Roxo
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 15px;
-      flex-shrink: 0;
-
-      span {
-        color: white;
-        font-size: 12px;
-        font-weight: 700;
       }
     }
   }
-}
 }

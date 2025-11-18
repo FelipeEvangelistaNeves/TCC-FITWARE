@@ -80,140 +80,141 @@ body {
       }
     }
   }
-}
 
-// Dropdown Menu
-.fw-dropdown-menu {
-  background: var(--surface-1);
-  border: 1px solid var(--border-color);
-  display: none;
-  opacity: 0;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin-top: $spacing-sm;
-  padding: $spacing-sm;
-  min-width: 240px;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  
-  ul, li {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  // Dropdown Menu
+  .fw-dropdown-menu {
+    background: var(--surface-1);
+    border: 1px solid var(--border-color);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: $spacing-sm;
+    padding: $spacing-sm;
+    min-width: 240px;
+    position: absolute;
+    top: 100%;
+    right: 0;
 
-  &.fw-show {
-    display: block;
-    opacity: 1;
-  }
-}
-
-// Theme Switch
-.theme-switch-wrapper {
-  @include flex-center;
-  padding: $spacing-sm $spacing-md;
-  gap: $spacing-sm;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  color: var(--color-text);
-
-  &:hover {
-    @include hover-state;
-  }
-
-  .theme-switch {
-    @include theme-switch-base;
-    margin-right: 8px;
-
-    .switch-track {
-      position: absolute;
-      inset: 0;
-      background: var(--surface-2);
-      border: 2px solid var(--border-color);
-      border-radius: 34px;
-      transition: all 0.2s ease;
-
-      &.light {
-        background: var(--surface-2);
-        border-color: var(--color-purple);
-      }
+    ul,
+    li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
 
-    .switch-handle {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 18px;
-      height: 18px;
-      background: var(--surface-1);
-      border-radius: 50%;
-      transition: all 0.2s ease;
-      @include flex-center;
-      justify-content: center;
-
-      i {
-        font-size: 12px;
-        color: var(--color-purple);
-      }
-    }
-
-    .light .switch-handle {
-      transform: translateX(22px);
-      background: var(--white);
-
-      i {
-        color: var(--color-purple-light);
-      }
+    &.fw-show {
+      display: block;
+      opacity: 1;
     }
   }
 
-  span {
-    font-size: $font-size-base;
+  // Theme Switch
+  .theme-switch-wrapper {
+    @include flex-center;
+    padding: $spacing-sm $spacing-md;
+    gap: $spacing-sm;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
     color: var(--color-text);
-  }
-}
 
-// Dropdown Items
-.fw-dropdown-item {
-  display: flex;
-  flex-direction: row;
-  font-size: $font-size-base;
-  color: var(--color-text-muted);
-  padding: $spacing-sm $spacing-md;
-  border-radius: $radius-sm;
-  transition: all 0.2s ease;
-
-  &:hover {
-    @include hover-state;
-  }
-
-  &.text-danger {
-    color: var(--color-red);
-    background: transparent;
-    border: none;
-    width: 100%;
     &:hover {
-     background:var(--surface-2)
+      @include hover-state;
     }
 
-    i {
-      color: var(--color-red);
+    .theme-switch {
+      @include theme-switch-base;
+      margin-right: 8px;
+
+      .switch-track {
+        position: absolute;
+        inset: 0;
+        background: var(--surface-2);
+        border: 2px solid var(--border-color);
+        border-radius: 34px;
+        transition: all 0.2s ease;
+
+        &.light {
+          background: var(--surface-2);
+          border-color: var(--color-purple);
+        }
+      }
+
+      .switch-handle {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 18px;
+        height: 18px;
+        background: var(--surface-1);
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        @include flex-center;
+        justify-content: center;
+
+        i {
+          font-size: 12px;
+          color: var(--color-purple);
+        }
+      }
+
+      .light .switch-handle {
+        transform: translateX(22px);
+        background: var(--white);
+
+        i {
+          color: var(--color-purple-light);
+        }
+      }
+    }
+
+    span {
+      font-size: $font-size-base;
+      color: var(--color-text);
     }
   }
-}
 
-.fw-dropdown-item-text {
-  font-size: $font-size-small;
-  color: var(--color-text-muted);
-  padding: $spacing-sm $spacing-md;
-}
+  // Dropdown Items
+  .fw-dropdown-item {
+    display: flex;
+    flex-direction: row;
+    font-size: $font-size-base;
+    color: var(--color-text-muted);
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-sm;
+    transition: all 0.2s ease;
 
-.fw-dropdown-divider {
-  border: none;
-  height: 1px;
-  background: var(--border-color);
-  margin: $spacing-sm 0;
+    &:hover {
+      @include hover-state;
+    }
+
+    &.text-danger {
+      color: var(--color-red);
+      background: transparent;
+      border: none;
+      width: 100%;
+      &:hover {
+        background: var(--surface-2);
+      }
+
+      i {
+        color: var(--color-red);
+      }
+    }
+  }
+
+  .fw-dropdown-item-text {
+    font-size: $font-size-small;
+    color: var(--color-text-muted);
+    padding: $spacing-sm $spacing-md;
+  }
+
+  .fw-dropdown-divider {
+    border: none;
+    height: 1px;
+    background: var(--border-color);
+    margin: $spacing-sm 0;
+  }
 }

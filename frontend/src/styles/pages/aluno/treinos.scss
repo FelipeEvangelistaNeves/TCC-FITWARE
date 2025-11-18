@@ -20,9 +20,9 @@
       width: 100%;
       padding: 15px 15px 15px 45px;
       background: $surface-1;
-      border: 1px solid rgba(107, 114, 128, 0.4);
+      border: 1px solid rgba(var(--shadow-rgb), 0.4);
       border-radius: 12px;
-      color: white;
+      color: var(--white);
       font-size: 16px;
       backdrop-filter: blur(10px);
 
@@ -32,8 +32,8 @@
 
       &:focus {
         outline: none;
-        border-color: #8b5cf6;
-        background: rgba(75, 85, 99, 0.9);
+        border-color: var(--color-purple);
+        background: rgba(var(--shadow-rgb), 0.9);
       }
     }
   }
@@ -42,16 +42,16 @@
 .treinos-page {
   background: $app-bg;
   min-height: 100vh;
-  color: #fff;
+  color: var(--white);
   font-family: "Segoe UI", "Inter", Arial, sans-serif;
   padding-bottom: 80px;
   .page-header {
     font-size: 1.3rem;
     font-weight: 600;
-    color: #ffb300;
+    color: var(--yellow);
     padding: 1.2rem 1.5rem 0.5rem 1.5rem;
-    background: #23232a;
-    border-bottom: 1px solid #23232a;
+    background: var(--surface-3);
+    border-bottom: 1px solid var(--surface-3);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,7 +65,7 @@
       border: none;
       border-radius: 1.5rem;
       padding: 0.7rem 1.2rem;
-      color: #fff;
+      color: var(--white);
       font-size: 1rem;
       margin-bottom: 1rem; // aumenta o espaçamento para separar dos filtros
       outline: none;
@@ -87,8 +87,8 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #8b5cf6;
-      color: #fff;
+      background: var(--color-purple);
+      color: var(--white);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -106,7 +106,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(var(--white-rgb), 0.05);
     border-radius: 12px;
     padding: 0.5rem 1rem;
     transition: all 0.3s ease;
@@ -114,15 +114,15 @@
     .timer-display {
       font-size: 1.6rem;
       font-weight: 600;
-      color: #ffffff;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+      color: var(--white);
+      text-shadow: 0 0 8px rgba(var(--white-rgb), 0.4);
       min-width: 80px;
       text-align: center;
     }
 
     .stop-btn {
-      background: #ef4444;
-      color: #fff;
+      background: var(--color-red);
+      color: var(--white);
       border: none;
       border-radius: 8px;
       padding: 0.6rem 1.2rem;
@@ -140,8 +140,8 @@
 
   /* Botão de iniciar treino */
   .start-btn {
-    background: #8b5cf6;
-    color: #fff;
+    background: var(--color-purple);
+    color: var(--white);
     border: none;
     border-radius: 10px;
     padding: 0.7rem 1.4rem;
@@ -151,7 +151,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background: #7c3aed;
+      background: var(--color-purple-hover);
       transform: scale(1.05);
     }
 

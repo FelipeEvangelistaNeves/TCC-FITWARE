@@ -24,7 +24,7 @@
     transition: background-color 0.2s ease, transform 0.15s ease;
 
     &:hover {
-      background-color: lighten($purple-dark, 8%);
+      background-color: var(--color-purple-light);
       transform: scale(1.03);
     }
   }
@@ -70,7 +70,7 @@
       font-weight: 600;
 
       &.informativo {
-        background: rgba($color-purple-light, 0.15);
+        background: rgba(var(--color-purple-rgb), 0.15);
         color: $color-purple-light;
       }
 
@@ -129,7 +129,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba($black, 0.85);
+    background: rgba(var(--shadow-rgb), 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -157,45 +157,44 @@
       margin-bottom: 20px;
       color: $color-text;
     }
-  }
 
-  /* ===============================
+    /* ===============================
    CAMPOS DE FORMULÁRIO
 ================================*/
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
 
-    label {
-      font-size: 14px;
-      font-weight: 600;
-      color: $color-text-muted;
-    }
+      label {
+        font-size: 14px;
+        font-weight: 600;
+        color: $color-text-muted;
+      }
 
-    input,
-    select,
-    textarea {
-      background: $surface-2;
-      border: 1px solid $border;
-      border-radius: 8px;
-      padding: 10px 12px;
-      color: $color-text;
-      font-size: 14px;
-      outline: none;
-      transition: all 0.2s ease;
+      input,
+      select,
+      textarea {
+        background: $surface-2;
+        border: 1px solid $border;
+        border-radius: 8px;
+        padding: 10px 12px;
+        color: $color-text;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
 
-      &:focus {
-        border-color: $color-purple-light;
-        background: $surface-3;
+        &:focus {
+          border-color: $color-purple-light;
+          background: $surface-3;
+        }
+      }
+
+      textarea {
+        resize: none;
       }
     }
-
-    textarea {
-      resize: none;
-    }
-
     /* ===============================
    BOTÕES DO MODAL
 ================================*/
@@ -217,13 +216,13 @@
 
         &:hover {
           background: $surface-3;
-          color: $color-text;
+          color: var(--white);
         }
       }
 
       .btn-salvar {
         background: $purple-dark;
-        color: $white;
+        color: var(--black);
         border: none;
         border-radius: 8px;
         padding: 8px 16px;
@@ -238,26 +237,27 @@
       }
     }
   }
-}
-/* ===============================
+
+  /* ===============================
    ANIMAÇÕES
 ================================*/
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-  to {
-    opacity: 1;
-  }
-}
 
-@keyframes slideUp {
-  from {
-    transform: translateY(40px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }

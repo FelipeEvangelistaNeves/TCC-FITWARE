@@ -52,7 +52,7 @@
   margin-top: 1.2rem;
   .perfil-avatar {
     background-color: $blue-light;
-    color: #fff;
+    color: var(--white);
     font-weight: 600;
     border-radius: 50%;
     width: 70px;
@@ -83,7 +83,7 @@
     font-size: 0.85rem;
     &.premium {
       background-color: $blue-light;
-      color: #fff;
+      color: var(--white);
     }
   }
 }
@@ -311,7 +311,7 @@
       color: #fff;
     }
     &.pontos {
-      background-color: rgba($accent-yellow, 0.15);
+      background-color: rgba(var(--yellow-rgb), 0.15);
       color: $accent-yellow;
     }
   }
@@ -359,7 +359,7 @@
       color: $text;
       .status {
         background-color: $color-green;
-        color: #fff;
+        color: var(--white);
         font-size: 0.75rem;
         padding: 0.2rem 0.5rem;
         border-radius: 5px;
@@ -389,7 +389,7 @@
   .btn-resgatar {
     margin-top: 1.2rem;
     background-color: $accent-yellow;
-    color: #000;
+    color: var(--black);
     border: none;
     width: 100%;
     padding: 0.7rem;
@@ -417,7 +417,7 @@
   cursor: pointer;
   transition: 0.2s;
   &:hover {
-    background-color: darken($purple-dark, 8%);
+    background-color: var(--color-purple-hover);
   }
 }
 

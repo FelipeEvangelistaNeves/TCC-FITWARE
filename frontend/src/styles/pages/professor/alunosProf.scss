@@ -91,7 +91,7 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
     text-overflow: ellipsis;
 
     &:hover {
-      background: darken($__surface-3, 4%);
+      background: var(--surface-hover);
       color: $__text;
     }
 

@@ -1,5 +1,19 @@
 @import "../../abstract/variables";
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
 
+@mixin hover-state {
+  background: var(--surface-hover);
+  color: var(--text-hover);
+}
+
+@mixin theme-switch-base {
+  position: relative;
+  width: 44px;
+  height: 22px;
+}
 .header-public {
   background: $color-bg-dark;
   color: $color-text;
@@ -7,6 +21,62 @@
   top: 0;
   z-index: $z-header;
   box-shadow: $shadow-card;
+
+  .theme-switch-wrapper {
+    @include flex-center;
+    padding: $spacing-sm $spacing-md;
+    gap: $spacing-sm;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    color: var(--color-text);
+
+    .theme-switch {
+      @include theme-switch-base;
+      margin-right: 8px;
+
+      .switch-track {
+        position: absolute;
+        inset: 0;
+        background: var(--surface-2);
+        border: 2px solid var(--border-color);
+        border-radius: 34px;
+        transition: all 0.2s ease;
+
+        &.light {
+          background: var(--surface-2);
+          border-color: var(--border-color);
+        }
+      }
+
+      .switch-handle {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 18px;
+        height: 18px;
+        background: var(--surface-1);
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        @include flex-center;
+        justify-content: center;
+
+        i {
+          font-size: 12px;
+          color: var(--color-purple);
+        }
+      }
+
+      .light .switch-handle {
+        transform: translateX(22px);
+        background: var(--color-text);
+
+        i {
+          color: var(--color-purple-light);
+        }
+      }
+    }
+  }
 
   .navbar {
     display: flex;
@@ -61,7 +131,11 @@
         transition: all 0.2s ease;
 
         &:hover {
-          background: darken($accent-yellow, 10%);
+          background: var(--yellow);
+          color: var(--black);
+        }
+        &:active {
+          background: var(--yellow);
         }
       }
     }

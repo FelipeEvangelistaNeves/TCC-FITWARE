@@ -10,7 +10,7 @@
   padding-bottom: 80px; // Espaço para a navegação inferior
 }
 
-// Headers
+// Headersww
 .mensagens-header {
   display: flex;
   justify-content: space-between;
@@ -72,7 +72,7 @@
       width: 100%;
       padding: 15px 15px 15px 45px;
       background: $surface-1;
-      border: 1px solid rgba(107, 114, 128, 0.4);
+      border: 1px solid rgba(var(--shadow-rgb), 0.4);
       border-radius: 12px;
       color: white;
       font-size: 16px;
@@ -85,7 +85,7 @@
       &:focus {
         outline: none;
         border-color: #8b5cf6;
-        background: rgba(75, 85, 99, 0.9);
+        background: rgba(var(--shadow-rgb), 0.9);
       }
     }
   }
@@ -141,7 +141,7 @@
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(75, 85, 99, 0.8);
+      background: rgba(var(--shadow-rgb), 0.8);
       transform: translateY(-2px);
     }
 
@@ -346,15 +346,15 @@
 }
 
 .messages-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--white-rgb), 0.1);
   border-radius: 2px;
 }
 
 .messages-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(var(--white-rgb), 0.3);
   border-radius: 2px;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(var(--white-rgb), 0.5);
   }
 }

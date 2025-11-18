@@ -3,10 +3,11 @@ import "../../styles/pages/admin/tabelas.scss";
 import "../../styles/pages/admin/forms.scss";
 
 // ==== IMPORTS DE MODAIS ====
-import AddTreinoModal from "./AddTreinos";
+import AddTreinoModal from "./AddTreinos"; // já existentes no seu projeto
 import EditTreinoModal from "./EditarTreinos";
 import DetalhesTreinoModal from "./DetalhesTreinos";
 import DeleteTreinoModal from "./ExcluirTreino";
+import EnviarTreinoModal from "./EnviarTreinos"; // novo
 
 export default function Treinos() {
   const [activeTab, setActiveTab] = useState("todos");
@@ -19,6 +20,7 @@ export default function Treinos() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSendModal, setShowSendModal] = useState(false);
   const [selectedTreino, setSelectedTreino] = useState(null);
 
   // ==== LISTA DE TREINOS ====
@@ -79,13 +81,22 @@ export default function Treinos() {
     return nomeMatch;
   });
 
-  // ==== PAGINAÇÃO ====
-  const totalPages = Math.ceil(filteredTreinos.length / itemsPerPage);
+  // ==== PAGINAÇÃO (corrigido: totalPages e treinosExibidos definidos) ====
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredTreinos.length / itemsPerPage)
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
   const treinosExibidos = filteredTreinos.slice(
     startIndex,
     startIndex + itemsPerPage
   );
+
+  const setCurrentSafe = (page) => {
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    setCurrentPage(page);
+  };
 
   // ==== CRUD HANDLERS ====
   const handleAddTreino = (novo) => {
@@ -106,6 +117,7 @@ export default function Treinos() {
     };
     setTreinos((prev) => [novoTreino, ...prev]);
     setShowAddModal(false);
+    setCurrentPage(1);
   };
 
   const handleUpdateTreino = (editado) => {
@@ -118,6 +130,15 @@ export default function Treinos() {
     setShowDeleteModal(false);
   };
 
+  const handleSendTreino = (payload) => {
+    // payload = { treinoId, treinoNome, alunos: [...], mensagem }
+    console.log("EnviarTreino payload:", payload);
+    alert(
+      `Treino "${payload.treinoNome}" enviado para ${payload.alunos.length} aluno(s).`
+    );
+  };
+
+  // abrir modais
   const openDetailsModal = (treino) => {
     setSelectedTreino(treino);
     setShowDetailsModal(true);
@@ -133,6 +154,11 @@ export default function Treinos() {
     setShowDeleteModal(true);
   };
 
+  const openSendModal = (treino) => {
+    setSelectedTreino(treino);
+    setShowSendModal(true);
+  };
+
   return (
     <div className="admin-modal">
       <div className="tabela-page">
@@ -145,7 +171,10 @@ export default function Treinos() {
               placeholder="Buscar treino..."
               className="search-input"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
             />
             <button className="add-btn" onClick={() => setShowAddModal(true)}>
               + Criar Treino
@@ -157,12 +186,14 @@ export default function Treinos() {
         <div className="tabs">
           <button
             className={`tab ${activeTab === "todos" ? "active" : ""}`}
-            onClick={() => setActiveTab("todos")}>
+            onClick={() => setActiveTab("todos")}
+          >
             Todos os Treinos
           </button>
           <button
             className={`tab ${activeTab === "recentes" ? "active" : ""}`}
-            onClick={() => setActiveTab("recentes")}>
+            onClick={() => setActiveTab("recentes")}
+          >
             Recentes
           </button>
         </div>
@@ -201,22 +232,36 @@ export default function Treinos() {
                   <td>{t.exercicios}</td>
                   <td>{t.atribuido}</td>
                   <td>
+                    {/* Enviar (novo ícone) */}
+                    <button
+                      className="action-btn"
+                      title="Enviar Treino"
+                      onClick={() => openSendModal(t)}
+                    >
+                      <i className="bi bi-send-fill"></i>
+                    </button>
+
                     <button
                       className="action-btn"
                       title="Editar"
-                      onClick={() => openEditModal(t)}>
+                      onClick={() => openEditModal(t)}
+                    >
                       <i className="bi bi-pencil"></i>
                     </button>
+
                     <button
                       className="action-btn"
                       title="Excluir"
-                      onClick={() => openDeleteModal(t)}>
+                      onClick={() => openDeleteModal(t)}
+                    >
                       <i className="bi bi-trash"></i>
                     </button>
+
                     <button
                       className="action-btn"
                       title="Detalhes"
-                      onClick={() => openDetailsModal(t)}>
+                      onClick={() => openDetailsModal(t)}
+                    >
                       <i className="bi bi-three-dots"></i>
                     </button>
                   </td>
@@ -240,7 +285,8 @@ export default function Treinos() {
             onChange={(e) => {
               setItemsPerPage(Number(e.target.value));
               setCurrentPage(1);
-            }}>
+            }}
+          >
             <option value={5}>5</option>
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -249,8 +295,9 @@ export default function Treinos() {
           <div className="pages">
             <button
               className="page"
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}>
+              onClick={() => setCurrentSafe(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
               <i className="bi bi-chevron-left"></i>
             </button>
 
@@ -258,15 +305,17 @@ export default function Treinos() {
               <button
                 key={i}
                 className={`page ${currentPage === i + 1 ? "active" : ""}`}
-                onClick={() => setCurrentPage(i + 1)}>
+                onClick={() => setCurrentSafe(i + 1)}
+              >
                 {i + 1}
               </button>
             ))}
 
             <button
               className="page"
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}>
+              onClick={() => setCurrentSafe(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
               <i className="bi bi-chevron-right"></i>
             </button>
           </div>
@@ -300,6 +349,17 @@ export default function Treinos() {
             treino={selectedTreino}
             onClose={() => setShowDeleteModal(false)}
             onConfirm={() => handleDeleteTreino(selectedTreino.id)}
+          />
+        )}
+
+        {showSendModal && selectedTreino && (
+          <EnviarTreinoModal
+            treino={selectedTreino}
+            onClose={() => {
+              setShowSendModal(false);
+              setSelectedTreino(null);
+            }}
+            onSend={(payload) => handleSendTreino(payload)}
           />
         )}
       </div>

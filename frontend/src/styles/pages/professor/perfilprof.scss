@@ -2,7 +2,7 @@
 
 .perfil-container {
   background: $app-bg;
-  color: #fff;
+  color: var(--white);
   min-height: 100vh;
   padding: 1.2rem;
   display: flex;
@@ -16,7 +16,7 @@
     }
   }
 }
-c .perfil-header {
+.perfil-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,7 +43,7 @@ c .perfil-header {
     justify-content: center;
     font-weight: 700;
     font-size: 1.4rem;
-    color: #fff;
+    color: var(--white);
   }
 
   h3 {
@@ -95,7 +95,7 @@ c .perfil-header {
   background: $app-bg;
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 6px rgba(var(--shadow-rgb), 0.25);
 
   .card-header-between {
     display: flex;
@@ -129,7 +129,7 @@ c .perfil-header {
 
       .info-value {
         font-size: 0.9rem;
-        color: #fff;
+        color: var(--white);
       }
 
       .especialidades {
@@ -140,7 +140,7 @@ c .perfil-header {
 
         .tag {
           background: $primary;
-          color: #fff;
+          color: var(--white);
           font-size: 0.75rem;
           padding: 0.2rem 0.6rem;
           border-radius: 20px;
@@ -198,7 +198,7 @@ c .perfil-header {
 
       .cert-titulo {
         font-size: 0.9rem;
-        color: #fff;
+        color: var(--white);
         font-weight: 500;
       }
 
@@ -213,4 +213,3 @@ c .perfil-header {
 /* === Estatísticas (stats-grid) === */
 
 /* === Atividade Recente === */
-
