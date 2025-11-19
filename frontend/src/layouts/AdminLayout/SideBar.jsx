@@ -34,11 +34,6 @@ export default function SideBar() {
       icon: "bi-activity",
     },
     {
-      path: "/admin/financeiro",
-      label: "Financeiro",
-      icon: "bi-graph-up",
-    },
-    {
       path: "/admin/desafios",
       label: "Desafios",
       icon: "bi-watch",

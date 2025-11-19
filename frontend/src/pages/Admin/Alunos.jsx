@@ -87,7 +87,7 @@ export default function Alunos() {
   };
 
   return (
-    <div className="tabela-page">
+    <div className="admin-modal tabela-page">
       <div className="tabela-header">
         <h2>Gerenciar Alunos</h2>
         <div className="acoes-header">
@@ -107,12 +107,14 @@ export default function Alunos() {
       <div className="tabs">
         <button
           className={`tab ${activeTab === "todos" ? "active" : ""}`}
-          onClick={() => setActiveTab("todos")}>
+          onClick={() => setActiveTab("todos")}
+        >
           Todos os Alunos
         </button>
         <button
           className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}>
+          onClick={() => setActiveTab("ativos")}
+        >
           Ativos
         </button>
       </div>
@@ -154,7 +156,8 @@ export default function Alunos() {
                     onClick={() => {
                       setSelectedAluno(a);
                       setShowEditModal(true);
-                    }}>
+                    }}
+                  >
                     <i className="bi bi-pencil"></i>
                   </button>
 
@@ -163,7 +166,8 @@ export default function Alunos() {
                     onClick={() => {
                       setSelectedAluno(a);
                       setShowDeleteModal(true);
-                    }}>
+                    }}
+                  >
                     <i className="bi bi-trash"></i>
                   </button>
 
@@ -172,7 +176,8 @@ export default function Alunos() {
                     onClick={() => {
                       setSelectedAluno(a);
                       setShowDetailsModal(true);
-                    }}>
+                    }}
+                  >
                     <i className="bi bi-three-dots"></i>
                   </button>
                 </td>
@@ -194,27 +199,31 @@ export default function Alunos() {
           onChange={(e) => {
             setItemsPerPage(Number(e.target.value));
             setCurrentPage(1);
-          }}>
+          }}
+        >
           <option value={5}>5</option>
           <option value={10}>10</option>
         </select>
         <div className="pages">
           <button
             className="page"
-            onClick={() => handlePageChange(currentPage - 1)}>
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
             <i className="bi bi-chevron-left"></i>
           </button>
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
               className={`page ${currentPage === i + 1 ? "active" : ""}`}
-              onClick={() => handlePageChange(i + 1)}>
+              onClick={() => handlePageChange(i + 1)}
+            >
               {i + 1}
             </button>
           ))}
           <button
             className="page"
-            onClick={() => handlePageChange(currentPage + 1)}>
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
             <i className="bi bi-chevron-right"></i>
           </button>
         </div>

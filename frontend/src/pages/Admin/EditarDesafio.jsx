@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import "../../styles/pages/admin/forms.scss";
 
-export default function AddDesafio({ onClose, onSave }) {
-  const [dados, setDados] = useState({
-    nome: "",
-    descricao: "",
-    tipo: "",
-    duracao: "",
-    pontos: 0,
-  });
+export default function EditDesafio({ desafio, onClose, onSave }) {
+  const [dados, setDados] = useState(desafio);
 
   const alterar = (e) => {
     const { name, value } = e.target;
@@ -20,11 +14,11 @@ export default function AddDesafio({ onClose, onSave }) {
       <div className="modal-overlay" onClick={onClose}></div>
 
       <div className="modal-content">
-        <h3>Criar Desafio</h3>
+        <h3>Editar Desafio</h3>
 
         <div className="form-card">
           <div className="form-group">
-            <label>Nome do desafio</label>
+            <label>Nome</label>
             <input name="nome" value={dados.nome} onChange={alterar} />
           </div>
 
@@ -64,7 +58,7 @@ export default function AddDesafio({ onClose, onSave }) {
           </button>
 
           <button className="btn-salvar" onClick={() => onSave(dados)}>
-            Criar
+            Salvar
           </button>
         </div>
       </div>

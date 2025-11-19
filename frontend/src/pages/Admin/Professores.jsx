@@ -86,7 +86,7 @@ export default function Professores() {
   };
 
   return (
-    <div className="tabela-page">
+    <div className="admin-modal tabela-page">
       {/* ===== HEADER ===== */}
       <div className="tabela-header">
         <h2>Gerenciar Professores</h2>
@@ -108,12 +108,14 @@ export default function Professores() {
       <div className="tabs">
         <button
           className={`tab ${activeTab === "todos" ? "active" : ""}`}
-          onClick={() => setActiveTab("todos")}>
+          onClick={() => setActiveTab("todos")}
+        >
           Todos os Professores
         </button>
         <button
           className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}>
+          onClick={() => setActiveTab("ativos")}
+        >
           Ativos
         </button>
       </div>
@@ -156,7 +158,8 @@ export default function Professores() {
                     onClick={() => {
                       setSelectedProfessor(p);
                       setShowEditModal(true);
-                    }}>
+                    }}
+                  >
                     <i className="bi bi-pencil"></i>
                   </button>
                   <button
@@ -165,7 +168,8 @@ export default function Professores() {
                     onClick={() => {
                       setSelectedProfessor(p);
                       setShowDeleteModal(true);
-                    }}>
+                    }}
+                  >
                     <i className="bi bi-trash"></i>
                   </button>
                   <button
@@ -174,7 +178,8 @@ export default function Professores() {
                     onClick={() => {
                       setSelectedProfessor(p);
                       setShowDetailsModal(true);
-                    }}>
+                    }}
+                  >
                     <i className="bi bi-three-dots"></i>
                   </button>
                 </td>
@@ -198,7 +203,8 @@ export default function Professores() {
           onChange={(e) => {
             setItemsPerPage(Number(e.target.value));
             setCurrentPage(1);
-          }}>
+          }}
+        >
           <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={20}>20</option>
@@ -207,7 +213,8 @@ export default function Professores() {
         <div className="pages">
           <button
             className="page"
-            onClick={() => handlePageChange(currentPage - 1)}>
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
             <i className="bi bi-chevron-left"></i>
           </button>
 
@@ -215,14 +222,16 @@ export default function Professores() {
             <button
               key={i}
               className={`page ${currentPage === i + 1 ? "active" : ""}`}
-              onClick={() => handlePageChange(i + 1)}>
+              onClick={() => handlePageChange(i + 1)}
+            >
               {i + 1}
             </button>
           ))}
 
           <button
             className="page"
-            onClick={() => handlePageChange(currentPage + 1)}>
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
             <i className="bi bi-chevron-right"></i>
           </button>
         </div>
