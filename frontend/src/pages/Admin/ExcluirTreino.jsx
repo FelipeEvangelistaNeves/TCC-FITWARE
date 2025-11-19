@@ -1,5 +1,6 @@
 import React from "react";
-import "../../styles/pages/admin/forms.scss";
+
+import "../../styles/pages/admin/excluir.scss"; //
 
 export default function ExcluirTreino({ treino, onClose, onDelete }) {
   return (

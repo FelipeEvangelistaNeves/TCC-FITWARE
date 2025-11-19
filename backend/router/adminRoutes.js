@@ -2,7 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { Funcionario } = require("../models");
 const { roleMiddleware, verifyToken } = require("../middleware/auth");
-const { loginAdmin } = require("../controllers/adminController");
+const {
+  loginAdmin,
+  criarAluno,
+  listarAlunosAdmin,
+  atualizarAluno,
+  deletarAluno,
+} = require("../controllers/adminController");
 const LoggerMessages = require("../loggerMessages");
 
 /**
@@ -58,4 +64,10 @@ router.get(
     });
   }
 );
+
+router.post("/criarAluno", verifyToken, criarAluno);
+router.get("/allAlunos", verifyToken, listarAlunosAdmin);
+router.put("/alunos/:id", verifyToken, atualizarAlunoAdmin);
+router.delete("/alunos/:id", verifyToken, deletarAluno);
+
 module.exports = router;

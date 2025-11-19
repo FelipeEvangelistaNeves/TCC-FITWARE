@@ -1,13 +1,13 @@
-// controllers/professorController.js
-const { Funcionario } = require("../models");
+const { Funcionario, Aluno } = require("../models");
 const LoggerMessages = require("../loggerMessages");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { atualizarAluno } = require("./alunoController");
 require("dotenv").config({
   quiet: true,
 });
 
-exports.loginAdmin = async (req, res) => {
+loginAdmin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -77,4 +77,126 @@ exports.loginAdmin = async (req, res) => {
       message: LoggerMessages.SERVER_ERROR || "Erro no servidor",
     });
   }
+};
+
+criarAluno = async (req, res) => {
+  try {
+    const {
+      al_nome,
+      al_email,
+      al_senha,
+      al_cpf,
+      al_telefone,
+      al_dtnasc,
+      al_pontos,
+      al_treinos_completos,
+      al_status,
+    } = req.body;
+
+    if (req.user.role !== "Secretario") {
+      return res.status(403).json({
+        message: "Apenas funcionários podem cadastrar alunos.",
+      });
+    }
+
+    const senhaHash = await bcrypt.hash(al_senha, 10);
+
+    const novoAluno = await Aluno.create({
+      al_nome,
+      al_email,
+      al_senha: senhaHash,
+      al_cpf,
+      al_telefone,
+      al_dtnasc,
+      al_pontos,
+      al_treinos_completos,
+      al_status,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Aluno criado com sucesso.",
+      aluno: novoAluno,
+    });
+  } catch (err) {
+    console.error("Erro ao criar aluno:", err);
+    res.status(500).json({ message: "Erro no servidor." });
+  }
+};
+
+atualizarAlunoAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Aluno.update(req.body, { where: { al_id: id } });
+
+    res.json({ success: true, message: "Aluno atualizado." });
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao atualizar aluno." });
+  }
+};
+
+deletarAluno = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Aluno.destroy({ where: { al_id: id } });
+
+    res.json({ success: true, message: "Aluno deletado." });
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao deletar aluno." });
+  }
+};
+
+listarAlunosAdmin = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Token ausente. Faça login novamente." });
+    }
+
+    // usuários decodificados pelo middleware já estão em req.user
+    if (!req.user || req.user.role !== "Secretario") {
+      return res.status(403).json({
+        message: "Apenas funcionários podem visualizar os alunos.",
+      });
+    }
+
+    const alunos = await Aluno.findAll({
+      attributes: [
+        "al_id",
+        "al_nome",
+        "al_email",
+        "al_telefone",
+        "al_pontos",
+        "al_status",
+        "al_treinos_completos",
+      ],
+    });
+
+    if (!alunos || alunos.length === 0) {
+      return res.status(404).json({ message: "Nenhum aluno encontrado" });
+    }
+
+    return res.json({
+      success: true,
+      alunos,
+    });
+  } catch (err) {
+    console.error("Erro ao buscar dados dos alunos:", err);
+    return res.status(500).json({
+      message: "Erro ao buscar dados dos alunos.",
+    });
+  }
+};
+
+module.exports = {
+  loginAdmin,
+  criarAluno,
+  atualizarAlunoAdmin,
+  deletarAluno,
+  listarAlunosAdmin,
 };
