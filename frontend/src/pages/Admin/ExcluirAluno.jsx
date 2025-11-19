@@ -11,7 +11,8 @@ export default function ExcluirAluno({ aluno, onClose, onConfirm }) {
         >
           <h3>Excluir Aluno</h3>
           <p>
-            Tem certeza que deseja excluir o aluno <strong>{aluno.nome}</strong>
+            Tem certeza que deseja excluir o aluno{" "}
+            <strong>{aluno.al_nome}</strong>
             ?<br />
           </p>
           <div className="alerta">

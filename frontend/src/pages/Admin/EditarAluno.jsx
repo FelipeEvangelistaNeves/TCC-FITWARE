@@ -2,7 +2,19 @@ import React, { useState } from "react";
 import "../../styles/pages/admin/forms.scss";
 
 export default function EditarAluno({ aluno, onClose, onSave }) {
-  const [form, setForm] = useState(aluno);
+  const [form, setForm] = useState({
+    al_id: aluno.al_id,
+    nome: aluno.al_nome,
+    email: aluno.al_email,
+    cpf: aluno.al_cpf,
+    telefone: aluno.al_telefone,
+    dtnasc: aluno.al_dtnasc,
+    pontos: aluno.al_pontos,
+    treinos_completos: aluno.al_treinos_completos,
+    status: aluno.al_status,
+    turma: aluno.turma,
+    observacoes: aluno.observacoes,
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,7 +23,20 @@ export default function EditarAluno({ aluno, onClose, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(form);
+
+    onSave({
+      al_id: form.al_id,
+      al_nome: form.nome,
+      al_email: form.email,
+      al_cpf: form.cpf,
+      al_telefone: form.telefone,
+      al_dtnasc: form.dtnasc,
+      al_pontos: Number(form.pontos),
+      al_treinos_completos: Number(form.treinos_completos),
+      al_status: form.status,
+      turma: form.turma,
+      observacoes: form.observacoes,
+    });
   };
 
   return (
@@ -19,13 +44,16 @@ export default function EditarAluno({ aluno, onClose, onSave }) {
       <div className="modal-overlay" onClick={onClose}>
         <div
           className="modal-content form-card"
-          onClick={(e) => e.stopPropagation()}>
+          onClick={(e) => e.stopPropagation()}
+        >
           <h3>Editar Aluno</h3>
 
           <form onSubmit={handleSubmit}>
+            {/* NOME */}
             <div className="form-group">
-              <label>Nome do Aluno</label>
+              <label>Nome do Aluno *</label>
               <input
+                type="text"
                 name="nome"
                 value={form.nome}
                 onChange={handleChange}
@@ -33,25 +61,99 @@ export default function EditarAluno({ aluno, onClose, onSave }) {
               />
             </div>
 
+            {/* EMAIL */}
             <div className="form-group">
-              <label>Turma</label>
+              <label>Email *</label>
               <input
-                name="turma"
-                value={form.turma}
+                type="email"
+                name="email"
+                value={form.email}
                 onChange={handleChange}
                 required
               />
             </div>
 
+            {/* CPF */}
             <div className="form-group">
-              <label>Observações</label>
-              <textarea
-                name="obs"
-                value={form.obs || ""}
+              <label>CPF *</label>
+              <input
+                type="text"
+                name="cpf"
+                maxLength={11}
+                value={form.cpf}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* TELEFONE */}
+            <div className="form-group">
+              <label>Telefone</label>
+              <input
+                type="text"
+                name="telefone"
+                value={form.telefone}
+                onChange={handleChange}
+                maxLength={11}
+              />
+            </div>
+
+            {/* DATA DE NASCIMENTO */}
+            <div className="form-group">
+              <label>Data de Nascimento *</label>
+              <input
+                type="date"
+                name="dtnasc"
+                value={form.dtnasc}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* PONTOS */}
+            <div className="form-group">
+              <label>Pontos</label>
+              <input
+                type="number"
+                name="pontos"
+                value={form.pontos}
                 onChange={handleChange}
               />
             </div>
 
+            {/* TREINOS COMPLETOS */}
+            <div className="form-group">
+              <label>Treinos Completos</label>
+              <input
+                type="number"
+                name="treinos_completos"
+                value={form.treinos_completos}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* TURMA */}
+            <div className="form-group">
+              <label>Turma</label>
+              <input
+                type="text"
+                name="turma"
+                value={form.turma}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* OBSERVAÇÕES */}
+            <div className="form-group">
+              <label>Observações</label>
+              <textarea
+                name="observacoes"
+                value={form.observacoes}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* STATUS */}
             <div className="form-group">
               <label>Status</label>
               <select name="status" value={form.status} onChange={handleChange}>

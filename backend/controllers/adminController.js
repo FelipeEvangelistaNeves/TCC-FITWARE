@@ -140,10 +140,18 @@ deletarAluno = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Aluno.destroy({ where: { al_id: id } });
+    const removidos = await Aluno.destroy({ where: { al_id: id } });
 
-    res.json({ success: true, message: "Aluno deletado." });
+    if (removidos === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Aluno não encontrado.",
+      });
+    }
+
+    res.json({ success: true, message: "Aluno deletado com sucesso." });
   } catch (err) {
+    console.error("Erro ao deletar aluno:", err);
     res.status(500).json({ message: "Erro ao deletar aluno." });
   }
 };
@@ -165,17 +173,7 @@ listarAlunosAdmin = async (req, res) => {
       });
     }
 
-    const alunos = await Aluno.findAll({
-      attributes: [
-        "al_id",
-        "al_nome",
-        "al_email",
-        "al_telefone",
-        "al_pontos",
-        "al_status",
-        "al_treinos_completos",
-      ],
-    });
+    const alunos = await Aluno.findAll();
 
     if (!alunos || alunos.length === 0) {
       return res.status(404).json({ message: "Nenhum aluno encontrado" });

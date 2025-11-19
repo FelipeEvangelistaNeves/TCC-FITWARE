@@ -12,26 +12,28 @@ export default function Alunos() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedAluno, setSelectedAluno] = useState(null);
+
   const [alunos, setAlunos] = useState([]);
 
-  // ===============================
-  // BUSCAR ALUNOS DO BACKEND
-  // ===============================
   useEffect(() => {
     const fetchAlunos = async () => {
       try {
         const res = await fetch("http://localhost:3000/admin/allAlunos", {
           method: "GET",
           credentials: "include",
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
         });
 
         if (!res.ok) throw new Error("Erro ao buscar alunos");
 
         const data = await res.json();
-        setAlunos(data.alunos);
+
+        // 🔥 Ordena do menor ID → maior ID
+        setAlunos(data.alunos.sort((a, b) => a.al_id - b.al_id));
       } catch (error) {
         console.error("Erro ao carregar alunos:", error);
       }
@@ -40,15 +42,6 @@ export default function Alunos() {
     fetchAlunos();
   }, []);
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showDetailsModal, setShowDetailsModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedAluno, setSelectedAluno] = useState(null);
-
-  // ===============================
-  // CRIAR ALUNO REAL
-  // ===============================
   const handleAddAluno = async (novo) => {
     try {
       const res = await fetch("http://localhost:3000/admin/criarAluno", {
@@ -56,7 +49,6 @@ export default function Alunos() {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
         },
         body: JSON.stringify(novo),
       });
@@ -73,40 +65,42 @@ export default function Alunos() {
     }
   };
 
-  // ===============================
-  // EDITAR ALUNO REAL
-  // ===============================
-  const handleUpdateAluno = async (editado) => {
+  const handleUpdateAluno = async (dados) => {
     try {
-      await fetch(`http://localhost:3000/admin/alunos/${editado.al_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-        body: JSON.stringify(editado),
-      });
-
-      setAlunos((prev) =>
-        prev.map((a) => (a.al_id === editado.al_id ? editado : a))
+      const response = await fetch(
+        `http://localhost:3000/admin/alunos/${dados.al_id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dados),
+        }
       );
 
-      setShowEditModal(false);
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar aluno");
+      }
+
+      // Atualiza lista local
+      setAlunos((prev) =>
+        prev.map((a) => (a.al_id === dados.al_id ? dados : a))
+      );
+
+      alert("Aluno atualizado com sucesso!");
+      setShowEditModalx(false);
     } catch (err) {
-      console.error("Erro ao atualizar aluno:", err);
+      console.error("Erro:", err);
+      alert("Não foi possível atualizar o aluno.");
     }
   };
 
-  // ===============================
-  // DELETAR ALUNO REAL
-  // ===============================
   const handleDeleteAluno = async (aluno) => {
     try {
       await fetch(`http://localhost:3000/admin/alunos/${aluno.al_id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
+        credentials: "include",
       });
 
       setAlunos((prev) => prev.filter((a) => a.al_id !== aluno.al_id));
@@ -116,9 +110,6 @@ export default function Alunos() {
     }
   };
 
-  // ===============================
-  // FILTRO + PAGINAÇÃO
-  // ===============================
   const alunosFiltrados = alunos.filter((a) => {
     const termo = searchTerm.toLowerCase();
     const correspondeBusca =

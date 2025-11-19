@@ -6,7 +6,7 @@ const {
   loginAdmin,
   criarAluno,
   listarAlunosAdmin,
-  atualizarAluno,
+  atualizarAlunoAdmin,
   deletarAluno,
 } = require("../controllers/adminController");
 const LoggerMessages = require("../loggerMessages");
