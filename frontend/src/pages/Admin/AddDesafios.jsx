@@ -1,71 +1,100 @@
+// src/pages/admin/modals/AddDesafio.jsx
 import React, { useState } from "react";
 import "../../styles/pages/admin/forms.scss";
 
 export default function AddDesafio({ onClose, onSave }) {
-  const [dados, setDados] = useState({
+  const [form, setForm] = useState({
     nome: "",
     descricao: "",
-    tipo: "",
-    duracao: "",
-    pontos: 0,
+    tipo: "Frequência",
+    duracao: "7 dias",
+    participantes: 0,
+    pontos: 100,
+    status: "ativo",
+    icone: "🏁",
   });
 
-  const alterar = (e) => {
-    const { name, value } = e.target;
-    setDados({ ...dados, [name]: value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!form.nome) return alert("Informe o nome do desafio");
+    onSave(form);
   };
 
   return (
     <div className="admin-modal">
-      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal-overlay" onClick={onClose}>
+        <div
+          className="modal-content form-card"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h3>Criar Desafio</h3>
+          <form onSubmit={submit}>
+            <div className="form-group">
+              <label>Nome</label>
+              <input name="nome" value={form.nome} onChange={handleChange} />
+            </div>
 
-      <div className="modal-content">
-        <h3>Criar Desafio</h3>
+            <div className="form-group">
+              <label>Descrição</label>
+              <textarea
+                name="descricao"
+                value={form.descricao}
+                onChange={handleChange}
+              />
+            </div>
 
-        <div className="form-card">
-          <div className="form-group">
-            <label>Nome do desafio</label>
-            <input name="nome" value={dados.nome} onChange={alterar} />
-          </div>
+            <div className="form-group" style={{ display: "flex", gap: 12 }}>
+              <div style={{ flex: 1 }}>
+                <label>Tipo</label>
+                <select name="tipo" value={form.tipo} onChange={handleChange}>
+                  <option>Frequência</option>
+                  <option>Cardio</option>
+                  <option>Nutrição</option>
+                </select>
+              </div>
+              <div style={{ width: 140 }}>
+                <label>Duração</label>
+                <input
+                  name="duracao"
+                  value={form.duracao}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
 
-          <div className="form-group">
-            <label>Descrição</label>
-            <textarea
-              name="descricao"
-              value={dados.descricao}
-              onChange={alterar}
-            />
-          </div>
+            <div className="form-group" style={{ display: "flex", gap: 12 }}>
+              <div>
+                <label>Pontos</label>
+                <input
+                  type="number"
+                  name="pontos"
+                  value={form.pontos}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Participantes</label>
+                <input
+                  type="number"
+                  name="participantes"
+                  value={form.participantes}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
 
-          <div className="form-group">
-            <label>Tipo</label>
-            <input name="tipo" value={dados.tipo} onChange={alterar} />
-          </div>
-
-          <div className="form-group">
-            <label>Duração</label>
-            <input name="duracao" value={dados.duracao} onChange={alterar} />
-          </div>
-
-          <div className="form-group">
-            <label>Pontos</label>
-            <input
-              type="number"
-              name="pontos"
-              value={dados.pontos}
-              onChange={alterar}
-            />
-          </div>
-        </div>
-
-        <div className="modal-actions">
-          <button className="btn-cancelar" onClick={onClose}>
-            Cancelar
-          </button>
-
-          <button className="btn-salvar" onClick={() => onSave(dados)}>
-            Criar
-          </button>
+            <div className="modal-actions">
+              <button type="button" className="btn-cancelar" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn-salvar">
+                Criar
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
