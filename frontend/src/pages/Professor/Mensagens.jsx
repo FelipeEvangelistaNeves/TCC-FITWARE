@@ -3,50 +3,45 @@ import "../../styles/pages/aluno/mensagensAluno.scss";
 import ChatModal from "../../pages/Professor/ModalMensagemProf";
 
 export default function MensagensProf() {
-  const [messages, setMessages] = useState([]); // <-- ESSENCIAL
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState("todas");
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [conversas, setConversas] = useState([]);
+  const [filteredConversas, setFilteredConversas] = useState([]);
+  const [mensagensDaConversa, setMensagensDaConversa] = useState([]);
+  const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [activeTab, setActiveTab] = useState("todas");
+  const [searchTerm, setSearchTerm] = useState("");
   const [erro, setErro] = useState("");
 
-  // === Fetch conversas ===
+  // =============================
+  // BUSCAR TODAS AS CONVERSAS
+  // =============================
   useEffect(() => {
     const fetchConversas = async () => {
       try {
         const res = await fetch("http://localhost:3000/api/professor/conversas", {
-          method: "GET",
           credentials: "include",
         });
 
         if (!res.ok) throw new Error("Erro ao buscar conversas");
 
         const data = await res.json();
-        console.log("Conversas recebidas:", data);
-
-        if (!Array.isArray(data.conversas)) {
-          console.error("Formato inválido:", data);
-          return;
-        }
 
         const normalizadas = data.conversas.map((c) => {
           const aluno = c.Aluno || {};
-
           const nome = aluno.al_nome || "";
-          const iniciais = nome
-            ? nome
-                .split(" ")
-                .map((p) => p[0])
-                .join("")
-                .substring(0, 2)
-                .toUpperCase()
-            : "??";
+
+          const initials = nome
+            .split(" ")
+            .map((p) => p[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
 
           return {
             id: c.co_id,
-            name: aluno.al_nome,
-            initials: iniciais,
-            preview: "Clique para abrir a conversa",
+            name: nome,
+            initials,
+            preview: "Clique para ver a conversa",
             time: "",
             unread: 0,
             favorite: false,
@@ -54,9 +49,10 @@ export default function MensagensProf() {
           };
         });
 
-        setMessages(normalizadas);
-      } catch (error) {
-        console.error(error);
+        setConversas(normalizadas);
+        setFilteredConversas(normalizadas);
+      } catch (err) {
+        console.error(err);
         setErro("Erro ao carregar conversas");
       }
     };
@@ -64,43 +60,110 @@ export default function MensagensProf() {
     fetchConversas();
   }, []);
 
-  // === Toggle favorito ===
+  // =============================
+  // ABRIR CHAT E CARREGAR MENSAGENS
+  // =============================
+  const openChat = async (co_id) => {
+    try {
+      console.log("Abrindo chat ID:", co_id);
+
+      const res = await fetch(
+        `http://localhost:3000/api/professor/mensagens/${co_id}`,
+        { credentials: "include" }
+      );
+
+      if (!res.ok) throw new Error("Erro ao carregar mensagens");
+
+      const data = await res.json();
+
+      // Normalizar mensagens
+      const normalizadas = data.mensagens.map((m) => ({
+        ...m,
+        tipo: m.remetente_tipo.toLowerCase() === "professor" ? "enviada" : "recebida"
+      }));
+
+      console.log(data.mensagens.remetente_tipo);
+      console.log(normalizadas);
+      setMensagensDaConversa(normalizadas);
+      setSelectedContact(conversas.find((c) => c.id === co_id));
+      setSelectedChatId(co_id);
+    } catch (err) {
+      console.error("Erro ao abrir chat:", err);
+      setErro("Erro ao carregar mensagens");
+    }
+  };
+
+  // =============================
+  // ENVIAR MENSAGEM
+  // =============================
+  const enviarMensagem = async (texto) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/professor/mensagens/${selectedChatId}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ conteudo: texto })
+        }
+      );
+  
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erro ao enviar mensagem");
+  
+      const msg = data.novaMensagem;
+  
+      // normalização para encaixar no formato do front
+      const mensagemFormatada = {
+        me_id: msg.me_id,
+        me_conteudo: msg.me_conteudo,
+        me_tempo: msg.me_tempo,
+        remetente_id: msg.remetente_id,
+        remetente_tipo: msg.remetente_tipo,
+        tipo: "enviada"
+      };
+  
+      // adiciona no estado
+      setMensagensDaConversa((prev) => [...prev, mensagemFormatada]);
+  
+    } catch (err) {
+      console.error("Erro ao enviar:", err);
+    }
+  };
+
+  // =============================
+  // FILTRAGEM DE CONVERSAS
+  // =============================
+  useEffect(() => {
+    const search = searchTerm.toLowerCase();
+
+    const filtradas = conversas.filter((msg) => {
+      const nome = msg.name.toLowerCase();
+      const preview = msg.preview.toLowerCase();
+
+      const matches = nome.includes(search) || preview.includes(search);
+
+      if (activeTab === "favoritas") return msg.favorite && matches;
+      if (activeTab === "nao-lidas") return msg.unread > 0 && matches;
+
+      return matches;
+    });
+
+    setFilteredConversas(filtradas);
+  }, [searchTerm, activeTab, conversas]);
+
   const toggleFavorite = (id, e) => {
-    if (e) e.stopPropagation();
-    setMessages((prev) =>
+    e.stopPropagation();
+    setConversas((prev) =>
       prev.map((msg) =>
         msg.id === id ? { ...msg, favorite: !msg.favorite } : msg
       )
     );
   };
 
-  // === Filtrar conversas ===
-  const filteredMessages = messages.filter((msg) => {
-    const name = msg.name?.toLowerCase() || "";
-    const preview = msg.preview?.toLowerCase() || "";
-    const search = searchTerm.toLowerCase();
-
-    const matches = name.includes(search) || preview.includes(search);
-
-    if (activeTab === "nao-lidas") return msg.unread > 0 && matches;
-    if (activeTab === "favoritas") return msg.favorite && matches;
-
-    return matches;
-  });
-
-  // === Abrir chat ===
-  const openChat = (contact) => {
-    setSelectedContact(contact);
-    setIsChatOpen(true);
-  };
-
-  const closeChat = () => {
-    setIsChatOpen(false);
-    setSelectedContact(null);
-  };
-
   return (
     <div className="mensagens-aluno">
+
       {/* Search */}
       <div className="search-container">
         <div className="search-bar">
@@ -117,37 +180,18 @@ export default function MensagensProf() {
 
       {/* Tabs */}
       <div className="filter-tabs">
-        <button
-          className={`filter-tab ${activeTab === "todas" ? "active" : ""}`}
-          onClick={() => setActiveTab("todas")}
-        >
-          Todas
-        </button>
-        <button
-          className={`filter-tab ${activeTab === "nao-lidas" ? "active" : ""}`}
-          onClick={() => setActiveTab("nao-lidas")}
-        >
-          Não lidas
-        </button>
-        <button
-          className={`filter-tab ${activeTab === "favoritas" ? "active" : ""}`}
-          onClick={() => setActiveTab("favoritas")}
-        >
-          Favoritas
-        </button>
+        <button className={activeTab === "todas" ? "active" : ""} onClick={() => setActiveTab("todas")}>Todas</button>
+        <button className={activeTab === "nao-lidas" ? "active" : ""} onClick={() => setActiveTab("nao-lidas")}>Não lidas</button>
+        <button className={activeTab === "favoritas" ? "active" : ""} onClick={() => setActiveTab("favoritas")}>Favoritas</button>
       </div>
 
       {/* Lista */}
       <div className="messages-list">
-        {filteredMessages.length === 0 ? (
+        {filteredConversas.length === 0 ? (
           <div className="no-messages">Nenhuma conversa encontrada.</div>
         ) : (
-          filteredMessages.map((msg) => (
-            <div
-              className="message-item"
-              key={msg.id}
-              onClick={() => openChat(msg)}
-            >
+          filteredConversas.map((msg) => (
+            <div key={msg.id} className="message-item" onClick={() => openChat(msg.id)}>
               <div className={`message-avatar ${msg.color}`}>
                 <span>{msg.initials}</span>
               </div>
@@ -160,20 +204,10 @@ export default function MensagensProf() {
                 <p className="message-preview">{msg.preview}</p>
               </div>
 
-              <div
-                className="message-actions"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {msg.unread > 0 && (
-                  <div className="unread-badge">
-                    <span>{msg.unread}</span>
-                  </div>
-                )}
-
+              <div className="message-actions" onClick={(e) => e.stopPropagation()}>
+                {msg.unread > 0 && <div className="unread-badge"><span>{msg.unread}</span></div>}
                 <i
-                  className={
-                    msg.favorite ? "bi bi-star-fill favorite-btn" : "bi bi-star"
-                  }
+                  className={msg.favorite ? "bi bi-star-fill favorite-btn" : "bi bi-star"}
                   onClick={(e) => toggleFavorite(msg.id, e)}
                 />
               </div>
@@ -184,10 +218,11 @@ export default function MensagensProf() {
 
       {/* Modal */}
       <ChatModal
-        isOpen={isChatOpen}
-        onClose={closeChat}
-        contactName={selectedContact?.name || null}
-        messages={messages}
+        isOpen={selectedChatId !== null}
+        onClose={() => setSelectedChatId(null)}
+        contactName={selectedContact?.name}
+        mensagens={mensagensDaConversa}
+        onSendMessage={enviarMensagem}
       />
     </div>
   );

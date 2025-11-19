@@ -1,5 +1,5 @@
 // controllers/professorController.js
-const { Aluno, Funcionario, Conversa, Mensagem } = require("../models");
+const { Aluno, Funcionario, Conversa, Mensagem, AlunoTreino, Treino, Exercicio, TreinoExercicio } = require("../models");
 const LoggerMessages = require("../loggerMessages");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -246,15 +246,15 @@ const dataProfMensagens = async (req, res) => {
     const professorId = decoded.id;
 
     // ID da conversa vindo da rota
-    const { co_id } = req.params;
+    const conversaId = req.params.id;
 
-    if (!co_id) {
+    if (!conversaId) {
       return res.status(400).json({ message: "ID da conversa é obrigatório." });
     }
 
     // Verificar se a conversa pertence a este professor
     const conversa = await Conversa.findOne({
-      where: { co_id, prof_id: professorId }
+      where: { co_id: conversaId, prof_id: professorId }
     });
 
     if (!conversa) {
@@ -263,7 +263,7 @@ const dataProfMensagens = async (req, res) => {
 
     // Buscar mensagens relacionadas a esta conversa
     const mensagens = await Mensagem.findAll({
-      where: { co_id },
+      where: { co_id: conversaId },
       order: [["me_tempo", "ASC"]] // ordem natural de chat
     });
 
@@ -277,6 +277,85 @@ const dataProfMensagens = async (req, res) => {
   }
 };
 
+const enviarMensagemProfessor = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { conteudo } = req.body;
+
+    if (!conteudo || conteudo.trim() === "") {
+      return res.status(400).json({ message: "Mensagem vazia." });
+    }
+
+    // Token
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "Token ausente." });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const professorId = decoded.id;
+
+    // Verificar se a conversa existe e pertence ao professor
+    const conversa = await Conversa.findOne({
+      where: { co_id: id },
+      attributes: ["co_id", "al_id", "prof_id"]
+    });
+
+    if (!conversa) {
+      return res.status(404).json({ message: "Conversa não encontrada." });
+    }
+
+    if (conversa.prof_id !== professorId) {
+      return res.status(403).json({ message: "Você não pertence a esta conversa." });
+    }
+
+    // Criar mensagem
+    const novaMensagem = await Mensagem.create({
+      co_id: id,
+      remetente_id: professorId,
+      remetente_tipo: "professor",
+      destinatario_id: conversa.al_id,
+      destinatario_tipo: "aluno",
+      me_conteudo: conteudo,
+      me_tempo: new Date(),
+      me_lida: false,
+    });
+
+    return res.json({ message: "Mensagem enviada.", novaMensagem });
+
+  } catch (err) {
+    console.error("Erro ao enviar mensagem do professor:", err);
+    return res.status(500).json({ message: "Erro ao enviar mensagem." });
+  }
+};
+
+const dataProfTreinosAluno = async (req, res) => {
+  try {
+    const { al_id } = req.params;
+
+    const treinos = await AlunoTreino.findAll({
+      where: { al_id },
+      include: [
+        {
+          model: Treino,
+          include: [
+            {
+              model: TreinoExercicio,
+              include: [{ model: Exercicio }]
+            }
+          ]
+        }
+      ]
+    });
+
+    res.json({ treinos });
+
+  } catch (err) {
+    console.error("Erro ao buscar treinos do aluno:", err);
+    res.status(500).json({ message: "Erro ao buscar treinos do aluno" });
+  }
+};
+
 module.exports = {
   loginProfessor,
   dataProfessor,
@@ -284,4 +363,6 @@ module.exports = {
   dataProfAlunos,
   dataProfConversas,
   dataProfMensagens,
+  enviarMensagemProfessor,
+  dataProfTreinosAluno,
 };
