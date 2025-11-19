@@ -42,7 +42,7 @@ export default function HeaderAluno({ title }) {
   useEffect(() => {
     const fetchAvisos = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/Allavisos", {
+        const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -68,7 +68,8 @@ export default function HeaderAluno({ title }) {
             <button
               className="notification-btn position-relative"
               type="button"
-              onClick={() => setShowDropdown(true)}>
+              onClick={() => setShowDropdown(true)}
+            >
               <Bell size={20} />
             </button>
           </div>
