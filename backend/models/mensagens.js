@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
       me_conteudo: { type: DataTypes.TEXT, allowNull: false },
       me_tempo: { type: DataTypes.DATE, allowNull: false },
       me_lida: { type: DataTypes.BOOLEAN, allowNull: false },
+      remetente_tipo: { type: DataTypes.STRING(20), allowNull: false},
+      destinatario_tipo: { type: DataTypes.STRING(20), allowNull: false},
     },
     {
       tableName: "mensagens",

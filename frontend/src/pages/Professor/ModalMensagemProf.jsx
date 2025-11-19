@@ -1,65 +1,33 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/pages/professor/chatModal.scss";
 
-export default function ChatModal({ isOpen, onClose, contactName }) {
-  const [mensagens, setMensagens] = useState([
-    { id: 1, texto: "Oi! Tudo bem?", tipo: "recebida" },
-    { id: 2, texto: "Tudo ótimo! E você?", tipo: "enviada" },
-  ]);
+export default function ChatModal({
+  isOpen,
+  onClose,
+  contactName,
+  mensagens = [],
+  onSendMessage,
+}) {
   const [inputValue, setInputValue] = useState("");
   const chatBodyRef = useRef(null);
 
-  useEffect(()=> {
-    const openChat = async (co_id) => {
-      const res = await fetch(
-        `http://localhost:3000/api/professor/conversas/${co_id}/mensagens`,
-        { credentials: "include" }
-      );
-    
-      const data = await res.json();
-      setMensagens(data.mensagens);
-    };
-
-    openChat($co_id);
-  }, []);
-
+  // Scroll automático ao abrir ou atualizar mensagens
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [mensagens, isOpen]);
 
-  useEffect(() => {
-    const handleSize = () => {
-      const viewportHeight = window.innerHeight;
-      const windowHeight = document.documentElement.clientHeight;
-      
-      if(viewportHeight < windowHeight -100){
-        chatFooterRef.current?.scrollIntoView({ behavior: 'smooth'});
-      }
-
-    };
-  
-    window.addEventListener('resize', handleSize);
-    return () => window.removeEventListener('resize', handleSize);
-  }, []);
-
-
-  const handleSendMessage = () => {
+  const handleSend = () => {
     const texto = inputValue.trim();
     if (!texto) return;
 
-    setMensagens((prev) => [
-      ...prev,
-      { id: prev.length + 1, texto, tipo: "enviada" },
-    ]);
+    onSendMessage(texto);
     setInputValue("");
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
+    if (e.key === "Enter") handleSend();
   };
 
   if (!isOpen) return null;
@@ -67,24 +35,30 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
   return (
     <div className="chat-modal active">
       <div className="chat-window">
-        {/* ===== Cabeçalho ===== */}
+        
+        {/* Header */}
         <div className="chat-header">
-          <span>{contactName || "Sem contato"}</span>
-          <span className="close" onClick={onClose}>
-            &times;
-          </span>
+          <span>{contactName || "Conversa"}</span>
+          <span className="close" onClick={onClose}>&times;</span>
         </div>
 
-        {/* ===== Corpo do chat ===== */}
+        {/* Corpo */}
         <div className="chat-body" ref={chatBodyRef}>
+          {mensagens.length === 0 && (
+            <div className="no-messages">Nenhuma mensagem ainda.</div>
+          )}
+
           {mensagens.map((msg) => (
-            <div key={msg.id} className={`msg ${msg.tipo}`}>
-              {msg.texto}
+            <div
+              key={msg.me_id || msg.id}
+              className={`msg ${msg.tipo}`}
+            >
+              {msg.me_conteudo}
             </div>
           ))}
         </div>
 
-        {/* ===== Rodapé ===== */}
+        {/* Footer */}
         <div className="chat-footer">
           <input
             type="text"
@@ -93,7 +67,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button onClick={handleSendMessage}>Enviar</button>
+          <button onClick={handleSend}>Enviar</button>
         </div>
       </div>
     </div>

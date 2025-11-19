@@ -9,6 +9,8 @@ const {
   dataProfAlunos,
   dataProfConversas,
   dataProfMensagens,
+  enviarMensagemProfessor,
+  dataProfTreinosAluno,
 } = require("../controllers/professorController");
 
 /**
@@ -61,7 +63,9 @@ router.post("/login", loginProfessor);
 router.get("/me", verifyToken, dataProfessor);
 router.get("/allAlunos", verifyToken, dataProfAlunos);
 router.get("/conversas", verifyToken, dataProfConversas);
-router.get("/mensagens", verifyToken, dataProfMensagens);
+router.get("/mensagens/:id", verifyToken, dataProfMensagens);
+router.post("/mensagens/:id", verifyToken, enviarMensagemProfessor);
+router.get("/alunos/:al_id/treinos", verifyToken, dataProfTreinosAluno);
 
 router.put("/update", verifyToken, atualizarProfessor);
 module.exports = router;
