@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
 
 import AddAluno from "./AddAluno";
@@ -12,36 +12,33 @@ export default function Alunos() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const [alunos, setAlunos] = useState([
-    {
-      id: "#AL-2305",
-      nome: "Maria Silva",
-      turma: "Funcional",
-      status: "Ativo",
-      cor: "blue",
-    },
-    {
-      id: "#AL-2304",
-      nome: "Pedro Alves",
-      turma: "Cardio",
-      status: "Ativo",
-      cor: "green",
-    },
-    {
-      id: "#AL-2303",
-      nome: "Carlos Mendes",
-      turma: "Força",
-      status: "Inativo",
-      cor: "orange",
-    },
-    {
-      id: "#AL-2302",
-      nome: "Ana Santos",
-      turma: "Yoga",
-      status: "Ativo",
-      cor: "red",
-    },
-  ]);
+  const [alunos, setAlunos] = useState([]);
+
+  // ===============================
+  // BUSCAR ALUNOS DO BACKEND
+  // ===============================
+  useEffect(() => {
+    const fetchAlunos = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/admin/allAlunos", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (!res.ok) throw new Error("Erro ao buscar alunos");
+
+        const data = await res.json();
+        setAlunos(data.alunos);
+      } catch (error) {
+        console.error("Erro ao carregar alunos:", error);
+      }
+    };
+
+    fetchAlunos();
+  }, []);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -49,13 +46,89 @@ export default function Alunos() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedAluno, setSelectedAluno] = useState(null);
 
+  // ===============================
+  // CRIAR ALUNO REAL
+  // ===============================
+  const handleAddAluno = async (novo) => {
+    try {
+      const res = await fetch("http://localhost:3000/admin/criarAluno", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify(novo),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // adiciona novo aluno à lista
+        setAlunos((prev) => [data.aluno, ...prev]);
+        setShowAddModal(false);
+      }
+    } catch (err) {
+      console.error("Erro ao criar aluno:", err);
+    }
+  };
+
+  // ===============================
+  // EDITAR ALUNO REAL
+  // ===============================
+  const handleUpdateAluno = async (editado) => {
+    try {
+      await fetch(`http://localhost:3000/admin/alunos/${editado.al_id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify(editado),
+      });
+
+      setAlunos((prev) =>
+        prev.map((a) => (a.al_id === editado.al_id ? editado : a))
+      );
+
+      setShowEditModal(false);
+    } catch (err) {
+      console.error("Erro ao atualizar aluno:", err);
+    }
+  };
+
+  // ===============================
+  // DELETAR ALUNO REAL
+  // ===============================
+  const handleDeleteAluno = async (aluno) => {
+    try {
+      await fetch(`http://localhost:3000/admin/alunos/${aluno.al_id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+
+      setAlunos((prev) => prev.filter((a) => a.al_id !== aluno.al_id));
+      setShowDeleteModal(false);
+    } catch (err) {
+      console.error("Erro ao excluir aluno:", err);
+    }
+  };
+
+  // ===============================
+  // FILTRO + PAGINAÇÃO
+  // ===============================
   const alunosFiltrados = alunos.filter((a) => {
     const termo = searchTerm.toLowerCase();
     const correspondeBusca =
-      a.nome.toLowerCase().includes(termo) ||
-      a.turma.toLowerCase().includes(termo) ||
-      a.id.toLowerCase().includes(termo);
-    const correspondeAba = activeTab === "ativos" ? a.status === "Ativo" : true;
+      a.al_nome.toLowerCase().includes(termo) ||
+      a.al_email.toLowerCase().includes(termo) ||
+      String(a.al_id).includes(termo);
+
+    const correspondeAba =
+      activeTab === "ativos" ? a.al_status === "Ativo" : true;
+
     return correspondeBusca && correspondeAba;
   });
 
@@ -65,26 +138,6 @@ export default function Alunos() {
     startIndex,
     startIndex + itemsPerPage
   );
-
-  const handlePageChange = (p) => {
-    if (p >= 1 && p <= totalPages) setCurrentPage(p);
-  };
-
-  const handleAddAluno = (novo) => {
-    const nextId = `#AL-${Math.floor(1000 + Math.random() * 9000)}`;
-    setAlunos((prev) => [{ id: nextId, ...novo, cor: "blue" }, ...prev]);
-    setShowAddModal(false);
-  };
-
-  const handleUpdateAluno = (editado) => {
-    setAlunos((prev) => prev.map((a) => (a.id === editado.id ? editado : a)));
-    setShowEditModal(false);
-  };
-
-  const handleDeleteAluno = (aluno) => {
-    setAlunos((prev) => prev.filter((a) => a.id !== aluno.id));
-    setShowDeleteModal(false);
-  };
 
   return (
     <div className="admin-modal tabela-page">
@@ -124,32 +177,37 @@ export default function Alunos() {
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Turma</th>
+            <th>Email</th>
             <th>Status</th>
             <th>Ações</th>
           </tr>
         </thead>
+
         <tbody>
           {alunosPaginados.length > 0 ? (
             alunosPaginados.map((a) => (
-              <tr key={a.id}>
-                <td>{a.id}</td>
+              <tr key={a.al_id}>
+                <td>{a.al_id}</td>
+
                 <td className="user-info">
-                  <div className={`icone ${a.cor}`}>
-                    {a.nome
+                  <div className="icone blue">
+                    {a.al_nome
                       .split(" ")
                       .map((n) => n[0])
                       .join("")
                       .slice(0, 2)}
                   </div>
-                  {a.nome}
+                  {a.al_nome}
                 </td>
-                <td>{a.turma}</td>
+
+                <td>{a.al_email}</td>
+
                 <td>
-                  <span className={`status ${a.status.toLowerCase()}`}>
-                    {a.status}
+                  <span className={`status ${a.al_status.toLowerCase()}`}>
+                    {a.al_status}
                   </span>
                 </td>
+
                 <td>
                   <button
                     className="action-btn"
@@ -204,6 +262,7 @@ export default function Alunos() {
           <option value={5}>5</option>
           <option value={10}>10</option>
         </select>
+
         <div className="pages">
           <button
             className="page"
@@ -211,15 +270,17 @@ export default function Alunos() {
           >
             <i className="bi bi-chevron-left"></i>
           </button>
+
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
               className={`page ${currentPage === i + 1 ? "active" : ""}`}
-              onClick={() => handlePageChange(i + 1)}
+              onClick={() => setCurrentPage(i + 1)}
             >
               {i + 1}
             </button>
           ))}
+
           <button
             className="page"
             onClick={() => handlePageChange(currentPage + 1)}
@@ -236,6 +297,7 @@ export default function Alunos() {
           onSave={handleAddAluno}
         />
       )}
+
       {showEditModal && selectedAluno && (
         <EditarAluno
           aluno={selectedAluno}
@@ -243,12 +305,14 @@ export default function Alunos() {
           onSave={handleUpdateAluno}
         />
       )}
+
       {showDetailsModal && selectedAluno && (
         <DetalhesAluno
           aluno={selectedAluno}
           onClose={() => setShowDetailsModal(false)}
         />
       )}
+
       {showDeleteModal && selectedAluno && (
         <ExcluirAluno
           aluno={selectedAluno}
