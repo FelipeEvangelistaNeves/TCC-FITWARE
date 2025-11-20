@@ -1,11 +1,17 @@
+// src/pages/Admin/AddProfessor.jsx
 import React, { useState } from "react";
 import "../../styles/pages/admin/forms.scss";
 
 export default function AddProfessor({ onClose, onSave }) {
   const [form, setForm] = useState({
-    nome: "",
-    especialidade: "",
-    status: "Ativo",
+    fu_nome: "",
+    fu_email: "",
+    fu_senha: "",
+    fu_cpf: "",
+    fu_telefone: "",
+    fu_dtnasc: "",
+    fu_cargo: "Professor",
+    fu_cref: "",
   });
 
   const handleChange = (e) => {
@@ -15,7 +21,16 @@ export default function AddProfessor({ onClose, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.nome || !form.especialidade) return;
+    if (
+      !form.fu_nome ||
+      !form.fu_email ||
+      !form.fu_senha ||
+      !form.fu_cpf ||
+      !form.fu_dtnasc
+    ) {
+      alert("Preencha os campos obrigatórios.");
+      return;
+    }
     onSave(form);
   };
 
@@ -24,40 +39,82 @@ export default function AddProfessor({ onClose, onSave }) {
       <div className="modal-overlay" onClick={onClose}>
         <div
           className="modal-content form-card"
-          onClick={(e) => e.stopPropagation()}>
+          onClick={(e) => e.stopPropagation()}
+        >
           <h3>Adicionar Novo Professor</h3>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Nome do Professor</label>
+              <label>Nome *</label>
               <input
-                type="text"
-                name="nome"
-                value={form.nome}
+                name="fu_nome"
+                value={form.fu_nome}
                 onChange={handleChange}
-                placeholder="Ex: Lucas Rocha"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>Especialidade</label>
+              <label>Email *</label>
               <input
-                type="text"
-                name="especialidade"
-                value={form.especialidade}
+                type="email"
+                name="fu_email"
+                value={form.fu_email}
                 onChange={handleChange}
-                placeholder="Ex: Musculação"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>Status</label>
-              <select name="status" value={form.status} onChange={handleChange}>
-                <option>Ativo</option>
-                <option>Inativo</option>
-              </select>
+              <label>Senha *</label>
+              <input
+                type="password"
+                name="fu_senha"
+                value={form.fu_senha}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>CPF *</label>
+              <input
+                name="fu_cpf"
+                value={form.fu_cpf}
+                onChange={handleChange}
+                maxLength={11}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Telefone</label>
+              <input
+                name="fu_telefone"
+                value={form.fu_telefone}
+                onChange={handleChange}
+                maxLength={11}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Data de Nascimento *</label>
+              <input
+                type="date"
+                name="fu_dtnasc"
+                value={form.fu_dtnasc}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>CREF</label>
+              <input
+                name="fu_cref"
+                value={form.fu_cref}
+                onChange={handleChange}
+              />
             </div>
 
             <div className="modal-actions">

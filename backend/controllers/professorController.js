@@ -1,5 +1,14 @@
 // controllers/professorController.js
-const { Aluno, Funcionario, Conversa, Mensagem, AlunoTreino, Treino, Exercicio, TreinoExercicio } = require("../models");
+const {
+  Aluno,
+  Funcionario,
+  Conversa,
+  Mensagem,
+  AlunoTreino,
+  Treino,
+  Exercicio,
+  TreinoExercicio,
+} = require("../models");
 const LoggerMessages = require("../loggerMessages");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -183,7 +192,15 @@ const dataProfAlunos = async (req, res) => {
     }
 
     const alunos = await Aluno.findAll({
-      attributes:  ["al_id", "al_nome", "al_email", "al_telefone", "al_pontos", "al_status", "al_treinos_completos"],
+      attributes: [
+        "al_id",
+        "al_nome",
+        "al_email",
+        "al_telefone",
+        "al_pontos",
+        "al_status",
+        "al_treinos_completos",
+      ],
     });
 
     if (alunos.length === 0) {
@@ -219,17 +236,22 @@ const dataProfConversas = async (req, res) => {
       include: [
         {
           model: Aluno,
-          attributes: ["al_id", "al_nome", "al_email", "al_telefone", "al_pontos"],
+          attributes: [
+            "al_id",
+            "al_nome",
+            "al_email",
+            "al_telefone",
+            "al_pontos",
+          ],
         },
       ],
       order: [["co_id", "DESC"]],
     });
 
     res.json({ conversas });
-
   } catch (err) {
     console.error("Erro ao buscar dados de conversas:", err);
-    return res 
+    return res
       .status(500)
       .json({ message: "Erro ao buscar dados de conversas." });
   }
@@ -239,7 +261,9 @@ const dataProfMensagens = async (req, res) => {
   try {
     const token = req.cookies.token;
     if (!token) {
-      return res.status(401).json({ message: "Token ausente. Faça login novamente." });
+      return res
+        .status(401)
+        .json({ message: "Token ausente. Faça login novamente." });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -254,25 +278,26 @@ const dataProfMensagens = async (req, res) => {
 
     // Verificar se a conversa pertence a este professor
     const conversa = await Conversa.findOne({
-      where: { co_id: conversaId, prof_id: professorId }
+      where: { co_id: conversaId, prof_id: professorId },
     });
 
     if (!conversa) {
-      return res.status(403).json({ message: "Acesso negado a esta conversa." });
+      return res
+        .status(403)
+        .json({ message: "Acesso negado a esta conversa." });
     }
 
     // Buscar mensagens relacionadas a esta conversa
     const mensagens = await Mensagem.findAll({
       where: { co_id: conversaId },
-      order: [["me_tempo", "ASC"]] // ordem natural de chat
+      order: [["me_tempo", "ASC"]], // ordem natural de chat
     });
 
     res.json({ mensagens });
-
   } catch (err) {
     console.error("Erro ao buscar mensagens da conversa:", err);
     return res.status(500).json({
-      message: "Erro ao buscar mensagens da conversa."
+      message: "Erro ao buscar mensagens da conversa.",
     });
   }
 };
@@ -298,7 +323,7 @@ const enviarMensagemProfessor = async (req, res) => {
     // Verificar se a conversa existe e pertence ao professor
     const conversa = await Conversa.findOne({
       where: { co_id: id },
-      attributes: ["co_id", "al_id", "prof_id"]
+      attributes: ["co_id", "al_id", "prof_id"],
     });
 
     if (!conversa) {
@@ -306,7 +331,9 @@ const enviarMensagemProfessor = async (req, res) => {
     }
 
     if (conversa.prof_id !== professorId) {
-      return res.status(403).json({ message: "Você não pertence a esta conversa." });
+      return res
+        .status(403)
+        .json({ message: "Você não pertence a esta conversa." });
     }
 
     // Criar mensagem
@@ -322,7 +349,6 @@ const enviarMensagemProfessor = async (req, res) => {
     });
 
     return res.json({ message: "Mensagem enviada.", novaMensagem });
-
   } catch (err) {
     console.error("Erro ao enviar mensagem do professor:", err);
     return res.status(500).json({ message: "Erro ao enviar mensagem." });
@@ -341,18 +367,126 @@ const dataProfTreinosAluno = async (req, res) => {
           include: [
             {
               model: TreinoExercicio,
-              include: [{ model: Exercicio }]
-            }
-          ]
-        }
-      ]
+              include: [{ model: Exercicio }],
+            },
+          ],
+        },
+      ],
     });
 
     res.json({ treinos });
-
   } catch (err) {
     console.error("Erro ao buscar treinos do aluno:", err);
     res.status(500).json({ message: "Erro ao buscar treinos do aluno" });
+  }
+};
+
+//////////////////////////////////////////
+// CRUD Professor (Admin) - pode ser movido futuramente
+//////////////////////////////////////////
+
+/* ---- LISTAR TODOS OS PROFESSORES (TABELA) ---- */
+
+const listarProfessores = async (req, res) => {
+  try {
+    const professores = await Funcionario.findAll({
+      where: { fu_cargo: "Professor" },
+      attributes: [
+        "fu_id",
+        "fu_nome",
+        "fu_email",
+        "fu_telefone",
+        "fu_cref",
+        "fu_cpf",
+        "fu_dtnasc",
+      ],
+    });
+
+    res.json(professores);
+  } catch (err) {
+    console.error("Erro listarProfessores:", err);
+    res.status(500).json({ message: "Erro ao listar professores." });
+  }
+};
+
+/* ---- CRIAR PROFESSOR ---- */
+const criarProfessor = async (req, res) => {
+  try {
+    const {
+      fu_nome,
+      fu_email,
+      fu_senha,
+      fu_cpf,
+      fu_telefone,
+      fu_cref,
+      fu_dtnasc,
+    } = req.body;
+
+    if (!fu_nome || !fu_email || !fu_senha) {
+      return res
+        .status(400)
+        .json({ message: "Nome, email e senha são obrigatórios." });
+    }
+
+    const senhaHash = await bcrypt.hash(fu_senha, 10);
+
+    const novo = await Funcionario.create({
+      fu_nome: fu_nome,
+      fu_email: fu_email,
+      fu_senha: senhaHash,
+      fu_cpf: fu_cpf,
+      fu_telefone: fu_telefone,
+      fu_cref: fu_cref,
+      fu_cargo: "Professor",
+      fu_dtnasc: fu_dtnasc,
+    });
+
+    res.json({ success: true, professor: novo });
+  } catch (err) {
+    console.error("Erro criarProfessor:", err);
+    res.status(500).json({ message: "Erro ao criar professor." });
+  }
+};
+
+/* ---- EDITAR PROFESSOR ---- */
+const editarProfessor = async (req, res) => {
+  const { id } = req.params;
+  const dados = req.body;
+
+  try {
+    const professor = await Funcionario.findByPk(id);
+
+    if (!professor) {
+      return res.status(404).json({ message: "Professor não encontrado" });
+    }
+
+    await professor.update(dados);
+
+    return res.json({
+      message: "Professor atualizado com sucesso",
+      professor,
+    });
+  } catch (err) {
+    console.error("Erro ao atualizar professor:", err);
+    return res.status(500).json({ message: "Erro interno no servidor" });
+  }
+};
+
+/* ---- DELETAR PROFESSOR ---- */
+const deletarProfessor = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const professor = await Funcionario.findByPk(id);
+    if (!professor)
+      return res.status(404).json({ message: "Professor não encontrado." });
+
+    await professor.destroy();
+
+    res.json({ success: true, message: "Professor removido." });
+  } catch (err) {
+    console.error("Erro deletarProfessor:", err);
+    res.status(500).json({ message: "Erro ao deletar professor." });
   }
 };
 
@@ -365,4 +499,8 @@ module.exports = {
   dataProfMensagens,
   enviarMensagemProfessor,
   dataProfTreinosAluno,
+  listarProfessores,
+  criarProfessor,
+  editarProfessor,
+  deletarProfessor,
 };

@@ -1,7 +1,8 @@
 import React from "react";
-import "../../styles/pages/admin/excluir.scss"; // mesmo estilo do excluir aluno
+import "../../styles/pages/admin/excluir.scss";
 
 export default function ExcluirProfessor({ professor, onClose, onConfirm }) {
+  if (!professor) return null;
   return (
     <div className="admin-excluir">
       <div className="modal-overlay" onClick={onClose}>
@@ -12,7 +13,7 @@ export default function ExcluirProfessor({ professor, onClose, onConfirm }) {
           <h3>Excluir Professor</h3>
           <p>
             Tem certeza que deseja excluir o professor{" "}
-            <strong>{professor.nome}</strong>?<br />
+            <strong>{professor.fu_nome}</strong>?
           </p>
           <div className="alerta">
             <i className="bi bi-exclamation-triangle-fill"></i>

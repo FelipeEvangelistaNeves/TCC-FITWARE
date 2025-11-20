@@ -2,35 +2,49 @@ import React from "react";
 import "../../styles/pages/admin/forms.scss";
 
 export default function DetalhesProfessor({ professor, onClose }) {
+  if (!professor) return null;
   return (
     <div className="admin-modal">
       <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-content form-card"
+          onClick={(e) => e.stopPropagation()}
+        >
           <h3>Detalhes do Professor</h3>
 
-          <div className="form-card">
-            <div className="form-group">
-              <label>ID:</label>
-              <span>{professor.id}</span>
-            </div>
+          <div className="form-group">
+            <label>ID</label>
+            <input type="text" value={professor.fu_id} readOnly />
+          </div>
 
-            <div className="form-group">
-              <label>Nome:</label>
-              <span>{professor.nome}</span>
-            </div>
+          <div className="form-group">
+            <label>Nome</label>
+            <input type="text" value={professor.fu_nome} readOnly />
+          </div>
 
-            <div className="form-group">
-              <label>Especialidade:</label>
-              <span>{professor.especialidade}</span>
-            </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input type="text" value={professor.fu_email} readOnly />
+          </div>
 
-            <div className="form-group">
-              <label>Status:</label>
-              <span
-                className={`status-badge ${professor.status.toLowerCase()}`}>
-                {professor.status}
-              </span>
-            </div>
+          <div className="form-group">
+            <label>CPF</label>
+            <input type="text" value={professor.fu_cpf} readOnly />
+          </div>
+
+          <div className="form-group">
+            <label>Telefone</label>
+            <input type="text" value={professor.fu_telefone || ""} readOnly />
+          </div>
+
+          <div className="form-group">
+            <label>Data de Nascimento</label>
+            <input type="text" value={professor.fu_dtnasc || ""} readOnly />
+          </div>
+
+          <div className="form-group">
+            <label>CREF</label>
+            <input type="text" value={professor.fu_cref || ""} readOnly />
           </div>
 
           <div className="modal-actions">
