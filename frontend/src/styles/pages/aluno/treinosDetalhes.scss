@@ -17,7 +17,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: $color-bg-dark;
+  background: var(--color-bg);
   color: $color-text;
   padding: $spacing-md;
   overflow-y: auto;
@@ -54,16 +54,16 @@
   .tag {
     padding: 4px 8px;
     border-radius: $radius-sm;
-    background: $surface-2;
+    background: var(--surface-2);
     font-size: $font-size-small;
   }
 
   .purple {
-    background: $primary;
+    background: var(--color-purple);
   }
 
   .dark {
-    background: $surface-3;
+    background: var(--surface-3);
   }
 }
 
@@ -83,7 +83,7 @@
 
     h3 {
       font-size: 22px;
-      color: $accent-yellow;
+      color: var(--yellow);
     }
 
     p {
@@ -105,8 +105,8 @@
     }
 
     .add-btn {
-      background: $primary;
-      color: $white;
+      background: var(--color-purple);
+      color: var(--white);
       border: none;
       padding: 4px 10px;
       border-radius: $radius-sm;
@@ -118,7 +118,7 @@
   }
 
   .exercicio {
-    background: $surface-2;
+    background: var(--surface-2);
     border-radius: $radius-md;
     margin-bottom: $spacing-sm;
 
@@ -126,7 +126,7 @@
       width: 100%;
       background: none;
       border: none;
-      color: $white;
+      color: var(--white);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -134,7 +134,7 @@
       font-size: $font-size-base;
 
       .number {
-        background: $primary;
+        background: var(--color-purple);
         border-radius: 50%;
         width: 24px;
         height: 24px;
@@ -154,7 +154,7 @@
       }
 
       .video-box {
-        background: $primary-700;
+        background: var(--color-purple-hover);
         border-radius: $radius-md;
         height: 150px;
         display: flex;
@@ -163,7 +163,7 @@
 
         i {
           font-size: 40px;
-          color: $white;
+          color: var(--white);
         }
       }
     }
@@ -172,8 +172,8 @@
 
 .start-btn {
   margin-top: auto;
-  background: $primary;
-  color: $white;
+  background: var(--color-purple);
+  color: var(--white);
   border: none;
   border-radius: $radius-md;
   padding: $spacing-md;
@@ -187,7 +187,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(var(--shadow-rgb), 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -225,7 +225,7 @@
   .close-btn {
     background: none;
     border: none;
-    color: #fff;
+    color: var(--white);
     font-size: 20px;
   }
 }
@@ -236,7 +236,7 @@
   margin: 12px 0;
 
   .tag {
-    background: #2c2c2c;
+    background: var(--surface-2);
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 12px;
@@ -245,7 +245,7 @@
 
 .descricao {
   font-size: 14px;
-  color: #ddd;
+  color: var(--color-text)-2;
   margin-bottom: 16px;
 }
 
@@ -257,13 +257,13 @@
 
   .card-info {
     flex: 1;
-    background: #1e1e1e;
+    background: var(--surface-1);
     padding: 15px;
     border-radius: 10px;
     text-align: center;
 
     h3 {
-      color: #ffd700; // amarelo
+      color: var(--yellow);
       font-size: 14px;
       margin-bottom: 5px;
     }
@@ -271,7 +271,7 @@
     p {
       font-size: 18px;
       font-weight: bold;
-      color: #fff;
+      color: var(--white);
     }
   }
 }
@@ -288,7 +288,7 @@
 }
 
 .card-exercicio {
-  background: #2c2c2c;
+  background: var(--surface-2);
   padding: 12px;
   border-radius: 10px;
   margin-top: 12px;
@@ -299,7 +299,7 @@
     align-items: center;
 
     .numero {
-      background: #5c2d91;
+      background: var(--color-purple);
       border-radius: 50%;
       padding: 4px 10px;
       margin-right: 8px;
@@ -312,7 +312,7 @@
 
     .video {
       margin-top: 12px;
-      background: #5c2d91;
+      background: var(--color-purple);
       border-radius: 8px;
       height: 120px;
       display: flex;
@@ -332,8 +332,8 @@
 
 .btn-iniciar {
   margin-top: 20px;
-  background: #5c2d91;
-  color: #fff;
+  background: var(--color-purple);
+  color: var(--white);
   border: none;
   padding: 12px;
   border-radius: 25px;

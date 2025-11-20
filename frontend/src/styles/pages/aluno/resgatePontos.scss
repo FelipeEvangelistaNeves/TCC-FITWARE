@@ -1,7 +1,6 @@
 @import "./../../abstract/variables.scss";
 
 .resgate-modal {
-  font-family: $font-family;
   position: fixed;
   top: 0;
   left: 0;
@@ -10,7 +9,7 @@
   background: var(--app-bg);
   color: var(--white);
   padding: 20px;
-  z-index: 9999; // garante que fica por cima
+  z-index: 9999;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -46,7 +45,7 @@
     .circle {
       width: 120px;
       height: 120px;
-      border: 4px solid #f39c12;
+      border: 4px solid var(--yellow);
       border-radius: 50%;
       margin: 0 auto;
       display: flex;
@@ -97,11 +96,11 @@
       margin: 20px 0 10px;
       font-size: 16px;
       font-weight: 600;
-      color: $text;
+      color: var(--color-text);
     }
 
     .resgate-card {
-      background: #1e1e1e;
+      background: var(--surface-2);
       border-radius: 10px;
       padding: 15px;
       margin-bottom: 15px;
@@ -127,7 +126,7 @@
         .pontos-custo {
           font-size: 12px;
           font-weight: bold;
-          color: #f39c12;
+          color: var(--yellow);
         }
       }
 
@@ -155,13 +154,13 @@
           font-size: 12px;
           margin-top: 4px;
           &.disponível {
-            color: #27ae60;
+            color: var(--color-green);
           }
           &.acabando {
-            color: #f1c40f;
+            color: var(--yellow);
           }
           &.indisponível {
-            color: #e74c3c;
+            color: var(--color-red);
           }
         }
       }
@@ -170,7 +169,7 @@
         background: var(--color-purple);
       }
       &.blue .resgatar {
-        background: #2980b9;
+        background: var(--color-purple)-light;
       }
       &.green .resgatar {
         background: var(--color-green);
@@ -192,7 +191,7 @@
 .saldo {
   font-size: 14px;
   font-weight: 600;
-  color: #5e35b1;
+  color: var(--color-purple);
   margin-left: auto;
 }
 
@@ -229,12 +228,12 @@
     }
 
     .confirmar {
-      background: #673ab7;
-      color: white;
+      background: var(--color-purple);
+      color: var(--white);
     }
 
     .cancelar {
-      background: #ccc;
+      background: var(--color-text)-2;
     }
   }
 }

@@ -3,12 +3,11 @@
 // Mensagens do Aluno - Estilos SCSS
 .mensagens-aluno {
   min-height: 100vh;
-  background: $app-bg;
-  color: $text;
+  background: var(--app-bg);
+  color: var(--color-text);
   padding: 0;
   position: relative;
   padding-bottom: 80px; // cEspaço para a navegação inferior
-}
 
 // Header
 .mensagens-header {
@@ -16,21 +15,21 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px 15px;
-  background: $surface-1;
+  background: var(--surface-1);
   backdrop-filter: blur(10px);
 
   .mensagens-title {
     font-size: 24px;
     font-weight: 700;
-    color: $accent-yellow;
+    color: var(--yellow);
     margin: 0;
   }
 
   .add-btn {
     width: 40px;
     height: 40px;
-    background: $surface-2;
-    border: 1px solid $border-color;
+    background: var(--surface-2);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -40,11 +39,11 @@
 
     &:hover {
       transform: scale(1.1);
-      background: $surface-3;
+      background: var(--surface-3);
     }
 
     i {
-      color: $white;
+      color: var(--white);
       font-size: 18px;
       font-weight: 600;
     }
@@ -64,14 +63,14 @@
     .search-icon {
       position: absolute;
       left: 15px;
-      color: #9ca3af;
+      color: var(--color-text)-2;
       font-size: 16px;
     }
 
     .search-input {
       width: 100%;
       padding: 15px 15px 15px 45px;
-      background: $surface-1;
+      background: var(--surface-1);
       border: 1px solid rgba(107, 114, 128, 0.4);
       border-radius: 12px;
       color: white;
@@ -79,13 +78,13 @@
       backdrop-filter: blur(10px);
 
       &::placeholder {
-        color: #9ca3af;
+        color: var(--color-text)-2;
       }
 
       &:focus {
         outline: none;
-        border-color: #8b5cf6;
-        background: rgba(75, 85, 99, 0.9);
+        border-color: var(--color-purple);
+        background: rgba(var(--shadow-rgb), 0.9);
       }
     }
   }
@@ -100,7 +99,7 @@
   .filter-tab {
     flex: 1;
     padding: 12px 16px;
-    background: $surface-1;
+    background: var(--surface-1);
     border: none;
     border-radius: 10px;
     color: white;
@@ -115,11 +114,11 @@
     }
 
     &.active {
-      background: #8b5cf6; // Roxo
-      color: white;
+      background: var(--color-purple);
+      color: var(--white);
 
       &:hover {
-        background: #7c3aed;
+        background: var(--color-purple-hover);
       }
     }
   }
@@ -134,17 +133,16 @@
     align-items: center;
     padding: 20px;
     margin-bottom: 15px;
-    background: $surface-1;
+    background: var(--surface-1);
     border-radius: 16px;
-    border: 1px solid rgba(107, 114, 128, 0.4);
+    border: 1px solid rgba(var(--shadow-rgb), 0.2);
     backdrop-filter: blur(10px);
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(75, 85, 99, 0.8);
+      background: rgba(var(--surface-1), 0.8);
       transform: translateY(-2px);
     }
-
     .message-avatar {
       width: 50px;
       height: 50px;
@@ -162,15 +160,15 @@
       }
 
       &.purple {
-        background: #8b5cf6; // Roxo
+        background: var(--color-purple);
       }
 
       &.orange {
-        background: #f97316; // Laranja
+        background: var(--yellow);
       }
 
       &.blue {
-        background: #3b82f6; // Azul
+        background: var(--color-purple)-light;
       }
     }
 
@@ -188,7 +186,7 @@
           margin-top: 75px;
           font-size: 16px;
           font-weight: 700;
-          color: white;
+          color: var(--white);
           margin: 0;
           white-space: nowrap;
           overflow: hidden;
@@ -197,7 +195,7 @@
 
         .message-time {
           font-size: 12px;
-          color: #9ca3af;
+          color: var(--color-text)-2;
           font-weight: 500;
           flex-shrink: 0;
           margin-left: 10px;
@@ -206,7 +204,7 @@
 
       .message-preview {
         font-size: 14px;
-        color: #d1d5db;
+        color: rgba(var(--color-text), 0.8);
         margin: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -225,7 +223,7 @@
       .unread-badge {
         width: 24px;
         height: 24px;
-        background: #8b5cf6; // Roxo
+        background: var(--color-purple);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -346,15 +344,16 @@
 }
 
 .messages-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--white-rgb), 0.1);
   border-radius: 2px;
 }
 
 .messages-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(var(--white-rgb), 0.3);
   border-radius: 2px;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(var(--white-rgb), 0.5);
   }
+}
 }

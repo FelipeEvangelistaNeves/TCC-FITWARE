@@ -3,8 +3,8 @@
 // Dashboard do Aluno - Estilos SCSS
 .dashboard-aluno {
   min-height: 100vh;
-  background: $app-bg;
-  color: $text;
+  background: var(--app-bg);
+  color: var(--color-text);
   padding: 0;
   position: relative;
   padding-bottom: 80px; // Espaço para a navegação inferior
@@ -16,13 +16,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 20px 15px;
-    background: $surface-1;
+    background: var(--surface-1);
     backdrop-filter: blur(10px);
 
     .dashboard-title {
       font-size: 24px;
       font-weight: 700;
-      color: $accent-yellow;
+      color: var(--yellow);
       margin: 0;
     }
 
@@ -34,7 +34,7 @@
       .notification-icon {
         width: 40px;
         height: 40px;
-        background: $surface-2;
+        background: var(--surface-2);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -47,7 +47,7 @@
         }
 
         i {
-          color: $white;
+          color: var(--white);
           font-size: 16px;
         }
       }
@@ -55,7 +55,7 @@
       .profile-icon {
         width: 40px;
         height: 40px;
-        background: $primary;
+        background: var(--color-purple);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -68,7 +68,7 @@
         }
 
         span {
-          color: $white;
+          color: var(--white);
           font-weight: 600;
           font-size: 14px;
         }
@@ -87,31 +87,31 @@
       margin-top: 20px;
       flex: 1;
       min-width: 100px;
-      background: $surface-1;
+      background: var(--surface-1);
       border-radius: $radius-md;
       padding: 20px 15px;
       text-align: center;
       backdrop-filter: blur(10px);
-      border: 1px solid $border-color;
+      border: 1px solid var(--border-color);
       box-shadow: $shadow-1;
 
       h3 {
         font-size: 14px;
         font-weight: 500;
-        color: $text-2;
+        color: var(--color-text)-2;
         margin: 0 0 10px 0;
       }
 
       .card-number {
         font-size: 28px;
         font-weight: 700;
-        color: $text;
+        color: var(--color-text);
         margin-bottom: 5px;
       }
 
       .card-subtitle {
         font-size: 12px;
-        color: $accent-yellow;
+        color: var(--yellow);
         font-weight: 500;
       }
     }
@@ -131,7 +131,7 @@
       h2 {
         font-size: 20px;
         font-weight: 600;
-        color: $text;
+        color: var(--color-text);
         margin: 0;
         width: 100%;
         margin-bottom: 15px;
@@ -141,9 +141,9 @@
         margin: 5px;
         flex: 1;
         min-width: 80px;
-        background: $surface-2;
-        color: $text;
-        border: 1px solid $border-color;
+        background: var(--surface-2);
+        color: var(--color-text);
+        border: 1px solid var(--border-color);
         padding: 8px 16px;
         border-radius: $radius-sm;
         font-size: 14px;
@@ -152,11 +152,11 @@
         transition: background 0.2s ease;
 
         &:hover {
-          background: $surface-3;
+          background: var(--surface-3);
         }
 
         &.active {
-          background: var(--surface-2-hover);
+          background: var(--surface-3);
         }
       }
     }
@@ -164,11 +164,11 @@
 
   // Cards de Treino
   .workout-card {
-    background: $surface-2;
+    background: var(--surface-2);
     border-radius: $radius-lg;
     padding: 20px;
     margin-bottom: 20px;
-    border: 1px solid $border-color;
+    border: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
     box-shadow: $shadow-1;
 
@@ -182,13 +182,13 @@
         h3 {
           font-size: 18px;
           font-weight: 700;
-          color: $text;
+          color: var(--color-text);
           margin: 0 0 5px 0;
         }
 
         .workout-details {
           font-size: 14px;
-          color: $text-2;
+          color: var(--color-text)-2;
           margin: 0;
         }
       }
@@ -198,14 +198,14 @@
         border-radius: $radius-sm;
         font-size: 12px;
         font-weight: 600;
-        color: $white;
+        color: var(--white);
 
         &.strength {
-          background: $primary;
+          background: var(--color-purple);
         }
 
         &.cardio {
-          background: $blue-light;
+          background: var(--color-purple-light);
         }
       }
 
@@ -217,11 +217,11 @@
         .timer-display {
           font-size: 16px;
           font-weight: 600;
-          color: $text;
-          background: $surface-2;
+          color: var(--color-text);
+          background: var(--surface-2);
           padding: 8px 14px;
           border-radius: $radius-sm;
-          border: 1px solid $border-color;
+          border: 1px solid var(--border-color);
         }
       }
     }
@@ -233,7 +233,7 @@
         display: flex;
         align-items: center;
         padding: 12px 0;
-        border-bottom: 1px solid $border-color;
+        border-bottom: 1px solid var(--border-color);
 
         &:last-child {
           border-bottom: none;
@@ -242,27 +242,27 @@
         .exercise-number {
           width: 24px;
           height: 24px;
-          background: $primary-500;
+          background: var(--color-purple-light);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 12px;
           font-weight: 600;
-          color: $white;
+          color: var(--white);
           margin-right: 15px;
         }
 
         .exercise-name {
           flex: 1;
           font-size: 14px;
-          color: $text;
+          color: var(--color-text);
           font-weight: 500;
         }
 
         .exercise-sets {
           font-size: 14px;
-          color: $text-2;
+          color: var(--color-text)-2;
           font-weight: 500;
         }
       }
@@ -287,8 +287,8 @@
 
       .start-btn,
       .stop-btn {
-        background: $primary;
-        color: $white;
+        background: var(--color-purple);
+        color: var(--white);
         border: none;
         padding: 12px 24px;
         border-radius: $radius-md;
@@ -299,7 +299,7 @@
         box-shadow: $shadow-1;
 
         &:hover {
-          background: $primary-700;
+          background: var(--color-purple-hover);
           transform: translateY(-2px);
         }
 
@@ -309,7 +309,7 @@
       }
 
       .stop-btn {
-        background: $purple-dark;
+        background: var(--color-purple);
         &:hover {
           background: var(--color-purple-hover);
         }
@@ -426,16 +426,16 @@
   }
 
   .summary-cards::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(var(--white-rgb), 0.1);
     border-radius: 2px;
   }
 
   .summary-cards::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(var(--white-rgb), 0.3);
     border-radius: 2px;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(var(--white-rgb), 0.5);
     }
   }
 }

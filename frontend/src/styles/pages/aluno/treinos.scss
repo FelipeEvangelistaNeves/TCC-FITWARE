@@ -12,14 +12,14 @@
     .search-icon {
       position: absolute;
       left: 15px;
-      color: #9ca3af;
+      color: var(--color-text)-2;
       font-size: 16px;
     }
 
     .search-input {
       width: 100%;
       padding: 15px 15px 15px 45px;
-      background: $surface-1;
+      background: var(--surface-1);
       border: 1px solid rgba(var(--shadow-rgb), 0.4);
       border-radius: 12px;
       color: var(--white);
@@ -27,7 +27,7 @@
       backdrop-filter: blur(10px);
 
       &::placeholder {
-        color: #9ca3af;
+        color: var(--color-text)-2;
       }
 
       &:focus {
@@ -40,7 +40,7 @@
 }
 
 .treinos-page {
-  background: $app-bg;
+  background: var(--app-bg);
   min-height: 100vh;
   color: var(--white);
   font-family: "Segoe UI", "Inter", Arial, sans-serif;
@@ -61,7 +61,7 @@
     .search-input,
     .search-bar {
       width: 100%;
-      background: $surface-1;
+      background: var(--surface-1);
       border: none;
       border-radius: 1.5rem;
       padding: 0.7rem 1.2rem;
@@ -98,7 +98,7 @@
 
     .trainer-name {
       font-size: 0.9rem;
-      color: #d1d5db;
+      color: rgba(var(--white), 0.8);
     }
   }
 
@@ -132,7 +132,7 @@
       transition: all 0.3s ease;
 
       &:hover {
-        background: #dc2626;
+        background: var(--color-red);
         transform: scale(1.05);
       }
     }

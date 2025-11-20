@@ -4,7 +4,7 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(var(--shadow-rgb), 0.5);
     z-index: $z-header;
     backdrop-filter: blur(2px);
   }
@@ -14,8 +14,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: $surface-2;
-    color: $text;
+    background: var(--surface-2);
+    color: var(--color-text);
     padding: $spacing-lg;
     border-radius: $radius-md;
     width: 90%;
@@ -34,7 +34,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: $surface-1;
+      background: var(--surface-1);
       padding: $spacing-sm $spacing-md;
       border-radius: $radius-sm;
       margin-bottom: $spacing-sm;
@@ -42,7 +42,7 @@
       transition: background 0.2s ease;
 
       &:hover {
-        background: $color-bg-hover;
+        background: var(--surface-2);
       }
 
       span {
@@ -51,14 +51,14 @@
 
       i {
         font-size: 1rem;
-        color: $text-2;
+        color: var(--color-text)-2;
       }
 
       &.logout {
-        color: $color-red;
+        color: var(--color-red);
 
         i {
-          color: $color-red;
+          color: var(--color-red);
         }
       }
     }
@@ -83,7 +83,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: $surface-3;
+        background-color: var(--surface-3);
         transition: 0.3s;
         border-radius: 34px;
 
@@ -94,14 +94,14 @@
           width: 16px;
           left: 4px;
           bottom: 3px;
-          background-color: $white;
+          background-color: var(--white);
           transition: 0.3s;
           border-radius: 50%;
         }
       }
 
       input:checked + .slider {
-        background-color: $purple-dark;
+        background-color: var(--color-purple);
       }
 
       input:checked + .slider:before {
@@ -122,15 +122,15 @@
         margin-bottom: $spacing-sm;
 
         label {
-          color: $text-2;
+          color: var(--color-text)-2;
           font-size: $font-size-small;
           margin-bottom: 4px;
         }
 
         input {
-          background: $surface-1;
-          border: 1px solid $border-color;
-          color: $text;
+          background: var(--surface-1);
+          border: 1px solid var(--border-color);
+          color: var(--color-text);
           border-radius: $radius-sm;
           padding: $spacing-sm;
           outline: none;
@@ -138,7 +138,7 @@
           transition: border-color 0.2s ease;
 
           &:focus {
-            border-color: $purple-dark;
+            border-color: var(--color-purple);
           }
         }
       }
@@ -157,16 +157,16 @@
           cursor: pointer;
 
           &.cancel {
-            background: $surface-3;
-            color: $text-2;
+            background: var(--surface-3);
+            color: var(--color-text)-2;
           }
 
           &.save {
-            background: $purple-dark;
-            color: $white;
+            background: var(--color-purple);
+            color: var(--white);
 
             &:hover {
-              background: var(--color-purple-light);
+              background: var(--color-purple)-light;
             }
           }
         }
