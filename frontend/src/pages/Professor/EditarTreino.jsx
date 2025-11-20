@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../styles/pages/professor/novoTreino.scss";
 import { X, Plus, Trash } from "lucide-react";
 
-export default function NovoTreino({ treino, onClose }) {
+export default function EditarTreino({ treino, onClose }) {
   // Se o componente for renderizado apenas quando treino existe, ainda protegemos:
   if (!treino && !onClose) return null;
 
@@ -104,7 +104,7 @@ export default function NovoTreino({ treino, onClose }) {
             <X size={20} />
           </button>
           <h2 id="drawer-title">
-            {treino ? "Atribuir / Editar Treino" : "Criar Novo Treino"}
+            {treino ? "Editar Treino" : "Criar Novo Treino"}
           </h2>
           <button className="save-btn" onClick={handleSave}>
             Salvar

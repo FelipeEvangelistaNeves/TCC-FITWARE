@@ -247,6 +247,20 @@ body {
     border: none;
   }
 
+  .new-btn {
+    font-weight: bold;
+    font-size: large;
+    height: 60px;
+    width: 100%;
+    background: $primary;
+    color: $white;
+    border-radius: $radius-lg;
+
+    &:hover {
+      background: darken($primary, 10%);
+    }
+  }
+
   .start-btn {
     background: $primary;
     color: $white;

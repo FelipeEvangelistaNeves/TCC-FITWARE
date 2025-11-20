@@ -3,7 +3,7 @@ import "../../styles/pages/aluno/mensagensAluno.scss";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/professor/treinosprof.scss";
 import DetalhesTreino from "./DetalhesTreino";
-import NovoTreino from "./NovoTreino";
+import EditarTreino from "./EditarTreino";
 
 export default function DashboardAluno() {
   const [treinos, setTreinos] = useState([]);
@@ -117,7 +117,7 @@ export default function DashboardAluno() {
                   className="start-btn"
                   onClick={() => abrirNovoTreino(treino)}
                 >
-                  Atribuir
+                  Editar
                 </button>
                 <button
                   className="btn-detalhes"
@@ -130,12 +130,17 @@ export default function DashboardAluno() {
           ))
         )}
       </section>
+      <div className="treino-actions">
+        <button className="new-btn" onClick={() => abrirNovoTreino(null)}>
+          Adicionar Novo Treino
+        </button>
+      </div>
 
       {mostrarDetalhes && treinoSelecionado && (
         <DetalhesTreino treino={treinoSelecionado} onClose={fecharDetalhes} />
       )}
       {novoTreino && (
-        <NovoTreino treino={treinoSelecionado} onClose={fecharNovoTreino} />
+        <EditarTreino treino={treinoSelecionado} onClose={fecharNovoTreino} />
       )}
     </div>
   );
