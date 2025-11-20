@@ -175,15 +175,17 @@
     .message-content {
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
-      .message-header {
+      .message-top {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
 
         .message-name {
-          margin-top: 75px;
           font-size: 16px;
           font-weight: 700;
           color: var(--white);
@@ -202,45 +204,61 @@
         }
       }
 
-      .message-preview {
-        font-size: 14px;
-        color: rgba(var(--color-text), 0.8);
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1.4;
-      }
-    }
-
-    // Container da direita (badge + estrela)
-    .message-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-left: 15px;
-
-      .unread-badge {
-        width: 24px;
-        height: 24px;
-        background: var(--color-purple);
-        border-radius: 50%;
+      .message-bottom {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-      }
 
-      .favorite-btn {
-        align-items: center;
-        gap: 8px;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 16px;
-        font-size: 20px;
-        font-weight: 50;
-        cursor: pointer;
-        transition: background 0.2s ease-in-out;
+        .message-preview {
+          font-size: 14px;
+          color: rgba(var(--color-text), 0.8);
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.4;
+          flex: 1;
+          margin-right: 10px;
+        }
+
+        .message-actions {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-shrink: 0;
+
+          .unread-badge {
+            width: 24px;
+            height: 24px;
+            background: var(--color-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+          }
+
+          .favorite-btn {
+            align-items: center;
+            gap: 8px;
+            border: none;
+            border-radius: 8px;
+            padding: 0; // Remove padding to fit better
+            font-size: 20px;
+            font-weight: 50;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+            background: transparent; // Ensure transparent background
+            color: var(--yellow); // Default color for star
+            
+            &.bi-star {
+                color: var(--color-text)-2; // Muted color for empty star
+            }
+          }
+        }
       }
     }
   }

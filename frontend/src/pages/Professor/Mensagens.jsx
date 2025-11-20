@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../styles/pages/aluno/mensagensAluno.scss";
+import "../../styles/pages/professor/mensagensProf.scss";
 import ChatModal from "../../pages/Professor/ModalMensagemProf";
 
 export default function MensagensProf() {
@@ -18,13 +18,21 @@ export default function MensagensProf() {
   useEffect(() => {
     const fetchConversas = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/professor/conversas", {
-          credentials: "include",
-        });
+        const res = await fetch(
+          "http://localhost:3000/api/professor/conversas",
+          {
+            credentials: "include",
+          }
+        );
 
         if (!res.ok) throw new Error("Erro ao buscar conversas");
 
         const data = await res.json();
+
+        const getRandomColor = () => {
+          const colors = ["purple", "orange", "blue"];
+          return colors[Math.floor(Math.random() * colors.length)];
+        };
 
         const normalizadas = data.conversas.map((c) => {
           const aluno = c.Aluno || {};
@@ -45,7 +53,7 @@ export default function MensagensProf() {
             time: "",
             unread: 0,
             favorite: false,
-            color: "default",
+            color: getRandomColor(),
           };
         });
 
@@ -79,7 +87,10 @@ export default function MensagensProf() {
       // Normalizar mensagens
       const normalizadas = data.mensagens.map((m) => ({
         ...m,
-        tipo: m.remetente_tipo.toLowerCase() === "professor" ? "enviada" : "recebida"
+        tipo:
+          m.remetente_tipo.toLowerCase() === "professor"
+            ? "enviada"
+            : "recebida",
       }));
 
       console.log(data.mensagens.remetente_tipo);
@@ -104,15 +115,15 @@ export default function MensagensProf() {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ conteudo: texto })
+          body: JSON.stringify({ conteudo: texto }),
         }
       );
-  
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erro ao enviar mensagem");
-  
+
       const msg = data.novaMensagem;
-  
+
       // normalização para encaixar no formato do front
       const mensagemFormatada = {
         me_id: msg.me_id,
@@ -120,12 +131,11 @@ export default function MensagensProf() {
         me_tempo: msg.me_tempo,
         remetente_id: msg.remetente_id,
         remetente_tipo: msg.remetente_tipo,
-        tipo: "enviada"
+        tipo: "enviada",
       };
-  
+
       // adiciona no estado
       setMensagensDaConversa((prev) => [...prev, mensagemFormatada]);
-  
     } catch (err) {
       console.error("Erro ao enviar:", err);
     }
@@ -162,8 +172,7 @@ export default function MensagensProf() {
   };
 
   return (
-    <div className="mensagens-aluno">
-
+    <div className="mensagens-prof">
       {/* Search */}
       <div className="search-container">
         <div className="search-bar">
@@ -180,9 +189,24 @@ export default function MensagensProf() {
 
       {/* Tabs */}
       <div className="filter-tabs">
-        <button className={activeTab === "todas" ? "active" : ""} onClick={() => setActiveTab("todas")}>Todas</button>
-        <button className={activeTab === "nao-lidas" ? "active" : ""} onClick={() => setActiveTab("nao-lidas")}>Não lidas</button>
-        <button className={activeTab === "favoritas" ? "active" : ""} onClick={() => setActiveTab("favoritas")}>Favoritas</button>
+        <button
+          className={`filter-tab ${activeTab === "todas" ? "active" : ""}`}
+          onClick={() => setActiveTab("todas")}
+        >
+          Todas
+        </button>
+        <button
+          className={`filter-tab ${activeTab === "nao-lidas" ? "active" : ""}`}
+          onClick={() => setActiveTab("nao-lidas")}
+        >
+          Não lidas
+        </button>
+        <button
+          className={`filter-tab ${activeTab === "favoritas" ? "active" : ""}`}
+          onClick={() => setActiveTab("favoritas")}
+        >
+          Favoritas
+        </button>
       </div>
 
       {/* Lista */}
@@ -191,25 +215,42 @@ export default function MensagensProf() {
           <div className="no-messages">Nenhuma conversa encontrada.</div>
         ) : (
           filteredConversas.map((msg) => (
-            <div key={msg.id} className="message-item" onClick={() => openChat(msg.id)}>
+            <div
+              key={msg.id}
+              className="message-item"
+              onClick={() => openChat(msg.id)}
+            >
               <div className={`message-avatar ${msg.color}`}>
                 <span>{msg.initials}</span>
               </div>
 
               <div className="message-content">
-                <div className="message-header">
+                <div className="message-top">
                   <h3 className="message-name">{msg.name}</h3>
                   <span className="message-time">{msg.time}</span>
                 </div>
-                <p className="message-preview">{msg.preview}</p>
-              </div>
 
-              <div className="message-actions" onClick={(e) => e.stopPropagation()}>
-                {msg.unread > 0 && <div className="unread-badge"><span>{msg.unread}</span></div>}
-                <i
-                  className={msg.favorite ? "bi bi-star-fill favorite-btn" : "bi bi-star"}
-                  onClick={(e) => toggleFavorite(msg.id, e)}
-                />
+                <div className="message-bottom">
+                  <p className="message-preview">{msg.preview}</p>
+                  <div
+                    className="message-actions"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {msg.unread > 0 && (
+                      <div className="unread-badge">
+                        <span>{msg.unread}</span>
+                      </div>
+                    )}
+                    <i
+                      className={
+                        msg.favorite
+                          ? "bi bi-star-fill favorite-btn"
+                          : "bi bi-star"
+                      }
+                      onClick={(e) => toggleFavorite(msg.id, e)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           ))

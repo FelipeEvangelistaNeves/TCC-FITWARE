@@ -4,10 +4,8 @@
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  background: var(--app-bg); // Fundo da página inteira
+  z-index: 2000; // Acima de tudo
 
   &.active {
     display: flex;
@@ -15,66 +13,114 @@
 
   // ===== Container principal do chat =====
   .chat-window {
-    background-color: $color-bg-card;
-    width: 90%;
-    max-width: 400px;
-    height: 80%;
-    border-radius: $radius-md;
+    background-color: var(--app-bg);
+    width: 100%;
+    height: 100%;
+    max-width: none; // Remove limite de largura
+    border-radius: 0; // Remove bordas arredondadas
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    color: $color-text;
-    box-shadow: $shadow-card;
+    color: var(--color-text);
+    box-shadow: none; // Remove sombra do modal
 
     // ===== Cabeçalho =====
     .chat-header {
-      background-color: darken($color-bg-card, 5%);
-      padding: $spacing-md;
+      background-color: var(--surface-1);
+      padding: 15px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-weight: bold;
-      font-size: $font-size-base;
-      border-bottom: 1px solid rgba(var(--white-rgb), 0.1);
+      border-bottom: 1px solid rgba(var(--border-color-rgb), 0.1);
+      height: 70px;
 
-      .close {
+      .back-btn {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background: $color-purple;
+        border: none;
+        color: var(--color-text);
+        font-size: 20px;
         cursor: pointer;
-        font-size: $font-size-large;
-        color: $color-text-muted;
-        transition: 0.2s;
+        padding: 10px;
+        margin-left: -10px; // Ajuste visual
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
 
         &:hover {
-          color: $color-purple;
+          color: var(--color-purple);
         }
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        margin-left: 10px;
+
+        .avatar-placeholder {
+          width: 40px;
+          height: 40px;
+          background: var(--color-purple);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 18px;
+        }
+
+        span {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--color-text);
+        }
+      }
+
+      .header-actions {
+        color: var(--color-text-muted);
+        font-size: 20px;
+        cursor: pointer;
+        padding: 10px;
       }
     }
 
     // ===== Corpo do Chat =====
     .chat-body {
       flex: 1;
-      padding: $spacing-md;
+      padding: 20px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: $spacing-sm;
-      background-color: $app-bg;
+      gap: 15px;
+      background-color: var(--app-bg);
 
       .msg {
-        margin: $spacing-xs 0;
-        max-width: 70%;
-        padding: $spacing-sm $spacing-md;
-        border-radius: $radius-md;
-        font-size: $font-size-small;
-        line-height: 1.4;
+        max-width: 75%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 15px;
+        line-height: 1.5;
+        position: relative;
+        word-wrap: break-word;
 
         &.recebida {
           background-color: var(--surface-2);
+          color: var(--color-text);
           align-self: flex-start;
+          border-bottom-left-radius: 4px;
         }
 
         &.enviada {
-          background-color: $color-purple;
+          background-color: var(--color-purple);
+          color: white;
           align-self: flex-end;
+          border-bottom-right-radius: 4px;
         }
       }
     }
@@ -83,35 +129,50 @@
     .chat-footer {
       display: flex;
       align-items: center;
-      padding: $spacing-sm $spacing-md;
-      background-color: darken($color-bg-card, 5%);
-      border-top: 1px solid rgba(var(--white-rgb), 0.1);
+      padding: 15px 20px;
+      background-color: var(--surface-1);
+      border-top: 1px solid rgba(var(--border-color-rgb), 0.1);
+      gap: 10px;
 
       input {
         flex: 1;
-        padding: $spacing-sm $spacing-md;
-        border: none;
-        border-radius: $radius-md;
+        padding: 12px 20px;
+        border: 1px solid transparent;
+        border-radius: 25px;
         outline: none;
-        background-color: $color-bg-card;
-        color: $color-text;
-        font-size: $font-size-small;
+        background-color: var(--surface-2);
+        color: var(--color-text);
+        font-size: 15px;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: var(--color-purple);
+        }
+
+        &::placeholder {
+          color: var(--color-text-muted);
+        }
       }
 
       button {
-        background-color: $color-purple;
-        color: $color-text;
+        background-color: var(--color-purple);
+        color: white;
         border: none;
-        border-radius: $radius-md;
-        margin-left: $spacing-sm;
-        padding: $spacing-sm $spacing-md;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        font-weight: 500;
-        font-size: $font-size-small;
-        transition: background-color 0.2s ease;
+        font-weight: 600;
+        font-size: 14px;
+        transition: transform 0.2s, background-color 0.2s;
+        flex-shrink: 0;
 
         &:hover {
-          background-color: var(--color-purple-light);
+          background-color: var(--color-purple-hover);
+          transform: scale(1.05);
         }
       }
     }
