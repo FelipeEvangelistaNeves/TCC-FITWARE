@@ -118,7 +118,7 @@ export default function Alunos() {
       String(a.al_id).includes(termo);
 
     const correspondeAba =
-      activeTab === "ativos" ? a.al_status === "Ativo" : true;
+      activeTab === "Ativos" ? a.al_status === "Ativo" : true;
 
     return correspondeBusca && correspondeAba;
   });
