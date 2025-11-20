@@ -3,12 +3,14 @@ import "../../styles/pages/aluno/mensagensAluno.scss";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/professor/treinosprof.scss";
 import DetalhesTreino from "./DetalhesTreino";
+import NovoTreino from "./NovoTreino";
 
 export default function DashboardAluno() {
   const [treinos, setTreinos] = useState([]);
   const [erro, setErro] = useState(null);
   const [treinoSelecionado, setTreinoSelecionado] = useState(null);
   const [mostrarDetalhes, setMostrarDetalhes] = useState(false);
+  const [novoTreino, setNovoTreino] = useState(false);
 
   useEffect(() => {
     const fetchTreinos = async () => {
@@ -42,6 +44,15 @@ export default function DashboardAluno() {
     setTreinoSelecionado(null);
   };
 
+  const abrirNovoTreino = (treino) => {
+    setNovoTreino(true);
+    setTreinoSelecionado(treino);
+  };
+
+  const fecharNovoTreino = () => {
+    setTreinoSelecionado(null);
+    setNovoTreino(false);
+  };
   return (
     <div className="dashboard-aluno">
       {/* Search Bar */}
@@ -99,17 +110,21 @@ export default function DashboardAluno() {
                     {treino.Funcionario?.fu_nome || "Sem professor"}
                   </span>
                 </div>
-                <button className="start-btn">Iniciar</button>
               </div>
 
               <div className="treino-actions">
-                <div className="btn-atribuir">Atribuir</div>
-                <div
+                <button
+                  className="start-btn"
+                  onClick={() => abrirNovoTreino(treino)}
+                >
+                  Atribuir
+                </button>
+                <button
                   className="btn-detalhes"
                   onClick={() => abrirDetalhes(treino)}
                 >
                   Detalhes
-                </div>
+                </button>
               </div>
             </div>
           ))
@@ -118,6 +133,9 @@ export default function DashboardAluno() {
 
       {mostrarDetalhes && treinoSelecionado && (
         <DetalhesTreino treino={treinoSelecionado} onClose={fecharDetalhes} />
+      )}
+      {novoTreino && (
+        <NovoTreino treino={treinoSelecionado} onClose={fecharNovoTreino} />
       )}
     </div>
   );

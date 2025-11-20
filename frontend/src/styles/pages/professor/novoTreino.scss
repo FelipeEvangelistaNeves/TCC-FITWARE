@@ -1,0 +1,517 @@
+@import "./../../abstract/variables.scss";
+
+/* Overlay que escurece o fundo */
+.novo-treino-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+
+/* Drawer (painel lateral) */
+.novo-treino-drawer {
+  width: 480px;
+  max-width: 100%;
+  background: rgba($surface-1, 0.95);
+  color: $text;
+  height: 100vh;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border-left: 1px solid rgba($white, 0.1);
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.drawer-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  justify-content: space-between;
+  padding: $spacing-lg $spacing-lg $spacing-md;
+  background: rgba($surface-1, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid $border-color;
+  z-index: 10;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+    color: $white;
+    letter-spacing: -0.5px;
+  }
+
+  .icon-btn {
+    background: transparent;
+    border: none;
+    color: $text-2;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: rgba($white, 0.1);
+      color: $white;
+    }
+  }
+
+  .save-btn {
+    background: linear-gradient(135deg, $primary, darken($primary, 5%));
+    color: $white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: $radius-md;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba($primary, 0.3);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($primary, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Body (scrollable) */
+.drawer-body {
+  overflow-y: auto;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  flex: 1;
+
+  /* Scrollbar estilizada */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba($white, 0.1);
+    border-radius: 3px;
+    &:hover {
+      background: rgba($white, 0.2);
+    }
+  }
+}
+
+/* Fields */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .label-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input[type="text"],
+  select,
+  textarea {
+    background: $surface-2;
+    border: 1px solid transparent;
+    color: $text;
+    padding: 12px 16px;
+    border-radius: $radius-md;
+    outline: none;
+    font-size: 15px;
+    transition: all 0.2s;
+    width: 100%;
+
+    &:focus {
+      background: ($surface-2, 2%);
+      border-color: $primary;
+      box-shadow: 0 0 0 2px rgba($primary, 0.2);
+    }
+
+    &::placeholder {
+      color: rgba($text-2, 0.6);
+    }
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .select-placeholder,
+  .file-placeholder {
+    background: rgba($surface-2, 0.5);
+    border: 2px dashed $border-color;
+    padding: 24px;
+    border-radius: $radius-md;
+    color: $text-2;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+      background: rgba($primary, 0.05);
+    }
+  }
+}
+
+/* Selected alunos (visual) */
+.selected-alunos {
+  background: $surface-2;
+  padding: 16px;
+  border-radius: $radius-md;
+  border: 1px solid rgba($white, 0.05);
+
+  .subtitle {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-2;
+    margin-bottom: 12px;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    .tag {
+      background: rgba($primary, 0.15);
+      color: ($primary, 10%);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba($primary, 0.2);
+
+      .tag-remove {
+        width: 16px;
+        height: 16px;
+        background: rgba($black, 0.2);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        font-size: 10px;
+        transition: background 0.2s;
+
+        &:hover {
+          background: $color-red;
+        }
+        
+        &::before {
+            content: "✕";
+        }
+      }
+    }
+  }
+}
+
+/* Exercises */
+.exercises-section {
+  margin-top: 8px;
+
+  .exercises-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: $text;
+    }
+
+    .add-ex-btn {
+      background: rgba($primary, 0.1);
+      color: $primary;
+      border: 1px solid rgba($primary, 0.2);
+      padding: 8px 14px;
+      border-radius: $radius-md;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+
+      &:hover {
+        background: $primary;
+        color: $white;
+      }
+    }
+  }
+
+  .muted {
+    color: $text-2;
+    text-align: center;
+    padding: 20px;
+    background: $surface-2;
+    border-radius: $radius-md;
+    font-size: 14px;
+  }
+
+  .exercises-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .exercise-card {
+    background: $surface-2;
+    border: 1px solid transparent;
+    border-radius: $radius-md;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.2s;
+    position: relative;
+
+    &:hover {
+      border-color: rgba($primary, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .exercise-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .exercise-index {
+      background: linear-gradient(135deg, $primary, darken($primary, 10%));
+      color: $white;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba($primary, 0.3);
+    }
+
+    .exercise-name {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba($white, 0.1);
+      color: $text;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 8px 0;
+      outline: none;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: $primary;
+      }
+      
+      &::placeholder {
+          color: $text-2;
+          font-weight: 400;
+      }
+    }
+
+    .remove-ex-btn {
+      background: rgba($surface-3, 0.5);
+      border: none;
+      color: $text-2;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+
+      &:hover {
+        background: rgba($color-red, 0.1);
+        color: $color-red;
+      }
+    }
+
+    .exercise-controls {
+      display: flex;
+      gap: 12px;
+      padding-left: 44px; /* Alinha com o nome */
+
+      input.small {
+        width: 100px;
+        padding: 8px 12px;
+        font-size: 14px;
+        background: $surface-3;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: $text;
+        
+        &:focus {
+            border-color: $primary;
+            background: ($surface-3, 2%);
+        }
+      }
+    }
+
+    .exercise-notes {
+      background: $surface-3;
+      border: 1px solid transparent;
+      color: $text;
+      padding: 10px 12px;
+      border-radius: 8px;
+      min-height: 60px;
+      resize: vertical;
+      font-size: 13px;
+      margin-left: 44px;
+      width: calc(100% - 44px);
+      transition: all 0.2s;
+
+      &:focus {
+        border-color: $primary;
+        background: ($surface-3, 2%);
+      }
+      
+      &::placeholder {
+          color: $text-2;
+      }
+    }
+  }
+}
+
+/* Footer */
+.drawer-footer {
+  display: flex;
+  gap: 12px;
+  padding: 20px $spacing-lg;
+  border-top: 1px solid $border-color;
+  background: rgba($surface-1, 0.95);
+  backdrop-filter: blur(10px);
+  margin-top: auto;
+
+  button {
+    flex: 1;
+    padding: 12px;
+    border-radius: $radius-md;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-cancel {
+    background: transparent;
+    border: 1px solid $border-color;
+    color: $text-2;
+
+    &:hover {
+      background: rgba($white, 0.05);
+      color: $text;
+      border-color: $text-2;
+    }
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, $primary, darken($primary, 5%));
+    border: none;
+    color: $white;
+    box-shadow: 0 4px 12px rgba($primary, 0.25);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba($primary, 0.35);
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+  }
+}
+
+/* Responsive: mobile full-screen drawer */
+@media (max-width: 768px) {
+  .novo-treino-drawer {
+    width: 100%;
+  }
+
+  .drawer-header {
+      padding: 16px;
+      
+      h2 {
+        font-size: 18px;
+      }
+  }
+  
+  .drawer-body {
+      padding: 16px;
+  }
+  
+  .exercise-card {
+      .exercise-controls, .exercise-notes {
+          margin-left: 0;
+          width: 100%;
+          padding-left: 0;
+      }
+      
+      .exercise-controls input.small {
+          flex: 1;
+      }
+  }
+}
