@@ -6,14 +6,15 @@ export default function AddBrinde({ onClose, onSave }) {
     nome: "",
     pontos: "",
     estoque: "",
-    status: "ativo",
+    status: "disponivel",
+    descricao: "",
   });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.nome || !form.pontos) return;
     onSave(form);
   };
 
@@ -27,7 +28,7 @@ export default function AddBrinde({ onClose, onSave }) {
           <h3>Criar Novo Brinde</h3>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Nome do Brinde</label>
+              <label>Nome</label>
               <input
                 name="nome"
                 value={form.nome}
@@ -35,8 +36,9 @@ export default function AddBrinde({ onClose, onSave }) {
                 required
               />
             </div>
+
             <div className="form-group">
-              <label>Pontos Necessários</label>
+              <label>Pontos</label>
               <input
                 type="number"
                 name="pontos"
@@ -45,6 +47,7 @@ export default function AddBrinde({ onClose, onSave }) {
                 required
               />
             </div>
+
             <div className="form-group">
               <label>Estoque</label>
               <input
@@ -55,19 +58,22 @@ export default function AddBrinde({ onClose, onSave }) {
                 required
               />
             </div>
+
             <div className="form-group">
-              <label>Status</label>
-              <select name="status" value={form.status} onChange={handleChange}>
-                <option value="ativo">Ativo</option>
-                <option value="esgotado">Esgotado</option>
-              </select>
+              <label>Descrição</label>
+              <textarea
+                name="descricao"
+                value={form.descricao}
+                onChange={handleChange}
+              />
             </div>
+
             <div className="modal-actions">
               <button type="button" className="btn-cancelar" onClick={onClose}>
                 Cancelar
               </button>
               <button type="submit" className="btn-salvar">
-                Salvar
+                Criar
               </button>
             </div>
           </form>

@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import "../../styles/pages/admin/forms.scss";
 
 export default function EditarBrinde({ brinde, onClose, onSave }) {
-  const [form, setForm] = useState(brinde);
+  const [form, setForm] = useState({
+    id: brinde.id,
+    nome: brinde.nome,
+    pontos: brinde.pontos,
+    estoque: brinde.estoque,
+    status: brinde.status,
+    descricao: brinde.descricao,
+  });
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -21,14 +29,10 @@ export default function EditarBrinde({ brinde, onClose, onSave }) {
           <h3>Editar Brinde</h3>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Nome do Brinde</label>
-              <input
-                name="nome"
-                value={form.nome}
-                onChange={handleChange}
-                required
-              />
+              <label>Nome</label>
+              <input name="nome" value={form.nome} onChange={handleChange} />
             </div>
+
             <div className="form-group">
               <label>Pontos</label>
               <input
@@ -36,9 +40,9 @@ export default function EditarBrinde({ brinde, onClose, onSave }) {
                 name="pontos"
                 value={form.pontos}
                 onChange={handleChange}
-                required
               />
             </div>
+
             <div className="form-group">
               <label>Estoque</label>
               <input
@@ -46,16 +50,18 @@ export default function EditarBrinde({ brinde, onClose, onSave }) {
                 name="estoque"
                 value={form.estoque}
                 onChange={handleChange}
-                required
               />
             </div>
+
             <div className="form-group">
-              <label>Status</label>
-              <select name="status" value={form.status} onChange={handleChange}>
-                <option value="ativo">Ativo</option>
-                <option value="esgotado">Esgotado</option>
-              </select>
+              <label>Descrição</label>
+              <textarea
+                name="descricao"
+                value={form.descricao}
+                onChange={handleChange}
+              />
             </div>
+
             <div className="modal-actions">
               <button type="button" className="btn-cancelar" onClick={onClose}>
                 Cancelar

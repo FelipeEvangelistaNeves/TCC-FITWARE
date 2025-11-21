@@ -1,75 +1,160 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
 import AddBrinde from "./AddBrindes";
 import EditarBrinde from "./EditarBrinde";
 import DetalhesBrinde from "./DetalhesBrindes";
+import ExcluirBrinde from "./ExcluirBrinde";
 
 export default function Brindes() {
-  const [activeTab, setActiveTab] = useState("todos");
   const [busca, setBusca] = useState("");
   const [pagina, setPagina] = useState(1);
-  const [itensPorPagina] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const [brindes, setBrindes] = useState([
-    {
-      id: "BR-2305",
-      nome: "Camiseta FitWare",
-      pontos: 500,
-      estoque: 45,
-      status: "ativo",
-    },
-    {
-      id: "BR-2304",
-      nome: "Garrafa FitWare",
-      pontos: 1000,
-      estoque: 15,
-      status: "ativo",
-    },
-    {
-      id: "BR-2303",
-      nome: "Treino Personalizado",
-      pontos: 2000,
-      estoque: 25,
-      status: "esgotado",
-    },
-  ]);
+  const [brindes, setBrindes] = useState([]);
 
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [selected, setSelected] = useState(null);
+
+  // 🔹 Buscar produtos do backend
+  const fetchBrindes = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/produtos/all", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        const convertidos = data.produtos.map((p) => {
+          let status = "";
+
+          if (p.pd_estoque === 0) {
+            status = "esgotado";
+          } else if (p.pd_estoque <= 5) {
+            status = "acabando";
+          } else {
+            status = "disponivel";
+          }
+
+          return {
+            id: p.pd_id,
+            nome: p.pd_nome,
+            pontos: p.pd_valor,
+            estoque: p.pd_estoque,
+            status: status,
+            descricao: p.pd_descricao,
+          };
+        });
+
+        setBrindes(convertidos);
+      }
+    } catch (err) {
+      console.error("Erro ao carregar brindes:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchBrindes();
+  }, []);
+
+  // 🔹 Criar brinde
+  const handleAdd = async (novo) => {
+    try {
+      const body = {
+        pd_nome: novo.nome,
+        pd_valor: novo.pontos,
+        pd_estoque: novo.estoque,
+        pd_status: novo.status,
+        pd_descricao: novo.descricao || "",
+      };
+
+      const res = await fetch("http://localhost:3000/api/produtos/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        fetchBrindes();
+        setShowAdd(false);
+      }
+    } catch (err) {
+      console.error("Erro ao criar brinde:", err);
+    }
+  };
+
+  // 🔹 Atualizar brinde
+  const handleUpdate = async (editado) => {
+    try {
+      const body = {
+        pd_nome: editado.nome,
+        pd_valor: editado.pontos,
+        pd_estoque: editado.estoque,
+        pd_status: editado.status,
+        pd_descricao: editado.descricao,
+      };
+
+      const res = await fetch(
+        `http://localhost:3000/api/produtos/update/${editado.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(body),
+        }
+      );
+
+      const data = await res.json();
+      if (data.success) {
+        fetchBrindes();
+        setShowEdit(false);
+      }
+    } catch (err) {
+      console.error("Erro ao editar brinde:", err);
+    }
+  };
+
+  // 🔹 Excluir brinde
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/produtos/delete/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      const data = await res.json();
+      if (data.success) {
+        fetchBrindes();
+        setShowDelete(false);
+      }
+    } catch (err) {
+      console.error("Erro ao excluir brinde:", err);
+    }
+  };
+
+  // ========================================
+  // FILTROS E PAGINAÇÃO
+  // ========================================
 
   const filtrados = brindes.filter((b) => {
     const termo = busca.toLowerCase();
-    const correspondeBusca = b.nome.toLowerCase().includes(termo);
-    const correspondeAba = activeTab === "ativos" ? b.status === "ativo" : true;
-    return correspondeBusca && correspondeAba;
+    return b.nome.toLowerCase().includes(termo);
   });
 
-  const totalPaginas = Math.ceil(filtrados.length / itensPorPagina);
-  const inicio = (pagina - 1) * itensPorPagina;
-  const paginados = filtrados.slice(inicio, inicio + itensPorPagina);
+  const totalPaginas = Math.ceil(filtrados.length / itemsPerPage) || 1;
+  const inicio = (pagina - 1) * itemsPerPage;
+  const paginados = filtrados.slice(inicio, inicio + itemsPerPage);
 
   const trocarPagina = (p) => p >= 1 && p <= totalPaginas && setPagina(p);
-
-  const handleAdd = (novo) => {
-    setBrindes((prev) => [
-      { id: `BR-${Math.floor(Math.random() * 9000) + 1000}`, ...novo },
-      ...prev,
-    ]);
-    setShowAdd(false);
-  };
-
-  const handleUpdate = (editado) => {
-    setBrindes((prev) => prev.map((b) => (b.id === editado.id ? editado : b)));
-    setShowEdit(false);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("Deseja realmente excluir este brinde?")) {
-      setBrindes((prev) => prev.filter((b) => b.id !== id));
-    }
-  };
 
   return (
     <div className="admin-modal">
@@ -88,21 +173,6 @@ export default function Brindes() {
               + Criar Brinde
             </button>
           </div>
-        </div>
-
-        <div className="tabs">
-          <button
-            className={`tab ${activeTab === "todos" ? "active" : ""}`}
-            onClick={() => setActiveTab("todos")}
-          >
-            Todos os Brindes
-          </button>
-          <button
-            className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-            onClick={() => setActiveTab("ativos")}
-          >
-            Ativos
-          </button>
         </div>
 
         <table className="tabela">
@@ -129,10 +199,18 @@ export default function Brindes() {
                   <td>
                     <span
                       className={`status ${
-                        b.status === "ativo" ? "pago" : "cancelado"
+                        b.status === "disponivel"
+                          ? "pago"
+                          : b.status === "acabando"
+                          ? "pendente"
+                          : "cancelado"
                       }`}
                     >
-                      {b.status === "ativo" ? "Ativo" : "Esgotado"}
+                      {b.status === "disponivel"
+                        ? "Disponível"
+                        : b.status === "acabando"
+                        ? "Acabando"
+                        : "Esgotado"}
                     </span>
                   </td>
                   <td>
@@ -145,12 +223,17 @@ export default function Brindes() {
                     >
                       <i className="bi bi-pencil"></i>
                     </button>
+
                     <button
                       className="action-btn"
-                      onClick={() => handleDelete(b.id)}
+                      onClick={() => {
+                        setSelected(b);
+                        setShowDelete(true);
+                      }}
                     >
                       <i className="bi bi-trash"></i>
                     </button>
+
                     <button
                       className="action-btn"
                       onClick={() => {
@@ -174,6 +257,19 @@ export default function Brindes() {
         </table>
 
         <div className="paginacao">
+          <span>Itens por página:</span>
+          <select
+            value={itemsPerPage}
+            onChange={(e) => {
+              setItemsPerPage(Number(e.target.value));
+              setPagina(1);
+            }}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
+
           <div className="pages">
             <button
               className="page"
@@ -182,6 +278,7 @@ export default function Brindes() {
             >
               &lt;
             </button>
+
             {Array.from({ length: totalPaginas }, (_, i) => (
               <button
                 key={i}
@@ -191,6 +288,7 @@ export default function Brindes() {
                 {i + 1}
               </button>
             ))}
+
             <button
               className="page"
               onClick={() => trocarPagina(pagina + 1)}
@@ -201,10 +299,11 @@ export default function Brindes() {
           </div>
         </div>
 
-        {/* === MODAIS === */}
+        {/* MODAIS */}
         {showAdd && (
           <AddBrinde onClose={() => setShowAdd(false)} onSave={handleAdd} />
         )}
+
         {showEdit && selected && (
           <EditarBrinde
             brinde={selected}
@@ -212,10 +311,19 @@ export default function Brindes() {
             onSave={handleUpdate}
           />
         )}
+
         {showDetails && selected && (
           <DetalhesBrinde
             brinde={selected}
             onClose={() => setShowDetails(false)}
+          />
+        )}
+
+        {showDelete && selected && (
+          <ExcluirBrinde
+            brinde={selected}
+            onClose={() => setShowDelete(false)}
+            onConfirm={handleDelete}
           />
         )}
       </div>

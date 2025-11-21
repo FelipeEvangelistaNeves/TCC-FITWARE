@@ -1,17 +1,12 @@
 import React from "react";
 import "../../styles/pages/admin/excluir.scss";
+
 export default function ExcluirBrinde({ brinde, onClose, onConfirm }) {
   if (!brinde) return null;
 
   return (
     <div className="admin-excluir">
-      <div
-        className="modal-overlay"
-        onClick={(e) => {
-          // fechar ao clicar fora
-          if (e.target.classList.contains("modal-overlay")) onClose();
-        }}
-      >
+      <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content">
           <h3>Excluir Brinde</h3>
 
@@ -26,12 +21,8 @@ export default function ExcluirBrinde({ brinde, onClose, onConfirm }) {
             <button className="btn-cancelar" onClick={onClose}>
               Cancelar
             </button>
-            <button
-              className="btn-salvar"
-              onClick={() => {
-                onConfirm(brinde.id);
-              }}
-            >
+
+            <button className="btn-salvar" onClick={() => onConfirm(brinde.id)}>
               Excluir definitivamente
             </button>
           </div>
