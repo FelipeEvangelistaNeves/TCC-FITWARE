@@ -13,40 +13,39 @@
 
   // ===== Container principal do chat =====
   .chat-window {
-    background-color: var(--card-bg);
-    width: 90%;
-    max-width: 400px;
-    height: 80%;
-    border-radius: 12px;
+    background-color: var(--app-bg);
+    width: 100%;
+    height: 100%;
+    max-width: none; // Remove limite de largura
+    border-radius: 0; // Remove bordas arredondadas
     display: flex;
     flex-direction: column;
     overflow: hidden;
     color: var(--color-text);
-    box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
+    box-shadow: none; // Remove sombra do modal
 
     // ===== Cabeçalho =====
     .chat-header {
-      background-color: var(--surface-2);
-      padding: 1rem;
+      background-color: var(--surface-1);
+      padding: 15px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-weight: bold;
-      font-size: 1rem;
-      border-bottom: 1px solid rgba(var(--white-rgb), 0.1);
+      border-bottom: 1px solid rgba(var(--border-color-rgb), 0.1);
+      height: 70px;
 
       .back-btn {
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        background: $color-purple;
+        background: none;
         border: none;
         color: var(--color-text);
         font-size: 20px;
         cursor: pointer;
-        font-size: 1.25rem;
-        color: var(--muted-text);
-        transition: 0.2s;
+        padding: 10px;
+        margin-left: -10px; // Ajuste visual
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
 
         &:hover {
           color: var(--color-purple);
@@ -91,20 +90,21 @@
     // ===== Corpo do Chat =====
     .chat-body {
       flex: 1;
-      padding: 1rem;
+      padding: 20px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      background-color: var(--color-bg);
+      gap: 15px;
+      background-color: var(--app-bg);
 
       .msg {
-        margin: 0.5rem 0;
-        max-width: 70%;
-        padding: 0.75rem 1rem;
-        border-radius: 12px;
-        font-size: 0.85rem;
-        line-height: 1.4;
+        max-width: 75%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 15px;
+        line-height: 1.5;
+        position: relative;
+        word-wrap: break-word;
 
         &.recebida {
           background-color: var(--surface-2);
@@ -115,6 +115,7 @@
 
         &.enviada {
           background-color: var(--color-purple);
+          color: white;
           align-self: flex-end;
           border-bottom-right-radius: 4px;
         }
@@ -125,32 +126,46 @@
     .chat-footer {
       display: flex;
       align-items: center;
-      padding: 0.75rem 1rem;
-      background-color: var(--surface-2);
-      border-top: 1px solid rgba(var(--white-rgb), 0.1);
+      padding: 15px 20px;
+      background-color: var(--surface-1);
+      border-top: 1px solid rgba(var(--border-color-rgb), 0.1);
+      gap: 10px;
 
       input {
         flex: 1;
-        padding: 0.75rem 1rem;
-        border: none;
-        border-radius: 12px;
+        padding: 12px 20px;
+        border: 1px solid transparent;
+        border-radius: 25px;
         outline: none;
-        background-color: var(--card-bg);
+        background-color: var(--surface-2);
         color: var(--color-text);
-        font-size: 0.85rem;
+        font-size: 15px;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: var(--color-purple);
+        }
+
+        &::placeholder {
+          color: var(--color-text-muted);
+        }
       }
 
       button {
         background-color: var(--color-purple);
-        color: var(--color-text);
+        color: white;
         border: none;
-        border-radius: 12px;
-        margin-left: 0.75rem;
-        padding: 0.75rem 1rem;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        font-weight: 500;
-        font-size: 0.85rem;
-        transition: background-color 0.2s ease;
+        font-weight: 600;
+        font-size: 14px;
+        transition: transform 0.2s, background-color 0.2s;
+        flex-shrink: 0;
 
         &:hover {
           background-color: var(--color-purple-hover);

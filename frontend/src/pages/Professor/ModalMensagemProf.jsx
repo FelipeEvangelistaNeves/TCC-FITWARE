@@ -20,7 +20,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
       const viewportHeight = window.innerHeight;
       const windowHeight = document.documentElement.clientHeight;
 
-      if (vieportHeigh < windowHeight - 100) {
+      if (viewportHeight < windowHeight - 100) {
         chatFooterRef.current?.scrollIntoView({ behavior: "smooth" });
       }
     };
