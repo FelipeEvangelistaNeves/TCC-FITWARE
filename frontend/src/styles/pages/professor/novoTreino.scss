@@ -17,7 +17,7 @@
 .novo-treino-drawer {
   width: 480px;
   max-width: 100%;
-  background: rgba($surface-1, 0.95);
+  background: var(--surface-1); /* Solid background */
   color: $text;
   height: 100vh;
   box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
@@ -53,8 +53,7 @@
   gap: $spacing-md;
   justify-content: space-between;
   padding: $spacing-lg $spacing-lg $spacing-md;
-  background: rgba($surface-1, 0.8);
-  backdrop-filter: blur(10px);
+  background: var(--surface-1); /* Solid background */
   border-bottom: 1px solid $border-color;
   z-index: 10;
 
@@ -247,11 +246,67 @@
         &:hover {
           background: $color-red;
         }
-        
+
         &::before {
-            content: "✕";
+          content: "✕";
         }
       }
+    }
+  }
+}
+
+/* Student Selection List */
+.alunos-selection-list {
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--surface-2);
+  border-radius: $radius-md;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid transparent;
+
+  /* Scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba($white, 0.1);
+    border-radius: 3px;
+  }
+
+  .loading-text,
+  .empty-text {
+    text-align: center;
+    color: $text-2;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .aluno-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba($white, 0.05);
+    }
+
+    input[type="checkbox"] {
+      accent-color: $primary;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .aluno-name {
+      font-size: 14px;
+      color: $text;
     }
   }
 }
@@ -361,10 +416,10 @@
       &:focus {
         border-color: $primary;
       }
-      
+
       &::placeholder {
-          color: $text-2;
-          font-weight: 400;
+        color: $text-2;
+        font-weight: 400;
       }
     }
 
@@ -400,10 +455,10 @@
         border: 1px solid transparent;
         border-radius: 8px;
         color: $text;
-        
+
         &:focus {
-            border-color: $primary;
-            background: ($surface-3, 2%);
+          border-color: $primary;
+          background: ($surface-3, 2%);
         }
       }
     }
@@ -425,9 +480,9 @@
         border-color: $primary;
         background: ($surface-3, 2%);
       }
-      
+
       &::placeholder {
-          color: $text-2;
+        color: $text-2;
       }
     }
   }
@@ -439,8 +494,7 @@
   gap: 12px;
   padding: 20px $spacing-lg;
   border-top: 1px solid $border-color;
-  background: rgba($surface-1, 0.95);
-  backdrop-filter: blur(10px);
+  background: var(--surface-1); /* Solid background */
   margin-top: auto;
 
   button {
@@ -478,9 +532,9 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba($primary, 0.35);
     }
-    
+
     &:active {
-        transform: translateY(0);
+      transform: translateY(0);
     }
   }
 }
@@ -492,26 +546,27 @@
   }
 
   .drawer-header {
-      padding: 16px;
-      
-      h2 {
-        font-size: 18px;
-      }
+    padding: 16px;
+
+    h2 {
+      font-size: 18px;
+    }
   }
-  
+
   .drawer-body {
-      padding: 16px;
+    padding: 16px;
   }
-  
+
   .exercise-card {
-      .exercise-controls, .exercise-notes {
-          margin-left: 0;
-          width: 100%;
-          padding-left: 0;
-      }
-      
-      .exercise-controls input.small {
-          flex: 1;
-      }
+    .exercise-controls,
+    .exercise-notes {
+      margin-left: 0;
+      width: 100%;
+      padding-left: 0;
+    }
+
+    .exercise-controls input.small {
+      flex: 1;
+    }
   }
 }

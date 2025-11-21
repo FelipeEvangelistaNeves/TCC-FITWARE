@@ -23,11 +23,45 @@ export default function EditarTreino({ treino, onClose }) {
 
   const [exercises, setExercises] = useState(initialExercises);
 
+  // Estado para alunos
+  const [alunos, setAlunos] = useState([]);
+  const [selectedAlunos, setSelectedAlunos] = useState([]);
+  const [loadingAlunos, setLoadingAlunos] = useState(false);
+
+  // Buscar alunos ao montar
+  useEffect(() => {
+    const fetchAlunos = async () => {
+      setLoadingAlunos(true);
+      try {
+        const res = await fetch(
+          "http://localhost:3000/api/professor/allAlunos",
+          {
+            credentials: "include",
+          }
+        );
+        if (!res.ok) throw new Error("Erro ao buscar alunos");
+        const data = await res.json();
+        setAlunos(data.alunos || []);
+      } catch (error) {
+        console.error("Erro ao carregar alunos:", error);
+      } finally {
+        setLoadingAlunos(false);
+      }
+    };
+
+    fetchAlunos();
+  }, []);
+
   // Mantém o form sincronizado se o prop `treino` mudar
   useEffect(() => {
     setName(treino?.tr_nome ?? "");
     setDescription(treino?.tr_descricao ?? "");
     setCategory(treino?.tr_categoria ?? "Força");
+
+    // Se o treino já tiver alunos associados, preencher aqui
+    // Ex: setSelectedAlunos(treino.Alunos.map(a => a.al_id));
+    // Por enquanto, resetamos ou mantemos vazio se não vier do backend
+    setSelectedAlunos([]);
 
     const inits =
       treino?.Exercicios?.map((ex) => ({
@@ -40,6 +74,12 @@ export default function EditarTreino({ treino, onClose }) {
 
     setExercises(inits);
   }, [treino]);
+
+  const toggleAluno = (id) => {
+    setSelectedAlunos((prev) =>
+      prev.includes(id) ? prev.filter((al_id) => al_id !== id) : [...prev, id]
+    );
+  };
 
   // Adiciona exercício vazio
   const addExercise = () => {
@@ -73,6 +113,7 @@ export default function EditarTreino({ treino, onClose }) {
       tr_nome: name,
       tr_descricao: description,
       tr_categoria: category,
+      alunos: selectedAlunos, // IDs dos alunos selecionados
       exercicios: exercises.map(({ id, ...rest }) => rest),
     };
 
@@ -137,27 +178,51 @@ export default function EditarTreino({ treino, onClose }) {
             </select>
           </label>
 
-          {/* Selecionar Alunos (placeholder - pronto para integrar) */}
+          {/* Selecionar Alunos */}
           <label className="field">
             <span className="label-title">Selecionar Alunos</span>
-            <div className="select-placeholder">
-              Selecione os alunos (implementar)
+            <div className="alunos-selection-list">
+              {loadingAlunos ? (
+                <p className="loading-text">Carregando alunos...</p>
+              ) : alunos.length === 0 ? (
+                <p className="empty-text">Nenhum aluno encontrado.</p>
+              ) : (
+                alunos.map((aluno) => (
+                  <label key={aluno.al_id} className="aluno-checkbox-item">
+                    <input
+                      type="checkbox"
+                      checked={selectedAlunos.includes(aluno.al_id)}
+                      onChange={() => toggleAluno(aluno.al_id)}
+                    />
+                    <span className="aluno-name">{aluno.al_nome}</span>
+                  </label>
+                ))
+              )}
             </div>
           </label>
 
-          {/* Alunos Selecionados (placeholder visual) */}
-          <div className="selected-alunos">
-            <span className="subtitle">Alunos Selecionados</span>
-            <div className="tags">
-              {/* Exemplo estático — integrar com seleção real */}
-              <span className="tag">
-                Maria Silva <button className="tag-remove" />
+          {/* Alunos Selecionados (Resumo) */}
+          {selectedAlunos.length > 0 && (
+            <div className="selected-alunos">
+              <span className="subtitle">
+                {selectedAlunos.length} Aluno(s) Selecionado(s)
               </span>
-              <span className="tag">
-                Pedro Alves <button className="tag-remove" />
-              </span>
+              <div className="tags">
+                {alunos
+                  .filter((a) => selectedAlunos.includes(a.al_id))
+                  .map((aluno) => (
+                    <span className="tag" key={aluno.al_id}>
+                      {aluno.al_nome}
+                      <button
+                        type="button"
+                        className="tag-remove"
+                        onClick={() => toggleAluno(aluno.al_id)}
+                      />
+                    </span>
+                  ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Exercícios */}
           <div className="exercises-section">
