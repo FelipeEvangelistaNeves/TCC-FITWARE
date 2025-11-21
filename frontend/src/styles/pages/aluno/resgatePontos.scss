@@ -1,7 +1,7 @@
 @import "./../../abstract/variables.scss";
 
 .resgate-modal {
-  font-family: $font-family;
+  font-family: var(--font-family, "Inter", sans-serif);
   position: fixed;
   top: 0;
   left: 0;
@@ -97,7 +97,7 @@
       margin: 20px 0 10px;
       font-size: 16px;
       font-weight: 600;
-      color: $text;
+      color: var(--color-text);
     }
 
     .resgate-card {

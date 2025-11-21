@@ -1,40 +1,40 @@
 @import "../../abstract/variables.scss";
 
 .sobre-page {
-  padding: $spacing-xl $spacing-lg;
-  background: $color-bg-dark;
+  padding: 32px 24px;
+  background: var(--color-bg);
   min-height: 100vh;
 
   .sobre-intro {
     text-align: center;
-    margin-bottom: $spacing-xl;
+    margin-bottom: 32px;
 
     h2 {
       font-size: 28px;
       font-weight: 700;
-      color: $white;
+      color: var(--white);
     }
 
     p {
-      margin-top: $spacing-sm;
-      color: $color-text-muted;
+      margin-top: 8px;
+      color: var(--color-text-muted);
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      font-size: $font-size-base;
+      font-size: 14px;
     }
   }
 
   .sobre-missao {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: $spacing-lg;
+    gap: 24px;
 
     .sobre-card {
-      background: $color-bg-card;
-      border-radius: $radius-lg;
-      padding: $spacing-lg;
-      box-shadow: $shadow-card;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
       transition: transform 0.2s ease;
 
       &:hover {
@@ -42,14 +42,14 @@
       }
 
       h3 {
-        color: $color-purple;
-        margin-bottom: $spacing-sm;
+        color: var(--color-purple);
+        margin-bottom: 8px;
         font-size: 20px;
       }
 
       p {
-        color: $color-text-muted;
-        font-size: $font-size-small;
+        color: var(--color-text-muted);
+        font-size: 12px;
       }
     }
   }

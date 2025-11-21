@@ -76,15 +76,15 @@ export default function Dashboard() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: "#fff" } } },
+        plugins: { legend: { labels: {} } },
         scales: {
           x: {
-            ticks: { color: "#fff" },
-            grid: { color: "rgba(255,255,255,0.1)" },
+            ticks: {},
+            grid: { color: "rgba(255,255,255,0.2)" },
           },
           y: {
-            ticks: { color: "#fff" },
-            grid: { color: "rgba(255,255,255,0.1)" },
+            ticks: {},
+            grid: { color: "rgba(255,255,255,0.2)" },
           },
         },
       },
@@ -98,21 +98,21 @@ export default function Dashboard() {
       <h1>Dashboard</h1>
 
       {/* Cards */}
-      <div className="cards-grid text-white">
+      <div className="cards-grid ">
         <div className="card">
-          <span className="card-value text-white">156</span>
+          <span className="card-value">156</span>
           <span className="card-change positive">+12% este mês</span>
         </div>
 
         <div className="card">
           <span className="card-title">Desafios Ativos</span>
-          <span className="card-value text-white">24</span>
+          <span className="card-value ">24</span>
           <span className="card-change negative">-3% este mês</span>
         </div>
 
         <div className="card">
           <span className="card-title">Pontos Resgatados</span>
-          <span className="card-value text-white">12.5k</span>
+          <span className="card-value ">12.5k</span>
           <span className="card-change positive">+18% este mês</span>
         </div>
       </div>

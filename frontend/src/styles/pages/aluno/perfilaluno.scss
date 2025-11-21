@@ -1,8 +1,8 @@
 @import "./../../abstract/variables.scss";
 
 .perfil-container {
-  background-color: $app-bg;
-  color: $text;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   min-height: 100vh;
   //padding: 1.5rem;c
   display: flex;
@@ -12,20 +12,20 @@
 
   &.roxo {
     .perfil-tabs button.active {
-      color: $purple-dark;
-      border-bottom: 2px solid $purple-dark;
+      color: var(--color-purple);
+      border-bottom: 2px solid var(--color-purple);
     }
   }
   &.verde {
     .perfil-tabs button.active {
-      color: $color-green;
-      border-bottom: 2px solid $color-green;
+      color: var(--color-green);
+      border-bottom: 2px solid var(--color-green);
     }
   }
   &.amarelo {
     .perfil-tabs button.active {
-      color: $accent-yellow;
-      border-bottom: 2px solid $accent-yellow;
+      color: var(--yellow);
+      border-bottom: 2px solid var(--yellow);
     }
   }
 }
@@ -38,12 +38,12 @@
   h2 {
     font-size: 1.2rem;
     font-weight: 700;
-    color: $accent-yellow;
+    color: var(--yellow);
   }
   i {
     font-size: 1.3rem;
     cursor: pointer;
-    color: $text;
+    color: var(--color-text);
   }
 }
 
@@ -51,7 +51,7 @@
   text-align: center;
   margin-top: 1.2rem;
   .perfil-avatar {
-    background-color: $blue-light;
+    background-color: var(--color-purple-light);
     color: var(--white);
     font-weight: 600;
     border-radius: 50%;
@@ -72,7 +72,7 @@
 
   p {
     font-size: 0.9rem;
-    color: $text;
+    color: var(--color-text);
   }
 
   .plano-btn {
@@ -82,7 +82,7 @@
     padding: 0.3rem 1rem;
     font-size: 0.85rem;
     &.premium {
-      background-color: $blue-light;
+      background-color: var(--color-purple-light);
       color: var(--white);
     }
   }

@@ -1,21 +1,21 @@
 @import "./../../abstract/variables.scss";
 
 .desafios-container {
-  padding: $spacing-md;
-  color: $text;
-  font-family: $font-family;
-  background: $app-bg;
+  padding: 1rem;
+  color: var(--color-text);
+  font-family: var(--font-family, "Inter", sans-serif);
+  background: var(--color-bg);
   min-height: 100vh;
 }
 
 /* Seções */
 .desafios-section {
-  margin-top: $spacing-lg;
+  margin-top: 2rem;
 
   h2 {
-    font-size: $font-size-heading;
-    margin-bottom: $spacing-md;
-    color: $text;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
   }
 }
 
@@ -29,31 +29,31 @@
     margin-top: 20px;
     flex: 1;
     min-width: 100px;
-    background: $surface-1;
-    border-radius: $radius-md;
+    background: var(--surface-1);
+    border-radius: 12px;
     padding: 20px 15px;
     text-align: center;
     backdrop-filter: blur(10px);
-    border: 1px solid $border-color;
-    box-shadow: $shadow-1;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(var(--shadow-rgb), 0.2);
 
     h3 {
       font-size: 14px;
       font-weight: 500;
-      color: $text-2;
+      color: var(--muted-text);
       margin: 0 0 10px 0;
     }
 
     .card-number {
       font-size: 28px;
       font-weight: 700;
-      color: $text;
+      color: var(--color-text);
       margin-bottom: 5px;
     }
 
     .card-subtitle {
       font-size: 12px;
-      color: $accent-yellow;
+      color: var(--yellow);
       font-weight: 500;
     }
   }
@@ -61,40 +61,40 @@
 
 /* Card de desafio */
 .desafio-card {
-  background: $surface-2;
-  border-radius: $radius-md;
-  padding: $spacing-md;
-  margin-bottom: $spacing-md;
-  box-shadow: $shadow-1;
-  border: 1px solid $border-color;
+  background: var(--surface-2);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(var(--shadow-rgb), 0.2);
+  border: 1px solid var(--border-color);
   transition: background 0.3s;
 
   &:hover {
-    background: $color-bg-hover;
+    background: var(--surface-3);
   }
 
   .desafio-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacing-xs;
+    margin-bottom: 0.5rem;
 
     h3 {
-      font-size: $font-size-base;
+      font-size: 1rem;
       font-weight: 600;
-      color: $text;
+      color: var(--color-text);
       margin: 0;
     }
 
     .status {
       padding: 4px 10px;
       border-radius: 20px;
-      font-size: $font-size-small;
+      font-size: 0.85rem;
       font-weight: 500;
-      color: $white;
+      color: var(--white);
 
       &.purple {
-        background: $purple-dark;
+        background: var(--color-purple);
       }
 
       &.blue {

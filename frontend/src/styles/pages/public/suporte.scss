@@ -1,77 +1,78 @@
 @import "../../abstract/variables.scss";
 
 .suporte-container {
-  background: $color-bg-dark;
-  color: $color-text;
+  background: var(--color-bg);
+  color: var(--color-text);
   min-height: 100vh;
-  padding: $spacing-xl 0;
+  padding: 32px 0;
 
   .suporte-header {
-    margin-bottom: $spacing-xl;
+    margin-bottom: 32px;
 
     h1 {
       font-size: 2rem;
       font-weight: bold;
-      color: $color-text;
+      color: var(--color-text);
     }
 
     p {
-      color: $color-text-muted;
-      font-size: $font-size-base;
-      margin-top: $spacing-sm;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      margin-top: 8px;
     }
   }
+
   .botaosup {
-    background: $surface-3;
-    color: $white;
+    background: var(--surface-3);
+    color: var(--white);
     border: none;
-    padding: $spacing-sm $spacing-lg;
-    border-radius: $radius-md;
+    padding: 8px 24px;
+    border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
 
     &:hover {
-      background: $purple-dark;
+      background: var(--color-purple-hover);
     }
   }
 
   .suporte-sections {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: $spacing-lg;
-    margin-bottom: $spacing-xl;
+    gap: 24px;
+    margin-bottom: 32px;
 
     .suporte-card {
-      background: $color-bg-card;
-      border: 1px solid $border-color;
-      border-radius: $radius-md;
-      padding: $spacing-lg;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
       text-align: center;
-      box-shadow: $shadow-card;
+      box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
 
       i {
         font-size: 2rem;
-        color: $color-purple;
-        margin-bottom: $spacing-sm;
+        color: var(--color-purple);
+        margin-bottom: 8px;
       }
 
       h3 {
-        font-size: $font-size-heading;
-        margin-bottom: $spacing-sm;
+        font-size: 20px;
+        margin-bottom: 8px;
       }
 
       p {
-        font-size: $font-size-base;
-        color: $color-text-muted;
-        margin-bottom: $spacing-md;
+        font-size: 14px;
+        color: var(--color-text-muted);
+        margin-bottom: 16px;
       }
 
       .btn-purple,
       .btn-outline-purple {
         width: 100%;
-        padding: $spacing-sm;
-        border-radius: $radius-md;
+        padding: 8px;
+        border-radius: 12px;
         font-weight: 600;
       }
     }
@@ -79,23 +80,23 @@
 
   .suporte-faq {
     h2 {
-      margin-bottom: $spacing-lg;
-      color: $accent-yellow;
+      margin-bottom: 24px;
+      color: var(--yellow);
     }
 
     .faq-item {
-      margin-bottom: $spacing-md;
-      padding: $spacing-md;
-      background: $surface-2;
-      border-radius: $radius-sm;
+      margin-bottom: 16px;
+      padding: 16px;
+      background: var(--surface-2);
+      border-radius: 6px;
 
       h4 {
         font-weight: 600;
-        margin-bottom: $spacing-xs;
+        margin-bottom: 4px;
       }
 
       p {
-        color: $color-text-muted;
+        color: var(--color-text-muted);
       }
     }
   }

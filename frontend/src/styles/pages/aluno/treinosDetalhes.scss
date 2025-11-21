@@ -17,9 +17,9 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: $color-bg-dark;
-  color: $color-text;
-  padding: $spacing-md;
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: 1rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -35,12 +35,12 @@
   .edit-btn {
     background: none;
     border: none;
-    color: $color-text;
+    color: var(--color-text);
     font-size: 20px;
   }
 
   h2 {
-    font-size: $font-size-heading;
+    font-size: 1.75rem;
     flex: 1;
     text-align: center;
   }
@@ -48,47 +48,47 @@
 
 .treino-tags {
   display: flex;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-md;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 
   .tag {
     padding: 4px 8px;
-    border-radius: $radius-sm;
-    background: $surface-2;
-    font-size: $font-size-small;
+    border-radius: 6px;
+    background: var(--surface-2);
+    font-size: 0.85rem;
   }
 
   .purple {
-    background: $primary;
+    background: var(--color-purple);
   }
 
   .dark {
-    background: $surface-3;
+    background: var(--surface-3);
   }
 }
 
 .treino-desc {
-  color: $color-text-muted;
-  font-size: $font-size-base;
-  margin-bottom: $spacing-md;
+  color: var(--muted-text);
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 .treino-stats {
   display: flex;
   justify-content: space-around;
-  margin-bottom: $spacing-lg;
+  margin-bottom: 2rem;
 
   div {
     text-align: center;
 
     h3 {
       font-size: 22px;
-      color: $accent-yellow;
+      color: var(--yellow);
     }
 
     p {
-      font-size: $font-size-small;
-      color: $color-text-muted;
+      font-size: 0.85rem;
+      color: var(--muted-text);
     }
   }
 }

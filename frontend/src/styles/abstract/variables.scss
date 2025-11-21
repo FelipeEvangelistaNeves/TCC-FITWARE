@@ -4,6 +4,7 @@ $ROOT: true;
   /* dark (default - inspirado na Twitch) */
   --color-bg: #0e0e10;
   --color-text: #efeff1;
+
   --surface-1: #18181b;
   --surface-2: #1f1f23;
   --surface-3: #26262c;
@@ -16,17 +17,13 @@ $ROOT: true;
   --color-purple-light: #a970ff;
   --color-purple-hover: #7d3fdb;
   /* RGB tokens for alpha uses */
-  --color-purple-rgb: 145, 71, 255;
-  --color-purple-light-rgb: 169, 112, 255;
-  --color-purple-hover-rgb: 125, 63, 219;
+
   --color-green: #1dad52;
   --color-green-rgb: 29, 173, 82;
   --color-red: #eb0400;
-  --color-red-rgb: 235, 4, 0;
-  --white-rgb: 255, 255, 255;
-  --black-rgb: 14, 14, 16;
   --shadow-rgb: 0, 0, 0;
   --color-text-muted: #adadb8;
+  --color-blue: #248cfb;
   --text-hover: #ffffff;
   --link-color: #bf94ff;
   --link-hover: #a970ff;
@@ -34,9 +31,9 @@ $ROOT: true;
   --app-bg: #0e0e10;
   --card-bg: #18181b;
   --card-hover: #1f1f23;
-  --yellow: #ffb300;
-  --yellow-rgb: 255, 179, 0;
-  /* Scrollbar tokens (default = dark theme) */
+  --color-yellow: #ffb300;
+  --color-orange: #ff9500;
+
   --scroll-thumb: rgba(var(--shadow-rgb), 0.35);
   --scroll-track: var(--surface-2);
 }
@@ -61,6 +58,8 @@ body.light-mode {
   --color-purple-light-rgb: 145, 71, 255;
   --color-purple-hover-rgb: 92, 22, 197;
   --color-green: #00a352;
+  --color-blue: #248cfb;
+  --color-orange: #ff9500;
   --color-green-rgb: 0, 163, 82;
   --color-red: #d10000;
   --color-red-rgb: 209, 0, 0;

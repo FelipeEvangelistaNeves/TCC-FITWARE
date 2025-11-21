@@ -2,17 +2,17 @@
 
 .page-container {
   min-height: 100vh;
-  background: $app-bg;
-  color: $text;
+  background: var(--color-bg);
+  color: var(--color-text);
   padding-bottom: 64px; // cespaço da bottom nav
 }
 
 .page-header {
   position: sticky;
   top: 0;
-  z-index: $z-header;
-  background: $surface-2;
-  border-bottom: 1px solid $border;
+  z-index: 50;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border-color);
   padding: 1rem;
   font-weight: 700;
   display: flex;
@@ -26,12 +26,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: $z-bottom;
+  z-index: 40;
   display: flex;
   justify-content: space-around;
   padding: 0.5rem 0.25rem;
-  background: $surface-2;
-  border-top: 1px solid $border;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border-color);
 
   a {
     flex: 1;
@@ -40,12 +40,12 @@
     align-items: center;
     gap: 0.2rem;
     font-size: 0.75rem;
-    color: $text-2;
-    border-radius: $radius-sm;
+    color: var(--muted-text);
+    border-radius: 6px;
     padding: 0.25rem;
     &.active {
-      color: $primary-500;
-      background: rgba($primary-500, 0.08);
+      color: var(--color-purple);
+      background: rgba(var(--color-purple-rgb), 0.08);
     }
   }
 }
@@ -54,7 +54,7 @@
 .card-mobile {
   margin: 1rem;
   padding: 1rem;
-  border-radius: $radius-md;
-  background: $surface-1;
-  border: 1px solid $border;
+  border-radius: 12px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-color);
 }

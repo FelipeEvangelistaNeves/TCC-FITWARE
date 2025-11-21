@@ -10,7 +10,7 @@
 .quick-actions h2 {
   font-size: 20px;
   font-weight: 600;
-  color: $accent-yellow;
+  color: var(--yellow);
   margin: 0 0 15px 0;
 }
 
@@ -21,9 +21,9 @@
 }
 
 .action-card {
-  background: $surface-2;
-  border-radius: $radius-md;
-  color: $text;
+  background: var(--surface-2);
+  border-radius: 12px;
+  color: var(--color-text);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -31,24 +31,24 @@
   justify-content: center;
   gap: 10px;
   min-height: 100px;
-  border: 1px solid $border-color;
+  border: 1px solid var(--border-color);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .action-card:hover {
-  background: $surface-3;
-  border-color: $primary;
+  background: var(--surface-3);
+  border-color: var(--color-purple);
 }
 
 .action-card.highlighted {
-  border: 2px solid $primary;
-  background: $surface-1;
+  border: 2px solid var(--color-purple);
+  background: var(--surface-1);
 }
 
 .action-card.highlighted i,
 .action-card.highlighted span {
-  color: $color-purple;
+  color: var(--color-purple);
 }
 
 .action-card i {
@@ -59,17 +59,17 @@
 .action-card span {
   font-size: 14px;
   font-weight: 500;
-  color: $text-2;
+  color: var(--muted-text);
   transition: color 0.2s ease;
 }
 
 .atividade-card {
-  background-color: $surface-2;
-  border-radius: $radius-md;
-  padding: $spacing-md;
-  box-shadow: $shadow-card;
-  color: $text;
-  font-family: $font-family;
+  background-color: var(--surface-2);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
+  color: var(--color-text);
+  font-family: var(--font-family, "Inter", sans-serif);
   width: 100%;
 }
 
@@ -82,21 +82,21 @@
   h3 {
     font-size: 20px;
     font-weight: 600;
-    color: $accent-yellow;
+    color: var(--yellow);
     margin: 0;
   }
 
   .ver-tudo {
     background: none;
     border: none;
-    color: $purple-dark;
-    font-size: $font-size-small;
+    color: var(--color-purple-light);
+    font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
     transition: color 0.2s ease;
 
     &:hover {
-      color: $purple-500;
+      color: var(--color-purple-hover);
     }
   }
 }

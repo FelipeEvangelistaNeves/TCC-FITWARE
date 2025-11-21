@@ -1,13 +1,13 @@
 @import "../../abstract/variables";
 
 .planos-page {
-  background: $app-bg;
-  color: $color-text;
-  font-family: $font-family;
+  background: var(--app-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
 
   .planos-header {
-    background: $color-bg-dark;
-    padding: $spacing-xl $spacing-md;
+    background: var(--color-bg);
+    padding: 32px 16px;
 
     h2 {
       font-size: 2.5rem;
@@ -16,14 +16,14 @@
     p {
       max-width: 700px;
       margin: 0 auto;
-      color: $color-text-muted;
+      color: var(--color-text-muted);
     }
   }
 
   .planos {
     .plan-card {
-      background: $surface-2;
-      border: 1px solid $border-color;
+      background: var(--surface-2);
+      border: 1px solid var(--border-color);
       transition: all 0.3s ease;
       height: 100%;
 
@@ -34,21 +34,21 @@
       .price {
         font-size: 1.5rem;
         font-weight: 700;
-        margin: $spacing-sm 0;
-        color: $color-purple;
+        margin: 8px 0;
+        color: var(--color-purple);
       }
 
       .beneficios {
         list-style: none;
         padding: 0;
-        margin: $spacing-md 0;
+        margin: 16px 0;
         text-align: left;
 
         li {
-          padding: $spacing-xs 0;
+          padding: 4px 0;
           border-bottom: 1px solid rgba(var(--white-rgb), 0.05);
-          color: $color-text-muted;
-          font-size: $font-size-base;
+          color: var(--color-text-muted);
+          font-size: 14px;
 
           &:last-child {
             border-bottom: none;
@@ -57,40 +57,40 @@
       }
 
       &.destaque {
-        border: 2px solid $color-purple;
+        border: 2px solid var(--color-purple);
         transform: scale(1.03);
-        background: $surface-3;
+        background: var(--surface-3);
       }
 
       &:hover {
-        box-shadow: $shadow-2;
+        box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.3);
         transform: translateY(-4px);
       }
     }
 
     .botaoplano {
       background: none;
-      border: solid 1px $color-purple;
-      color: $color-purple;
-      border-radius: $radius-md;
-      padding: $spacing-sm $spacing-lg;
+      border: 1px solid var(--color-purple);
+      color: var(--color-purple);
+      border-radius: 12px;
+      padding: 8px 24px;
       font-weight: 600;
 
       &:hover {
-        background: $purple-dark;
-        color: $white;
+        background: var(--color-purple-hover);
+        color: var(--white);
       }
     }
 
     .botaoplano2 {
-      background: $color-purple;
-      color: $white;
-      border-radius: $radius-md;
-      padding: $spacing-sm $spacing-lg;
+      background: var(--color-purple);
+      color: var(--white);
+      border-radius: 12px;
+      padding: 8px 24px;
       font-weight: 600;
 
       &:hover {
-        background: $purple-dark;
+        background: var(--color-purple-hover);
       }
     }
   }
@@ -103,6 +103,6 @@
   }
 
   .planos .plan-card {
-    margin-bottom: $spacing-md;
+    margin-bottom: 16px;
   }
 }

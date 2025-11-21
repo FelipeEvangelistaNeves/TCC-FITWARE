@@ -19,7 +19,7 @@
     .search-input {
       width: 100%;
       padding: 15px 15px 15px 45px;
-      background: $surface-1;
+      background: var(--surface-1);
       border: 1px solid rgba(var(--shadow-rgb), 0.4);
       border-radius: 12px;
       color: var(--white);
@@ -40,7 +40,7 @@
 }
 
 .treinos-page {
-  background: $app-bg;
+  background: var(--color-bg);
   min-height: 100vh;
   color: var(--white);
   font-family: "Segoe UI", "Inter", Arial, sans-serif;
@@ -61,7 +61,7 @@
     .search-input,
     .search-bar {
       width: 100%;
-      background: $surface-1;
+      background: var(--surface-1);
       border: none;
       border-radius: 1.5rem;
       padding: 0.7rem 1.2rem;

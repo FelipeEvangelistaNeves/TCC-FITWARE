@@ -1,3 +1,4 @@
+@import "../../abstract/variables.scss";
 .config-page {
   .page-title {
     margin-bottom: 1.5rem;
@@ -17,10 +18,20 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      position: relative;
 
       &.active {
-        background: transparent;
         color: var(--color-purple);
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          width: 100%;
+          height: 2px;
+          background: var(--color-purple);
+          border-radius: $radius-sm;
+        }
       }
 
       &:hover {

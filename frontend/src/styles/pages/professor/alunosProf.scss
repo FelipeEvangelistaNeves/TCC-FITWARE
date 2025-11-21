@@ -21,15 +21,11 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
 .alunos,
 .alunos-container {
   box-sizing: border-box;
-  background: $__bg;
-  color: $__text;
+  background: var(--color-bg);
+  color: var(--color-text);
   min-height: 100vh;
   padding: 16px;
-  font-family: if(
-    variable-exists(font-family),
-    $font-family,
-    "Inter, system-ui, sans-serif"
-  );
+  font-family: var(--font-family, "Inter", system-ui, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -39,14 +35,14 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
     width: 100%;
     margin-bottom: 12px;
     padding: 8px 12px;
-    border: 1px solid rgba($__border, 0.6);
-    border-radius: $__radius-md;
-    background: $__surface-2;
-    color: $__text;
-    font-size: if(variable-exists(font-size-base), $font-size-base, 14px);
+    border: 1px solid rgba(var(--border-color), 0.6);
+    border-radius: 12px;
+    background: var(--surface-2);
+    color: var(--color-text);
+    font-size: 14px;
 
     &::placeholder {
-      color: $__text-2;
+      color: var(--muted-text);
     }
   }
 
@@ -120,22 +116,22 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
   .aluno-card,
   .student-card,
   .card-aluno {
-    background: $__surface-2 !important;
-    border-radius: $__radius-md;
+    background: var(--surface-2) !important;
+    border-radius: 12px;
     padding: 12px;
     display: flex;
     gap: 12px;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba($__border, 0.15);
+    border: 1px solid rgba(var(--border-color), 0.15);
     transition: transform 0.12s ease, background 0.12s ease;
     text-decoration: none;
     color: inherit;
 
     &:hover {
       transform: translateY(-3px);
-      background: $__surface-3;
+      background: var(--surface-3);
     }
 
     .avatar {
@@ -146,7 +142,7 @@ $__radius-md: if(variable-exists(radius-md), $radius-md, 12px);
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      color: $__text;
+      color: var(--color-text);
       font-size: 14px;
       flex-shrink: 0;
     }

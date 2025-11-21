@@ -172,7 +172,7 @@ export default function Desafios() {
                   <div className="icone purple">{d.icone}</div>
                   <div>
                     <strong>{d.nome}</strong>
-                    <small className="text-white">{d.descricao}</small>
+                    <small>{d.descricao}</small>
                   </div>
                 </td>
 

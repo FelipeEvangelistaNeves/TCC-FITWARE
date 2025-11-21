@@ -1,37 +1,37 @@
 @import "../../abstract/variables.scss";
 
 .modalidades-page {
-  padding: $spacing-xl $spacing-lg;
-  background: $color-bg-dark;
+  padding: 32px 24px;
+  background: var(--color-bg);
   min-height: 100vh;
   text-align: center;
 
   .intro {
-    margin-bottom: $spacing-xl;
+    margin-bottom: 32px;
 
     h2 {
       font-size: 28px;
       font-weight: 700;
-      color: $white;
+      color: var(--white);
     }
 
     p {
-      color: $color-text-muted;
-      font-size: $font-size-base;
-      margin-top: $spacing-sm;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      margin-top: 8px;
     }
   }
 
   .modalidades-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: $spacing-lg;
+    gap: 24px;
 
     .modalidade-card {
-      background: $color-bg-card;
-      padding: $spacing-lg;
-      border-radius: $radius-lg;
-      box-shadow: $shadow-card;
+      background: var(--surface-1);
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
       text-align: center;
       transition: transform 0.2s ease;
 
@@ -41,19 +41,19 @@
 
       .icone {
         font-size: 32px;
-        color: $color-purple;
-        margin-bottom: $spacing-md;
+        color: var(--color-purple);
+        margin-bottom: 16px;
       }
 
       h4 {
         font-size: 18px;
-        color: $white;
-        margin-bottom: $spacing-sm;
+        color: var(--white);
+        margin-bottom: 8px;
       }
 
       p {
-        color: $color-text-muted;
-        font-size: $font-size-small;
+        color: var(--color-text-muted);
+        font-size: 12px;
       }
     }
   }

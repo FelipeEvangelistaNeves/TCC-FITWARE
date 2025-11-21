@@ -19,12 +19,12 @@
 /* ===== Modal Container ===== */
 .activities-modal {
   background: var(--card-bg);
-  border-radius: $radius-md;
+  border-radius: 12px;
   width: 500px;
   max-height: 80vh;
   overflow-y: auto;
-  padding: $spacing-lg;
-  box-shadow: $shadow-card;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
   animation: fadeIn 0.25s ease;
 
   @media (max-width: 480px) {
@@ -40,26 +40,26 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: $spacing-sm;
-  margin-bottom: $spacing-md;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
 
   h3 {
-    color: $color-text;
+    color: var(--color-text);
     margin: 0;
-    font-size: $font-size-base;
+    font-size: 1rem;
     font-weight: bold;
   }
 
   .close-btn {
     background: transparent;
     border: none;
-    color: $color-text;
+    color: var(--color-text);
     font-size: 20px;
     cursor: pointer;
     transition: 0.2s;
 
     &:hover {
-      color: $color-purple;
+      color: var(--color-purple);
     }
   }
 }
@@ -84,26 +84,26 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: $color-purple;
-      color: #fff;
+      background: var(--color-purple);
+      color: var(--white);
       font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: $spacing-md;
-      font-size: $font-size-small;
+      margin-right: 1rem;
+      font-size: 0.85rem;
     }
 
     .activity-info {
       .name {
-        color: $color-text;
+        color: var(--color-text);
         display: block;
-        font-size: $font-size-base;
+        font-size: 1rem;
       }
 
       .time {
-        color: $color-text-muted;
-        font-size: $font-size-small;
+        color: var(--muted-text);
+        font-size: 0.85rem;
       }
     }
   }
@@ -113,9 +113,9 @@
 .activities-ver-tudo-btn {
   background: transparent;
   border: none;
-  color: $color-purple;
+  color: var(--color-purple);
   font-weight: 500;
-  margin-top: $spacing-md;
+  margin-top: 1rem;
   cursor: pointer;
   transition: 0.2s;
 

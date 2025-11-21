@@ -3,8 +3,8 @@
 // Mensagens do Aluno - Estilos SCSS
 .mensagens-aluno {
   min-height: 100vh;
-  background: $app-bg;
-  color: $text;
+  background: var(--color-bg);
+  color: var(--color-text);
   padding: 0;
   position: relative;
   padding-bottom: 80px; // Espaço para a navegação inferior
@@ -16,21 +16,21 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px 15px;
-  background: $surface-1;
+  background: var(--surface-1);
   backdrop-filter: blur(10px);
 
   .mensagens-title {
     font-size: 24px;
     font-weight: 700;
-    color: $accent-yellow;
+    color: var(--yellow);
     margin: 0;
   }
 
   .add-btn {
     width: 40px;
     height: 40px;
-    background: $surface-2;
-    border: 1px solid $border-color;
+    background: var(--surface-2);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -40,11 +40,11 @@
 
     &:hover {
       transform: scale(1.1);
-      background: $surface-3;
+      background: var(--surface-3);
     }
 
     i {
-      color: $white;
+      color: var(--white);
       font-size: 18px;
       font-weight: 600;
     }
@@ -71,7 +71,7 @@
     .search-input {
       width: 100%;
       padding: 15px 15px 15px 45px;
-      background: $surface-1;
+      background: var(--surface-1);
       border: 1px solid rgba(var(--shadow-rgb), 0.4);
       border-radius: 12px;
       color: white;

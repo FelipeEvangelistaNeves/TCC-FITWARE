@@ -1,21 +1,21 @@
 @import "./../../abstract/variables.scss";
 
 /* ===============================
-   PÁGINA DE NOTIFICAÇÕES
+   PÁGINA DE NOTIFICAÇÕES (theme-safe)
 ================================*/
 .notifications-page {
-  transition: background-color $theme-transition, color $theme-transition;
+  transition: background-color 0.18s ease, color 0.18s ease;
 
   .tabela-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
   }
 
   .add-btn {
-    background-color: $purple-dark;
-    color: $white;
+    background-color: var(--color-purple);
+    color: var(--white);
     border: none;
     padding: 8px 14px;
     border-radius: 10px;
@@ -36,14 +36,14 @@
   }
 
   .notificacao-card {
-    background: var(--color-bg-card);
-    border: 1px solid $border;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 16px;
-    box-shadow: $shadow-card;
-    color: $color-text;
-    transition: background-color $theme-transition, color $theme-transition,
-      border-color $theme-transition;
+    box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
+    color: var(--color-text);
+    transition: background-color 0.18s ease, color 0.18s ease,
+      border-color 0.18s ease;
 
     &:hover {
       background: var(--surface-hover);
@@ -60,7 +60,7 @@
       margin: 0;
       font-size: 16px;
       font-weight: 600;
-      color: $color-text;
+      color: var(--color-text);
     }
 
     .tipo {
@@ -71,22 +71,22 @@
 
       &.informativo {
         background: rgba(var(--color-purple-rgb), 0.15);
-        color: $color-purple-light;
+        color: var(--color-purple-light);
       }
 
       &.desafio {
-        background: rgba($color-green, 0.15);
-        color: $color-green;
+        background: rgba(var(--color-green-rgb), 0.15);
+        color: var(--color-green);
       }
 
       &.treino {
-        background: rgba($blue-light, 0.15);
-        color: $blue-light;
+        background: rgba(var(--color-purple-light-rgb), 0.15);
+        color: var(--color-purple-light);
       }
 
       &.brinde {
-        background: rgba($yellow, 0.15);
-        color: $yellow;
+        background: rgba(var(--yellow-rgb), 0.15);
+        color: var(--yellow);
       }
     }
   }
@@ -97,13 +97,13 @@
     align-items: center;
 
     small {
-      color: $color-text-muted;
+      color: var(--color-text-muted);
     }
 
     .action-btn.delete {
       background: transparent;
       border: none;
-      color: $color-red;
+      color: var(--color-red);
       font-size: 18px;
       cursor: pointer;
       transition: transform 0.15s ease;
@@ -116,13 +116,13 @@
 
   .sem-notificacoes {
     text-align: center;
-    color: $color-text-muted;
-    margin-top: 2rem;
+    color: var(--color-text-muted);
+    margin-top: 32px;
   }
 
   /* ===============================
    MODAL BASE
-================================*/
+  =================================*/
   .modal-overlay {
     position: fixed;
     top: 0;
@@ -135,32 +135,32 @@
     align-items: center;
     z-index: 120;
     animation: fadeIn 0.2s ease-in-out;
-    transition: background-color $theme-transition;
+    transition: background-color 0.18s ease;
   }
 
   .modal-content {
-    background: $color-bg-card;
-    color: $color-text;
+    background: var(--card-bg);
+    color: var(--color-text);
     border-radius: 16px;
     padding: 24px;
     width: 90%;
     max-width: 500px;
-    box-shadow: $shadow-2;
+    box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.3);
     animation: slideUp 0.25s ease;
-    border: 1px solid $border;
-    transition: background-color $theme-transition, color $theme-transition,
-      border-color $theme-transition;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.18s ease, color 0.18s ease,
+      border-color 0.18s ease;
 
     h3 {
       font-size: 20px;
       font-weight: 600;
       margin-bottom: 20px;
-      color: $color-text;
+      color: var(--color-text);
     }
 
     /* ===============================
-   CAMPOS DE FORMULÁRIO
-================================*/
+     CAMPOS DE FORMULÁRIO
+    =================================*/
     .form-group {
       display: flex;
       flex-direction: column;
@@ -170,24 +170,24 @@
       label {
         font-size: 14px;
         font-weight: 600;
-        color: $color-text-muted;
+        color: var(--color-text-muted);
       }
 
       input,
       select,
       textarea {
-        background: $surface-2;
-        border: 1px solid $border;
+        background: var(--surface-2);
+        border: 1px solid var(--border-color);
         border-radius: 8px;
         padding: 10px 12px;
-        color: $color-text;
+        color: var(--color-text);
         font-size: 14px;
         outline: none;
         transition: all 0.2s ease;
 
         &:focus {
-          border-color: $color-purple-light;
-          background: $surface-3;
+          border-color: var(--color-purple-light);
+          background: var(--surface-3);
         }
       }
 
@@ -195,9 +195,10 @@
         resize: none;
       }
     }
+
     /* ===============================
-   BOTÕES DO MODAL
-================================*/
+     BOTÕES DO MODAL
+    =================================*/
     .modal-actions {
       display: flex;
       justify-content: flex-end;
@@ -205,9 +206,9 @@
       margin-top: 10px;
 
       .btn-cancelar {
-        background: $surface-2;
-        color: $color-text-muted;
-        border: 1px solid $border;
+        background: var(--surface-2);
+        color: var(--color-text-muted);
+        border: 1px solid var(--border-color);
         border-radius: 8px;
         padding: 8px 14px;
         cursor: pointer;
@@ -215,13 +216,13 @@
         transition: all 0.2s ease;
 
         &:hover {
-          background: $surface-3;
+          background: var(--surface-3);
           color: var(--white);
         }
       }
 
       .btn-salvar {
-        background: $purple-dark;
+        background: var(--color-purple);
         color: var(--black);
         border: none;
         border-radius: 8px;
@@ -231,7 +232,7 @@
         transition: all 0.2s ease;
 
         &:hover {
-          background: lighten($purple-dark, 8%);
+          background: var(--color-purple-light);
           transform: scale(1.02);
         }
       }
@@ -240,7 +241,7 @@
 
   /* ===============================
    ANIMAÇÕES
-================================*/
+  =================================*/
   @keyframes fadeIn {
     from {
       opacity: 0;

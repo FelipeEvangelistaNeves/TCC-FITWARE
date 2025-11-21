@@ -1,7 +1,7 @@
 @import "./../../abstract/variables.scss";
 
 .perfil-container {
-  background: $app-bg;
+  background: var(--color-bg);
   color: var(--white);
   min-height: 100vh;
   padding: 1.2rem;
@@ -12,7 +12,7 @@
 
   &.roxo {
     .perfil-header h2 {
-      color: $accent-yellow;
+      color: var(--yellow);
     }
   }
 }
@@ -36,7 +36,7 @@
     width: 70px;
     height: 70px;
     margin: 0 auto 0.6rem;
-    background: $purple-dark;
+    background: var(--color-purple);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -52,7 +52,7 @@
   }
 
   p {
-    color: $text;
+    color: var(--color-text);
     font-size: 0.9rem;
   }
 
@@ -67,19 +67,19 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: $text;
+      color: var(--color-text);
       text-align: center;
 
       .stat-number {
         font-size: 1.6rem;
         font-weight: 700;
-        color: $text;
+        color: var(--color-text);
         margin-bottom: 0.3rem;
       }
 
       .stat-label {
         font-size: 0.9rem;
-        color: $text;
+        color: var(--color-text);
       }
     }
   }
@@ -92,7 +92,7 @@
 }
 
 .perfil-card {
-  background: $app-bg;
+  background: var(--surface-2);
   border-radius: 10px;
   padding: 1rem;
   box-shadow: 0 0 6px rgba(var(--shadow-rgb), 0.25);
@@ -109,7 +109,7 @@
 
     i,
     a {
-      color: $primary;
+      color: var(--color-purple);
       font-size: 0.9rem;
       text-decoration: none;
     }
@@ -124,7 +124,7 @@
       .info-label {
         display: block;
         font-size: 0.8rem;
-        color: $text;
+        color: var(--color-text);
       }
 
       .info-value {
@@ -139,7 +139,7 @@
         flex-wrap: wrap;
 
         .tag {
-          background: $primary;
+          background: var(--color-purple);
           color: var(--white);
           font-size: 0.75rem;
           padding: 0.2rem 0.6rem;
@@ -156,7 +156,7 @@
     gap: 1rem;
 
     .activity-item {
-      background-color: $surface-1;
+      background-color: var(--surface-1);
       padding: 0.4rem;
       border-radius: 0.8rem;
 
@@ -167,14 +167,14 @@
         gap: 0.5rem;
 
         i {
-          color: $primary;
+          color: var(--color-purple);
           font-size: 1rem;
         }
       }
 
       .activity-time {
         font-size: 0.8rem;
-        color: $text;
+        color: var(--color-text);
         margin-top: 0.3rem;
       }
     }
@@ -192,7 +192,7 @@
       gap: 0.6rem;
 
       i {
-        color: $primary;
+        color: var(--color-purple);
         font-size: 1rem;
       }
 
@@ -204,7 +204,7 @@
 
       .cert-detalhe {
         font-size: 0.8rem;
-        color: $text;
+        color: var(--color-text);
       }
     }
   }
@@ -224,7 +224,7 @@
 }
 
 .cert-modal {
-  background: $surface-1;
+  background: var(--surface-1);
   width: 92%;
   max-width: 520px;
   border-radius: 12px;
@@ -264,7 +264,7 @@
 
   .close-btn {
     font-size: 1.6rem;
-    color: $primary;
+    color: var(--color-purple);
     cursor: pointer;
     transition: 0.2s;
 
@@ -284,13 +284,13 @@
 
   /* rolagem suave */
   scrollbar-width: thin;
-  scrollbar-color: $primary transparent;
+  scrollbar-color: var(--color-purple) transparent;
 
   &::-webkit-scrollbar {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background: $primary;
+    background: var(--color-purple);
     border-radius: 4px;
   }
 }
@@ -299,13 +299,13 @@
   display: flex;
   gap: 0.8rem;
   padding: 0.7rem;
-  background: $app-bg;
+  background: var(--color-bg);
   border-radius: 10px;
   align-items: flex-start;
 
   i {
     font-size: 1.2rem;
-    color: $primary;
+    color: var(--color-purple);
   }
 
   h5 {
@@ -317,7 +317,7 @@
   p {
     margin: 0.2rem 0 0;
     font-size: 0.85rem;
-    color: $text;
+    color: var(--color-text);
   }
 }
 
@@ -325,7 +325,7 @@
   margin-top: 1rem;
   width: 100%;
   padding: 0.8rem;
-  background: $primary;
+  background: var(--color-purple);
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -343,7 +343,7 @@
 .ver-todas-btn {
   font-size: 0.85rem;
   font-weight: 500;
-  color: $primary;
+  color: var(--color-purple);
   background: transparent;
   border: none;
   cursor: pointer;

@@ -147,22 +147,23 @@
             margin-right: $spacing-sm;
 
             &.blue {
-              background: var(--color-purple-light);
+              background: var(--color-blue);
             }
 
             &.green {
-              background: rgba(var(--color-green), 0.15);
-              color: var(--color-green);
+              background: var(--color-green);
             }
 
             &.orange {
-              background: rgba(var(--accent-yellow), 0.15);
-              color: var(--accent-yellow);
+              background: var(--color-orange);
             }
 
             &.red {
               background: rgba(var(--color-red), 0.15);
               color: var(--color-red);
+            }
+            &.purple {
+              background: var(--color-purple);
             }
           }
 
@@ -196,6 +197,14 @@
             font-size: $font-size-small;
             font-weight: 500;
 
+            &.ativo {
+              background: rgba($color-green, 0.15);
+              color: $color-green;
+            }
+            &.inativo {
+              background: rgba($color-red, 0.15);
+              color: $color-red;
+            }
             &.pago {
               background: rgba($color-green, 0.15);
               color: $color-green;

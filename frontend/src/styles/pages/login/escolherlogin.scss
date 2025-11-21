@@ -5,45 +5,45 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $color-bg-dark;
-  padding: $spacing-lg;
+  background: var(--color-bg);
+  padding: 1rem;
 
   .login-card {
-    background: $color-bg-card;
-    padding: $spacing-xl;
-    border-radius: $radius-lg;
-    box-shadow: $shadow-card;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
     text-align: center;
     width: 100%;
     max-width: 420px;
     margin-bottom: 5%;
     h2 {
-      color: $white;
-      margin-bottom: $spacing-md;
-      font-size: $font-size-heading;
+      color: var(--white);
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
     }
 
     p {
-      color: $color-text-muted;
-      margin-bottom: $spacing-lg;
+      color: var(--muted-text);
+      margin-bottom: 1rem;
     }
 
     .botoes-login {
       display: flex;
       flex-direction: column;
-      gap: $spacing-md;
+      gap: 1rem;
 
       .btn {
-        padding: $spacing-sm $spacing-md;
-        border-radius: $radius-md;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
         font-weight: 600;
         transition: all 0.2s;
         text-align: center;
       }
 
       .btn-admin {
-        background: $color-purple;
-        color: $white;
+        background: var(--color-purple);
+        color: var(--white);
 
         &:hover {
           background: var(--color-purple-hover);
@@ -51,9 +51,9 @@
       }
 
       .btn-professor {
-        border: 2px solid $color-purple;
+        border: 2px solid var(--color-purple);
         background: transparent;
-        color: $color-purple;
+        color: var(--color-purple);
 
         &:hover {
           background: rgba(var(--color-purple-rgb), 0.15);
@@ -61,8 +61,8 @@
       }
 
       .btn-aluno {
-        background: $accent-yellow;
-        color: $black;
+        background: var(--yellow);
+        color: var(--black);
 
         &:hover {
           background: var(--yellow);

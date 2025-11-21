@@ -1,45 +1,48 @@
 @import "../../abstract/variables";
+
 body {
   overflow-y: auto !important;
 }
+
 .home-container {
-  background: $app-bg;
-  color: $color-text;
-  font-family: $font-family;
+  background: var(--app-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+
   .pubicon {
-    color: $color-purple;
+    color: var(--color-purple);
   }
+
   .botaoplano {
     background: none;
-    border: solid 1px $color-purple;
-    color: $white;
-    border-radius: $radius-md;
-    padding: $spacing-sm $spacing-lg;
+    border: 1px solid var(--color-purple);
+    border-radius: 12px;
+    padding: 8px 24px;
     font-weight: 600;
-    color: $color-purple;
+    color: var(--color-purple);
 
     &:hover {
-      background: $purple-dark;
+      background: var(--color-purple-hover);
     }
   }
+
   .botaoplano2 {
-    background: $color-purple;
-
-    color: $white;
-    border-radius: $radius-md;
-    padding: $spacing-sm $spacing-lg;
+    background: var(--color-purple);
+    color: var(--white);
+    border-radius: 12px;
+    padding: 8px 24px;
     font-weight: 600;
-    color: $white;
 
     &:hover {
-      background: $purple-dark;
-      color: $white;
+      background: var(--color-purple-hover);
+      color: var(--white);
     }
   }
+
   .hero {
     min-height: 90vh;
-    padding: $spacing-xl $spacing-md;
-    background: $color-bg-dark;
+    padding: 32px 16px;
+    background: var(--color-bg);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,79 +53,79 @@ body {
     }
 
     p {
-      color: $color-text-muted;
+      color: var(--color-text-muted);
     }
 
     .btn-purple {
-      background: $color-purple;
-      color: $white;
-      border-radius: $radius-md;
-      padding: $spacing-sm $spacing-lg;
+      background: var(--color-purple);
+      color: var(--white);
+      border-radius: 12px;
+      padding: 8px 24px;
       font-weight: 600;
 
       &:hover {
-        background: $purple-dark;
+        background: var(--color-purple-hover);
       }
     }
 
     .btn-outline-purple {
-      border: 1px solid $color-purple;
-      color: $color-purple;
-      border-radius: $radius-md;
-      padding: $spacing-sm $spacing-lg;
+      border: 1px solid var(--color-purple);
+      color: var(--color-purple);
+      border-radius: 12px;
+      padding: 8px 24px;
 
       &:hover {
-        background: $purple-dark;
-        color: $white;
+        background: var(--color-purple-hover);
+        color: var(--white);
       }
     }
   }
 
   .features {
-    background: $surface-1;
+    background: var(--surface-1);
 
     .feature-card {
-      background: $surface-2;
+      background: var(--surface-2);
       transition: transform 0.2s ease;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: $shadow-card;
+        box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
       }
     }
   }
 
   .planos {
-    background: $surface-1;
+    background: var(--surface-1);
 
     .plan-card {
-      background: $surface-2;
-      border: 1px solid $border-color;
+      background: var(--surface-2);
+      border: 1px solid var(--border-color);
       transition: all 0.3s ease;
 
       .price {
         font-size: 1.5rem;
         font-weight: 700;
-        margin: $spacing-sm 0;
+        margin: 8px 0;
       }
 
       &.destaque {
-        border: 2px solid $color-purple;
+        border: 2px solid var(--color-purple);
         transform: scale(1.05);
       }
 
       &:hover {
-        box-shadow: $shadow-2;
+        box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.3);
       }
     }
   }
 
   .sobre {
-    background: $surface-1;
+    background: var(--surface-1);
   }
 
   .suporte {
-    background: $surface-2;
+    background: var(--surface-2);
   }
 }
 
@@ -134,10 +137,10 @@ body {
 
   .stats {
     flex-direction: column;
-    gap: $spacing-md;
+    gap: 16px;
   }
 
   .planos .plan-card {
-    margin-bottom: $spacing-md;
+    margin-bottom: 16px;
   }
 }

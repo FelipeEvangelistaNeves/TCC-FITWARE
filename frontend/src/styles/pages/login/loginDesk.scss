@@ -3,7 +3,7 @@
 
 .login-container {
   min-height: 100vh;
-  background: $black-fundo !important;
+  background: var(--color-bg) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,8 +28,8 @@
     }
 
     .login-left {
-      background: $surface-2 !important;
-      color: $text;
+      background: var(--surface-2) !important;
+      color: var(--color-text);
       text-align: left;
       padding: 3rem !important;
 
@@ -65,7 +65,7 @@
         h2 {
           font-size: 1.75rem;
           font-weight: 600;
-          color: white;
+          color: var(--white);
           margin-bottom: 2rem;
         }
 
@@ -81,7 +81,7 @@
             color: rgba(var(--white-rgb), 0.8);
 
             i {
-              color: #a855f7;
+              color: var(--color-purple);
               font-size: 1.25rem;
             }
 
@@ -95,8 +95,8 @@
     }
 
     .login-right {
-      background: $black-fundo !important;
-      color: $text;
+      background: var(--color-bg) !important;
+      color: var(--color-text);
     }
 
     .login-form-container {
@@ -112,25 +112,25 @@
           display: block;
           margin-bottom: 0.5rem;
           font-size: 0.95rem;
-          color: $text;
+          color: var(--color-text);
         }
 
         input {
           width: 100%;
           padding: 0.75rem;
           border-radius: 8px;
-          border: 1px solid $border;
-          background: $surface-2;
-          color: $text;
+          border: 1px solid var(--border-color);
+          background: var(--surface-2);
+          color: var(--color-text);
           font-size: 1rem;
           transition: border-color 0.2s;
 
           &::placeholder {
-            color: $text-2;
+            color: var(--muted-text);
           }
 
           &:focus {
-            border-color: $primary;
+            border-color: var(--color-purple);
             outline: none;
           }
         }
@@ -141,7 +141,7 @@
         margin-bottom: 1rem;
 
         .forgot-password {
-          color: $primary;
+          color: var(--color-purple);
           text-decoration: none;
           font-size: 0.9rem;
 
@@ -154,17 +154,17 @@
       .login-button {
         width: 100%;
         padding: 0.75rem;
-        background: $primary;
+        background: var(--color-purple);
         border: none;
         border-radius: 8px;
-        color: white;
+        color: var(--white);
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
         transition: background 0.2s;
 
         &:hover {
-          background: $purple-600;
+          background: var(--color-purple-hover);
         }
       }
     }
@@ -172,7 +172,7 @@
     .login-footer {
       margin-top: 1.5rem;
       text-align: center;
-      color: $text-2;
+      color: var(--muted-text);
       font-size: 0.85rem;
     }
   }

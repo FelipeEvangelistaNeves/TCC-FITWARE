@@ -3,8 +3,8 @@
 // Dashboard do Aluno - Estilos SCSS
 .dashboard-aluno {
   min-height: 100vh;
-  background: $app-bg;
-  color: $text;
+  background: var(--color-bg);
+  color: var(--color-text);
   padding: 0;
   position: relative;
   padding-bottom: 80px; // Espaço para a navegação inferior
@@ -16,13 +16,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 20px 15px;
-    background: $surface-1;
+    background: var(--surface-1);
     backdrop-filter: blur(10px);
 
     .dashboard-title {
       font-size: 24px;
       font-weight: 700;
-      color: $accent-yellow;
+      color: var(--yellow);
       margin: 0;
     }
 
@@ -34,7 +34,7 @@
       .notification-icon {
         width: 40px;
         height: 40px;
-        background: $surface-2;
+        background: var(--surface-2);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -47,7 +47,7 @@
         }
 
         i {
-          color: $white;
+          color: var(--white);
           font-size: 16px;
         }
       }
@@ -55,7 +55,7 @@
       .profile-icon {
         width: 40px;
         height: 40px;
-        background: $primary;
+        background: var(--color-purple);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -68,7 +68,7 @@
         }
 
         span {
-          color: $white;
+          color: var(--white);
           font-weight: 600;
           font-size: 14px;
         }

@@ -1,7 +1,7 @@
 @import "./../../abstract/variables.scss";
 .dashboard-admin {
   padding: $spacing-lg;
-  color: $color-text;
+  color: var(--color-text);
   font-family: $font-family;
   min-height: 100vh;
 
@@ -10,7 +10,6 @@
     font-size: $font-size-heading;
     font-weight: bold;
     margin-bottom: $spacing-lg;
-    color: $color-text;
   }
 
   // ===== Cards Superiores =====
@@ -26,6 +25,7 @@
       padding: $spacing-md;
       box-shadow: $shadow-card;
       display: flex;
+      color: var(--color-text);
       flex-direction: column;
       justify-content: center;
       transition: transform 0.2s;
@@ -36,7 +36,7 @@
 
       .card-title {
         font-size: $font-size-small;
-        color: $color-text-muted;
+
         margin-bottom: $spacing-xs;
       }
 
@@ -151,7 +151,6 @@
             .name {
               font-size: $font-size-base;
               font-weight: 500;
-              color: $color-text;
             }
 
             .time {

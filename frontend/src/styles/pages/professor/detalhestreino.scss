@@ -1,66 +1,66 @@
 @import "./../../abstract/variables.scss";
 
 .treino-detalhes {
-  background: $color-bg-dark;
-  color: $color-text;
-  font-family: $font-family;
-  padding: $spacing-lg;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-card;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family, "Inter", sans-serif);
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
   max-width: 450px;
   margin: 0 auto;
 
   .treino-header {
-    margin-bottom: $spacing-lg;
+    margin-bottom: 1rem;
 
     .tags {
       display: flex;
-      gap: $spacing-sm;
-      margin-bottom: $spacing-sm;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
 
       .tag {
-        background: $surface-3;
-        color: $color-text;
+        background: var(--surface-3);
+        color: var(--color-text);
         padding: 4px 10px;
-        border-radius: $radius-sm;
-        font-size: $font-size-small;
+        border-radius: 6px;
+        font-size: 0.85rem;
 
         &.nivel {
-          background: $color-purple;
+          background: var(--color-purple);
         }
         &.tipo {
-          background: $blue-light;
+          background: var(--color-purple-light);
         }
         &.duracao {
-          background: $yellow;
-          color: $black;
+          background: var(--yellow);
+          color: var(--black);
         }
       }
     }
 
     .descricao {
-      color: $color-text-muted;
-      font-size: $font-size-base;
-      margin-bottom: $spacing-md;
+      color: var(--muted-text);
+      font-size: 1rem;
+      margin-bottom: 1rem;
     }
 
     .info-boxes {
       display: flex;
       justify-content: space-between;
-      background: $surface-1;
-      padding: $spacing-md;
-      border-radius: $radius-md;
+      background: var(--surface-1);
+      padding: 1rem;
+      border-radius: 12px;
 
       div {
         text-align: center;
         strong {
           display: block;
-          color: $color-purple-light;
+          color: var(--color-purple-light);
           font-size: 18px;
         }
         span {
-          font-size: $font-size-small;
-          color: $color-text-muted;
+          font-size: 0.85rem;
+          color: var(--muted-text);
         }
       }
     }
@@ -69,35 +69,35 @@
   .exercicios {
     display: flex;
     flex-direction: column;
-    gap: $spacing-sm;
+    gap: 0.75rem;
 
     .exercicio-card {
-      background: $surface-2;
-      border-radius: $radius-md;
-      padding: $spacing-sm;
+      background: var(--surface-2);
+      border-radius: 12px;
+      padding: 0.75rem;
 
       .exercicio-toggle {
         background: none;
-        color: $color-text;
+        color: var(--color-text);
         border: none;
         width: 100%;
         text-align: left;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: $font-size-base;
+        font-size: 1rem;
         cursor: pointer;
 
         &:hover {
-          color: $color-purple-light;
+          color: var(--color-purple-light);
         }
       }
 
       .exercicio-detalhes {
-        margin-top: $spacing-sm;
-        padding-left: $spacing-sm;
-        color: $color-text-muted;
-        font-size: $font-size-small;
+        margin-top: 0.75rem;
+        padding-left: 0.75rem;
+        color: var(--muted-text);
+        font-size: 0.85rem;
 
         .instrucao {
           margin-top: $spacing-xs;
@@ -108,27 +108,27 @@
   }
 
   .iniciar-treino {
-    margin-top: $spacing-lg;
+    margin-top: 1rem;
     width: 100%;
-    background: $color-purple;
-    color: $white;
+    background: var(--color-purple);
+    color: var(--white);
     border: none;
-    padding: $spacing-md;
-    border-radius: $radius-md;
+    padding: 1rem;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: $font-size-base;
+    font-size: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: $spacing-sm;
+    gap: 0.75rem;
 
     &:hover {
-      background: $color-purple;
+      background: var(--color-purple);
     }
 
     &.ativo {
-      background: $color-green;
-      color: $black;
+      background: var(--color-green);
+      color: var(--black);
     }
   }
 }

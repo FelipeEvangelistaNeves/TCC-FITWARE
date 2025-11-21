@@ -15,17 +15,17 @@
   height: 22px;
 }
 .header-public {
-  background: $color-bg-dark;
-  color: $color-text;
+  background: var(--color-bg);
+  color: var(--color-text);
   position: sticky;
   top: 0;
-  z-index: $z-header;
-  box-shadow: $shadow-card;
+  z-index: 50;
+  box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
 
   .theme-switch-wrapper {
     @include flex-center;
-    padding: $spacing-sm $spacing-md;
-    gap: $spacing-sm;
+    padding: 8px 16px;
+    gap: 8px;
     cursor: pointer;
     border-radius: 6px;
     transition: all 0.2s ease;
@@ -82,12 +82,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $spacing-md $spacing-lg;
-
+    padding: 16px 24px;
     .brand {
       display: flex;
       align-items: center;
-      gap: $spacing-sm;
+      gap: 8px;
 
       .logo img {
         height: 40px;
@@ -98,37 +97,36 @@
       .brand-text {
         font-weight: 700;
         font-size: 20px;
-        color: $white;
       }
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: $spacing-lg;
+      gap: 24px;
 
       a {
-        color: $color-text-muted;
-        font-size: $font-size-base;
+        color: var(--color-text-muted);
+        font-size: 14px;
         font-weight: 500;
         text-decoration: none;
         transition: color 0.2s ease;
 
         &.active {
-          color: $color-purple;
+          color: var(--color-purple);
         }
 
         &:hover {
-          color: $color-purple;
+          color: var(--color-purple);
         }
       }
 
       .btn-enter {
-        background: $accent-yellow;
-        color: $black;
+        background: var(--yellow);
+        color: var(--black);
         font-weight: 600;
-        padding: $spacing-sm $spacing-md;
-        border-radius: $radius-md;
+        padding: 8px 16px;
+        border-radius: 12px;
         transition: all 0.2s ease;
 
         &:hover {
@@ -146,11 +144,11 @@
       background: none;
       border: none;
       font-size: 28px;
-      color: $color-text;
+      color: var(--color-text);
       cursor: pointer;
 
       &:hover {
-        color: $color-purple;
+        color: var(--color-purple);
       }
     }
   }
@@ -164,13 +162,13 @@
     left: -100%;
     width: 100%;
     height: 100vh;
-    background: $color-bg-card;
+    background: var(--surface-1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: $spacing-xl $spacing-lg;
+    padding: 32px 24px;
     transition: left 0.3s ease;
-    z-index: $z-header + 10;
+    z-index: 60;
 
     &.open {
       left: 0;
@@ -179,13 +177,13 @@
     .close-btn {
       background: none;
       border: none;
-      color: $white;
+      color: var(--white);
       font-size: 28px;
       align-self: flex-end;
       cursor: pointer;
 
       &:hover {
-        color: $color-purple;
+        color: var(--color-purple);
       }
     }
 
@@ -193,22 +191,22 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: $spacing-lg;
-      margin-top: $spacing-xl;
+      gap: 24px;
+      margin-top: 32px;
 
       a {
         font-size: 18px;
         font-weight: 500;
-        color: $color-text;
+        color: var(--color-text);
         text-decoration: none;
         transition: color 0.2s ease;
 
         &.active {
-          color: $color-purple;
+          color: var(--color-purple);
         }
 
         &:hover {
-          color: $color-purple-light;
+          color: var(--color-purple-light);
         }
       }
     }
@@ -218,16 +216,16 @@
       text-align: center;
 
       .btn-purple {
-        background: $color-purple;
-        color: $white;
-        padding: $spacing-sm $spacing-lg;
-        border-radius: $radius-md;
+        background: var(--color-purple);
+        color: var(--white);
+        padding: 8px 24px;
+        border-radius: 12px;
         font-weight: 600;
         font-size: 16px;
         transition: background 0.2s ease;
 
         &:hover {
-          background: $purple-dark;
+          background: var(--color-purple-hover);
         }
       }
     }

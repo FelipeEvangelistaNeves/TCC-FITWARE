@@ -1,70 +1,70 @@
 @import "../../abstract/variables.scss";
 
 .footer {
-  background: $color-bg-dark;
-  color: $color-text-muted;
-  padding: $spacing-xl $spacing-lg;
-  font-family: $font-family;
-  border-top: 1px solid $border-color;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  padding: 32px 24px;
+  font-family: var(--font-family);
+  border-top: 1px solid var(--border-color);
 
   .footer-container {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: $spacing-lg;
+    gap: 24px;
 
     .footer-brand {
       display: flex;
       align-items: center;
-      gap: $spacing-sm;
+      gap: 8px;
 
       .brand-icon {
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: $color-purple;
+        background: var(--color-purple);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: $white;
+        color: var(--white);
         font-weight: bold;
         font-size: 1.2rem;
       }
 
       .brand-text {
-        font-size: $font-size-heading;
+        font-size: 20px;
         font-weight: 700;
-        color: $white;
+        color: var(--white);
       }
     }
 
     .footer-links {
       display: flex;
       flex-direction: column;
-      gap: $spacing-sm;
+      gap: 8px;
 
       a {
-        color: $color-text-muted;
-        font-size: $font-size-base;
+        color: var(--color-text-muted);
+        font-size: 14px;
         transition: color 0.2s;
 
         &:hover {
-          color: $color-purple;
+          color: var(--color-purple);
         }
       }
     }
 
     .footer-social {
       display: flex;
-      gap: $spacing-md;
+      gap: 16px;
 
       a {
-        color: $color-text-muted;
+        color: var(--color-text-muted);
         font-size: 1.4rem;
         transition: color 0.2s;
 
         &:hover {
-          color: $color-purple;
+          color: var(--color-purple);
         }
       }
     }
@@ -72,10 +72,10 @@
 
   .footer-bottom {
     text-align: center;
-    margin-top: $spacing-lg;
-    font-size: $font-size-small;
-    color: $color-text-muted;
-    border-top: 1px solid $border-color;
-    padding-top: $spacing-md;
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
   }
 }

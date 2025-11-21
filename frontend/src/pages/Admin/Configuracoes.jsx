@@ -24,10 +24,7 @@ export default function Configuracoes() {
   }, []);
 
   const salvarAlteracoes = () => {
-    localStorage.setItem(
-      "configFitWare",
-      JSON.stringify({ email })
-    );
+    localStorage.setItem("configFitWare", JSON.stringify({ email }));
     setMensagem("✅ Alterações salvas com sucesso!");
     setTimeout(() => setMensagem(""), 3000);
   };
@@ -85,7 +82,7 @@ export default function Configuracoes() {
           </div>
 
           <button className="btn-salvar" onClick={salvarAlteracoes}>
-            💾 Salvar Alterações
+            Salvar Alterações
           </button>
         </div>
       )}
@@ -104,7 +101,7 @@ export default function Configuracoes() {
                 </div>
               ))}
               <button className="btn-edit" onClick={() => setEditando(true)}>
-                ✏️ Editar Perfil
+                Editar Perfil
               </button>
             </>
           ) : (
