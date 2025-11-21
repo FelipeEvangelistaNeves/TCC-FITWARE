@@ -6,7 +6,7 @@ body {
 
 .home-container {
   background: var(--app-bg);
-  color: var(--color-text);
+  color: var(--color-text) !important;
   font-family: var(--font-family);
 
   .pubicon {
@@ -28,14 +28,14 @@ body {
 
   .botaoplano2 {
     background: var(--color-purple);
-    color: var(--white);
+    color: $white;
     border-radius: 12px;
     padding: 8px 24px;
     font-weight: 600;
 
     &:hover {
       background: var(--color-purple-hover);
-      color: var(--white);
+      color: $white;
     }
   }
 
@@ -58,7 +58,7 @@ body {
 
     .btn-purple {
       background: var(--color-purple);
-      color: var(--white);
+      color: $white;
       border-radius: 12px;
       padding: 8px 24px;
       font-weight: 600;
@@ -76,7 +76,7 @@ body {
 
       &:hover {
         background: var(--color-purple-hover);
-        color: var(--white);
+        color: $white;
       }
     }
   }
@@ -127,20 +127,20 @@ body {
   .suporte {
     background: var(--surface-2);
   }
-}
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
 
-  .stats {
-    flex-direction: column;
-    gap: 16px;
-  }
+    .stats {
+      flex-direction: column;
+      gap: 16px;
+    }
 
-  .planos .plan-card {
-    margin-bottom: 16px;
+    .planos .plan-card {
+      margin-bottom: 16px;
+    }
   }
 }
