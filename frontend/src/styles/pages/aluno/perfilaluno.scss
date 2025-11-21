@@ -1,291 +1,210 @@
 @import "./../../abstract/variables.scss";
 
-/* ==============================
-    MIXINS DE TEMAS
-============================== */
-
-@mixin tema-ativo($cor) {
-  .perfil-tabs button.active {
-    color: $cor;
-    border-bottom: 2px solid $cor;
-  }
-}
-
-/* ==============================
-    CONTAINER GERAL
-============================== */
-
+/* ==========================================
+   CONTAINER
+========================================== */
 .perfil-container {
   background-color: var(--app-bg);
   color: var(--color-text);
   min-height: 100vh;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 80px;
-  padding-bottom: 2rem;
-  overflow-y: auto;
+  gap: 1rem;
+  transition: $theme-transition;
+}
 
-  /* Temas */
-  &.roxo {
-    @include tema-ativo(var(--color-purple));
-  }
-  &.verde {
-    @include tema-ativo(var(--color-green));
-  }
-  &.amarelo {
-    @include tema-ativo(var(--yellow));
-  }
+/* ==========================================
+   HEADER
+========================================== */
+.perfil-header {
+  display: flex;
+  justify-content: flex-end;
 
-  /* ==============================
-      HEADER
-  =============================== */
-  .perfil-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  i {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text);
+    transition: $theme-transition;
 
-    h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--yellow);
-    }
-
-    i {
-      font-size: 1.3rem;
-      cursor: pointer;
-    }
-  }
-
-  /* ==============================
-      PERFIL PRINCIPAL
-  =============================== */
-  .perfil-info {
-    text-align: center;
-    margin-top: 1.2rem;
-
-    .perfil-avatar {
-      background-color: var(--color-purple-light);
-      color: var(--white);
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: 600;
-      font-size: 1.3rem;
-      margin: 0 auto;
-    }
-
-    h3 {
-      margin-top: 0.8rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    p {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    .plano-btn {
-      margin-top: 0.6rem;
-      border-radius: 20px;
-      padding: 0.4rem 1.1rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: none;
-
-      &.premium {
-        background-color: var(--color-purple-light);
-        color: var(--white);
-      }
-
-      &.pontos {
-        background-color: rgba(var(--yellow-rgb), 0.15);
-        color: var(--yellow);
-      }
-    }
-  }
-
-  /* ==============================
-      TABS
-  =============================== */
-  .perfil-tabs {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    margin-top: 1.5rem;
-
-    button {
-      background: none;
-      border: none;
-      padding: 0.5rem;
-      color: var(--color-text);
-      font-weight: 500;
-      transition: 0.2s;
-    }
-  }
-
-  /* ==============================
-      CONTEÚDO
-  =============================== */
-  .perfil-content {
-    width: 100%;
-    margin-top: 1.2rem;
-
-    .titulo-secao {
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-    }
-
-    /* ==============================
-        CARDS BASE
-    =============================== */
-    .card,
-    .card-treino,
-    .nivel-card {
-      background-color: var(--surface-1);
-      border-radius: 10px;
-      padding: 1rem;
-      color: var(--color-text);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    /* ==============================
-        TREINOS
-    =============================== */
-    .card-treino {
-      .card-titulo {
-        display: flex;
-        justify-content: space-between;
-        font-weight: 600;
-
-        .status {
-          background-color: var(--color-green);
-          color: var(--white);
-          font-size: 0.75rem;
-          padding: 0.2rem 0.5rem;
-          border-radius: 5px;
-        }
-      }
-
-      .descricao {
-        margin-top: 0.3rem;
-        font-size: 0.9rem;
-      }
-
-      .info-treino {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 0.5rem;
-        font-size: 0.85rem;
-
-        i {
-          margin-right: 5px;
-        }
-      }
-    }
-
-    /* ==============================
-        NÍVEL / PROGRESSO
-    =============================== */
-    .nivel-card {
-      margin-top: 1rem;
-
-      .nivel-header {
-        display: flex;
-        justify-content: space-between;
-        font-weight: 600;
-        color: var(--yellow);
-      }
-
-      .progress {
-        background-color: var(--surface-2);
-        height: 8px;
-        border-radius: 5px;
-        margin-top: 0.4rem;
-
-        .progress-bar {
-          width: 85%;
-          height: 100%;
-          background-color: var(--yellow);
-          border-radius: 5px;
-        }
-      }
-
-      small {
-        font-size: 0.8rem;
-        opacity: 0.7;
-      }
-    }
-
-    /* ==============================
-        BOTÕES
-    =============================== */
-    .btn-adicionar {
-      background: none;
-      border: 1px solid var(--color-purple);
+    &:hover {
       color: var(--color-purple);
-      padding: 0.4rem;
-      border-radius: 10px;
-      font-weight: 600;
-
-      i {
-        margin-right: 5px;
-      }
-    }
-
-    .btn-cancelar {
-      margin-top: 1rem;
-      background-color: transparent;
-      border: 1px solid red;
-      color: red;
-      border-radius: 10px;
-      padding: 0.6rem;
-      font-weight: 600;
-
-      i {
-        margin-right: 5px;
-      }
-    }
-
-    .btn-resgatar {
-      background-color: var(--yellow);
-      color: var(--black);
-      border: none;
-      width: 100%;
-      padding: 0.7rem;
-      border-radius: 10px;
-      font-weight: 600;
-
-      i {
-        margin-right: 5px;
-      }
     }
   }
 }
 
-/* Utilidades */
-.pontos-amarelo {
-  color: var(--yellow);
+/* ==========================================
+   INFO DO ALUNO
+========================================== */
+.perfil-info {
+  text-align: center;
+
+  .perfil-avatar {
+    width: 80px;
+    height: 80px;
+    background: var(--color-purple);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin: 0 auto;
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    margin-top: 0.5rem;
+    font-weight: 700;
+  }
+
+  p {
+    opacity: 0.7;
+    font-size: 0.9rem;
+  }
+
+  .plano-btn {
+    margin-top: 0.6rem;
+    border-radius: 20px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.85rem;
+    border: none;
+    font-weight: 600;
+    background: rgba(var(--yellow-rgb), 0.15);
+    color: var(--yellow);
+  }
+}
+
+/* ==========================================
+   ABAS
+========================================== */
+.perfil-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+
+  button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    font-weight: 500;
+    color: var(--color-text);
+    opacity: 0.7;
+    transition: $theme-transition;
+
+    &.active {
+      opacity: 1;
+      border-bottom: 2px solid var(--color-purple);
+      color: var(--color-purple);
+    }
+  }
+}
+
+/* ==========================================
+   CONTEÚDO
+========================================== */
+.perfil-content {
+  margin-top: 1rem;
+}
+
+/* ==========================================
+   CARDS TREINO
+========================================== */
+.card-treino {
+  background: var(--surface-1);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  transition: $theme-transition;
+  box-shadow: $shadow-card;
+
+  .card-titulo {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+
+  .descricao {
+    margin-top: 0.5rem;
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .info-treino {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.6rem;
+
+    i {
+      margin-right: 3px;
+    }
+  }
+}
+
+/* ==========================================
+   HISTÓRICO DE PONTOS
+========================================== */
+.historico-pontos {
+  .card {
+    background: var(--surface-1);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: $shadow-card;
+    transition: $theme-transition;
+
+    .card-header-between {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    .pontos {
+      color: var(--yellow);
+      font-weight: 700;
+    }
+  }
+}
+
+/* ==========================================
+   BOTÕES
+========================================== */
+.btn-resgatar {
+  background: var(--color-purple);
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 10px;
   font-weight: 600;
+  margin-top: 1rem;
+  transition: $theme-transition;
+
+  i {
+    margin-right: 6px;
+  }
+
+  &:hover {
+    background: var(--color-purple-hover);
+  }
 }
 
 .btn-detalhes {
-  background-color: var(--color-purple);
-  color: var(--white);
+  background: var(--color-purple);
+  color: #fff;
   border: none;
   padding: 0.3rem 0.8rem;
   border-radius: 6px;
   font-size: 0.8rem;
-  font-weight: 600;
-  transition: 0.2s;
   cursor: pointer;
 
   &:hover {
-    background-color: var(--color-purple-hover);
+    background: var(--color-purple-hover);
   }
+}
+
+/* Utility */
+.pontos-amarelo {
+  color: var(--yellow);
+  font-weight: 600;
 }

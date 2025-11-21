@@ -1,17 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/pages/public/public.scss";
 
 export default function PublicHome() {
+  const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("fitware-theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light-mode");
+      setIsLight(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = !isLight;
+    setIsLight(newTheme);
+
+    if (newTheme) {
+      document.body.classList.add("light-mode");
+      localStorage.setItem("fitware-theme", "light");
+    } else {
+      document.body.classList.remove("light-mode");
+      localStorage.setItem("fitware-theme", "dark");
+    }
+  };
+
   return (
-    <div className="home-container ">
+    <div className="home-container">
+      {/* WRAPPER CORRETO */}
+      <div className="theme-switch-wrapper">
+        <div
+          className={`theme-switch ${isLight ? "light" : "dark"}`}
+          onClick={toggleTheme}
+        >
+          <i className="bi bi-moon icon icon-moon"></i>
+          <i className="bi bi-sun icon icon-sun"></i>
+          <div className="switch-handle"></div>
+        </div>
+      </div>
+
       {/* ================= HERO ================= */}
       <section className="hero d-flex flex-column align-items-center justify-content-center text-center">
         <h1 className="fw-bold display-4">
           Transforme seu corpo, <br /> transforme sua vida
         </h1>
-        <p className="lead mt-3">Sistema completo de gestão fitness</p>
 
+        <p className="lead mt-3">Sistema completo de gestão fitness</p>
         <div className="mt-4 d-flex gap-3">
           <Link to="/planos" className="btn btn-purple">
             Experimente Grátis
@@ -51,6 +86,7 @@ export default function PublicHome() {
                 <p>Acesse de qualquer lugar com nosso app completo</p>
               </div>
             </div>
+
             <div className="col-md-4">
               <div className="feature-card p-4 rounded">
                 <i className="bi bi-people fs-2 pubicon"></i>
@@ -58,6 +94,7 @@ export default function PublicHome() {
                 <p>Controle de membros, treinos e acompanhamento</p>
               </div>
             </div>
+
             <div className="col-md-4">
               <div className="feature-card p-4 rounded">
                 <i className="bi bi-bar-chart fs-2 pubicon"></i>
@@ -86,22 +123,24 @@ export default function PublicHome() {
                 </Link>
               </div>
             </div>
+
             <div className="col-md-4">
               <div className="plan-card p-4 rounded">
                 <h4 className="fw-bold">Profissional</h4>
                 <p className="price pubicon">R$99/mês</p>
                 <p>Gestão de alunos + relatórios avançados</p>
-                <Link to="/planos" className="btn botaoplano  mt-3">
+                <Link to="/planos" className="btn botaoplano mt-3">
                   Escolher
                 </Link>
               </div>
             </div>
+
             <div className="col-md-4">
               <div className="plan-card p-4 rounded">
                 <h4 className="fw-bold">Premium</h4>
                 <p className="price pubicon">R$149/mês</p>
                 <p>Tudo incluso + suporte prioritário</p>
-                <Link to="/planos" className="btn botaoplano  mt-3">
+                <Link to="/planos" className="btn botaoplano mt-3">
                   Escolher
                 </Link>
               </div>
@@ -120,18 +159,18 @@ export default function PublicHome() {
             gestão e potencializar resultados. Nossa plataforma une tecnologia e
             performance para transformar sua jornada fitness.
           </p>
-          <Link to="/pqjuntar" className="btn botaoplano  mt-3">
+          <Link to="/pqjuntar" className="btn botaoplano mt-3">
             Saiba Mais
           </Link>
         </div>
       </section>
 
       {/* ================= SUPORTE ================= */}
-      <section className="suporte text-center py-5 ">
+      <section className="suporte text-center py-5">
         <div className="container">
           <h6 className="text-warning">Precisa de Ajuda?</h6>
           <h2 className="fw-bold mb-4">Nosso time está disponível para você</h2>
-          <Link to="/suporte" className="btn botaoplano2 ">
+          <Link to="/suporte" className="btn botaoplano2">
             Fale com o Suporte
           </Link>
         </div>

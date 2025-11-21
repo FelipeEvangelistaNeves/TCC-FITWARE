@@ -3,11 +3,84 @@
 body {
   overflow-y: auto !important;
 }
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
 
+@mixin hover-state {
+  background: var(--surface-hover);
+  color: var(--text-hover);
+}
+
+@mixin theme-switch-base {
+  position: relative;
+  width: 44px;
+  height: 22px;
+}
 .home-container {
   background: var(--app-bg);
   color: var(--color-text) !important;
   font-family: var(--font-family);
+  .theme-switch-wrapper {
+    margin: 10px 5px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.25s ease;
+
+    .theme-switch {
+      position: relative;
+      width: 50px;
+
+      height: 26px;
+      background: var(--surface-2);
+      border-radius: 30px;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px;
+      cursor: pointer;
+      transition: 0.25s ease;
+
+      .icon {
+        font-size: 13px;
+        opacity: 0.45;
+        transition: 0.25s ease;
+      }
+
+      &.light .icon-sun {
+        opacity: 1;
+        color: #000;
+      }
+
+      &.dark .icon-moon {
+        opacity: 1;
+        color: #fff;
+      }
+
+      .switch-handle {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--color-purple);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        transition: 0.25s ease;
+      }
+
+      &.light .switch-handle {
+        transform: translateX(24px);
+        background: var(--color-purple-light);
+      }
+    }
+  }
 
   .pubicon {
     color: var(--color-purple);

@@ -43,6 +43,7 @@
     color: var(--muted-text);
     border-radius: 6px;
     padding: 0.25rem;
+    text-decoration: none;
     &.active {
       color: var(--color-purple);
       background: rgba(var(--color-purple-rgb), 0.08);
