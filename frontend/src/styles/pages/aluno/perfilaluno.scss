@@ -1,15 +1,32 @@
 @import "./../../abstract/variables.scss";
 
+/* ==============================
+    MIXINS DE TEMAS
+============================== */
+
+@mixin tema-ativo($cor) {
+  .perfil-tabs button.active {
+    color: $cor;
+    border-bottom: 2px solid $cor;
+  }
+}
+
+/* ==============================
+    CONTAINER GERAL
+============================== */
+
 .perfil-container {
   background-color: var(--color-bg);
   color: var(--color-text);
   min-height: 100vh;
-  //padding: 1.5rem;c
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 80px;
+  padding-bottom: 2rem;
+  overflow-y: auto;
 
+  /* Temas */
   &.roxo {
     .perfil-tabs button.active {
       color: var(--color-purple);
@@ -28,400 +45,346 @@
       border-bottom: 2px solid var(--yellow);
     }
   }
-}
 
-.perfil-header {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: center;
-  h2 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--yellow);
-  }
-  i {
-    font-size: 1.3rem;
-    cursor: pointer;
-    color: var(--color-text);
-  }
-}
-
-.perfil-info {
-  text-align: center;
-  margin-top: 1.2rem;
-  .perfil-avatar {
-    background-color: var(--color-purple-light);
-    color: var(--white);
-    font-weight: 600;
-    border-radius: 50%;
-    width: 70px;
-    height: 70px;
+  .perfil-header {
     display: flex;
+    justify-content: space-between;
+    width: 100%;
     align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    font-size: 1.3rem;
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--yellow);
+    }
+    i {
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--color-text);
+    }
   }
 
-  h3 {
-    margin-top: 0.8rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-  }
-
-  p {
-    font-size: 0.9rem;
-    color: var(--color-text);
-  }
-
-  .plano-btn {
-    margin-top: 0.6rem;
-    border: none;
-    border-radius: 20px;
-    padding: 0.3rem 1rem;
-    font-size: 0.85rem;
-    &.premium {
+  .perfil-info {
+    text-align: center;
+    margin-top: 1.2rem;
+    .perfil-avatar {
       background-color: var(--color-purple-light);
       color: var(--white);
-    }
-  }
-}
-
-.perfil-tabs {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 1.5rem;
-  button {
-    background: none;
-    border: none;
-    color: $text;
-    font-weight: 500;
-    position: relative;
-    padding: 0.5rem;
-    &.active {
-      color: $color-green;
       font-weight: 600;
-      border-bottom: 2px solid $color-green;
-    }
-  }
-}
-
-.perfil-content {
-  width: 100%;
-  margin-top: 1.2rem;
-
-  .card-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .card {
-    background-color: $surface-1;
-    border-radius: 10px;
-    padding: 1rem;
-    color: $text;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-      color: $accent-yellow;
-      i {
-        font-size: 1rem;
-      }
-    }
-
-    .card-header-between {
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 600;
-      color: $text;
-      .status {
-        background-color: $color-green;
-        color: #fff;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
-        font-size: 0.75rem;
-      }
-      .valor {
-        color: $color-green;
+
+      h3 {
+        margin-top: 0.8rem;
+        font-size: 1.1rem;
         font-weight: 700;
       }
+
+      p {
+        font-size: 0.9rem;
+        color: var(--color-text);
+      }
+
+      .plano-btn {
+        margin-top: 0.6rem;
+        border: none;
+        border-radius: 20px;
+        padding: 0.3rem 1rem;
+        font-size: 0.85rem;
+        &.premium {
+          background-color: var(--color-purple-light);
+          color: var(--white);
+        }
+      }
     }
 
-    .metodo {
+    .perfil-tabs {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 0.6rem;
-      background-color: $surface-2;
-      padding: 0.6rem;
-      border-radius: 8px;
-      i {
-        color: $accent-yellow;
-        font-size: 1.2rem;
+      justify-content: space-around;
+      width: 100%;
+      margin-top: 1.5rem;
+      button {
+        background: none;
+        border: none;
+        color: $text;
+        font-weight: 500;
+        position: relative;
+        padding: 0.5rem;
+        &.active {
+          color: $color-green;
+          font-weight: 600;
+          border-bottom: 2px solid $color-green;
+        }
       }
-      .padrao {
-        background-color: $accent-yellow;
-        color: #000;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
-        font-size: 0.75rem;
+    }
+
+    .perfil-content {
+      width: 100%;
+      margin-top: 1.2rem;
+
+      .card-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .card {
+        background-color: $surface-1;
+        border-radius: 10px;
+        padding: 1rem;
+        color: $text;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        .card-header {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-weight: 600;
+          color: $accent-yellow;
+          i {
+            font-size: 1rem;
+          }
+        }
+
+        i {
+          font-size: 1.3rem;
+          cursor: pointer;
+        }
+      }
+
+      /* ==============================
+      PERFIL PRINCIPAL
+  =============================== */
+      .perfil-info {
+        text-align: center;
+        margin-top: 1.2rem;
+
+        .perfil-avatar {
+          background-color: var(--color-purple-light);
+          color: var(--white);
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: 600;
+          font-size: 1.3rem;
+          margin: 0 auto;
+        }
+
+        h3 {
+          margin-top: 0.8rem;
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+
+        p {
+          font-size: 0.9rem;
+          opacity: 0.8;
+        }
+
+        .plano-btn {
+          margin-top: 0.6rem;
+          border-radius: 20px;
+          padding: 0.4rem 1.1rem;
+          font-size: 0.85rem;
+          font-weight: 600;
+          border: none;
+
+          &.premium {
+            background-color: var(--color-purple-light);
+            color: var(--white);
+          }
+
+          &.pontos {
+            background-color: rgba(var(--yellow-rgb), 0.15);
+            color: var(--yellow);
+          }
+        }
+      }
+
+      /* ==============================
+      TABS
+  =============================== */
+      .perfil-tabs {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 1.5rem;
+
+        button {
+          background: none;
+          border: none;
+          padding: 0.5rem;
+          color: var(--color-text);
+          font-weight: 500;
+          transition: 0.2s;
+        }
+      }
+
+      /* ==============================
+      CONTEÚDO
+  =============================== */
+      .perfil-content {
+        width: 100%;
+        margin-top: 1.2rem;
+
+        .titulo-secao {
+          font-weight: 700;
+          margin-bottom: 0.8rem;
+        }
+
+        /* ==============================
+        CARDS BASE
+    =============================== */
+        .card,
+        .card-treino,
+        .nivel-card {
+          background-color: var(--surface-1);
+          border-radius: 10px;
+          padding: 1rem;
+          color: var(--color-text);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ==============================
+        TREINOS
+    =============================== */
+        .card-treino {
+          .card-titulo {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+
+            .status {
+              background-color: var(--color-green);
+              color: var(--white);
+              font-size: 0.75rem;
+              padding: 0.2rem 0.5rem;
+              border-radius: 5px;
+            }
+          }
+
+          .descricao {
+            margin-top: 0.3rem;
+            font-size: 0.9rem;
+          }
+
+          .info-treino {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+
+            i {
+              margin-right: 5px;
+            }
+          }
+        }
+
+        /* ==============================
+        NÍVEL / PROGRESSO
+    =============================== */
+        .nivel-card {
+          margin-top: 1rem;
+
+          .nivel-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            color: var(--yellow);
+          }
+
+          .progress {
+            background-color: var(--surface-2);
+            height: 8px;
+            border-radius: 5px;
+            margin-top: 0.4rem;
+
+            .progress-bar {
+              width: 85%;
+              height: 100%;
+              background-color: var(--yellow);
+              border-radius: 5px;
+            }
+          }
+
+          small {
+            font-size: 0.8rem;
+            opacity: 0.7;
+          }
+        }
+
+        /* ==============================
+        BOTÕES
+    =============================== */
+        .btn-adicionar {
+          background: none;
+          border: 1px solid var(--color-purple);
+          color: var(--color-purple);
+          padding: 0.4rem;
+          border-radius: 10px;
+          font-weight: 600;
+
+          i {
+            margin-right: 5px;
+          }
+        }
+
+        .btn-cancelar {
+          margin-top: 1rem;
+          background-color: transparent;
+          border: 1px solid red;
+          color: red;
+          border-radius: 10px;
+          padding: 0.6rem;
+          font-weight: 600;
+
+          i {
+            margin-right: 5px;
+          }
+        }
+
+        .btn-resgatar {
+          background-color: var(--yellow);
+          color: var(--black);
+          border: none;
+          width: 100%;
+          padding: 0.7rem;
+          border-radius: 10px;
+          font-weight: 600;
+
+          i {
+            margin-right: 5px;
+          }
+        }
+      }
+
+      /* Utilidades */
+      .pontos-amarelo {
+        color: var(--yellow);
         font-weight: 600;
       }
-    }
 
-    a {
-      color: $blue-light;
-      font-size: 0.8rem;
-      text-decoration: none;
-    }
-  }
-
-  .btn-adicionar {
-    background: none;
-    border: 1px solid $purple-dark;
-    color: $purple-dark;
-    padding: 0.4rem;
-    border-radius: 10px;
-    margin-top: 0.6rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    i {
-      margin-right: 5px;
-    }
-  }
-
-  .btn-cancelar {
-    margin-top: 1rem;
-    background-color: transparent;
-    border: 1px solid red;
-    color: red;
-    border-radius: 10px;
-    padding: 0.6rem;
-    font-weight: 600;
-    i {
-      margin-right: 5px;
-    }
-  }
-
-  .pontos-header {
-    text-align: center;
-    .pontos-info {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background-color: rgba(255, 193, 7, 0.15);
-      color: $accent-yellow;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-      i {
-        font-size: 1rem;
-      }
-    }
-    p {
-      font-size: 0.85rem;
-      color: $text;
-    }
-  }
-
-  .nivel-card {
-    background-color: $surface-1;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-top: 1rem;
-    .nivel-header {
-      display: flex;
-      justify-content: space-between;
-      color: $accent-yellow;
-      font-weight: 600;
-    }
-    .progress {
-      background-color: $surface-2;
-      height: 8px;
-      border-radius: 5px;
-      margin-top: 0.4rem;
-      .progress-bar {
-        width: 85%;
-        height: 100%;
-        background-color: $accent-yellow;
-        border-radius: 5px;
-      }
-    }
-    small {
-      color: $text;
-      font-size: 0.8rem;
-    }
-  }
-
-  .historico-pontos {
-    margin-top: 1rem;
-    .pontos {
-      color: $accent-yellow;
-      font-weight: 700;
-    }
-  }
-}
-
-.perfil-info {
-  text-align: center;
-  margin-top: 1.2rem;
-  .perfil-avatar {
-    background-color: $blue-light;
-    color: #fff;
-    font-weight: 600;
-    border-radius: 50%;
-    width: 70px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    font-size: 1.3rem;
-  }
-
-  h3 {
-    margin-top: 0.8rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-  }
-
-  p {
-    font-size: 0.9rem;
-    color: $text;
-  }
-
-  .plano-btn {
-    margin-top: 0.6rem;
-    border: none;
-    border-radius: 20px;
-    padding: 0.4rem 1.1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    &.premium {
-      background-color: $blue-light;
-      color: #fff;
-    }
-    &.pontos {
-      background-color: rgba(var(--yellow-rgb), 0.15);
-      color: $accent-yellow;
-    }
-  }
-}
-
-.perfil-tabs {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 1.5rem;
-  button {
-    background: none;
-    border: none;
-    color: $text;
-    font-weight: 500;
-    padding: 0.5rem;
-    transition: 0.2s;
-  }
-}
-
-.perfil-content {
-  width: 100%;
-  margin-top: 1.2rem;
-
-  .titulo-secao {
-    font-weight: 700;
-    margin-bottom: 0.8rem;
-    color: $text;
-  }
-
-  .historico-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .card-treino {
-    background-color: $surface-1;
-    border-radius: 10px;
-    padding: 1rem;
-    .card-titulo {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 600;
-      color: $text;
-      .status {
-        background-color: $color-green;
+      .btn-detalhes {
+        background-color: var(--color-purple);
         color: var(--white);
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
-        border-radius: 5px;
-      }
-    }
-    .descricao {
-      color: $text;
-      margin-top: 0.3rem;
-      font-size: 0.9rem;
-    }
-    .info-treino {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      color: $text;
-      i {
-        margin-right: 5px;
+        border: none;
+        padding: 0.3rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: 0.2s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--color-purple-hover);
+        }
       }
     }
   }
-
-  .historico-pontos .card {
-    margin-bottom: 0.8rem;
-  }
-
-  .btn-resgatar {
-    margin-top: 1.2rem;
-    background-color: $accent-yellow;
-    color: var(--black);
-    border: none;
-    width: 100%;
-    padding: 0.7rem;
-    border-radius: 10px;
-    font-weight: 600;
-    i {
-      margin-right: 5px;
-    }
-  }
-}
-
-.pontos-amarelo {
-  color: $accent-yellow;
-  font-weight: 600;
-}
-
-.btn-detalhes {
-  background-color: $purple-dark;
-  color: #fff;
-  border: none;
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-  &:hover {
-    background-color: var(--color-purple-hover);
-  }
-}
-
-.perfil-container {
-  overflow-y: auto; // permite rolar a página até o fim
-  padding-bottom: 2rem;
 }

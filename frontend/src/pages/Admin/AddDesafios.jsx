@@ -75,15 +75,6 @@ export default function AddDesafio({ onClose, onSave }) {
                   onChange={handleChange}
                 />
               </div>
-              <div>
-                <label>Participantes</label>
-                <input
-                  type="number"
-                  name="participantes"
-                  value={form.participantes}
-                  onChange={handleChange}
-                />
-              </div>
             </div>
 
             <div className="modal-actions">

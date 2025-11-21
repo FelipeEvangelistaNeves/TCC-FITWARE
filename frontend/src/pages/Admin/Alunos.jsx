@@ -88,8 +88,8 @@ export default function Alunos() {
         prev.map((a) => (a.al_id === dados.al_id ? dados : a))
       );
 
-      alert("Aluno atualizado com sucesso!");
-      setShowEditModalx(false);
+      console.log("Aluno atualizado com sucesso!");
+      setShowEditModal(false);
     } catch (err) {
       console.error("Erro:", err);
       alert("Não foi possível atualizar o aluno.");
@@ -118,7 +118,7 @@ export default function Alunos() {
       String(a.al_id).includes(termo);
 
     const correspondeAba =
-      activeTab === "ativos" ? a.al_status === "Ativo" : true;
+      activeTab === "Ativos" ? a.al_status === "Ativo" : true;
 
     return correspondeBusca && correspondeAba;
   });
@@ -129,6 +129,12 @@ export default function Alunos() {
     startIndex,
     startIndex + itemsPerPage
   );
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <div className="admin-modal tabela-page">

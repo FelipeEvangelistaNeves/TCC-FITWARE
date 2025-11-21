@@ -101,7 +101,7 @@
       }
 
       input:checked + .slider {
-        background-color: $purple-dark;
+        background-color: var(--color-purple);
       }
 
       input:checked + .slider:before {
@@ -122,15 +122,15 @@
         margin-bottom: $spacing-sm;
 
         label {
-          color: $text-2;
+          color: var(--color-text)-2;
           font-size: $font-size-small;
           margin-bottom: 4px;
         }
 
         input {
-          background: $surface-1;
-          border: 1px solid $border-color;
-          color: $text;
+          background: var(--surface-1);
+          border: 1px solid var(--border-color);
+          color: var(--color-text);
           border-radius: $radius-sm;
           padding: $spacing-sm;
           outline: none;
@@ -138,7 +138,7 @@
           transition: border-color 0.2s ease;
 
           &:focus {
-            border-color: $purple-dark;
+            border-color: var(--color-purple);
           }
         }
       }
@@ -157,16 +157,16 @@
           cursor: pointer;
 
           &.cancel {
-            background: $surface-3;
-            color: $text-2;
+            background: var(--surface-3);
+            color: var(--color-text)-2;
           }
 
           &.save {
-            background: $purple-dark;
-            color: $white;
+            background: var(--color-purple);
+            color: var(--white);
 
             &:hover {
-              background: var(--color-purple-light);
+              background: var(--color-purple)-light;
             }
           }
         }

@@ -12,7 +12,7 @@
     .search-icon {
       position: absolute;
       left: 15px;
-      color: #9ca3af;
+      color: var(--color-text)-2;
       font-size: 16px;
     }
 
@@ -27,7 +27,7 @@
       backdrop-filter: blur(10px);
 
       &::placeholder {
-        color: #9ca3af;
+        color: var(--color-text)-2;
       }
 
       &:focus {
@@ -98,7 +98,7 @@
 
     .trainer-name {
       font-size: 0.9rem;
-      color: #d1d5db;
+      color: rgba(var(--white), 0.8);
     }
   }
 
@@ -132,7 +132,7 @@
       transition: all 0.3s ease;
 
       &:hover {
-        background: #dc2626;
+        background: var(--color-red);
         transform: scale(1.05);
       }
     }

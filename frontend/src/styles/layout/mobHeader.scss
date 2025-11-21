@@ -1,6 +1,6 @@
 @import "./../abstract/variables.scss";
 .header-professor {
-  background-color: $black; // Fundo escuro
+  background-color: var(--surface-3); // Fundo escuro
   color: var(--white);
   .page-title {
     color: $yellow;

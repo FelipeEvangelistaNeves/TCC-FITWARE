@@ -4,10 +4,8 @@
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  background: var(--app-bg); // Fundo da página inteira
+  z-index: 2000; // Acima de tudo
 
   &.active {
     display: flex;
@@ -37,7 +35,14 @@
       font-size: 1rem;
       border-bottom: 1px solid rgba(var(--white-rgb), 0.1);
 
-      .close {
+      .back-btn {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background: $color-purple;
+        border: none;
+        color: var(--color-text);
+        font-size: 20px;
         cursor: pointer;
         font-size: 1.25rem;
         color: var(--muted-text);
@@ -46,6 +51,40 @@
         &:hover {
           color: var(--color-purple);
         }
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        margin-left: 10px;
+
+        .avatar-placeholder {
+          width: 40px;
+          height: 40px;
+          background: var(--color-purple);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 18px;
+        }
+
+        span {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--color-text);
+        }
+      }
+
+      .header-actions {
+        color: var(--color-text-muted);
+        font-size: 20px;
+        cursor: pointer;
+        padding: 10px;
       }
     }
 
@@ -69,12 +108,15 @@
 
         &.recebida {
           background-color: var(--surface-2);
+          color: var(--color-text);
           align-self: flex-start;
+          border-bottom-left-radius: 4px;
         }
 
         &.enviada {
           background-color: var(--color-purple);
           align-self: flex-end;
+          border-bottom-right-radius: 4px;
         }
       }
     }
@@ -111,7 +153,8 @@
         transition: background-color 0.2s ease;
 
         &:hover {
-          background-color: var(--color-purple-light);
+          background-color: var(--color-purple-hover);
+          transform: scale(1.05);
         }
       }
     }

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// src/pages/Admin/Professores.jsx
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
 
 import AddProfessor from "./AddProfessor";
@@ -12,112 +13,149 @@ export default function Professores() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const [professores, setProfessores] = useState([
-    {
-      id: "#PROF-102",
-      nome: "Maria Souza",
-      especialidade: "Treinos Funcionais",
-      status: "Ativo",
-      cor: "purple",
-    },
-    {
-      id: "#PROF-103",
-      nome: "Lucas Rocha",
-      especialidade: "Musculação",
-      status: "Ativo",
-      cor: "blue",
-    },
-    {
-      id: "#PROF-102",
-      nome: "Maria Souza",
-      especialidade: "Treinos Funcionais",
-      status: "Ativo",
-      cor: "purple",
-    },
-    {
-      id: "#PROF-103",
-      nome: "Lucas Rocha",
-      especialidade: "Musculação",
-      status: "Ativo",
-      cor: "blue",
-    },
-    {
-      id: "#PROF-102",
-      nome: "Maria Souza",
-      especialidade: "Treinos Funcionais",
-      status: "Ativo",
-      cor: "purple",
-    },
-    {
-      id: "#PROF-103",
-      nome: "Lucas Rocha",
-      especialidade: "Musculação",
-      status: "Ativo",
-      cor: "blue",
-    },
-    {
-      id: "#PROF-104",
-      nome: "Juliana Lima",
-      especialidade: "Yoga",
-      status: "Inativo",
-      cor: "green",
-    },
-  ]);
-
-  // === Estados dos modais ===
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
 
-  // === Filtro ===
+  const [professores, setProfessores] = useState([]);
+
+  // =========== BUSCAR PROFESSORES ===========
+  useEffect(() => {
+    const fetchProfessores = async () => {
+      try {
+        const res = await fetch(
+          "http://localhost:3000/api/professor/crud/listar",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (!res.ok) throw new Error("Erro ao buscar professores");
+
+        const data = await res.json();
+
+        setProfessores(data.sort((a, b) => (a.fu_id || 0) - (b.fu_id || 0)));
+      } catch (err) {
+        console.error("Erro ao carregar professores:", err);
+      }
+    };
+
+    fetchProfessores();
+  }, []);
+
+  // =========== CRIAR PROFESSOR ===========
+  const handleAddProfessor = async (novo) => {
+    try {
+      const res = await fetch(
+        "http://localhost:3000/api/professor/crud/criar",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(novo),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      const created = data.professor || data;
+
+      setProfessores((prev) => [created, ...prev]);
+      setShowAddModal(false);
+    } catch (err) {
+      console.error("Erro ao criar professor:", err);
+      alert("Erro ao criar professor.");
+    }
+  };
+
+  // =========== EDITAR PROFESSOR ===========
+  const handleUpdateProfessor = async (edited) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/professor/crud/editar/${edited.fu_id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(edited),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      const updated = data.professor || edited;
+
+      setProfessores((prev) =>
+        prev.map((p) => (p.fu_id === updated.fu_id ? updated : p))
+      );
+
+      setShowEditModal(false);
+    } catch (err) {
+      console.error("Erro ao atualizar professor:", err);
+      alert("Erro ao atualizar professor.");
+    }
+  };
+
+  // =========== DELETAR PROFESSOR ===========
+  const handleDeleteProfessor = async (prof) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/professor/crud/deletar/${prof.fu_id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message);
+
+      setProfessores((prev) => prev.filter((p) => p.fu_id !== prof.fu_id));
+
+      setShowDeleteModal(false);
+    } catch (err) {
+      console.error("Erro ao excluir professor:", err);
+      alert("Erro ao excluir professor.");
+    }
+  };
+
+  // =========== FILTRO ===========
   const professoresFiltrados = professores.filter((p) => {
     const termo = searchTerm.toLowerCase();
-    const correspondeBusca =
-      p.nome.toLowerCase().includes(termo) ||
-      p.especialidade.toLowerCase().includes(termo) ||
-      p.id.toLowerCase().includes(termo);
-    const correspondeAba = activeTab === "ativos" ? p.status === "Ativo" : true;
-    return correspondeBusca && correspondeAba;
+    return (
+      (p.fu_nome || "").toLowerCase().includes(termo) ||
+      (p.fu_email || "").toLowerCase().includes(termo) ||
+      String(p.fu_cpf || "").includes(termo)
+    );
   });
 
-  // === Paginação ===
-  const totalPages = Math.ceil(professoresFiltrados.length / itemsPerPage);
+  // ========= PAGINAÇÃO ==========
+  const totalPages = Math.max(
+    1,
+    Math.ceil(professoresFiltrados.length / itemsPerPage)
+  );
+
   const startIndex = (currentPage - 1) * itemsPerPage;
+
   const professoresPaginados = professoresFiltrados.slice(
     startIndex,
     startIndex + itemsPerPage
   );
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
-  };
-
-  // === CRUD ===
-  const handleAddProfessor = (novo) => {
-    const nextId = `#PROF-${Math.floor(100 + Math.random() * 900)}`;
-    setProfessores((prev) => [{ id: nextId, ...novo }, ...prev]);
-    setShowAddModal(false);
-  };
-
-  const handleUpdateProfessor = (editado) => {
-    setProfessores((prev) =>
-      prev.map((p) => (p.id === editado.id ? editado : p))
-    );
-    setShowEditModal(false);
-  };
-
-  const handleDeleteProfessor = (prof) => {
-    setProfessores((prev) => prev.filter((p) => p.id !== prof.id));
-    setShowDeleteModal(false);
+  const handlePageChange = (p) => {
+    if (p >= 1 && p <= totalPages) setCurrentPage(p);
   };
 
   return (
     <div className="admin-modal tabela-page">
-      {/* ===== HEADER ===== */}
       <div className="tabela-header">
         <h2>Gerenciar Professores</h2>
+
         <div className="acoes-header">
           <input
             type="text"
@@ -126,63 +164,49 @@ export default function Professores() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+
           <button className="add-btn" onClick={() => setShowAddModal(true)}>
             + Adicionar Professor
           </button>
         </div>
       </div>
 
-      {/* ===== TABS ===== */}
-      <div className="tabs">
-        <button
-          className={`tab ${activeTab === "todos" ? "active" : ""}`}
-          onClick={() => setActiveTab("todos")}
-        >
-          Todos os Professores
-        </button>
-        <button
-          className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}
-        >
-          Ativos
-        </button>
-      </div>
-
-      {/* ===== TABELA ===== */}
       <table className="tabela">
         <thead>
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Especialidade</th>
-            <th>Status</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Telefone</th>
             <th>Ações</th>
           </tr>
         </thead>
+
         <tbody>
           {professoresPaginados.length > 0 ? (
             professoresPaginados.map((p) => (
-              <tr key={p.id}>
-                <td>{p.id}</td>
+              <tr key={p.fu_id}>
+                <td>{p.fu_id}</td>
+
                 <td className="user-info">
-                  <div className={`icone ${p.cor}`}>
-                    {p.nome
+                  <div className="icone">
+                    {(p.fu_nome || "")
                       .split(" ")
                       .map((n) => n[0])
-                      .join("")}
+                      .join("")
+                      .slice(0, 2)}
                   </div>
-                  {p.nome}
+                  {p.fu_nome}
                 </td>
-                <td>{p.especialidade}</td>
-                <td>
-                  <span className={`status ${p.status.toLowerCase()}`}>
-                    {p.status}
-                  </span>
-                </td>
+
+                <td>{p.fu_email}</td>
+                <td>{p.fu_cpf}</td>
+                <td>{p.fu_telefone}</td>
+
                 <td>
                   <button
                     className="action-btn"
-                    title="Editar"
                     onClick={() => {
                       setSelectedProfessor(p);
                       setShowEditModal(true);
@@ -190,9 +214,9 @@ export default function Professores() {
                   >
                     <i className="bi bi-pencil"></i>
                   </button>
+
                   <button
                     className="action-btn"
-                    title="Excluir"
                     onClick={() => {
                       setSelectedProfessor(p);
                       setShowDeleteModal(true);
@@ -200,9 +224,9 @@ export default function Professores() {
                   >
                     <i className="bi bi-trash"></i>
                   </button>
+
                   <button
                     className="action-btn"
-                    title="Detalhes"
                     onClick={() => {
                       setSelectedProfessor(p);
                       setShowDetailsModal(true);
@@ -215,17 +239,16 @@ export default function Professores() {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="sem-resultado">
-                Nenhum professor encontrado.
-              </td>
+              <td colSpan="6">Nenhum professor encontrado.</td>
             </tr>
           )}
         </tbody>
       </table>
 
-      {/* ===== PAGINAÇÃO ===== */}
+      {/* PAGINAÇÃO */}
       <div className="paginacao">
         <span>Itens por página:</span>
+
         <select
           value={itemsPerPage}
           onChange={(e) => {
@@ -265,7 +288,7 @@ export default function Professores() {
         </div>
       </div>
 
-      {/* ===== MODAIS ===== */}
+      {/* MODAIS */}
       {showAddModal && (
         <AddProfessor
           onClose={() => setShowAddModal(false)}

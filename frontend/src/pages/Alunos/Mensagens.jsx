@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/pages/aluno/mensagensAluno.scss";
-import ChatModal from "../../pages/Professor/ModalMensagemProf";
+import ChatModal from "../../pages/Alunos/ModalMensagemAluno";
 
 export default function MensagensProf() {
   const [activeTab, setActiveTab] = useState("todas");
@@ -48,7 +48,9 @@ export default function MensagensProf() {
     if (e && typeof e.stopPropagation === "function") e.stopPropagation();
 
     setMessages((prev) =>
-      prev.map((msg) => (msg.id === id ? { ...msg, favorite: !msg.favorite } : msg))
+      prev.map((msg) =>
+        msg.id === id ? { ...msg, favorite: !msg.favorite } : msg
+      )
     );
   };
 
@@ -61,11 +63,11 @@ export default function MensagensProf() {
     const matchesSearch = name.includes(search) || preview.includes(search);
 
     if (activeTab === "nao-lidas") {
-      return (msg.unread > 0) && matchesSearch;
+      return msg.unread > 0 && matchesSearch;
     }
 
     if (activeTab === "favoritas") {
-      return (msg.favorite === true) && matchesSearch;
+      return msg.favorite === true && matchesSearch;
     }
 
     return matchesSearch;
@@ -142,29 +144,32 @@ export default function MensagensProf() {
               </div>
 
               <div className="message-content">
-                <div className="message-header">
+                <div className="message-top">
                   <h3 className="message-name">{msg.name}</h3>
                   <span className="message-time">{msg.time}</span>
                 </div>
-                <p className="message-preview">{msg.preview}</p>
-              </div>
 
-              <div
-                className="message-actions"
-                onClick={(e) => {
-                  // evita a propagação do clique para o item inteiro
-                  e.stopPropagation();
-                }}
-              >
-                {msg.unread > 0 && (
-                  <div className="unread-badge">
-                    <span>{msg.unread}</span>
+                <div className="message-bottom">
+                  <p className="message-preview">{msg.preview}</p>
+                  <div
+                    className="message-actions"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    {msg.unread > 0 && (
+                      <div className="unread-badge">
+                        <span>{msg.unread}</span>
+                      </div>
+                    )}
+                    <i
+                      className={`favorite-btn ${
+                        msg.favorite ? "bi bi-star-fill" : "bi bi-star"
+                      }`}
+                      onClick={(e) => toggleFavorite(msg.id, e)}
+                    />
                   </div>
-                )}
-                <i
-                  className={`favorite-btn ${msg.favorite ? "bi bi-star-fill" : "bi bi-star"}`}
-                  onClick={(e) => toggleFavorite(msg.id, e)}
-                />
+                </div>
               </div>
             </div>
           ))

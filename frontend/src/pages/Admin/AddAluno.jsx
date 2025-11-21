@@ -13,7 +13,6 @@ export default function AddAluno({ onClose, onSave }) {
     treinos_completos: 0,
     status: "Ativo",
     turma: "",
-    observacoes: "",
   });
 
   const handleChange = (e) => {
@@ -40,7 +39,6 @@ export default function AddAluno({ onClose, onSave }) {
       al_treinos_completos: Number(form.treinos_completos),
       al_status: form.status,
       turma: form.turma,
-      observacoes: form.observacoes,
     });
   };
 
@@ -156,16 +154,6 @@ export default function AddAluno({ onClose, onSave }) {
                 type="text"
                 name="turma"
                 value={form.turma}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* OBSERVAÇÕES */}
-            <div className="form-group">
-              <label>Observações</label>
-              <textarea
-                name="observacoes"
-                value={form.observacoes}
                 onChange={handleChange}
               />
             </div>

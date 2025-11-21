@@ -13,7 +13,6 @@ export default function EditarAluno({ aluno, onClose, onSave }) {
     treinos_completos: aluno.al_treinos_completos,
     status: aluno.al_status,
     turma: aluno.turma,
-    observacoes: aluno.observacoes,
   });
 
   const handleChange = (e) => {
@@ -35,7 +34,6 @@ export default function EditarAluno({ aluno, onClose, onSave }) {
       al_treinos_completos: Number(form.treinos_completos),
       al_status: form.status,
       turma: form.turma,
-      observacoes: form.observacoes,
     });
   };
 
@@ -139,16 +137,6 @@ export default function EditarAluno({ aluno, onClose, onSave }) {
                 type="text"
                 name="turma"
                 value={form.turma}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* OBSERVAÇÕES */}
-            <div className="form-group">
-              <label>Observações</label>
-              <textarea
-                name="observacoes"
-                value={form.observacoes}
                 onChange={handleChange}
               />
             </div>

@@ -1,64 +1,82 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/pages/professor/chatModal.scss";
 
-export default function ChatModal({
-  isOpen,
-  onClose,
-  contactName,
-  mensagens = [],
-  onSendMessage,
-}) {
+export default function ChatModal({ isOpen, onClose, contactName }) {
+  const [mensagens, setMensagens] = useState([
+    { id: 1, texto: "Oi! Tudo bem?", tipo: "recebida" },
+    { id: 2, texto: "Tudo ótimo! E você?", tipo: "enviada" },
+  ]);
   const [inputValue, setInputValue] = useState("");
   const chatBodyRef = useRef(null);
 
-  // Scroll automático ao abrir ou atualizar mensagens
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [mensagens, isOpen]);
 
-  const handleSend = () => {
+  useEffect(() => {
+    const handleSize = () => {
+      const viewportHeight = window.innerHeight;
+      const windowHeight = document.documentElement.clientHeight;
+
+      if (vieportHeigh < windowHeight - 100) {
+        chatFooterRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    window.addEventListener("resize", handleSize);
+    return () => window.removeEventListener("resize", handleSize);
+  }, []);
+
+  const handleSendMessage = () => {
     const texto = inputValue.trim();
     if (!texto) return;
 
-    onSendMessage(texto);
+    setMensagens((prev) => [
+      ...prev,
+      { id: prev.length + 1, texto, tipo: "enviada" },
+    ]);
     setInputValue("");
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") handleSend();
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="chat-modal active">
+    <div className="chat-modal full-page active">
       <div className="chat-window">
-        
-        {/* Header */}
+        {/* ===== Cabeçalho ===== */}
         <div className="chat-header">
-          <span>{contactName || "Conversa"}</span>
-          <span className="close" onClick={onClose}>&times;</span>
+          <button className="back-btn" onClick={onClose}>
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <div className="user-info">
+            <div className="avatar-placeholder">
+              {contactName ? contactName.charAt(0).toUpperCase() : "?"}
+            </div>
+            <span>{contactName || "Sem contato"}</span>
+          </div>
+          <div className="header-actions">
+            <i className="fas fa-ellipsis-v"></i>
+          </div>
         </div>
 
-        {/* Corpo */}
+        {/* ===== Corpo do chat ===== */}
         <div className="chat-body" ref={chatBodyRef}>
-          {mensagens.length === 0 && (
-            <div className="no-messages">Nenhuma mensagem ainda.</div>
-          )}
-
           {mensagens.map((msg) => (
-            <div
-              key={msg.me_id || msg.id}
-              className={`msg ${msg.tipo}`}
-            >
-              {msg.me_conteudo}
+            <div key={msg.id} className={`msg ${msg.tipo}`}>
+              {msg.texto}
             </div>
           ))}
         </div>
 
-        {/* Footer */}
+        {/* ===== Rodapé ===== */}
         <div className="chat-footer">
           <input
             type="text"
@@ -67,7 +85,9 @@ export default function ChatModal({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button onClick={handleSend}>Enviar</button>
+          <button onClick={handleSendMessage}>
+            <i class="bi bi-send"></i>
+          </button>
         </div>
       </div>
     </div>

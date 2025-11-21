@@ -19,17 +19,15 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
     const handleSize = () => {
       const viewportHeight = window.innerHeight;
       const windowHeight = document.documentElement.clientHeight;
-      
-      if(vieportHeigh < windowHeight -100){
-        chatFooterRef.current?.scrollIntoView({ behavior: 'smooth'});
+
+      if (vieportHeigh < windowHeight - 100) {
+        chatFooterRef.current?.scrollIntoView({ behavior: "smooth" });
       }
-
     };
-  
-    window.addEventListener('resize', handleSize);
-    return () => window.removeEventListener('resize', handleSize);
-  }, []);
 
+    window.addEventListener("resize", handleSize);
+    return () => window.removeEventListener("resize", handleSize);
+  }, []);
 
   const handleSendMessage = () => {
     const texto = inputValue.trim();
@@ -51,14 +49,22 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
   if (!isOpen) return null;
 
   return (
-    <div className="chat-modal active">
+    <div className="chat-modal full-page active">
       <div className="chat-window">
         {/* ===== Cabeçalho ===== */}
         <div className="chat-header">
-          <span>{contactName || "Sem contato"}</span>
-          <span className="close" onClick={onClose}>
-            &times;
-          </span>
+          <button className="back-btn" onClick={onClose}>
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <div className="user-info">
+            <div className="avatar-placeholder">
+              {contactName ? contactName.charAt(0).toUpperCase() : "?"}
+            </div>
+            <span>{contactName || "Sem contato"}</span>
+          </div>
+          <div className="header-actions">
+            <i className="fas fa-ellipsis-v"></i>
+          </div>
         </div>
 
         {/* ===== Corpo do chat ===== */}
@@ -79,7 +85,9 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button onClick={handleSendMessage}>Enviar</button>
+          <button onClick={handleSendMessage}>
+            <i class="bi bi-send"></i>
+          </button>
         </div>
       </div>
     </div>

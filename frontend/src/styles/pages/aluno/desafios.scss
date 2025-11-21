@@ -98,23 +98,22 @@
       }
 
       &.blue {
-        background: $blue-light;
+        background: var(--color-purple)-light;
       }
-
       &.gray {
-        background: $surface-3;
+        background: var(--surface-3);
       }
     }
   }
 
   .subinfo {
-    color: $text-2;
+    color: var(--color-text)-2;
     font-size: $font-size-small;
     margin-bottom: $spacing-xs;
   }
 
   .progress-bar {
-    background: $surface-3;
+    background: var(--surface-3);
     border-radius: 10px;
     height: 6px;
     margin-bottom: $spacing-xs;
@@ -122,18 +121,22 @@
     .progress {
       height: 100%;
       border-radius: 10px;
-      background: linear-gradient(90deg, $purple-dark, $blue-light);
+      background: linear-gradient(
+        90deg,
+        var(--color-purple),
+        var(--color-purple-light)
+      );
     }
   }
 
   .descricao {
-    color: $text-2;
+    color: var(--color-text)-2;
     font-size: $font-size-base;
     margin-bottom: $spacing-sm;
   }
 
   .recompensa {
-    color: $accent-yellow;
+    color: var(--yellow);
     font-size: $font-size-small;
     font-weight: 500;
     margin-top: $spacing-xs;
@@ -148,7 +151,7 @@
     margin-top: $spacing-sm;
 
     p {
-      color: $text-2;
+      color: var(--color-text)-2;
       font-size: $font-size-small;
       margin: 0;
     }
@@ -158,14 +161,14 @@
     border: none;
     border-radius: 20px;
     padding: 6px 16px;
-    color: $white;
+    color: var(--white);
     font-size: $font-size-small;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s ease;
 
     &.purple {
-      background: $purple-dark;
+      background: var(--color-purple);
 
       &:hover {
         background: var(--color-purple-light);
@@ -173,18 +176,18 @@
     }
 
     &.blue {
-      background: $blue-light;
+      background: var(--color-purple)-light;
 
       &:hover {
-        background: rgba(var(--color-purple-light-rgb), 0.3);
+        background: var(--color-purple)-light, 0.3;
       }
     }
 
     &.gray {
-      background: $surface-3;
+      background: var(--surface-3);
 
       &:hover {
-        background: $surface-3;
+        background: var(--surface-3);
       }
     }
   }
@@ -251,32 +254,32 @@
 .desafios-section {
   h2 {
     font-size: $font-size-heading;
-    color: $text;
+    color: var(--color-text);
     margin-bottom: $spacing-md;
   }
 
   .desafio-card {
-    background: $surface-2;
+    background: var(--surface-2);
     border-radius: $radius-md;
     box-shadow: $shadow-1;
     padding: $spacing-md;
     margin-bottom: $spacing-md;
-    border: 1px solid $border-color;
+    border: 1px solid var(--border-color);
     transition: transform 0.2s ease, background 0.3s;
 
     &:hover {
       transform: translateY(-3px);
-      background: $surface-2;
+      background: var(--surface-2);
     }
 
     &.ativo {
       .status-badge {
-        background: $purple-dark;
+        background: var(--color-purple);
       }
 
       .btn.purple {
-        background: $purple-dark;
-        color: $white;
+        background: var(--color-purple);
+        color: var(--white);
 
         &:hover {
           background: var(--color-purple-light);
@@ -288,8 +291,8 @@
       opacity: 0.7;
 
       .btn.gray {
-        background: $surface-3;
-        color: $text-2;
+        background: var(--surface-3);
+        color: var(--color-text)-2;
         cursor: not-allowed;
       }
     }
@@ -306,14 +309,14 @@
         gap: 8px;
 
         .trophy-icon {
-          color: $accent-yellow;
+          color: var(--yellow);
           font-size: 20px;
         }
 
         h3 {
           font-size: $font-size-base;
           font-weight: 600;
-          color: $text;
+          color: var(--color-text);
           margin: 0;
         }
       }
@@ -322,13 +325,13 @@
         padding: 4px 10px;
         border-radius: 12px;
         font-size: $font-size-small;
-        color: $white;
+        color: var(--white);
         font-weight: 500;
       }
     }
 
     .descricao {
-      color: $text-2;
+      color: var(--color-text)-2;
       font-size: $font-size-base;
       margin: $spacing-xs 0 $spacing-sm 0;
     }
@@ -343,12 +346,12 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        color: $accent-yellow;
+        color: var(--yellow);
         font-weight: 500;
         font-size: $font-size-small;
 
         .pontos-icon {
-          color: $accent-yellow;
+          color: var(--yellow);
         }
       }
 
