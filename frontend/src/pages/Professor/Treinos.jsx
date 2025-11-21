@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/mensagensAluno.scss";
 import "../../styles/pages/aluno/dashboardAluno.scss";
-import "../../styles/pages/professor/treinosprof.scss";
+import "../../styles/pages/aluno/treinos.scss";
 import DetalhesTreino from "./DetalhesTreino";
 import EditarTreino from "./EditarTreino";
 
@@ -58,10 +58,9 @@ export default function DashboardAluno() {
       {/* Search Bar */}
       <div className="search-container">
         <div className="search-bar">
-          <i className="fas fa-search search-icon"></i>
           <input
             type="text"
-            placeholder="Buscar mensagem..."
+            placeholder="Buscar treino..."
             className="search-input"
           />
         </div>

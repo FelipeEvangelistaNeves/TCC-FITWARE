@@ -160,3 +160,55 @@
     }
   }
 }
+.treino-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+
+  .start-btn,
+  .btn-detalhes {
+    flex: 1;
+    padding: 10px;
+    border-radius: $radius-md;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    border: none;
+  }
+
+  .new-btn {
+    font-weight: bold;
+    font-size: large;
+    height: 60px;
+    width: 100%;
+    background: $primary;
+    color: $white;
+    border-radius: $radius-lg;
+
+    &:hover {
+      background: darken($primary, 10%);
+    }
+  }
+
+  .start-btn {
+    background: $primary;
+    color: $white;
+
+    &:hover {
+      background: darken($primary, 10%);
+    }
+  }
+
+  .btn-detalhes {
+    background: $surface-2;
+    color: $text;
+    border: 1px solid $border-color;
+
+    &:hover {
+      background: $surface-3;
+      border-color: $primary;
+    }
+  }
+}

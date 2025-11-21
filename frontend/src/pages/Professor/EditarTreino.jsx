@@ -10,6 +10,9 @@ export default function EditarTreino({ treino, onClose }) {
   const [name, setName] = useState(treino?.tr_nome ?? "");
   const [description, setDescription] = useState(treino?.tr_descricao ?? "");
   const [category, setCategory] = useState(treino?.tr_categoria ?? "Força");
+  const [observations, setObservations] = useState(
+    treino?.tr_observacoes ?? ""
+  );
 
   // Exercícios locais — inicial com os do treino (se existirem) ou vazio
   const initialExercises =
@@ -57,6 +60,7 @@ export default function EditarTreino({ treino, onClose }) {
     setName(treino?.tr_nome ?? "");
     setDescription(treino?.tr_descricao ?? "");
     setCategory(treino?.tr_categoria ?? "Força");
+    setObservations(treino?.tr_observacoes ?? "");
 
     // Se o treino já tiver alunos associados, preencher aqui
     // Ex: setSelectedAlunos(treino.Alunos.map(a => a.al_id));
@@ -113,6 +117,7 @@ export default function EditarTreino({ treino, onClose }) {
       tr_nome: name,
       tr_descricao: description,
       tr_categoria: category,
+      tr_observacoes: observations,
       alunos: selectedAlunos, // IDs dos alunos selecionados
       exercicios: exercises.map(({ id, ...rest }) => rest),
     };
@@ -147,9 +152,6 @@ export default function EditarTreino({ treino, onClose }) {
           <h2 id="drawer-title">
             {treino ? "Editar Treino" : "Criar Novo Treino"}
           </h2>
-          <button className="save-btn" onClick={handleSave}>
-            Salvar
-          </button>
         </header>
 
         <form className="drawer-body" onSubmit={handleSave}>
@@ -296,22 +298,13 @@ export default function EditarTreino({ treino, onClose }) {
             </div>
           </div>
 
-          {/* Anexar vídeo (placeholder) */}
-          <label className="field">
-            <span className="label-title">Anexar Vídeo (opcional)</span>
-            <div className="file-placeholder">
-              Toque para fazer upload (implementar)
-            </div>
-          </label>
-
           {/* Observações gerais */}
           <label className="field">
             <span className="label-title">Observações Gerais</span>
             <textarea
               placeholder="Adicione observações gerais sobre o treino..."
-              value={treino?.tr_observacoes ?? ""}
-              onChange={() => {}}
-              disabled
+              value={observations}
+              onChange={(e) => setObservations(e.target.value)}
             />
           </label>
         </form>
@@ -321,7 +314,7 @@ export default function EditarTreino({ treino, onClose }) {
             Cancelar
           </button>
           <button className="btn-primary" onClick={handleSave}>
-            Enviar Treino
+            {treino ? "Salvar Mudanças" : "Enviar Treino"}
           </button>
         </footer>
       </aside>

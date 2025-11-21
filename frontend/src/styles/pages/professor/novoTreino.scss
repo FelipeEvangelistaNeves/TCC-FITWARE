@@ -168,6 +168,11 @@
     &::placeholder {
       color: rgba($text-2, 0.6);
     }
+
+    option {
+      background: var(--surface-2);
+      color: $text;
+    }
   }
 
   textarea {
