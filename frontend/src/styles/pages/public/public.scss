@@ -3,6 +3,7 @@
 body {
   overflow-y: auto !important;
 }
+
 @mixin flex-center {
   display: flex;
   align-items: center;
@@ -18,70 +19,54 @@ body {
   width: 44px;
   height: 22px;
 }
+
 .home-container {
   background: var(--app-bg);
   color: var(--color-text) !important;
   font-family: var(--font-family);
-  .theme-switch-wrapper {
-    margin: 10px 5px 0 0;
+
+  /* NOVO SWITCH ESTILO PRINT (CAIXA COM LUA + SOL) */
+  /* NOVO SWITCH IGUAL AO PRINT */
+  .theme-switch {
+    top: 20px;
+    right: 20px;
+    flex-direction: row;
     display: flex;
-    align-items: center;
+    background: var(--color-bg);
+    gap: 8px;
     justify-content: end;
-    gap: 10px;
-    cursor: pointer;
-    user-select: none;
-    transition: 0.25s ease;
-
-    .theme-switch {
-      position: relative;
-      width: 50px;
-
-      height: 26px;
-      background: var(--surface-2);
-      border-radius: 30px;
-      border: 2px solid var(--border-color);
+    padding: 10px 16px;
+    border-radius: 14px;
+    /* garante que fica por cima */
+    .container-theme {
+      display: flex;
+      padding: 3px;
+      border-radius: 10px;
+      background-color: var(--surface-2);
+      gap: 5px;
+    }
+    button {
+      background: transparent;
+      border: none;
+      padding: 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      color: var(--white);
+      transition: 0.2s ease-in-out;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 6px;
-      cursor: pointer;
-      transition: 0.25s ease;
+      justify-content: center;
+    }
 
-      .icon {
-        font-size: 13px;
-        opacity: 0.45;
-        transition: 0.25s ease;
-      }
+    button.active {
+      background: var(--surface-hover);
+    }
 
-      &.light .icon-sun {
-        opacity: 1;
-        color: #000;
-      }
-
-      &.dark .icon-moon {
-        opacity: 1;
-        color: #fff;
-      }
-
-      .switch-handle {
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background: var(--color-purple);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-        transition: 0.25s ease;
-      }
-
-      &.light .switch-handle {
-        transform: translateX(24px);
-        background: var(--color-purple-light);
-      }
+    button:hover {
+      opacity: 0.8;
     }
   }
-
   .pubicon {
     color: var(--color-purple);
   }
@@ -201,7 +186,6 @@ body {
     background: var(--surface-2);
   }
 
-  /* Responsividade */
   @media (max-width: 768px) {
     .hero h1 {
       font-size: 2rem;

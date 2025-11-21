@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/pages/public/public.scss";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 export default function PublicHome() {
   const [isLight, setIsLight] = useState(false);
@@ -13,11 +14,11 @@ export default function PublicHome() {
     }
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = !isLight;
-    setIsLight(newTheme);
+  const toggleTheme = (mode) => {
+    const isLightMode = mode === "light";
+    setIsLight(isLightMode);
 
-    if (newTheme) {
+    if (isLightMode) {
       document.body.classList.add("light-mode");
       localStorage.setItem("fitware-theme", "light");
     } else {
@@ -28,15 +29,21 @@ export default function PublicHome() {
 
   return (
     <div className="home-container">
-      {/* WRAPPER CORRETO */}
-      <div className="theme-switch-wrapper">
-        <div
-          className={`theme-switch ${isLight ? "light" : "dark"}`}
-          onClick={toggleTheme}
-        >
-          <i className="bi bi-moon icon icon-moon"></i>
-          <i className="bi bi-sun icon icon-sun"></i>
-          <div className="switch-handle"></div>
+      <div className="theme-switch">
+        <div className="container-theme">
+          <button
+            className={!isLight ? "active" : ""}
+            onClick={() => toggleTheme("dark")}
+          >
+            <FaMoon />
+          </button>
+
+          <button
+            className={isLight ? "active" : ""}
+            onClick={() => toggleTheme("light")}
+          >
+            <FaSun />
+          </button>
         </div>
       </div>
 

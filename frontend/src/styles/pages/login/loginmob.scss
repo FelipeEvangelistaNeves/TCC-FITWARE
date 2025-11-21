@@ -1,16 +1,4 @@
 @import "./../../abstract/variables.scss";
-// 🎨 Map local tokens to global design tokens (theme-aware)
-// Use the SCSS wrappers defined in `variables.scss` which resolve to CSS vars at runtime.
-$primary: $color-purple-light; // accent
-$background: $app-bg;
-$input-bg: $surface-2;
-$text-color: $color-text;
-$disabled-bg: $border-color;
-$disabled-text: $color-text-muted;
-$card-bg: $color-bg-card;
-$card-hover: $color-bg-hover;
-$transition: $theme-transition;
-$ff: $font-family;
 
 // 🔲 Container principal
 .login-container {
@@ -18,16 +6,17 @@ $ff: $font-family;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: $background;
+  background-color: var(--app-bg);
   padding: 20px; // espaçamento mobile
 
   // 📦 Card
   .login-card {
     width: 100%;
     max-width: 400px;
-    background: $card-bg;
+    // background:
     border-radius: 12px;
     text-align: center;
+    box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
     color: $text-color;
     padding: 28px 20px;
     font-family: $ff;
@@ -47,6 +36,7 @@ $ff: $font-family;
   // 📌 Títulos
   .login-title {
     font-weight: bold;
+    color: var(--color-text);
     margin-bottom: 5px;
   }
 
@@ -79,7 +69,7 @@ $ff: $font-family;
       padding: 10px;
       border-radius: 8px !important;
       border: 1px solid transparent;
-      background-color: var(--surface-1);
+      background-color: var(--surface-2);
       color: $text-color;
       font-size: 16px;
       caret-color: $primary;
