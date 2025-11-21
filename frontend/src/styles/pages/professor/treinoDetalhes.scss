@@ -1,0 +1,284 @@
+@import "./../../abstract/variables.scss";
+
+/* Overlay que escurece o fundo */
+.detalhes-treino-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+/* Modal centralizado */
+.detalhes-treino-modal {
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  background: var(--surface-1);
+  color: $text;
+  border-radius: $radius-lg;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba($white, 0.1);
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Botão fechar */
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba($white, 0.1);
+  border: none;
+  color: $text-2;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s;
+  z-index: 10;
+
+  &:hover {
+    background: rgba($white, 0.2);
+    color: $white;
+  }
+}
+
+/* Cabeçalho */
+.header {
+  padding: $spacing-lg $spacing-lg $spacing-md;
+  border-bottom: 1px solid $border-color;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: $white;
+    letter-spacing: -0.5px;
+  }
+
+  .categoria {
+    display: inline-block;
+    background: rgba($primary, 0.15);
+    color: $primary;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid rgba($primary, 0.2);
+  }
+}
+
+/* Descrição */
+.descricao {
+  padding: 0 $spacing-lg;
+  margin: $spacing-md 0;
+  color: $text-2;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Informações do professor */
+.professor-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 $spacing-lg;
+  margin-bottom: $spacing-md;
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $primary, darken($primary, 10%));
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba($primary, 0.3);
+  }
+
+  .professor-dados {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .nome {
+      font-weight: 600;
+      font-size: 15px;
+      color: $text;
+    }
+
+    .especialidade {
+      font-size: 13px;
+      color: $text-2;
+    }
+  }
+}
+
+/* Lista de exercícios */
+.exercicios {
+  padding: 0 $spacing-lg;
+  margin-bottom: $spacing-md;
+  overflow-y: auto;
+  flex: 1;
+
+  /* Scrollbar estilizada */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba($white, 0.1);
+    border-radius: 3px;
+    &:hover {
+      background: rgba($white, 0.2);
+    }
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text;
+    margin: 0 0 12px 0;
+  }
+
+  .exercicio-item {
+    background: $surface-2;
+    border: 1px solid transparent;
+    border-radius: $radius-md;
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: rgba($primary, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .ex-nome {
+      font-weight: 600;
+      font-size: 15px;
+      color: $text;
+      margin-bottom: 6px;
+    }
+
+    .ex-info {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: $text-2;
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+  }
+
+  .sem-exercicios {
+    text-align: center;
+    color: $text-2;
+    padding: 20px;
+    background: $surface-2;
+    border-radius: $radius-md;
+    font-size: 14px;
+  }
+}
+
+/* Rodapé */
+.footer {
+  padding: $spacing-md $spacing-lg;
+  border-top: 1px solid $border-color;
+  background: var(--surface-1);
+
+  .btn-registrar {
+    width: 100%;
+    background: linear-gradient(135deg, $primary, darken($primary, 5%));
+    border: none;
+    color: $white;
+    padding: 12px;
+    border-radius: $radius-md;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba($primary, 0.25);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba($primary, 0.35);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Mensagem de erro */
+.erro {
+  color: $color-red;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detalhes-treino-modal {
+    border-radius: 0;
+  }
+
+  .header {
+    padding: 16px;
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .exercicios,
+  .descricao,
+  .professor-info {
+    padding: 0 16px;
+  }
+
+  .footer {
+    padding: 16px;
+  }
+}
