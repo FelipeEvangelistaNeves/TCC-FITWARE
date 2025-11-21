@@ -9,7 +9,7 @@ export default function Planos() {
       <section className="planos-header text-center py-5">
         <h6 className="text-warning">Nossos Planos</h6>
         <h2 className="fw-bold mb-4">Escolha o plano ideal para você</h2>
-        <p className="lead text-white mx-auto mb-4">
+        <p className="lead mx-auto mb-4">
           Planos flexíveis para alunos, professores e administradores. Pague
           apenas pelo que precisa e tenha controle total da sua academia.
         </p>
@@ -44,7 +44,7 @@ export default function Planos() {
                 <li>Relatórios avançados</li>
                 <li>Treinos personalizados</li>
               </ul>
-              <Link to="/escolherlogin" className="btn botaoplano2 mt-3">
+              <Link to="/escolherlogin" className="btn botaoplano mt-3">
                 Escolher
               </Link>
             </div>

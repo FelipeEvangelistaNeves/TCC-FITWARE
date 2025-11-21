@@ -29,7 +29,7 @@ body {
   @include flex-center;
   padding: 0 $spacing-lg;
   font-family: var(--font-family);
-
+  box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
   .header-title {
     font-size: $font-size-heading;
     font-weight: 600;

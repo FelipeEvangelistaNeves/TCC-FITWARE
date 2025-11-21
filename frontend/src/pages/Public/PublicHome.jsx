@@ -4,7 +4,7 @@ import "../../styles/pages/public/public.scss";
 
 export default function PublicHome() {
   return (
-    <div className="home-container text-light">
+    <div className="home-container ">
       {/* ================= HERO ================= */}
       <section className="hero d-flex flex-column align-items-center justify-content-center text-center">
         <h1 className="fw-bold display-4">
