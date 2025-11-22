@@ -62,7 +62,7 @@ loginAdmin = async (req, res) => {
     // Retorna dados públicos do usuário
     return res.json({
       success: true,
-      message: LoggerMessages.LOGIN_SUCESS || "Login realizado com sucesso",
+      message: LoggerMessages.LOGIN_SUCCESS || "Login realizado com sucesso",
       user: {
         id: funcionario.fu_id,
         nome: funcionario.fu_nome,

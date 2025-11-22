@@ -93,7 +93,6 @@ export default function MensagensProf() {
             : "recebida",
       }));
 
-      console.log(data.mensagens.remetente_tipo);
       console.log(normalizadas);
       setMensagensDaConversa(normalizadas);
       setSelectedContact(conversas.find((c) => c.id === co_id));

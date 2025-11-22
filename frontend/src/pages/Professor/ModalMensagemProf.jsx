@@ -1,14 +1,20 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import "../../styles/pages/professor/chatModal.scss";
 
-export default function ChatModal({ isOpen, onClose, contactName }) {
-  const [mensagens, setMensagens] = useState([
-    { id: 1, texto: "Oi! Tudo bem?", tipo: "recebida" },
-    { id: 2, texto: "Tudo ótimo! E você?", tipo: "enviada" },
-  ]);
+export default function ChatModal({ isOpen,
+  onClose,
+  contactName,
+  mensagens = [],
+  onSendMessage
+ }) {
+  // const [mensagens, setMensagens] = useState([
+  //   { id: 1, texto: "Oi! Tudo bem?", tipo: "recebida" },
+  //   { id: 2, texto: "Tudo ótimo! E você?", tipo: "enviada" },
+  // ]);
   const [inputValue, setInputValue] = useState("");
   const chatBodyRef = useRef(null);
 
+  // Scroll automático ao abrir ou ao chegar nova mensagem
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
@@ -29,54 +35,50 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
     return () => window.removeEventListener("resize", handleSize);
   }, []);
 
-  const handleSendMessage = () => {
+  const handleSend = () => {
     const texto = inputValue.trim();
     if (!texto) return;
 
-    setMensagens((prev) => [
-      ...prev,
-      { id: prev.length + 1, texto, tipo: "enviada" },
-    ]);
+    onSendMessage(texto); // O pai envia de verdade
     setInputValue("");
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
+    if (e.key === "Enter") handleSend();
   };
 
   if (!isOpen) return null;
 
+  if (!isOpen) return null;
+
   return (
-    <div className="chat-modal full-page active">
+    <div className="chat-modal active">
       <div className="chat-window">
-        {/* ===== Cabeçalho ===== */}
+
+        {/* Cabeçalho */}
         <div className="chat-header">
-          <button className="back-btn" onClick={onClose}>
-            <i class="bi bi-arrow-left"></i>
-          </button>
-          <div className="user-info">
-            <div className="avatar-placeholder">
-              {contactName ? contactName.charAt(0).toUpperCase() : "?"}
-            </div>
-            <span>{contactName || "Sem contato"}</span>
-          </div>
-          <div className="header-actions">
-            <i className="fas fa-ellipsis-v"></i>
-          </div>
+          <span>{contactName || "Conversa"}</span>
+          <span className="close" onClick={onClose}>&times;</span>
         </div>
 
-        {/* ===== Corpo do chat ===== */}
+        {/* Corpo */}
         <div className="chat-body" ref={chatBodyRef}>
+          
+          {mensagens.length === 0 && (
+            <div className="no-messages">Nenhuma mensagem ainda.</div>
+          )}
+
           {mensagens.map((msg) => (
-            <div key={msg.id} className={`msg ${msg.tipo}`}>
-              {msg.texto}
+            <div
+              key={msg.me_id ?? msg.id} 
+              className={`msg ${msg.tipo}`} // agora existe tipo
+            >
+              {msg.me_conteudo}
             </div>
           ))}
         </div>
 
-        {/* ===== Rodapé ===== */}
+        {/* Rodapé */}
         <div className="chat-footer">
           <input
             type="text"
@@ -85,9 +87,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button onClick={handleSendMessage}>
-            <i class="bi bi-send"></i>
-          </button>
+          <button onClick={handleSend}>Enviar</button>
         </div>
       </div>
     </div>

@@ -119,40 +119,6 @@ export default function PerfilProf() {
           </div>
         </div>
 
-        {/* Atividade Recente */}
-        <div className="card perfil-card">
-          <div className="card-header-between">
-            <h4>Atividade Recente</h4>
-
-            <button className="ver-todas-btn" onClick={() => setShowHistorico(true)}>
-              Ver Todas
-            </button>
-          </div>
-
-          <div className="activity-list">
-            <div className="activity-item">
-              <div className="activity-title">
-                <i className="bi bi-send"></i> Treino enviado para Maria Silva
-              </div>
-              <div className="activity-time">Hoje, 10:30</div>
-            </div>
-
-            <div className="activity-item">
-              <div className="activity-title">
-                <i className="bi bi-chat-dots"></i> Mensagem para Turma Segunda
-              </div>
-              <div className="activity-time">Hoje, 09:15</div>
-            </div>
-
-            <div className="activity-item">
-              <div className="activity-title">
-                <i className="bi bi-person-plus"></i> Novo aluno: Carlos Mendes
-              </div>
-              <div className="activity-time">Ontem, 16:45</div>
-            </div>
-          </div>
-        </div>
-
         {/* Certificações */}
         <div className="card perfil-card">
           <div className="card-header-between">
@@ -218,25 +184,6 @@ export default function PerfilProf() {
           </div>
         </div>
       )}
-
-      {/* MODAL HISTÓRICO DE ATIVIDADES */}
-      <HistAtiv open={showHistorico}
-       onClose={() => setShowHistorico(false)}
-       activities={[
-        
-        {
-      initials: "TS",
-      name: "Mensagem para Turma Segunda",
-      time: "Hoje, 09:15",
-      color: "#a78bfa"
-    },
-    {
-      initials: "CM",
-      name: "Novo aluno: Carlos Mendes",
-      time: "Ontem, 16:45",
-      color: "#c084fc"
-    }
-       ]} />
     </div>
   );
 }
