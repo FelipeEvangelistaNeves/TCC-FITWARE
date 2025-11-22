@@ -26,10 +26,10 @@ export default function LoginAluno() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        sessionStorage.setItem("user-nome", data.user.nome);
-        sessionStorage.setItem("user-role", data.user.role);
-        sessionStorage.setItem("user-id", data.user.id);
-        sessionStorage.setItem("user-email", data.user.email);
+        localStorage.setItem("user-nome", data.user.nome);
+        localStorage.setItem("user-role", data.user.role);
+        localStorage.setItem("user-id", data.user.id);
+        localStorage.setItem("user-email", data.user.email);
 
         navigate("/aluno");
       } else {

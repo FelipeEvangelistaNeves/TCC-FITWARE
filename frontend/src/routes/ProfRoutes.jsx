@@ -11,7 +11,7 @@ export default function ProfRoutes() {
   const [auth, setAuth] = useState(null);
 
   useEffect(() => {
-    const role = sessionStorage.getItem("user-role");
+    const role = localStorage.getItem("user-role");
     if (role === "Professor") {
       setAuth(true);
     } else {

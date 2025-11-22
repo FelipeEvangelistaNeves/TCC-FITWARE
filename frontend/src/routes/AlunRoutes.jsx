@@ -11,7 +11,7 @@ export default function AlunoRoutes() {
   const [auth, setAuth] = useState(null); // null = carregando
 
   useEffect(() => {
-    const role = sessionStorage.getItem("user-role");
+    const role = localStorage.getItem("user-role");
     if (role === "Aluno") {
       setAuth(true);
     } else {

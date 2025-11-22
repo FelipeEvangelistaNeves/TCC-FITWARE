@@ -53,7 +53,7 @@ export default function Header() {
       });
       const data = await res.json();
       if (data.success) {
-        sessionStorage.clear();
+        localStorage.clear();
         window.location.href = "/"; // redireciona pro login
       }
     } catch (err) {

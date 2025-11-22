@@ -2,44 +2,45 @@ import React, { useEffect, useState } from "react";
 import "../../styles/pages/professor/perfilAluno.scss";
 
 export default function PerfilAluno({ aluno, onBack }) {
-
   const [treinos, setTreinos] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-  async function fetchTreinos() {
-    try {
-      console.log("Aluno Id", aluno);
-      const res = await fetch(
-        `http://localhost:3000/api/professor/alunos/${aluno.al_id}/treinos`,
-        { credentials: "include" }
-      );
+    async function fetchTreinos() {
+      try {
+        console.log("Aluno Id", aluno);
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/${aluno.al_id}`,
+          { credentials: "include" }
+        );
 
-      if (!res.ok) throw new Error("Erro ao carregar mensagens");
+        if (!res.ok) throw new Error("Erro ao carregar mensagens");
 
-      const data = await res.json();
+        const data = await res.json();
 
-      console.log("📦 TREINOS RECEBIDOS DO BACKEND:", data);
+        console.log("📦 TREINOS RECEBIDOS DO BACKEND:", data);
 
-      // 🔥 O erro estava aqui:
-      // setTreinos(data);
+        // 🔥 O erro estava aqui:
+        // setTreinos(data);
 
-      // ✔️ CORRETO:
-      setTreinos(data.treinosAluno);
-    } catch (err) {
-      console.error("Erro ao buscar treinos:", err);
-    } finally {
-      setCarregando(false);
+        // ✔️ CORRETO:
+        setTreinos(data.treinosAluno);
+      } catch (err) {
+        console.error("Erro ao buscar treinos:", err);
+      } finally {
+        setCarregando(false);
+      }
     }
-  }
 
-  fetchTreinos();
-}, []);
+    fetchTreinos();
+  }, []);
 
   return (
     <div className="aluno-detalhes">
       <div className="top-row">
-        <button className="back" onClick={onBack}>←</button>
+        <button className="back" onClick={onBack}>
+          ←
+        </button>
         <h3>Perfil do Aluno</h3>
       </div>
 
@@ -73,26 +74,27 @@ export default function PerfilAluno({ aluno, onBack }) {
         )}
 
         {treinos.map((item) => (
-  <div className="card-treino" key={item.tr_id}>
-    <div className="header">
-      <span className="titulo">{item.Treino.tr_nome}</span>
-      <span className="data">{item.Treino.tr_dificuldade}</span>
-    </div>
+          <div className="card-treino" key={item.tr_id}>
+            <div className="header">
+              <span className="titulo">{item.Treino.tr_nome}</span>
+              <span className="data">{item.Treino.tr_dificuldade}</span>
+            </div>
 
-    <ul>
-      {item.Treino.Exercicios.map((ex) => (
-        <li key={ex.ex_id}>
-          {ex.ex_nome} — {ex.TreinoExercicio.te_series}x{ex.TreinoExercicio.te_repeticoes}
-        </li>
-      ))}
-    </ul>
+            <ul>
+              {item.Treino.Exercicios.map((ex) => (
+                <li key={ex.ex_id}>
+                  {ex.ex_nome} — {ex.TreinoExercicio.te_series}x
+                  {ex.TreinoExercicio.te_repeticoes}
+                </li>
+              ))}
+            </ul>
 
-    <div className="acoes-card">
-      <button className="detalhes">Ver Detalhes</button>
-      <button className="duplicar">Duplicar</button>
-    </div>
-  </div>
-))}
+            <div className="acoes-card">
+              <button className="detalhes">Ver Detalhes</button>
+              <button className="duplicar">Duplicar</button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

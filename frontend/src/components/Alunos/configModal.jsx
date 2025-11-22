@@ -18,7 +18,7 @@ export default function ConfigModal({ isOpen, onClose }) {
       });
       const data = await res.json();
       if (data.success) {
-        sessionStorage.clear();
+        localStorage.clear();
         window.location.href = "/";
         // redireciona pro login
       }
@@ -70,7 +70,6 @@ export default function ConfigModal({ isOpen, onClose }) {
             <i className="bi bi-chevron-right"></i>
           </div>
 
-
           <div className="config-option logout" onClick={handleLogout}>
             <span>Sair</span>
             <i className="bi bi-box-arrow-right"></i>
@@ -86,7 +85,6 @@ export default function ConfigModal({ isOpen, onClose }) {
           isOpen={showTermosModal}
           onClose={() => setShowTermosModal(false)}
         />
-
       </div>
     </>
   );

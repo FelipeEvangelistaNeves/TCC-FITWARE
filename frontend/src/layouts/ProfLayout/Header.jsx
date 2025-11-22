@@ -14,7 +14,7 @@ export default function HeaderProfessor({ title }) {
       });
       const data = await res.json();
       if (data.success) {
-        sessionStorage.clear();
+        localStorage.clear();
         window.location.href = "/";
       }
     } catch (err) {
@@ -22,22 +22,22 @@ export default function HeaderProfessor({ title }) {
     }
   }
 
-//   useEffect(() => {
-//     const fetchAvisos = async () => {
-//       try {
-//         const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
-//           method: "GET",
-//         });
-//         const data = await res.json();
-//         if (data.success) {
-//           setAvisos(data.avisos);
-//         }
-//       } catch (error) {
-//         console.error("Erro ao buscar avisos:", error);
-//       }
-//       };
-//     fetchAvisos();
-// }, [])
+  //   useEffect(() => {
+  //     const fetchAvisos = async () => {
+  //       try {
+  //         const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
+  //           method: "GET",
+  //         });
+  //         const data = await res.json();
+  //         if (data.success) {
+  //           setAvisos(data.avisos);
+  //         }
+  //       } catch (error) {
+  //         console.error("Erro ao buscar avisos:", error);
+  //       }
+  //       };
+  //     fetchAvisos();
+  // }, [])
 
   return (
     <>

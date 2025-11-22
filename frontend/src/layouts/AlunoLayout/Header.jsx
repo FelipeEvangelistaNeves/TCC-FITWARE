@@ -32,7 +32,7 @@ export default function HeaderAluno({ title }) {
       const data = await res.json();
 
       if (data.success) {
-        sessionStorage.clear();
+        localStorage.clear();
         window.location.href = "/";
       }
     } catch (err) {

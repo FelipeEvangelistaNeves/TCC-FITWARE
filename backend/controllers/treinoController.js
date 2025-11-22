@@ -96,7 +96,59 @@ const dataTreinosDoAluno = async (req, res) => {
   }
 };
 
+// 🔹 NOVA FUNÇÃO → Buscar detalhes completos de 1 treino
+const dataDetalhesDoTreino = async (req, res) => {
+  try {
+    const treinoId = req.params.id;
+
+    const treino = await Treino.findOne({
+      where: { tr_id: treinoId },
+      attributes: ["tr_id", "tr_nome", "tr_descricao", "tr_dificuldade"],
+      include: [
+        {
+          model: Funcionario,
+          attributes: ["fu_nome"],
+        },
+        {
+          model: Exercicio,
+          attributes: ["ex_id", "ex_nome"],
+          through: {
+            attributes: ["te_series", "te_repeticoes", "te_descanso"],
+          },
+        },
+      ],
+    });
+
+    if (!treino) {
+      return res.status(404).json({ error: "Treino não encontrado" });
+    }
+
+    const exercicios = treino.Exercicios.map((ex) => ({
+      id: ex.ex_id,
+      nome: ex.ex_nome,
+      series: ex.TreinoExercicio.te_series,
+      repeticoes: ex.TreinoExercicio.te_repeticoes,
+      descanso: ex.TreinoExercicio.te_descanso,
+    }));
+
+    const treinoFormatado = {
+      id: treino.tr_id,
+      nome: treino.tr_nome,
+      descricao: treino.tr_descricao,
+      dificuldade: treino.tr_dificuldade,
+      funcionario: treino.Funcionario.fu_nome,
+      exercicios,
+    };
+
+    return res.status(200).json(treinoFormatado);
+  } catch (error) {
+    console.error("Erro ao buscar detalhes do treino:", error);
+    return res.status(500).json({ error: "Erro ao buscar detalhes" });
+  }
+};
+
 module.exports = {
   dataTreinosDoProfessor,
   dataTreinosDoAluno,
+  dataDetalhesDoTreino, // <-- NOVO
 };

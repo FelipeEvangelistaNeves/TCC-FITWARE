@@ -6,6 +6,7 @@ const { authMiddleware } = require("../middleware/auth");
 const {
   dataTreinosDoProfessor,
   dataTreinosDoAluno,
+  dataDetalhesDoTreino,
 } = require("../controllers/treinoController");
 const ROLES = require("../constants/roles");
 
@@ -96,5 +97,7 @@ router.get(
  *         description: Erro ao buscar treinos
  */
 router.get("/aluno", authMiddleware([ROLES.aluno]), dataTreinosDoAluno);
+// 🔹 NOVA ROTA → detalhes do treino
+router.get("/detalhes/:id", dataDetalhesDoTreino);
 
 module.exports = router;

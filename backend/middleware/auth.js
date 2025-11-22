@@ -12,6 +12,7 @@ function authMiddleware(roles = []) {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log("TOKEN DECODIFICADO =>", decoded);
       req.user = decoded;
 
       if (Array.isArray(roles) && roles.length > 0) {

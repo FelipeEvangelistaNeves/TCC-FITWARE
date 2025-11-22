@@ -16,7 +16,7 @@ export default function AdminRoutes() {
   const [auth, setAuth] = useState(null);
 
   useEffect(() => {
-    const role = sessionStorage.getItem("user-role");
+    const role = localStorage.getItem("user-role");
     if (role === "Secretario") {
       setAuth(true);
     } else {

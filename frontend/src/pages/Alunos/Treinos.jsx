@@ -2,11 +2,27 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/aluno/treinos.scss";
 import TreinoActiveModal from "./TreinoActiveModal";
+import TreinoDetalhesModal from "./TreinosDetalhes";
 
 export default function TreinoAluno() {
   const [erro, setErro] = useState(null);
 
   const [treinos, setTreinos] = useState([]);
+
+  const [treinoDetalhes, setTreinoDetalhes] = useState(null);
+
+  const abrirDetalhes = async (id) => {
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/treinos/detalhes/${id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    const data = await res.json();
+    setTreinoDetalhes(data);
+  };
 
   useEffect(() => {
     const fetchTreinos = async () => {
@@ -89,6 +105,13 @@ export default function TreinoAluno() {
 
   return (
     <div className="dashboard-aluno">
+      {treinoDetalhes && (
+        <TreinoDetalhesModal
+          treino={treinoDetalhes}
+          onClose={() => setTreinoDetalhes(null)}
+        />
+      )}
+
       {/* Barra de busca */}
       <div className="search-container">
         <div className="search-bar">
@@ -132,6 +155,13 @@ export default function TreinoAluno() {
                 </div>
                 <span className="trainer-name">{treino.treinador}</span>
               </div>
+
+              <button
+                className="start-btn"
+                onClick={() => abrirDetalhes(treino.id)}
+              >
+                Detalhes
+              </button>
 
               {treinoAtivo === treino.id && timerAtivo ? (
                 <div className="workout-timer">
