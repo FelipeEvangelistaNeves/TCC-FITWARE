@@ -95,7 +95,7 @@ const loginProfessor = async (req, res) => {
     }
 
     // Cria token
-    const token = jwt.sign({ id: user.id, role }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.fu_id, role }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
@@ -111,9 +111,9 @@ const loginProfessor = async (req, res) => {
       success: true,
       message: LoggerMessages.LOGIN_SUCCESS,
       user: {
-        id: user.id,
-        nome: user.al_nome || user.fu_nome,
-        email: user.al_email || user.fu_email,
+        id: user.fu_id,
+        nome: user.fu_nome,
+        email: user.fu_email,
         role,
       },
     });

@@ -13,6 +13,7 @@ export default function HeaderProfessor({ title, avisos }) {
       });
       const data = await res.json();
       if (data.success) {
+        sessionStorage.clear();
         window.location.href = "/";
       }
     } catch (err) {

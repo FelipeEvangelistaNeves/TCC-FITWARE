@@ -30,7 +30,11 @@ export default function HeaderAluno({ title }) {
         credentials: "include",
       });
       const data = await res.json();
-      if (data.success) window.location.href = "/";
+
+      if (data.success) {
+        sessionStorage.clear();
+        window.location.href = "/";
+      }
     } catch (err) {
       console.error("Erro ao fazer logout:", err);
     }

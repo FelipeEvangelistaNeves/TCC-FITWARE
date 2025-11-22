@@ -15,7 +15,9 @@ export default function ConfigModal({ isOpen, onClose }) {
       });
       const data = await res.json();
       if (data.success) {
-        window.location.href = "/"; // redireciona pro login
+        sessionStorage.clear();
+        window.location.href = "/";
+        // redireciona pro login
       }
     } catch (err) {
       console.error("Erro ao fazer logout:", err);
