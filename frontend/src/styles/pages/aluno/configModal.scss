@@ -24,6 +24,17 @@
     z-index: 51;
     animation: fadeIn 0.2s ease;
 
+    /* quando este modal é usado para mostrar termos, organizamos em coluna */
+    &.termos-modal {
+      display: flex;
+      flex-direction: column;
+      /* limite da janela inteira */
+      max-height: 80vh;
+      width: 90%;
+      max-width: 600px; /* aumenta um pouco para leitura dos termos, opcional */
+      padding: 1.5rem;
+    }
+
     h2 {
       margin-bottom: 1rem;
       font-size: 1.75rem;
@@ -170,6 +181,81 @@
             }
           }
         }
+      }
+    }
+
+    /* ===========================
+       Termos (scroll control)
+       =========================== */
+
+    /* Container de termos: o próprio modal já tem max-height,
+       mas colocamos a área de conteúdo com overflow para garantir que
+       cabeçalho e botão de fechar fiquem fixos */
+    .termos-content {
+      /* para modais grandes, limitamos a área que fica rolável.
+         usamos calc para subtrair espaço ocupado por título e botão */
+      overflow-y: auto;
+      max-height: calc(80vh - 140px); /* ajuste se necessário */
+      margin-top: 15px;
+      padding-right: 8px; /* espaço para a scrollbar não sobrepor texto */
+      -webkit-overflow-scrolling: touch; /* rolagem suave em iOS */
+
+      h3 {
+        margin-top: 10px;
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin-bottom: 10px;
+        line-height: 1.4;
+      }
+    }
+
+    /* Caso queira que o próprio .config-modal seja rolável quando for termos,
+       mantive a classe também (não remove nada do seu CSS anterior) */
+    .termos-modal {
+      max-height: 80vh;
+      overflow: hidden; /* esconder overflow do container externo */
+    }
+
+    /* ===== Scrollbar estilizada (Chrome, Edge, Opera) ===== */
+    .termos-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .termos-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .termos-content::-webkit-scrollbar-thumb {
+      background: #999;
+      border-radius: 10px;
+    }
+
+    .termos-content::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+
+    /* ===== Firefox ===== */
+    .termos-content {
+      scrollbar-width: thin;
+      scrollbar-color: #999 #f1f1f1;
+    }
+
+    /* botão fechar do modal (se quiser destacar) */
+    .btn-fechar {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background: var(--color-purple);
+      color: var(--white);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        opacity: 0.8;
       }
     }
   }

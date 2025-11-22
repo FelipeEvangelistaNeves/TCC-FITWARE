@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./../../styles/pages/aluno/configModal.scss";
 import ContaModal from "./contaModal";
+import TermosModal from "./TermosModal";
 import { Hand } from "lucide-react";
 
 export default function ConfigModal({ isOpen, onClose }) {
   const [lightMode, setLightMode] = useState(false);
   const [showContaModal, setShowContaModal] = useState(false);
+
+  const [showTermosModal, setShowTermosModal] = useState(false);
 
   async function handleLogout() {
     try {
@@ -56,10 +59,14 @@ export default function ConfigModal({ isOpen, onClose }) {
             </label>
           </div>
 
-          <div className="config-option">
+          <div
+            className="config-option"
+            onClick={() => setShowTermosModal(true)}
+          >
             <span>Termos de Uso</span>
             <i className="bi bi-chevron-right"></i>
           </div>
+
 
           <div className="config-option logout" onClick={handleLogout}>
             <span>Sair</span>
@@ -71,6 +78,12 @@ export default function ConfigModal({ isOpen, onClose }) {
           isOpen={showContaModal}
           onClose={() => setShowContaModal(false)}
         />
+
+        <TermosModal
+          isOpen={showTermosModal}
+          onClose={() => setShowTermosModal(false)}
+        />
+
       </div>
     </>
   );

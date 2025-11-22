@@ -7,10 +7,14 @@ import EditarTreino from "./EditarTreino";
 
 export default function DashboardAluno() {
   const [treinos, setTreinos] = useState([]);
-  const [erro, setErro] = useState(null);
   const [treinoSelecionado, setTreinoSelecionado] = useState(null);
   const [mostrarDetalhes, setMostrarDetalhes] = useState(false);
   const [novoTreino, setNovoTreino] = useState(false);
+  const [erro, setErro] = useState(null);
+
+  // 🔍 filtros
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filtroCategoria, setFiltroCategoria] = useState("Todos");
 
   useEffect(() => {
     const fetchTreinos = async () => {
@@ -19,20 +23,38 @@ export default function DashboardAluno() {
           method: "GET",
           credentials: "include",
         });
-
-        if (!res.ok) throw new Error("Erro ao buscar treinos"); // colocar logger message depois
+        if (!res.ok) throw new Error("Erro ao buscar treinos");
 
         const data = await res.json();
         setTreinos(data);
       } catch (error) {
         console.error(error);
-        setErro("Erro ao carregar treinos"); // colocar logger message depois
+        setErro("Erro ao carregar treinos");
       }
     };
 
     fetchTreinos();
-  }, []); // executa apenas 1x ao montar o componente
+  }, []);
+
   if (erro) return <p>{erro}</p>;
+
+  // 📌 FUNÇÃO DE FILTRAGEM FINAL
+  const treinosFiltrados = treinos.filter((treino) => {
+    const texto = searchTerm.toLowerCase();
+
+    const nomeMatch = treino.tr_nome?.toLowerCase().includes(texto);
+    const descMatch = treino.tr_descricao?.toLowerCase().includes(texto);
+
+    const exerciciosMatch = treino.Exercicios?.some((ex) =>
+      ex.ex_nome.toLowerCase().includes(texto)
+    );
+
+    const categoriaMatch =
+      filtroCategoria === "Todos" ||
+      treino.tr_categoria?.toLowerCase() === filtroCategoria.toLowerCase();
+
+    return (nomeMatch || descMatch || exerciciosMatch) && categoriaMatch;
+  });
 
   const abrirDetalhes = (treino) => {
     setTreinoSelecionado(treino);
@@ -53,6 +75,7 @@ export default function DashboardAluno() {
     setTreinoSelecionado(null);
     setNovoTreino(false);
   };
+
   return (
     <div className="dashboard-aluno">
       {/* Search Bar */}
@@ -62,22 +85,33 @@ export default function DashboardAluno() {
             type="text"
             placeholder="Buscar treino..."
             className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
-      {/* Workouts Section */}
+
+      {/* Filtros */}
       <section className="workouts-section">
         <div className="section-header">
-          <button className="filter-btn">Todos</button>
-          <button className="filter-btn">Força</button>
-          <button className="filter-btn">Cardio</button>
-          <button className="filter-btn">Funcional</button>
+          {["Todos", "Força", "Cardio", "Funcional"].map((cat) => (
+            <button
+              key={cat}
+              className={`filter-btn ${
+                filtroCategoria === cat ? "active" : ""
+              }`}
+              onClick={() => setFiltroCategoria(cat)}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
-        {treinos.length === 0 ? (
+        {/* Cards de Treino */}
+        {treinosFiltrados.length === 0 ? (
           <p>Nenhum treino encontrado.</p>
         ) : (
-          treinos.map((treino) => (
+          treinosFiltrados.map((treino) => (
             <div className="workout-card" key={treino.tr_id}>
               <div className="workout-header">
                 <div className="workout-info">
@@ -129,6 +163,7 @@ export default function DashboardAluno() {
           ))
         )}
       </section>
+
       <div className="treino-actions">
         <button className="new-btn" onClick={() => abrirNovoTreino(null)}>
           Adicionar Novo Treino
@@ -138,6 +173,7 @@ export default function DashboardAluno() {
       {mostrarDetalhes && treinoSelecionado && (
         <DetalhesTreino treino={treinoSelecionado} onClose={fecharDetalhes} />
       )}
+
       {novoTreino && (
         <EditarTreino treino={treinoSelecionado} onClose={fecharNovoTreino} />
       )}

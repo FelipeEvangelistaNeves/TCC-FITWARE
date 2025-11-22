@@ -17,10 +17,10 @@
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
-    color: $text-color;
+    color: $text;
     padding: 28px 20px;
-    font-family: $ff;
-    transition: background $transition, color $transition;
+    //font-family: $ff;
+   // transition: background $transition, color $transition;
   }
 
   // 👤 Avatar
@@ -70,11 +70,11 @@
       border-radius: 8px !important;
       border: 1px solid transparent;
       background-color: var(--surface-2);
-      color: $text-color;
+      color: $text;
       font-size: 16px;
       caret-color: $primary;
-      transition: border $transition, box-shadow $transition,
-        background $transition;
+      //transition: border $transition, box-shadow $transition,
+        //background $transition;
 
       &:focus {
         border: 0, 5px solid $primary;
@@ -113,12 +113,12 @@
     color: $white; // usa $white (mapeado para var(--white))
     border: 1px solid transparent;
     font-weight: 700;
-    font-family: $ff;
+    //font-family: $ff;
     font-size: 15px;
     text-align: center;
     cursor: pointer;
-    transition: background $transition, color $transition, transform 0.08s,
-      box-shadow $transition;
+    //transition: background $transition, color $transition, transform 0.08s,
+      //box-shadow $transition;
     box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.08);
 
     &:hover {
@@ -143,8 +143,8 @@
     /* estado desabilitado */
     &.disabled,
     &:disabled {
-      background: $disabled-bg; /* ex: $border-color */
-      color: $disabled-text; /* ex: $color-text-muted */
+      //background: $disabled-bg; /* ex: $border-color */
+      //color: $disabled-text; /* ex: $color-text-muted */
       cursor: not-allowed;
       opacity: 0.95;
       box-shadow: none;
