@@ -15,10 +15,13 @@ export default function Notificacoes() {
   // ===== BUSCAR AVISOS =====
   async function fetchAvisos() {
     try {
-      const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
-        method: "GET",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/avisos/allAvisos`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
 
       const data = await res.json();
       setNotificacoes(data.avisos);
@@ -34,14 +37,17 @@ export default function Notificacoes() {
   // ===== CRIAR AVISO =====
   async function create() {
     try {
-      const res = await fetch("http://localhost:3000/api/avisos/createAvisos", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(novaNotificacao),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/avisos/createAvisos`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(novaNotificacao),
+        }
+      );
 
       if (!res.ok) throw new Error("Erro ao criar notificação");
 

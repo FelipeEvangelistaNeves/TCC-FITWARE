@@ -37,7 +37,7 @@ export default function EditarTreino({ treino, onClose }) {
       setLoadingAlunos(true);
       try {
         const res = await fetch(
-          "http://localhost:3000/api/professor/allAlunos",
+          `${import.meta.env.VITE_BASE_URL}/professor/allAlunos`,
           {
             credentials: "include",
           }

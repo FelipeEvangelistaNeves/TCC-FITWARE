@@ -1,10 +1,9 @@
 // routes/professorRoutes.js
 const express = require("express");
 const router = express.Router();
-const { verifyToken } = require("../middleware/auth");
+const { authMiddleware } = require("../middleware/auth");
 
 const {
-  loginProfessor,
   dataProfessor,
 
   listarProfessores,
@@ -24,18 +23,15 @@ const {
 
 } = require("../controllers/professorController");
 
-// LOGIN
-router.post("/login", loginProfessor);
-
 // PERFIL
-router.get("/me", verifyToken, dataProfessor);
-router.put("/update", verifyToken, atualizarProfessor);
+router.get("/me", authMiddleware(), dataProfessor);
+router.put("/update", authMiddleware(), atualizarProfessor);
 
 // CRUD PROFESSORES
-router.get("/crud/listar", verifyToken, listarProfessores);
-router.post("/crud/criar", verifyToken, criarProfessor);
-router.put("/crud/editar/:id", verifyToken, editarProfessor);
-router.delete("/crud/deletar/:id", verifyToken, deletarProfessor);
+router.get("/crud/listar", authMiddleware(), listarProfessores);
+router.post("/crud/criar", authMiddleware(), criarProfessor);
+router.put("/crud/editar/:id", authMiddleware(), editarProfessor);
+router.delete("/crud/deletar/:id", authMiddleware(), deletarProfessor);
 
 // DASHBOARD + ALUNOS + CHAT + TREINOS
 router.get("/dashboard",verifyToken, dataProfDashboard);

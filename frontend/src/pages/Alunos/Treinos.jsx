@@ -1,19 +1,55 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/aluno/treinos.scss";
+import TreinoActiveModal from "./TreinoActiveModal";
 
 export default function TreinoAluno() {
-  const [treinos, setTreinos] = useState([]);
   const [erro, setErro] = useState(null);
 
+  const [treinos, setTreinos] = useState([]);
+
+  useEffect(() => {
+    const fetchTreinos = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/aluno`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
+
+        const data = await res.json();
+        const treinosFormatados = data.map((t) => ({
+          id: t.id,
+          titulo: t.nome,
+          nivel: t.dificuldade,
+          treinador: t.funcionario,
+          exercicios: t.exercicios.map((ex) => ({
+            nome: ex.nome,
+            sets: `${ex.series}×${ex.repeticoes}`,
+          })),
+        }));
+        setTreinos(treinosFormatados);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTreinos();
+  }, []);
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("Todos");
 
-  const [treinoAtivo, setTreinoAtivo] = useState(null);
-  const [tempoRestante, setTempoRestante] = useState(0);
-  const [timerAtivo, setTimerAtivo] = useState(false);
+  const [modalTreinoAtivo, setModalTreinoAtivo] = useState(null);
 
-  // 🔄 Carregar treinos do backend
+  // 🔄 Carregar treinos do backend (Comentado para usar mock com descrições)
+  /*
   useEffect(() => {
     const fetchTreinos = async () => {
       try {
@@ -34,6 +70,7 @@ export default function TreinoAluno() {
 
     fetchTreinos();
   }, []);
+  */
 
   if (erro) return <p>{erro}</p>;
 
@@ -55,37 +92,8 @@ export default function TreinoAluno() {
     return (nomeMatch || descMatch || exerciciosMatch) && categoriaMatch;
   });
 
-  // 🕒 CRONÔMETRO
-  useEffect(() => {
-    let intervalo;
-
-    if (timerAtivo && tempoRestante > 0) {
-      intervalo = setInterval(() => {
-        setTempoRestante((prev) => prev - 1);
-      }, 1000);
-    } else if (tempoRestante === 0 && treinoAtivo) {
-      setTimerAtivo(false);
-      setTreinoAtivo(null);
-    }
-
-    return () => clearInterval(intervalo);
-  }, [timerAtivo, tempoRestante]);
-
   const iniciarTreino = (treino) => {
-    setTreinoAtivo(treino.tr_id);
-    setTempoRestante((treino.tr_tempo || 30) * 60); // fallback caso não tenha campo
-    setTimerAtivo(true);
-  };
-
-  const pararTreino = () => {
-    setTimerAtivo(false);
-    setTreinoAtivo(null);
-  };
-
-  const formatarTempo = (segundos) => {
-    const min = Math.floor(segundos / 60);
-    const sec = segundos % 60;
-    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    setModalTreinoAtivo(treino);
   };
 
   return (
@@ -106,27 +114,13 @@ export default function TreinoAluno() {
 
       {/* Seção de treinos */}
       <section className="workouts-section">
-        <div className="section-header">
-          {["Todos", "Força", "Cardio", "Funcional"].map((tipo) => (
-            <button
-              key={tipo}
-              className={`filter-btn ${filtro === tipo ? "active" : ""}`}
-              onClick={() => setFiltro(tipo)}
-            >
-              {tipo}
-            </button>
-          ))}
-        </div>
-
         {/* Cards de treino */}
         {treinosFiltrados.map((treino) => (
           <div className="workout-card" key={treino.tr_id}>
             <div className="workout-header">
               <div className="workout-info">
-                <h3>{treino.tr_nome}</h3>
-                <p className="workout-details">
-                  {treino.tr_descricao || "Sem descrição"}
-                </p>
+                <h3>{treino.titulo}</h3>
+                <p className="workout-details">{treino.nivel}</p>
               </div>
             </div>
 
@@ -152,27 +146,24 @@ export default function TreinoAluno() {
                 </span>
               </div>
 
-              {treinoAtivo === treino.tr_id && timerAtivo ? (
-                <div className="workout-timer">
-                  <div className="timer-display">
-                    {formatarTempo(tempoRestante)}
-                  </div>
-                  <button className="stop-btn" onClick={pararTreino}>
-                    Parar
-                  </button>
-                </div>
-              ) : (
-                <button
-                  className="start-btn"
-                  onClick={() => iniciarTreino(treino)}
-                >
-                  Iniciar
-                </button>
-              )}
+              <button
+                className="start-btn"
+                onClick={() => iniciarTreino(treino)}
+              >
+                Iniciar
+              </button>
             </div>
           </div>
         ))}
       </section>
+
+      {modalTreinoAtivo && (
+        <TreinoActiveModal
+          treino={modalTreinoAtivo}
+          onClose={() => setModalTreinoAtivo(null)}
+          onMinimize={() => setModalTreinoAtivo(null)}
+        />
+      )}
     </div>
   );
 }

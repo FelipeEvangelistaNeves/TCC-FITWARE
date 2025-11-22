@@ -19,17 +19,34 @@ export default function DashboardAluno() {
   useEffect(() => {
     const fetchTreinos = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/treinos", {
-          method: "GET",
-          credentials: "include",
-        });
-        if (!res.ok) throw new Error("Erro ao buscar treinos");
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/professor`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
 
         const data = await res.json();
-        setTreinos(data);
+        const treinosFormatados = data.map((t) => ({
+          id: t.id,
+          titulo: t.nome,
+          nivel: t.dificuldade,
+          treinador: t.funcionario,
+          exercicios: t.exercicios.map((ex) => ({
+            nome: ex.nome,
+            sets: `${ex.series}×${ex.repeticoes}`,
+          })),
+        }));
+        setTreinos(treinosFormatados);
       } catch (error) {
         console.error(error);
-        setErro("Erro ao carregar treinos");
+        setErro("Não foi possível carregar os treinos.");
       }
     };
 

@@ -35,59 +35,59 @@
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
-    color: $color-text;
+    color: var(--color-text);
     padding: 28px 20px;
-    font-family: $ff;
+    font-family: var(--font-family);
     transition: background $transition, color $transition;
   }
 
-    /* Avatar / Ícone */
-    .login-avatar {
-      width: 80px;
-      height: 80px;
-      background: var(--surface-2);
-      border-radius: 50%;
-      margin: 0 auto 20px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 3px 10px rgba(var(--shadow-rgb), 0.2);
+  /* Avatar / Ícone */
+  .login-avatar {
+    width: 80px;
+    height: 80px;
+    background: var(--surface-2);
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(var(--shadow-rgb), 0.2);
 
-      i {
-        font-size: 36px;
-        color: var(--color-purple);
-      }
+    i {
+      font-size: 36px;
+      color: var(--color-purple);
     }
+  }
 
-    /* Títulos */
-    .login-title {
-      font-weight: 700;
-      font-size: 1.6rem;
-      text-align: center;
-      margin-bottom: 6px;
-      color: var(--color-text);
-    }
+  /* Títulos */
+  .login-title {
+    font-weight: 700;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 6px;
+    color: var(--color-text);
+  }
 
-    .login-subtitle {
-      text-align: center;
-      font-size: 1rem;
-      color: var(--color-text-muted);
-      margin-bottom: 24px;
-    }
+  .login-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 24px;
+  }
 
-    /* ==========================
+  /* ==========================
        CAMPOS
     ==========================*/
-    .input-group {
-      margin-bottom: 16px;
-      text-align: left;
+  .input-group {
+    margin-bottom: 16px;
+    text-align: left;
 
-      label {
-        display: block;
-        font-size: 14px;
-        color: var(--color-text-muted);
-        margin-bottom: 6px;
-      }
+    label {
+      display: block;
+      font-size: 14px;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
 
     input {
       width: 100%;
@@ -95,37 +95,37 @@
       border-radius: 8px !important;
       border: 1px solid transparent;
       background-color: var(--surface-2);
-      color: $text-color;
+      color: var(--color-text);
       font-size: 16px;
-      caret-color: $primary;
+      caret-color: var(--color-purple);
       transition: border $transition, box-shadow $transition,
         background $transition;
 
-        &:focus {
-          border-color: var(--color-purple);
-          outline: none;
-          box-shadow: 0 0 6px rgba(var(--color-purple-rgb), 0.4);
-        }
+      &:focus {
+        border-color: var(--color-purple);
+        outline: none;
+        box-shadow: 0 0 6px rgba(var(--color-purple-rgb), 0.4);
       }
     }
+  }
 
-    /* ==========================
+  /* ==========================
        Esqueci a senha
     ==========================*/
-    .forgot-password {
-      margin-bottom: 20px;
-      text-align: left;
+  .forgot-password {
+    margin-bottom: 20px;
+    text-align: left;
 
-      a {
-        font-size: 14px;
-        color: var(--color-purple);
-        text-decoration: none;
+    a {
+      font-size: 14px;
+      color: var(--color-purple);
+      text-decoration: none;
 
-        &:hover {
-          text-decoration: underline;
-        }
+      &:hover {
+        text-decoration: underline;
       }
     }
+  }
 
   // 🔘 Botão
   .button-log-mob {
@@ -136,10 +136,10 @@
     background: var(
       --surface-1
     ); // $primary -> $color-purple-light (mapeado para var(--...))
-    color: $white; // usa $white (mapeado para var(--white))
+    color: var(--white); // usa $white (mapeado para var(--white))
     border: 1px solid transparent;
     font-weight: 700;
-    font-family: $ff;
+    font-family: var(--font-family);
     font-size: 15px;
     text-align: center;
     cursor: pointer;
@@ -147,21 +147,21 @@
       box-shadow $transition;
     box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.08);
 
-      &:hover {
-        background: var(--color-purple-hover);
-        box-shadow: 0 6px 20px rgba(var(--shadow-rgb), 0.15);
-      }
+    &:hover {
+      background: var(--color-purple-hover);
+      box-shadow: 0 6px 20px rgba(var(--shadow-rgb), 0.15);
+    }
 
-      &:active {
-        transform: translateY(1px);
-        box-shadow: 0 4px 12px rgba(var(--shadow-rgb), 0.1);
-      }
+    &:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(var(--shadow-rgb), 0.1);
+    }
 
     /* estado desabilitado */
     &.disabled,
     &:disabled {
-      background: $disabled-bg; /* ex: $border-color */
-      color: $disabled-text; /* ex: $color-text-muted */
+      background: var(--border-color); /* ex: $border-color */
+      color: var(--color-text-muted); /* ex: $color-text-muted */
       cursor: not-allowed;
       opacity: 0.95;
       box-shadow: none;

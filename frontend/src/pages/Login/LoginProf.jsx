@@ -12,16 +12,23 @@ export default function LoginProfessor() {
   async function Executar() {
     setErrorMsg("");
     try {
-      const response = await fetch("http://localhost:3000/professor/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/login/professor`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
+        sessionStorage.setItem("user-nome", data.user.nome);
+        sessionStorage.setItem("user-role", data.user.role);
+        sessionStorage.setItem("user-id", data.user.id);
+        sessionStorage.setItem("user-email", data.user.email);
         navigate("/professor");
       } else {
         setErrorMsg(

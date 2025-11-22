@@ -118,7 +118,7 @@ const deletarProduto = async (req, res) => {
 const resgatarProduto = async (req, res) => {
   try {
     const { produtoId } = req.body;
-    const aluno = req.user; // vem do verifyToken
+    const aluno = req.user; // vem do authMiddleware
 
     if (!produtoId) {
       return res

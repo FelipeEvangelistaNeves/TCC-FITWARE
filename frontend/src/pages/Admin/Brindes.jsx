@@ -21,7 +21,7 @@ export default function Brindes() {
   // 🔹 Buscar produtos do backend
   const fetchBrindes = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/produtos/all", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/produtos/all`, {
         method: "GET",
         credentials: "include",
       });
@@ -71,12 +71,15 @@ export default function Brindes() {
         pd_descricao: novo.descricao || "",
       };
 
-      const res = await fetch("http://localhost:3000/api/produtos/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(body),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/produtos/create`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(body),
+        }
+      );
 
       const data = await res.json();
 

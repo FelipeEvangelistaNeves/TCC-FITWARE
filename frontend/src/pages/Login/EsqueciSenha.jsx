@@ -13,12 +13,15 @@ export default function EsqueciSenha() {
     setErrorMsg("");
 
     try {
-      const response = await fetch("http://localhost:3000/aluno/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // garante envio/recebimento de cookies
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/aluno/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // garante envio/recebimento de cookies
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 

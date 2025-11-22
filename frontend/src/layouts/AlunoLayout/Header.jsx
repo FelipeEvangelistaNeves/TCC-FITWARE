@@ -9,7 +9,7 @@ export default function HeaderAluno({ title }) {
   useEffect(() => {
     const fetchAlunos = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/alunos", {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/aluno`, {
           method: "GET",
           credentials: "include",
         });
@@ -25,12 +25,16 @@ export default function HeaderAluno({ title }) {
 
   async function handleLogout() {
     try {
-      const res = await fetch("http://localhost:3000/logout", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
       const data = await res.json();
-      if (data.success) window.location.href = "/";
+
+      if (data.success) {
+        sessionStorage.clear();
+        window.location.href = "/";
+      }
     } catch (err) {
       console.error("Erro ao fazer logout:", err);
     }
@@ -42,12 +46,15 @@ export default function HeaderAluno({ title }) {
   useEffect(() => {
     const fetchAvisos = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/avisos/allAvisos`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await res.json();
         if (data.success) {
           setAvisos(data.avisos);
