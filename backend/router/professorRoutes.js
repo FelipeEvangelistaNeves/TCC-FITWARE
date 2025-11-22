@@ -19,6 +19,8 @@ const {
   dataProfTreinosAluno,
   dataProfDashboard,
   dataProfUltimosAvisos,
+  dataProfAvisos,
+
 } = require("../controllers/professorController");
 
 // PERFIL
@@ -31,13 +33,14 @@ router.post("/crud/criar", authMiddleware(), criarProfessor);
 router.put("/crud/editar/:id", authMiddleware(), editarProfessor);
 router.delete("/crud/deletar/:id", authMiddleware(), deletarProfessor);
 
-// ALUNOS + CHAT + TREINOS
-router.get("/allAlunos", authMiddleware(), dataProfAlunos);
-router.get("/conversas", authMiddleware(), dataProfConversas);
-router.get("/mensagens/:id", authMiddleware(), dataProfMensagens);
-router.post("/mensagens/:id", authMiddleware(), enviarMensagemProfessor);
-router.get("/alunos/:al_id/treinos", authMiddleware(), dataProfTreinosAluno);
-router.get("/dashboard", authMiddleware(), dataProfDashboard);
-router.get("/avisos/recentes", authMiddleware(), dataProfUltimosAvisos);
+// DASHBOARD + ALUNOS + CHAT + TREINOS
+router.get("/dashboard",verifyToken, dataProfDashboard);
+router.get("/allAlunos", verifyToken, dataProfAlunos);
+router.get("/conversas", verifyToken, dataProfConversas);
+router.get("/mensagens/:id", verifyToken, dataProfMensagens);
+router.post("/mensagens/:id", verifyToken, enviarMensagemProfessor);
+router.get("/alunos/:al_id/treinos", verifyToken, dataProfTreinosAluno);
+router.get("/avisosRecent", verifyToken, dataProfUltimosAvisos);
+router.get("/allAvisos", verifyToken, dataProfAvisos);
 
 module.exports = router;

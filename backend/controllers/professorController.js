@@ -355,7 +355,25 @@ const dataProfUltimosAvisos = async (req, res) => {
         av_ativo: true
       },
       order: [["av_data_criacao", "DESC"]],
-      limit: 5
+      limit: 3
+    });
+
+    res.json({ avisos });
+
+  } catch (err) {
+    console.error("Erro ao buscar avisos:", err);
+    res.status(500).json({ message: "Erro ao buscar avisos." });
+  }
+};
+
+const dataProfAvisos = async (req, res) => {
+  try {
+    const avisos = await Aviso.findAll({
+      where: {
+        av_destinatario_tipo: "Professores",
+        av_ativo: true
+      },
+      order: [["av_data_criacao", "DESC"]]
     });
 
     res.json({ avisos });
@@ -485,6 +503,7 @@ module.exports = {
   dataProfTreinosAluno,
   dataProfDashboard,
   dataProfUltimosAvisos,
+  dataProfAvisos,
   listarProfessores,
   criarProfessor,
   editarProfessor,

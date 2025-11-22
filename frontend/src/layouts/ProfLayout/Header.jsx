@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Bell, LogOut, ArrowLeft } from "lucide-react";
 import "../../styles/layout/mobHeader.scss";
 
-export default function HeaderProfessor({ title, avisos }) {
+export default function HeaderProfessor({ title }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [avisos, setAvisos] = useState();
 
   async function handleLogout() {
     try {
@@ -20,6 +21,23 @@ export default function HeaderProfessor({ title, avisos }) {
       console.error("Erro ao fazer logout:", err);
     }
   }
+
+//   useEffect(() => {
+//     const fetchAvisos = async () => {
+//       try {
+//         const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
+//           method: "GET",
+//         });
+//         const data = await res.json();
+//         if (data.success) {
+//           setAvisos(data.avisos);
+//         }
+//       } catch (error) {
+//         console.error("Erro ao buscar avisos:", error);
+//       }
+//       };
+//     fetchAvisos();
+// }, [])
 
   return (
     <>
