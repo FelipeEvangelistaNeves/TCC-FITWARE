@@ -1,76 +1,9 @@
-import React, { useState } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import TreinoActiveModal from "./TreinoActiveModal";
+import React, { useState, useEffect } from "react";
+import "../../styles/pages/aluno/treinos.scss";
 
 export default function DashboardAluno() {
-  const treinosmock = [
-    {
-      id: 1,
-      tipo: "Força",
-      titulo: "Treino de Força",
-      nivel: "Intermediário",
-      tempo: 45,
-      exercicios: [
-        {
-          nome: "Agachamento",
-          sets: "3×12",
-          descricao: "Mantenha a postura ereta e desça até 90 graus.",
-        },
-        {
-          nome: "Supino",
-          sets: "3×10",
-          descricao: "Barra na linha do peito, cotovelos levemente fechados.",
-        },
-        {
-          nome: "Remada",
-          sets: "3×10",
-          descricao:
-            "Puxe a barra em direção ao abdômen, contraindo as costas.",
-        },
-      ],
-      treinador: "João Paulo",
-    },
-    {
-      id: 2,
-      tipo: "Cardio",
-      titulo: "Treino de Cardio",
-      nivel: "Iniciante",
-      tempo: 30,
-      exercicios: [
-        {
-          nome: "Corrida",
-          sets: "20 min",
-          descricao: "Ritmo moderado constante na esteira ou rua.",
-        },
-        {
-          nome: "Pular corda",
-          sets: "10 min",
-          descricao: "Saltos curtos e rápidos, mantendo o ritmo.",
-        },
-      ],
-      treinador: "João Paulo",
-    },
-    {
-      id: 3,
-      tipo: "Funcional",
-      titulo: "Treino Funcional",
-      nivel: "Avançado",
-      tempo: 50,
-      exercicios: [
-        {
-          nome: "Burpees",
-          sets: "3×15",
-          descricao: "Movimento completo: flexão, agachamento e salto.",
-        },
-        {
-          nome: "Prancha",
-          sets: "3×1 min",
-          descricao: "Corpo alinhado, contraia o abdômen e glúteos.",
-        },
-      ],
-      treinador: "João Paulo",
-    },
-  ];
   const [treinos, setTreinos] = useState([]);
   useEffect(() => {
     const fetchTreinos = async () => {

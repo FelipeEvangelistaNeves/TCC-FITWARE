@@ -14,7 +14,7 @@ export default function EsqueciSenha() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/aluno/login`,
+        `${import.meta.env.VITE_BASE_URL}/login/aluno`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
