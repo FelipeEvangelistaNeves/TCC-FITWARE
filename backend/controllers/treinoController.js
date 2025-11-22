@@ -26,40 +26,49 @@ const dataTreinosDoAluno = async (req, res) => {
   try {
     const alunoId = req.user.id;
 
-    // Buscar treinos através da associação N:N (alunos_treinos)
-    const treinosRaw = await Aluno.findOne({
+    // Buscar aluno e seus treinos (N:N)
+    const aluno = await Aluno.findOne({
       where: { al_id: alunoId },
       include: [
         {
-          model: Funcionario,
-          attributes: ["fu_id", "fu_nome"],
-        },
-        {
-          model: Exercicio,
-          attributes: ["ex_id", "ex_nome"],
-          through: {
-            attributes: ["te_repeticoes", "te_series", "te_descanso"],
-          },
+          model: Treino,
+          attributes: ["tr_id", "tr_nome", "tr_descricao", "tr_dificuldade"],
+          include: [
+            {
+              model: Funcionario,
+              attributes: ["fu_id", "fu_nome"],
+            },
+            {
+              model: Exercicio,
+              attributes: ["ex_id", "ex_nome"],
+              through: {
+                attributes: ["te_repeticoes", "te_series", "te_descanso"],
+              },
+            },
+          ],
         },
       ],
     });
 
-    const treinos = treinosRaw.map((tr) => {
-      // Extrair até 3 exercícios
+    if (!aluno) {
+      return res.status(404).json({ error: "Aluno não encontrado" });
+    }
+
+    // aluno.Treinos vem do relacionamento belongsToMany
+    const treinos = aluno.Treinos.map((tr) => {
       const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
         nome: ex.ex_nome,
-        repeticoes: ex.TreinoExercicio
-          ? ex.TreinoExercicio.te_repeticoes
-          : null,
-        series: ex.TreinoExercicio ? ex.TreinoExercicio.te_series : null,
-        descanso: ex.TreinoExercicio ? ex.TreinoExercicio.te_descanso : null,
+        repeticoes: ex.TreinoExercicio?.te_repeticoes ?? null,
+        series: ex.TreinoExercicio?.te_series ?? null,
+        descanso: ex.TreinoExercicio?.te_descanso ?? null,
       }));
 
       return {
         id: tr.tr_id,
         nome: tr.tr_nome,
+        descricao: tr.tr_descricao,
         dificuldade: tr.tr_dificuldade,
-        funcionario: tr.Funcionario ? tr.Funcionario.fu_nome : null,
+        funcionario: tr.Funcionario?.fu_nome ?? null,
         exercicios,
       };
     });

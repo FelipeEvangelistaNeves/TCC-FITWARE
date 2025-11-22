@@ -6,8 +6,6 @@ function authMiddleware(roles = []) {
   return (req, res, next) => {
     const token = req.cookies?.token;
 
-    console.log("Token recebido no middleware:", token);
-
     if (!token) {
       return res.status(401).json({ message: "Token não fornecido" });
     }
