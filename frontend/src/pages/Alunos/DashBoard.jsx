@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
+import TreinoActiveModal from "./TreinoActiveModal";
 
 export default function DashboardAluno() {
   const treinos = [
@@ -10,9 +11,22 @@ export default function DashboardAluno() {
       nivel: "Intermediário",
       tempo: 45,
       exercicios: [
-        { nome: "Agachamento", sets: "3×12" },
-        { nome: "Supino", sets: "3×10" },
-        { nome: "Remada", sets: "3×10" },
+        {
+          nome: "Agachamento",
+          sets: "3×12",
+          descricao: "Mantenha a postura ereta e desça até 90 graus.",
+        },
+        {
+          nome: "Supino",
+          sets: "3×10",
+          descricao: "Barra na linha do peito, cotovelos levemente fechados.",
+        },
+        {
+          nome: "Remada",
+          sets: "3×10",
+          descricao:
+            "Puxe a barra em direção ao abdômen, contraindo as costas.",
+        },
       ],
       treinador: "João Paulo",
     },
@@ -23,8 +37,16 @@ export default function DashboardAluno() {
       nivel: "Iniciante",
       tempo: 30,
       exercicios: [
-        { nome: "Corrida", sets: "20 min" },
-        { nome: "Pular corda", sets: "10 min" },
+        {
+          nome: "Corrida",
+          sets: "20 min",
+          descricao: "Ritmo moderado constante na esteira ou rua.",
+        },
+        {
+          nome: "Pular corda",
+          sets: "10 min",
+          descricao: "Saltos curtos e rápidos, mantendo o ritmo.",
+        },
       ],
       treinador: "João Paulo",
     },
@@ -35,49 +57,29 @@ export default function DashboardAluno() {
       nivel: "Avançado",
       tempo: 50,
       exercicios: [
-        { nome: "Burpees", sets: "3×15" },
-        { nome: "Prancha", sets: "3×1 min" },
+        {
+          nome: "Burpees",
+          sets: "3×15",
+          descricao: "Movimento completo: flexão, agachamento e salto.",
+        },
+        {
+          nome: "Prancha",
+          sets: "3×1 min",
+          descricao: "Corpo alinhado, contraia o abdômen e glúteos.",
+        },
       ],
       treinador: "João Paulo",
     },
   ];
 
   const [filtro, setFiltro] = useState("Todos");
-  const [treinoAtivo, setTreinoAtivo] = useState(null);
-  const [tempoRestante, setTempoRestante] = useState(0);
-  const [timerAtivo, setTimerAtivo] = useState(false);
+  const [modalTreinoAtivo, setModalTreinoAtivo] = useState(null);
 
   const treinosFiltrados =
     filtro === "Todos" ? treinos : treinos.filter((t) => t.tipo === filtro);
 
-  useEffect(() => {
-    let intervalo;
-    if (timerAtivo && tempoRestante > 0) {
-      intervalo = setInterval(() => {
-        setTempoRestante((prev) => prev - 1);
-      }, 1000);
-    } else if (tempoRestante === 0 && treinoAtivo) {
-      setTimerAtivo(false);
-      setTreinoAtivo(null);
-    }
-    return () => clearInterval(intervalo);
-  }, [timerAtivo, tempoRestante]);
-
   const iniciarTreino = (treino) => {
-    setTreinoAtivo(treino.id);
-    setTempoRestante(treino.tempo * 60);
-    setTimerAtivo(true);
-  };
-
-  const pararTreino = () => {
-    setTimerAtivo(false);
-    setTreinoAtivo(null);
-  };
-
-  const formatarTempo = (segundos) => {
-    const min = Math.floor(segundos / 60);
-    const sec = segundos % 60;
-    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    setModalTreinoAtivo(treino);
   };
 
   return (
@@ -142,25 +144,24 @@ export default function DashboardAluno() {
                 <span className="trainer-name">{treino.treinador}</span>
               </div>
 
-              {treinoAtivo === treino.id && timerAtivo ? (
-                <div className="workout-timer">
-                  <div className="timer-display">{formatarTempo(tempoRestante)}</div>
-                  <button className="stop-btn" onClick={pararTreino}>
-                    Parar
-                  </button>
-                </div>
-              ) : (
-                <button
-                  className="start-btn"
-                  onClick={() => iniciarTreino(treino)}
-                >
-                  Iniciar
-                </button>
-              )}
+              <button
+                className="start-btn"
+                onClick={() => iniciarTreino(treino)}
+              >
+                Iniciar
+              </button>
             </div>
           </div>
         ))}
       </section>
+
+      {modalTreinoAtivo && (
+        <TreinoActiveModal
+          treino={modalTreinoAtivo}
+          onClose={() => setModalTreinoAtivo(null)}
+          onMinimize={() => setModalTreinoAtivo(null)}
+        />
+      )}
     </div>
   );
 }

@@ -1,19 +1,101 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/aluno/treinos.scss";
+import TreinoActiveModal from "./TreinoActiveModal";
 
 export default function TreinoAluno() {
-  const [treinos, setTreinos] = useState([]);
+  const [treinos, setTreinos] = useState([
+    {
+      tr_id: 1,
+      tr_nome: "Treino de Força",
+      tr_categoria: "Força",
+      tr_descricao: "Intermediário • 45 min",
+      tr_tempo: 45,
+      Funcionario: { fu_nome: "João Paulo" },
+      Exercicios: [
+        {
+          ex_id: 1,
+          ex_nome: "Agachamento",
+          ex_repeticoes: "3×12",
+          ex_descricao: "Mantenha a postura ereta e desça até 90 graus.",
+        },
+        {
+          ex_id: 2,
+          ex_nome: "Supino",
+          ex_repeticoes: "3×10",
+          ex_descricao:
+            "Barra na linha do peito, cotovelos levemente fechados.",
+        },
+        {
+          ex_id: 3,
+          ex_nome: "Remada",
+          ex_repeticoes: "3×10",
+          ex_descricao:
+            "Puxe a barra em direção ao abdômen, contraindo as costas.",
+        },
+      ],
+    },
+    {
+      tr_id: 2,
+      tr_nome: "Treino de Cardio",
+      tr_categoria: "Cardio",
+      tr_descricao: "Iniciante • 30 min",
+      tr_tempo: 30,
+      Funcionario: { fu_nome: "João Paulo" },
+      Exercicios: [
+        {
+          ex_id: 4,
+          ex_nome: "Corrida",
+          ex_repeticoes: "20 min",
+          ex_descricao: "Ritmo moderado constante na esteira ou rua.",
+        },
+        {
+          ex_id: 5,
+          ex_nome: "Pular corda",
+          ex_repeticoes: "10 min",
+          ex_descricao: "Saltos curtos e rápidos, mantendo o ritmo.",
+        },
+      ],
+    },
+    {
+      tr_id: 3,
+      tr_nome: "Treino Funcional",
+      tr_categoria: "Funcional",
+      tr_descricao: "Avançado • 60 min",
+      tr_tempo: 60,
+      Funcionario: { fu_nome: "João Paulo" },
+      Exercicios: [
+        {
+          ex_id: 6,
+          ex_nome: "Burpees",
+          ex_repeticoes: "3×15",
+          ex_descricao: "Movimento completo: flexão, agachamento e salto.",
+        },
+        {
+          ex_id: 7,
+          ex_nome: "Mountain Climbers",
+          ex_repeticoes: "3×20",
+          ex_descricao:
+            "Traga os joelhos ao peito alternadamente em posição de prancha.",
+        },
+        {
+          ex_id: 8,
+          ex_nome: "Prancha",
+          ex_repeticoes: "3×1 min",
+          ex_descricao: "Corpo alinhado, contraia o abdômen e glúteos.",
+        },
+      ],
+    },
+  ]);
   const [erro, setErro] = useState(null);
 
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("Todos");
 
-  const [treinoAtivo, setTreinoAtivo] = useState(null);
-  const [tempoRestante, setTempoRestante] = useState(0);
-  const [timerAtivo, setTimerAtivo] = useState(false);
+  const [modalTreinoAtivo, setModalTreinoAtivo] = useState(null);
 
-  // 🔄 Carregar treinos do backend
+  // 🔄 Carregar treinos do backend (Comentado para usar mock com descrições)
+  /*
   useEffect(() => {
     const fetchTreinos = async () => {
       try {
@@ -34,6 +116,7 @@ export default function TreinoAluno() {
 
     fetchTreinos();
   }, []);
+  */
 
   if (erro) return <p>{erro}</p>;
 
@@ -55,37 +138,8 @@ export default function TreinoAluno() {
     return (nomeMatch || descMatch || exerciciosMatch) && categoriaMatch;
   });
 
-  // 🕒 CRONÔMETRO
-  useEffect(() => {
-    let intervalo;
-
-    if (timerAtivo && tempoRestante > 0) {
-      intervalo = setInterval(() => {
-        setTempoRestante((prev) => prev - 1);
-      }, 1000);
-    } else if (tempoRestante === 0 && treinoAtivo) {
-      setTimerAtivo(false);
-      setTreinoAtivo(null);
-    }
-
-    return () => clearInterval(intervalo);
-  }, [timerAtivo, tempoRestante]);
-
   const iniciarTreino = (treino) => {
-    setTreinoAtivo(treino.tr_id);
-    setTempoRestante((treino.tr_tempo || 30) * 60); // fallback caso não tenha campo
-    setTimerAtivo(true);
-  };
-
-  const pararTreino = () => {
-    setTimerAtivo(false);
-    setTreinoAtivo(null);
-  };
-
-  const formatarTempo = (segundos) => {
-    const min = Math.floor(segundos / 60);
-    const sec = segundos % 60;
-    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    setModalTreinoAtivo(treino);
   };
 
   return (
@@ -152,27 +206,24 @@ export default function TreinoAluno() {
                 </span>
               </div>
 
-              {treinoAtivo === treino.tr_id && timerAtivo ? (
-                <div className="workout-timer">
-                  <div className="timer-display">
-                    {formatarTempo(tempoRestante)}
-                  </div>
-                  <button className="stop-btn" onClick={pararTreino}>
-                    Parar
-                  </button>
-                </div>
-              ) : (
-                <button
-                  className="start-btn"
-                  onClick={() => iniciarTreino(treino)}
-                >
-                  Iniciar
-                </button>
-              )}
+              <button
+                className="start-btn"
+                onClick={() => iniciarTreino(treino)}
+              >
+                Iniciar
+              </button>
             </div>
           </div>
         ))}
       </section>
+
+      {modalTreinoAtivo && (
+        <TreinoActiveModal
+          treino={modalTreinoAtivo}
+          onClose={() => setModalTreinoAtivo(null)}
+          onMinimize={() => setModalTreinoAtivo(null)}
+        />
+      )}
     </div>
   );
 }
