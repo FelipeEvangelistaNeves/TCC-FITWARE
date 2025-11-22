@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../../styles/pages/login/loginDesk.scss";
 import logo from "../../assets/logo.png"; // Certifique-se de ter uma imagem de logo
 const LoginDesk = () => {
@@ -66,6 +66,9 @@ const LoginDesk = () => {
         </div>
 
         <div className="login-right">
+          <Link to="/" className="back-link">
+            <i className="bi bi-arrow-left"></i>
+          </Link>
           <div className="login-form-container">
             <h2>Bem-vindo de volta</h2>
             <p>Acesse sua conta administrativa</p>

@@ -25,6 +25,22 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      .back-link {
+        text-decoration: none;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        color: var(--color-text);
+
+        i {
+          font-size: 1.5rem;
+        }
+
+        &:hover {
+          color: var(--color-purple);
+        }
+      }
     }
 
     .login-left {

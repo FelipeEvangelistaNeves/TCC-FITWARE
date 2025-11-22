@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../styles/pages/login/loginmob.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 
 export default function LoginAluno() {
@@ -36,7 +36,11 @@ export default function LoginAluno() {
   return (
     <div className="login-container">
       <div className="login-card">
+        <Link to="/" className="back-link">
+          <i className="bi bi-arrow-left"></i>
+        </Link>
         <img src={Logo} alt="logo fitware" className="login-avatar" />
+
         <h2 className="login-title">FitWare</h2>
         <p className="login-subtitle">
           Logue em sua conta Aluno e seja Fitware!
