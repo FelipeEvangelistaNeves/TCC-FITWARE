@@ -3,7 +3,7 @@ const { Treino, Funcionario, Aluno, Exercicio } = require("../models");
 
 const dataTreinosDoProfessor = async (req, res) => {
   try {
-    const profId = req.user.id; // ID do prof que está logado
+    const profId = req.user.id;
 
     const prof = await Funcionario.findByPk(profId, {
       attributes: { exclude: ["fu_senha"] },
@@ -13,7 +13,27 @@ const dataTreinosDoProfessor = async (req, res) => {
       return res.status(404).json({ message: "Professor não encontrado." });
     }
 
-    const treinos = await Treino.findByProfId(profId);
+    // Busca todos os treinos com os includes definidos no método customizado
+    const treinosRaw = await Treino.findByProfId(profId);
+
+    // Padronizar saída como no dataTreinosDoAluno
+    const treinos = treinosRaw.map((tr) => {
+      const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
+        nome: ex.ex_nome,
+        repeticoes: ex.TreinoExercicio?.te_repeticoes ?? null,
+        series: ex.TreinoExercicio?.te_series ?? null,
+        descanso: ex.TreinoExercicio?.te_descanso ?? null,
+      }));
+
+      return {
+        id: tr.tr_id,
+        nome: tr.tr_nome,
+        descricao: tr.tr_descricao,
+        dificuldade: tr.tr_dificuldade,
+        funcionario: tr.Funcionario?.fu_nome ?? null,
+        exercicios,
+      };
+    });
 
     return res.status(200).json(treinos);
   } catch (error) {
