@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken } = require("../middleware/auth");
+const { authMiddleware } = require("../middleware/auth");
 const {
   criarProduto,
   listarProdutos,
@@ -10,12 +10,12 @@ const {
   resgatarProduto,
 } = require("../controllers/produtosController");
 
-router.post("/resgatar", verifyToken, resgatarProduto);
+router.post("/resgatar", authMiddleware(), resgatarProduto);
 
-router.post("/create", verifyToken, criarProduto);
-router.get("/all", verifyToken, listarProdutos);
-router.get("/search/:id", verifyToken, buscarProdutoPorId);
-router.put("/update/:id", verifyToken, atualizarProduto);
-router.delete("/delete/:id", verifyToken, deletarProduto);
+router.post("/create", authMiddleware(), criarProduto);
+router.get("/all", authMiddleware(), listarProdutos);
+router.get("/search/:id", authMiddleware(), buscarProdutoPorId);
+router.put("/update/:id", authMiddleware(), atualizarProduto);
+router.delete("/delete/:id", authMiddleware(), deletarProduto);
 
 module.exports = router;

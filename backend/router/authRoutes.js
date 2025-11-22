@@ -1,13 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken, roleMiddleware } = require("../middleware/auth");
-const { protectedRoute, logout } = require("../controllers/authController");
+const {
+  loginAluno,
+  loginProfessor,
+  loginAdmin,
+  logout,
+} = require("../controllers/authController");
 
 /**
  * @swagger
- * /protected:
- *   get:
- *     summary: Rota protegida (qualquer usuário logado)
+ * /login/aluno:
+ *   post:
+ *     summary: Login do aluno
  *     tags: [Auth]
  *     responses:
  *       200:
@@ -15,7 +19,35 @@ const { protectedRoute, logout } = require("../controllers/authController");
  *       401:
  *         description: Não autorizado
  */
-router.get("/protected", verifyToken, protectedRoute);
+router.post("/login/aluno", loginAluno);
+
+/**
+ * @swagger
+ * /login/professor:
+ *  post:
+ *    summary: Login do professor
+ *   tags: [Auth]
+ *   responses:
+ *    200:
+ *     description: Retorna usuário autenticado
+ *   401:
+ *    description: Não autorizado
+ */
+router.post("/login/professor", loginProfessor);
+
+/**
+ * @swagger
+ * /login/admin:
+ *  post:
+ *   summary: Login do admin
+ *  tags: [Auth]
+ *  responses:
+ *   200:
+ *    description: Retorna usuário autenticado
+ *  401:
+ *   description: Não autorizado
+ */
+router.post("/login/admin", loginAdmin);
 
 /**
  * @swagger

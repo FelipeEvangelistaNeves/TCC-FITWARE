@@ -1,63 +1,6 @@
 const { Aluno, Turma } = require("../models");
-const LoggerMessages = require("../loggerMessages");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ quiet: true });
-
-/**
- * 🔹 Login do aluno
- */
-const loginAluno = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const aluno = await Aluno.findByEmail(email);
-
-    if (!aluno) {
-      return res
-        .status(401)
-        .json({ success: false, message: LoggerMessages.USER_NOT_FOUND });
-    }
-
-    const senhaValida = await bcrypt.compare(password, aluno.al_senha);
-    if (!senhaValida) {
-      return res
-        .status(401)
-        .json({ success: false, message: LoggerMessages.LOGIN_FAILED });
-    }
-
-    const token = jwt.sign(
-      { id: aluno.al_id, role: "Aluno" },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES || "1h" }
-    );
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // true apenas em produção com HTTPS
-      sameSite: "lax",
-      maxAge: 3600000,
-    });
-
-    console.log(LoggerMessages.LOGIN_SUCCESS, aluno.al_email);
-
-    return res.json({
-      success: true,
-      message: LoggerMessages.LOGIN_SUCCESS,
-      user: {
-        id: aluno.al_id,
-        nome: aluno.al_nome,
-        email: aluno.al_email,
-        role: "Aluno",
-      },
-    });
-  } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ success: false, message: LoggerMessages.SERVER_ERROR });
-  }
-};
 
 /**
  * 🔹 Dados do aluno logado
@@ -145,4 +88,4 @@ const atualizarAluno = async (req, res) => {
   }
 };
 
-module.exports = { loginAluno, dataAluno, atualizarAluno };
+module.exports = { dataAluno, atualizarAluno };

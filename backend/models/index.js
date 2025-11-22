@@ -76,6 +76,7 @@ Aluno.belongsToMany(Treino, {
   through: AlunoTreino,
   foreignKey: "al_id",
 });
+
 Treino.belongsToMany(Aluno, {
   through: AlunoTreino,
   foreignKey: "tr_id",
