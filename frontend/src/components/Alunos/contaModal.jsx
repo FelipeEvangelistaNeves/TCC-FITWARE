@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./../../styles/pages/aluno/configModal.scss";
 
 export default function ContaModal({ isOpen, onClose }) {
-  const [formData, setFormData] = useState({ nome: "", email: "" });
+  const [formData, setFormData] = useState({ nome: "", email: "", telefone: "", });
 
   // Buscar dados do aluno logado
   useEffect(() => {
@@ -15,6 +15,7 @@ export default function ContaModal({ isOpen, onClose }) {
           setFormData({
             nome: data.nome || "",
             email: data.email || "",
+            telefone: data.telefone || "",
           });
         })
         .catch((err) => console.error("Erro ao carregar dados do aluno:", err));
@@ -70,6 +71,16 @@ export default function ContaModal({ isOpen, onClose }) {
             type="email"
             name="email"
             value={formData.email}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Telefone</label>
+          <input
+            type="text"
+            name="telefone"
+            value={formData.telefone}
             onChange={handleChange}
           />
         </div>

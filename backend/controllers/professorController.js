@@ -8,6 +8,8 @@ const {
   Treino,
   Exercicio,
   TreinoExercicio,
+  Turma,
+  Aviso,
 } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -285,25 +287,82 @@ const dataProfTreinosAluno = async (req, res) => {
   try {
     const { al_id } = req.params;
 
-    const treinos = await AlunoTreino.findAll({
-      where: { al_id },
-      include: [
-        {
-          model: Treino,
-          include: [
-            {
-              model: TreinoExercicio,
-              include: [{ model: Exercicio }],
-            },
-          ],
-        },
-      ],
-    });
+    console.log("🔍 ID recebido no controller:", req.params.al_id);
 
-    res.json({ treinos });
+    const countTreinos = await AlunoTreino.count({
+  where: { al_id }
+});
+
+console.log("🔍 Quantos treinos esse aluno tem na pivot:", countTreinos);
+    const treinosAluno = await AlunoTreino.findAll({
+    where: { al_id },
+    include: [
+      {
+        model: Treino,
+        as: "Treino",
+        include: [
+          {
+            model: Exercicio,
+            as: "Exercicios"   // importante: seu Treino→Exercicio também usa alias
+          }
+        ]
+      }
+    ]
+  });
+
+  console.log("🔍 Resultado raw do banco:", JSON.stringify(treinosAluno, null, 2));
+    res.json({ treinosAluno });
   } catch (err) {
     console.error("Erro ao buscar treinos do aluno:", err);
     res.status(500).json({ message: "Erro ao buscar treinos do aluno" });
+  }
+};
+
+const dataProfDashboard = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Token ausente" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const professorId = decoded.id;
+
+    // Treinos criados pelo professor
+    const totalTreinos = await Treino.count({
+      where: { tr_prof_id: professorId }
+    });
+
+    // Turmas que ele ministra
+    const totalTurmas = await Turma.count({
+      where: { tu_prof_id: professorId }
+    });
+
+    return res.json({
+      totalTreinos,
+      totalTurmas,
+    });
+
+  } catch (err) {
+    console.error("Erro ao buscar dados do dashboard:", err);
+    return res.status(500).json({ message: "Erro interno." });
+  }
+};
+
+const dataProfUltimosAvisos = async (req, res) => {
+  try {
+    const avisos = await Aviso.findAll({
+      where: {
+        av_destinatario_tipo: "Professores",
+        av_ativo: true
+      },
+      order: [["av_data_criacao", "DESC"]],
+      limit: 5
+    });
+
+    res.json({ avisos });
+
+  } catch (err) {
+    console.error("Erro ao buscar avisos:", err);
+    res.status(500).json({ message: "Erro ao buscar avisos." });
   }
 };
 
@@ -424,6 +483,8 @@ module.exports = {
   dataProfMensagens,
   enviarMensagemProfessor,
   dataProfTreinosAluno,
+  dataProfDashboard,
+  dataProfUltimosAvisos,
   listarProfessores,
   criarProfessor,
   editarProfessor,

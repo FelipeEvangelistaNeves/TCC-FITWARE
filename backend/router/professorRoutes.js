@@ -17,6 +17,8 @@ const {
   dataProfMensagens,
   enviarMensagemProfessor,
   dataProfTreinosAluno,
+  dataProfDashboard,
+  dataProfUltimosAvisos,
 } = require("../controllers/professorController");
 
 // PERFIL
@@ -35,5 +37,7 @@ router.get("/conversas", authMiddleware(), dataProfConversas);
 router.get("/mensagens/:id", authMiddleware(), dataProfMensagens);
 router.post("/mensagens/:id", authMiddleware(), enviarMensagemProfessor);
 router.get("/alunos/:al_id/treinos", authMiddleware(), dataProfTreinosAluno);
+router.get("/dashboard", authMiddleware(), dataProfDashboard);
+router.get("/avisos/recentes", authMiddleware(), dataProfUltimosAvisos);
 
 module.exports = router;

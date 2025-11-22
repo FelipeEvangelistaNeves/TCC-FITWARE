@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState, useRef} from "react";
 import "../../styles/pages/professor/dashboardProf.scss";
 import { Dumbbell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -6,43 +6,68 @@ import { useNavigate } from "react-router-dom";
 export default function DashboardProf() {
   const navigate = useNavigate();
 
-  const atividades = [
-  {
-    id: 1,
-    tipo: "Treino enviado para Maria",
-    horario: "Hoje, 14:30",
-  },
-  {
-    id: 2,
-    tipo: "Mensagem para Turma Segunda",
-    horario: "Hoje, 10:15",
-  },
-  {
-    id: 3,
-    tipo: "Novo aluno: Carlos Mendes",
-    horario: "Ontem, 16:45",
-  },
-];
+  const [totalTreinos, setTotalTreinos] = useState();
+  const [totalTurmas, setTotalTurmas] = useState();
+  const [avisos, setAvisos] = useState([]);
+
+  useEffect(() => {
+    async function fetchDashboard() {
+      try {
+        const res = await fetch("http://localhost:3000/api/professor/dashboard", {
+          credentials: "include",
+        });
+
+        if (!res.ok) throw new Error("Erro ao carregar dashboard");
+
+        const data = await res.json();
+        setTotalTreinos(data.totalTreinos);
+        setTotalTurmas(data.totalTurmas);
+      } catch (err) {
+        console.error("Erro ao carregar dashboard:", err);
+      }
+    }
+
+    fetchDashboard();
+  }, []);
+
+  useEffect(() => {
+    async function fetchUltimosAvisos() {
+      try{
+        const res = await fetch("http://localhost:3000/api/professor/avisos/recentes", {
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          throw new Error("Erro ao buscar avisos");
+        }
+
+        const data = await res.json();
+
+        setAvisos(data.avisos);
+      } catch (err) {
+        console.error("Erro ao buscar avisos:", err);
+      }
+    }
+
+    fetchUltimosAvisos();
+  }, []);
 
 
   return (
     <div className="dashboard-aluno">
+      
       {/* Summary Cards */}
       <section className="summary-cards">
         <div className="summary-card">
-          <h3>Treinos</h3>
-          <div className="card-number">12</div>
-          <div className="card-subtitle">Completos</div>
+          <h3>Treinos Criados</h3>
+          <div className="card-number">{totalTreinos}</div>
+          <div className="card-subtitle">Total</div>
         </div>
+
         <div className="summary-card">
-          <h3>Desafios</h3>
-          <div className="card-number">3</div>
-          <div className="card-subtitle">Ativos</div>
-        </div>
-        <div className="summary-card">
-          <h3>Calorias</h3>
-          <div className="card-number">450</div>
-          <div className="card-subtitle">Hoje</div>
+          <h3>Turmas</h3>
+          <div className="card-number">{totalTurmas}</div>
+          <div className="card-subtitle">Ativas</div>
         </div>
       </section>
 
@@ -75,28 +100,33 @@ export default function DashboardProf() {
               <div>
                 <i class="bi bi-clock"></i>
               </div>
-              <div className="action-label">Histórico</div>
+              <div className="action-label">Perfil</div>
             </button>
           </div>
       </section>
 
-    <div className="atividade-card">
-      <div className="atividade-header">
-        <h3>Atividade Recente</h3>
-      </div>
+      <section className="atividade-card">
+        <div className="atividade-header">
+          <h3>Alertas Importantes</h3>
+        </div>
 
-      <ul className="atividade-lista">
-        {atividades.map((item) => (
-          <li key={item.id} className="atividade-item">
-            <div className="atividade-icone">{item.icon}</div>
-            <div className="atividade-info">
-              <p className="atividade-titulo">{item.tipo}</p>
-              <span className="atividade-horario">{item.horario}</span>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <ul className="atividade-lista">
+          {avisos.length === 0 && (
+            <li className="atividade-item">Nenhum aviso recente.</li>
+          )}
+
+          {avisos.map((a) => (
+            <li key={a.av_id} className="atividade-item">
+              <div className="atividade-info">
+                <p className="atividade-titulo">{a.av_titulo}</p>
+                <span className="atividade-horario">
+                  {new Date(a.av_data_criacao).toLocaleString("pt-BR")}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
 
     </div>
   );

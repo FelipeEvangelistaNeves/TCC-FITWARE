@@ -7,26 +7,34 @@ export default function PerfilAluno({ aluno, onBack }) {
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    const fetchTreinos = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/professor/alunos/${aluno.al_id}/treinos`,
-          { credentials: "include" }
-        );
+  async function fetchTreinos() {
+    try {
+      console.log("Aluno Id", aluno);
+      const res = await fetch(
+        `http://localhost:3000/api/professor/alunos/${aluno.al_id}/treinos`,
+        { credentials: "include" }
+      );
 
-        if (!res.ok) throw new Error("Erro ao buscar treinos");
+      if (!res.ok) throw new Error("Erro ao carregar mensagens");
 
-        const data = await res.json();
-        setTreinos(data.treinos || []);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setCarregando(false);
-      }
-    };
+      const data = await res.json();
 
-    fetchTreinos();
-  }, [aluno]);
+      console.log("📦 TREINOS RECEBIDOS DO BACKEND:", data);
+
+      // 🔥 O erro estava aqui:
+      // setTreinos(data);
+
+      // ✔️ CORRETO:
+      setTreinos(data.treinosAluno);
+    } catch (err) {
+      console.error("Erro ao buscar treinos:", err);
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  fetchTreinos();
+}, []);
 
   return (
     <div className="aluno-detalhes">
@@ -64,28 +72,27 @@ export default function PerfilAluno({ aluno, onBack }) {
           <p style={{ textAlign: "center" }}>Nenhum treino encontrado.</p>
         )}
 
-        {treinos.map((t) => (
-          <div className="card-treino" key={t.at_id}>
-            <div className="header">
-              <span className="titulo">{t.Treino.tr_titulo}</span>
-              <span className="data">
-                {new Date(t.at_data_envio).toLocaleDateString("pt-BR")}
-              </span>
-            </div>
+        {treinos.map((item) => (
+  <div className="card-treino" key={item.tr_id}>
+    <div className="header">
+      <span className="titulo">{item.Treino.tr_nome}</span>
+      <span className="data">{item.Treino.tr_dificuldade}</span>
+    </div>
 
-            <ul>
-              {t.Treino.TreinoExercicios.map((te) => (
-                <li key={te.te_id}>
-                  {te.Exercicio.ex_nome}: {te.te_series}×{te.te_repeticoes}
-                </li>
-              ))}
-            </ul>
+    <ul>
+      {item.Treino.Exercicios.map((ex) => (
+        <li key={ex.ex_id}>
+          {ex.ex_nome} — {ex.TreinoExercicio.te_series}x{ex.TreinoExercicio.te_repeticoes}
+        </li>
+      ))}
+    </ul>
 
-            <div className="acoes-card">
-              <button className="detalhes">Ver Detalhes</button>
-            </div>
-          </div>
-        ))}
+    <div className="acoes-card">
+      <button className="detalhes">Ver Detalhes</button>
+      <button className="duplicar">Duplicar</button>
+    </div>
+  </div>
+))}
       </div>
     </div>
   );
