@@ -20,6 +20,8 @@ const {
   dataProfTreinosAluno,
   dataProfDashboard,
   dataProfUltimosAvisos,
+  dataProfAvisos,
+
 } = require("../controllers/professorController");
 
 // LOGIN
@@ -42,5 +44,7 @@ router.get("/conversas", verifyToken, dataProfConversas);
 router.get("/mensagens/:id", verifyToken, dataProfMensagens);
 router.post("/mensagens/:id", verifyToken, enviarMensagemProfessor);
 router.get("/alunos/:al_id/treinos", verifyToken, dataProfTreinosAluno);
-router.get("/avisos/recentes", verifyToken, dataProfUltimosAvisos);
+router.get("/avisosRecent", verifyToken, dataProfUltimosAvisos);
+router.get("/allAvisos", verifyToken, dataProfAvisos);
+
 module.exports = router;

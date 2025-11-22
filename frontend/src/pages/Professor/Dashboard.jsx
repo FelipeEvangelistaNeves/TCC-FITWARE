@@ -33,7 +33,7 @@ export default function DashboardProf() {
   useEffect(() => {
     async function fetchUltimosAvisos() {
       try{
-        const res = await fetch("http://localhost:3000/api/professor/avisos/recentes", {
+        const res = await fetch("http://localhost:3000/api/professor/avisosRecent", {
           credentials: "include",
         });
 
