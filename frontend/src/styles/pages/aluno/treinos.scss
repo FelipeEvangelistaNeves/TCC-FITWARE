@@ -77,6 +77,12 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 1rem;
+  gap: 1rem;
+
+  // Removido flex-direction: column para manter em linha
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 
   .trainer-info {
     display: flex;
@@ -94,47 +100,30 @@
       justify-content: center;
       font-weight: 600;
       font-size: 1rem;
+      flex-shrink: 0; // Garante que o avatar não encolha
     }
 
     .trainer-name {
       font-size: 0.9rem;
       color: rgba(var(--white), 0.8);
+
+      // Opcional: esconder nome em telas muito pequenas se necessário
+      @media (max-width: 480px) {
+        display: none;
+      }
     }
   }
 
-  .workout-timer {
+  .workout-actions {
     display: flex;
+    gap: 10px;
+    flex-direction: row;
     align-items: center;
-    gap: 1rem;
-    background: rgba(var(--white-rgb), 0.05);
-    border-radius: 12px;
-    padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
 
-    .timer-display {
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--white);
-      text-shadow: 0 0 8px rgba(var(--white-rgb), 0.4);
-      min-width: 80px;
-      text-align: center;
-    }
-
-    .stop-btn {
-      background: var(--color-red);
-      color: var(--white);
-      border: none;
-      border-radius: 8px;
-      padding: 0.6rem 1.2rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background: var(--color-red);
-        transform: scale(1.05);
-      }
+    @media (max-width: 768px) {
+      width: auto; // Deixa ocupar apenas o espaço necessário
+      margin-top: 0;
+      justify-content: flex-end;
     }
   }
 
@@ -149,6 +138,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
 
     &:hover {
       background: var(--color-purple-hover);
@@ -157,6 +147,21 @@
 
     &:active {
       transform: scale(0.98);
+    }
+
+    &.secondary {
+      background: transparent;
+      border: 1px solid var(--color-purple);
+      color: var(--color-purple);
+
+      &:hover {
+        background: rgba(var(--color-purple-rgb), 0.1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex: 1;
+      text-align: center;
     }
   }
 }

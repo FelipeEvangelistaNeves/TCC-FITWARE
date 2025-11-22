@@ -75,7 +75,9 @@ export default function LoginAluno() {
         </div>
 
         <div className="forgot-password">
-          <a href="#">Esqueceu a senha?</a>
+          <Link to="/esqueci-senha" state={{ from: "/login/aluno" }}>
+            Esqueceu a senha?
+          </Link>
         </div>
 
         <button onClick={Executar} className="button-log-mob">

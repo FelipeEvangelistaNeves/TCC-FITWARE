@@ -127,19 +127,21 @@ export default function TreinoAluno() {
                 <span className="trainer-name">{treino.treinador}</span>
               </div>
 
-              <button
-                className="start-btn"
-                onClick={() => abrirDetalhes(treino.id)}
-              >
-                Detalhes
-              </button>
+              <div className="workout-actions">
+                <button
+                  className="start-btn secondary"
+                  onClick={() => abrirDetalhes(treino.id)}
+                >
+                  Detalhes
+                </button>
 
-              <button
-                className="start-btn"
-                onClick={() => iniciarTreino(treino)}
-              >
-                Iniciar
-              </button>
+                <button
+                  className="start-btn"
+                  onClick={() => iniciarTreino(treino)}
+                >
+                  Iniciar
+                </button>
+              </div>
             </div>
           </div>
         ))}
