@@ -13,10 +13,8 @@ const dataTreinosDoProfessor = async (req, res) => {
       return res.status(404).json({ message: "Professor não encontrado." });
     }
 
-    // Busca todos os treinos com os includes definidos no método customizado
     const treinosRaw = await Treino.findByProfId(profId);
 
-    // Padronizar saída como no dataTreinosDoAluno
     const treinos = treinosRaw.map((tr) => {
       const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
         nome: ex.ex_nome,
@@ -46,7 +44,6 @@ const dataTreinosDoAluno = async (req, res) => {
   try {
     const alunoId = req.user.id;
 
-    // Buscar aluno e seus treinos (N:N)
     const aluno = await Aluno.findOne({
       where: { al_id: alunoId },
       include: [
@@ -74,7 +71,6 @@ const dataTreinosDoAluno = async (req, res) => {
       return res.status(404).json({ error: "Aluno não encontrado" });
     }
 
-    // aluno.Treinos vem do relacionamento belongsToMany
     const treinos = aluno.Treinos.map((tr) => {
       const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
         nome: ex.ex_nome,
