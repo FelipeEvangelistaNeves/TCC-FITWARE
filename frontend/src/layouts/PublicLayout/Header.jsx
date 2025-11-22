@@ -89,19 +89,6 @@ export default function Header() {
             <NavLink to="/suporte" onClick={() => setMenuOpen(false)}>
               Suporte
             </NavLink>
-            <div className="theme-switch-wrapper fw-dropdown-item">
-              <i
-                className={`bi ${
-                  isLight ? "bi-sun-fill" : "bi-moon-stars-fill"
-                }`}
-              ></i>
-              <span>{isLight ? "Modo Claro" : "Modo Escuro"}</span>
-              <div className="theme-switch" onClick={toggleTheme}>
-                <div className={`switch-track ${isLight ? "light" : ""}`}>
-                  <div className="switch-handle"></div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="login-area">

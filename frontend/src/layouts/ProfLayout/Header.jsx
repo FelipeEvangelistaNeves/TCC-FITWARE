@@ -22,22 +22,25 @@ export default function HeaderProfessor({ title }) {
     }
   }
 
-  //   useEffect(() => {
-  //     const fetchAvisos = async () => {
-  //       try {
-  //         const res = await fetch("http://localhost:3000/api/avisos/allAvisos", {
-  //           method: "GET",
-  //         });
-  //         const data = await res.json();
-  //         if (data.success) {
-  //           setAvisos(data.avisos);
-  //         }
-  //       } catch (error) {
-  //         console.error("Erro ao buscar avisos:", error);
-  //       }
-  //       };
-  //     fetchAvisos();
-  // }, [])
+  useEffect(() => {
+    const fetchAvisos = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/avisos/allAvisos`,
+          {
+            method: "GET",
+          }
+        );
+        const data = await res.json();
+        if (data.success) {
+          setAvisos(data.avisos);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar avisos:", error);
+      }
+    };
+    fetchAvisos();
+  }, []);
 
   return (
     <>

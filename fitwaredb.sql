@@ -24,39 +24,73 @@ SET row_security = off;
 CREATE FUNCTION public.verificar_participantes_mensagem() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
+
 DECLARE
+
     aluno_id INT;
+
     professor_id INT;
+
 BEGIN
+
     -- Busca os participantes da conversa
+
     SELECT al_id, prof_id INTO aluno_id, professor_id
+
     FROM conversas
+
     WHERE co_id = NEW.co_id;
 
+
+
     -- Verifica se a conversa existe
+
     IF aluno_id IS NULL THEN
+
         RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
+
     END IF;
 
-    -- Verifica se remetente e destinat rio pertencem … conversa
+
+
+    -- Verifica se remetente e destinatário pertencem … conversa
+
     IF NOT (
+
         (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
+
          NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
+
         OR
+
         (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
+
          NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
+
     ) THEN
-        RAISE EXCEPTION 'Remetente ou destinat rio nÆo pertencem … conversa %', NEW.co_id;
+
+        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
+
     END IF;
 
-    -- Evita remetente e destinat rio iguais do mesmo tipo
+
+
+    -- Evita remetente e destinatário iguais do mesmo tipo
+
     IF NEW.remetente_tipo = NEW.destinatario_tipo
+
        AND NEW.remetente_id = NEW.destinatario_id THEN
-        RAISE EXCEPTION 'Remetente e destinat rio nÆo podem ser iguais do mesmo tipo';
+
+        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
+
     END IF;
+
+
 
     RETURN NEW;
+
 END;
+
 $$;
 
 
@@ -713,7 +747,7 @@ ALTER TABLE ONLY public.turmas ALTER COLUMN tu_id SET DEFAULT nextval('public.tu
 --
 
 COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_dtnasc, al_pontos, al_treinos_completos, al_status) FROM stdin;
-1	JoÆo Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	150	5	ativo
+1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	150	5	ativo
 2	Maria Clara Souza	maria@email.com	$2b$10$riY3y/4AK5xVECSXC7hjs.NcT.dU8U5lhWjDpc29h5PEYa6tApBQW	23456789012	11988888888	1995-07-21	200	8	ativo
 3	Lucas Almeida	lucas@email.com	$2b$10$90uJejb9BaA9zzvEyou7ueVtERs00KEjYR68n6KT90HIdi8Fwj.c6	34567890123	11977777777	1999-02-18	100	3	ativo
 4	Ana Beatriz Ramos	ana@email.com	$2b$10$Y9sW05D0kaEQAgUvWhx2n.ZZveul6yjCB9Hr2R3ZrzfauF0HbCV0S	45678901234	11966666666	2000-11-09	250	10	ativo
@@ -790,14 +824,14 @@ COPY public.alunos_turmas (al_id, tu_id) FROM stdin;
 --
 
 COPY public.avisos (av_id, av_titulo, av_mensagem, av_tipo, av_destinatario_tipo, av_data_inicio, av_data_fim, av_ativo, av_data_criacao) FROM stdin;
-1	Bem-vindo … Academia FitLife!	Seja bem-vindo(a) … nossa academia! Aproveite todas as funcionalidades do sistema e mantenha seu progresso em dia.	Informativo	Geral	2025-11-01 08:00:00	2025-12-01 23:59:00	t	2025-11-06 20:18:44.756931
-2	Desafio do Mˆs: Resistˆncia 100%	Participe do nosso desafio de resistˆncia e acumule pontos extras! Fale com seu professor para se inscrever.	Evento	Alunos	2025-11-05 00:00:00	2025-12-05 23:59:00	t	2025-11-06 20:18:44.756931
-3	ReuniÆo de Professores	Lembramos que a reuniÆo mensal dos professores ocorrer  na pr¢xima sexta-feira …s 14h na sala de conferˆncias.	Interno	Professores	2025-11-04 00:00:00	2025-11-10 23:59:00	t	2025-11-06 20:18:44.756931
-4	Feriado - Academia Fechada	A academia estar  fechada no dia 15 de novembro (Proclama‡Æo da Rep£blica). As aulas retornarÆo normalmente no dia seguinte.	Aviso	Geral	2025-11-10 00:00:00	2025-11-16 23:59:00	t	2025-11-06 20:18:44.756931
-5	Nova Modalidade: Spinning Noturno	Agora vocˆ pode participar das aulas de Spinning … noite! Consulte a recep‡Æo para hor rios e turmas dispon¡veis.	An£ncio	Alunos	2025-11-02 00:00:00	2025-12-15 23:59:00	t	2025-11-06 20:18:44.756931
-6	Campanha Solid ria de Natal	Estamos arrecadando brinquedos e roupas infantis at‚ o dia 20 de dezembro. Contribua com a nossa a‡Æo solid ria!	Campanha	Geral	2025-11-20 00:00:00	2025-12-20 23:59:00	t	2025-11-06 20:18:44.756931
-7	Atualiza‡Æo do Sistema	Nosso sistema passar  por uma manuten‡Æo programada no dia 8 de novembro, das 22h …s 23h59. Durante este per¡odo, o acesso ser  temporariamente suspenso.	Manuten‡Æo	Geral	2025-11-08 22:00:00	2025-11-08 23:59:00	t	2025-11-06 20:18:44.756931
-8	Nova Turma de HIIT Abertas	As vagas para a nova turma de HIIT noturno estÆo abertas! Inscreva-se na recep‡Æo ou pelo aplicativo.	An£ncio	Alunos	2025-11-03 00:00:00	2025-12-03 23:59:00	t	2025-11-06 20:18:44.756931
+1	Bem-vindo à Academia FitLife!	Seja bem-vindo(a) à nossa academia! Aproveite todas as funcionalidades do sistema e mantenha seu progresso em dia.	Informativo	Geral	2025-11-01 08:00:00	2025-12-01 23:59:00	t	2025-11-06 20:18:44.756931
+2	Desafio do Mês: Resistência 100%	Participe do nosso desafio de resistência e acumule pontos extras! Fale com seu professor para se inscrever.	Evento	Alunos	2025-11-05 00:00:00	2025-12-05 23:59:00	t	2025-11-06 20:18:44.756931
+3	Reunião de Professores	Lembramos que a reunião mensal dos professores ocorrerá na próxima sexta-feira às 14h na sala de conferências.	Interno	Professores	2025-11-04 00:00:00	2025-11-10 23:59:00	t	2025-11-06 20:18:44.756931
+4	Feriado - Academia Fechada	A academia estará fechada no dia 15 de novembro (Proclamação da República). As aulas retornarão normalmente no dia seguinte.	Aviso	Geral	2025-11-10 00:00:00	2025-11-16 23:59:00	t	2025-11-06 20:18:44.756931
+5	Nova Modalidade: Spinning Noturno	Agora você pode participar das aulas de Spinning à noite! Consulte a recepção para horários e turmas disponíveis.	Anúncio	Alunos	2025-11-02 00:00:00	2025-12-15 23:59:00	t	2025-11-06 20:18:44.756931
+6	Campanha Solidária de Natal	Estamos arrecadando brinquedos e roupas infantis até o dia 20 de dezembro. Contribua com a nossa ação solidária!	Campanha	Geral	2025-11-20 00:00:00	2025-12-20 23:59:00	t	2025-11-06 20:18:44.756931
+7	Atualização do Sistema	Nosso sistema passará por uma manutenção programada no dia 8 de novembro, das 22h às 23h59. Durante este período, o acesso será temporariamente suspenso.	Manutenção	Geral	2025-11-08 22:00:00	2025-11-08 23:59:00	t	2025-11-06 20:18:44.756931
+8	Nova Turma de HIIT Abertas	As vagas para a nova turma de HIIT noturno estão abertas! Inscreva-se na recepção ou pelo aplicativo.	Anúncio	Alunos	2025-11-03 00:00:00	2025-12-03 23:59:00	t	2025-11-06 20:18:44.756931
 \.
 
 
@@ -842,11 +876,11 @@ COPY public.desafios (de_id, de_nome, de_descricao, de_pontos, de_tag, de_progre
 1	Primeiros Passos	Complete seu primeiro treino com sucesso.	50	iniciacao	0	2025-11-01 00:00:00	2025-12-01 00:00:00	ativo
 2	Foco Total	Conclua 5 treinos em uma semana.	120	consistencia	0	2025-11-01 00:00:00	2025-11-30 00:00:00	ativo
 3	Corpo em Movimento	Participe de 3 turmas diferentes.	100	participacao	0	2025-11-05 00:00:00	2025-12-05 00:00:00	ativo
-4	Desafio do Core	Complete todos os exerc¡cios abdominais do mˆs.	150	core	0	2025-11-10 00:00:00	2025-12-10 00:00:00	ativo
-5	Energia M xima	Participe de uma aula de HIIT sem pausas.	200	hiit	0	2025-11-10 00:00:00	2025-12-10 00:00:00	ativo
-6	Alongue-se	Fa‡a 4 sessäes de alongamento nesta semana.	80	flexibilidade	0	2025-11-03 00:00:00	2025-11-30 00:00:00	ativo
-7	Funcional Power	Complete 3 treinos funcionais no mˆs.	130	funcional	0	2025-11-01 00:00:00	2025-12-01 00:00:00	ativo
-8	Resistˆncia 100%	Treine 4 dias seguidos sem faltar.	160	resistencia	0	2025-11-15 00:00:00	2025-12-15 00:00:00	ativo
+4	Desafio do Core	Complete todos os exercícios abdominais do mês.	150	core	0	2025-11-10 00:00:00	2025-12-10 00:00:00	ativo
+5	Energia Máxima	Participe de uma aula de HIIT sem pausas.	200	hiit	0	2025-11-10 00:00:00	2025-12-10 00:00:00	ativo
+6	Alongue-se	Faça 4 sessões de alongamento nesta semana.	80	flexibilidade	0	2025-11-03 00:00:00	2025-11-30 00:00:00	ativo
+7	Funcional Power	Complete 3 treinos funcionais no mês.	130	funcional	0	2025-11-01 00:00:00	2025-12-01 00:00:00	ativo
+8	Resistência 100%	Treine 4 dias seguidos sem faltar.	160	resistencia	0	2025-11-15 00:00:00	2025-12-15 00:00:00	ativo
 \.
 
 
@@ -855,16 +889,16 @@ COPY public.desafios (de_id, de_nome, de_descricao, de_pontos, de_tag, de_progre
 --
 
 COPY public.exercicios (ex_id, ex_nome, ex_instrucao, ex_video, ex_grupo_muscular, ex_dificuldade) FROM stdin;
-1	Agachamento Livre	Mantenha os p‚s afastados e des‡a at‚ 90 graus.	https://videos.academia.com/agachamento.mp4	Pernas	Intermedi rio
-2	Supino Reto	Deite no banco e empurre a barra at‚ estender os bra‡os.	https://videos.academia.com/supino.mp4	Peito	Intermedi rio
-3	Puxada Frontal	Segure a barra e puxe at‚ o peito, mantendo postura.	https://videos.academia.com/puxada.mp4	Costas	Intermedi rio
-4	Prancha Abdominal	Mantenha o corpo reto apoiado nos antebra‡os.	https://videos.academia.com/prancha.mp4	Core	Iniciante
-5	Afundo	Dˆ um passo … frente e abaixe o corpo at‚ 90 graus.	https://videos.academia.com/afundo.mp4	Pernas	Intermedi rio
-6	FlexÆo de Bra‡o	Mantenha o corpo reto e flexione os cotovelos at‚ o chÆo.	https://videos.academia.com/flexao.mp4	Peito	Iniciante
-7	Remada Curvada	Com barra ou halteres, puxe at‚ o abd“men.	https://videos.academia.com/remada.mp4	Costas	Avan‡ado
-8	B¡ceps com Halteres	Flexione os cotovelos controlando o movimento.	https://videos.academia.com/biceps.mp4	Bra‡os	Iniciante
-9	Eleva‡Æo Lateral	Levante os bra‡os at‚ a altura dos ombros.	https://videos.academia.com/elevacao-lateral.mp4	Ombros	Iniciante
-10	Abdominal Supra	Eleve o tronco at‚ contrair o abd“men.	https://videos.academia.com/abdominal.mp4	Core	Iniciante
+1	Agachamento Livre	Mantenha os pés afastados e desça até 90 graus.	https://videos.academia.com/agachamento.mp4	Pernas	Intermediário
+2	Supino Reto	Deite no banco e empurre a barra até estender os braços.	https://videos.academia.com/supino.mp4	Peito	Intermediário
+3	Puxada Frontal	Segure a barra e puxe até o peito, mantendo postura.	https://videos.academia.com/puxada.mp4	Costas	Intermediário
+4	Prancha Abdominal	Mantenha o corpo reto apoiado nos antebraços.	https://videos.academia.com/prancha.mp4	Core	Iniciante
+5	Afundo	Dê um passo … frente e abaixe o corpo até 90 graus.	https://videos.academia.com/afundo.mp4	Pernas	Intermediário
+6	Flexão de Braço	Mantenha o corpo reto e flexione os cotovelos até o chão.	https://videos.academia.com/flexao.mp4	Peito	Iniciante
+7	Remada Curvada	Com barra ou halteres, puxe até o abdômen.	https://videos.academia.com/remada.mp4	Costas	Avançado
+8	Bíceps com Halteres	Flexione os cotovelos controlando o movimento.	https://videos.academia.com/biceps.mp4	Braços	Iniciante
+9	Elevação Lateral	Levante os braços até a altura dos ombros.	https://videos.academia.com/elevacao-lateral.mp4	Ombros	Iniciante
+10	Abdominal Supra	Eleve o tronco até contrair o abdômen.	https://videos.academia.com/abdominal.mp4	Core	Iniciante
 \.
 
 
@@ -892,12 +926,12 @@ COPY public.funcionarios (fu_id, fu_nome, fu_email, fu_senha, fu_cpf, fu_telefon
 
 COPY public.horarios (hor_id, hor_start, hor_end, hor_dia) FROM stdin;
 1	06:00:00	07:00:00	Segunda
-2	07:00:00	08:00:00	Ter‡a
+2	07:00:00	08:00:00	Terça
 3	08:00:00	09:00:00	Quarta
 4	09:00:00	10:00:00	Quinta
 5	10:00:00	11:00:00	Sexta
 6	18:00:00	19:00:00	Segunda
-7	19:00:00	20:00:00	Ter‡a
+7	19:00:00	20:00:00	Terça
 8	20:00:00	21:00:00	Quarta
 9	21:00:00	22:00:00	Quinta
 10	17:00:00	18:00:00	Sexta
@@ -909,56 +943,56 @@ COPY public.horarios (hor_id, hor_start, hor_end, hor_dia) FROM stdin;
 --
 
 COPY public.mensagens (me_id, co_id, remetente_id, destinatario_id, me_conteudo, me_tempo, me_lida, remetente_tipo, destinatario_tipo) FROM stdin;
-1	1	1	1	Ol  professor Paulo, gostaria de tirar uma d£vida sobre o treino.	2025-11-06 20:18:33.860968	f	aluno	professor
-2	1	1	1	Ol  JoÆo, claro! Qual sua d£vida?	2025-11-06 20:18:33.860968	f	professor	aluno
-3	2	1	2	Oi professora Juliana, o exerc¡cio de perna est  certo?	2025-11-06 20:18:33.860968	f	aluno	professor
-4	2	2	1	Oi JoÆo! Sim, o agachamento est  correto. Continue assim!	2025-11-06 20:18:33.860968	f	professor	aluno
-5	3	1	3	Ol  Ricardo, posso trocar o treino de hoje?	2025-11-06 20:18:33.860968	f	aluno	professor
-6	3	3	1	Pode sim, JoÆo. Apenas mantenha o aquecimento.	2025-11-06 20:18:33.860968	f	professor	aluno
+1	1	1	1	Olá professor Paulo, gostaria de tirar uma dúvida sobre o treino.	2025-11-06 20:18:33.860968	f	aluno	professor
+2	1	1	1	Olá João, claro! Qual sua dúvida?	2025-11-06 20:18:33.860968	f	professor	aluno
+3	2	1	2	Oi professora Juliana, o exercício de perna está certo?	2025-11-06 20:18:33.860968	f	aluno	professor
+4	2	2	1	Oi João! Sim, o agachamento está correto. Continue assim!	2025-11-06 20:18:33.860968	f	professor	aluno
+5	3	1	3	Olá Ricardo, posso trocar o treino de hoje?	2025-11-06 20:18:33.860968	f	aluno	professor
+6	3	3	1	Pode sim, João. Apenas mantenha o aquecimento.	2025-11-06 20:18:33.860968	f	professor	aluno
 7	4	1	4	Oi Fernanda, fiz o treino errado ontem.	2025-11-06 20:18:33.860968	f	aluno	professor
-8	4	4	1	Tudo bem JoÆo, amanhÆ compensamos com outro exerc¡cio.	2025-11-06 20:18:33.860968	f	professor	aluno
-9	5	1	5	Professor Bruno, o alongamento ‚ antes ou depois?	2025-11-06 20:18:33.860968	f	aluno	professor
-10	5	5	1	Oi JoÆo! Sempre antes e depois, para evitar lesäes.	2025-11-06 20:18:33.860968	f	professor	aluno
+8	4	4	1	Tudo bem João, amanhã compensamos com outro exercício.	2025-11-06 20:18:33.860968	f	professor	aluno
+9	5	1	5	Professor Bruno, o alongamento é antes ou depois?	2025-11-06 20:18:33.860968	f	aluno	professor
+10	5	5	1	Oi João! Sempre antes e depois, para evitar lesões.	2025-11-06 20:18:33.860968	f	professor	aluno
 11	6	2	1	Oi Paulo, finalizei meu treino hoje.	2025-11-06 20:18:33.860968	f	aluno	professor
 12	6	1	2	Excelente Maria! Continue mantendo o ritmo.	2025-11-06 20:18:33.860968	f	professor	aluno
 13	7	2	2	Professora Juliana, posso aumentar o peso no agachamento?	2025-11-06 20:18:33.860968	f	aluno	professor
 14	7	2	2	Pode sim Maria, mas aumente com cuidado.	2025-11-06 20:18:33.860968	f	professor	aluno
-15	8	2	3	Ol  Ricardo, o treino de costas foi ¢timo!	2025-11-06 20:18:33.860968	f	aluno	professor
+15	8	2	3	Olá Ricardo, o treino de costas foi ótimo!	2025-11-06 20:18:33.860968	f	aluno	professor
 16	8	3	2	Fico feliz, Maria! Continue com essa energia.	2025-11-06 20:18:33.860968	f	professor	aluno
-17	9	2	4	Oi Fernanda, estou com dor no bra‡o.	2025-11-06 20:18:33.860968	f	aluno	professor
+17	9	2	4	Oi Fernanda, estou com dor no braço.	2025-11-06 20:18:33.860968	f	aluno	professor
 18	9	4	2	Maria, evite sobrecarga hoje. Vamos ajustar o treino.	2025-11-06 20:18:33.860968	f	professor	aluno
 19	10	2	5	Professor Bruno, adorei o novo circuito!	2025-11-06 20:18:33.860968	f	aluno	professor
-20	10	5	2	Que bom, Maria! Esse circuito ‚ ¢timo para resistˆncia.	2025-11-06 20:18:33.860968	f	professor	aluno
+20	10	5	2	Que bom, Maria! Esse circuito é ótimo para resistência.	2025-11-06 20:18:33.860968	f	professor	aluno
 21	11	3	1	Paulo, terminei meu treino mais cedo.	2025-11-06 20:18:33.860968	f	aluno	professor
 22	11	1	3	àtimo, Lucas! Aproveite para alongar bem.	2025-11-06 20:18:33.860968	f	professor	aluno
 23	12	3	2	Juliana, posso adicionar corrida ao treino?	2025-11-06 20:18:33.860968	f	aluno	professor
 24	12	2	3	Sim, Lucas. Corrida leve ajuda bastante no condicionamento.	2025-11-06 20:18:33.860968	f	professor	aluno
 25	13	3	3	Ricardo, quanto tempo deve durar o treino?	2025-11-06 20:18:33.860968	f	aluno	professor
 26	13	3	3	Cerca de 45 minutos, Lucas.	2025-11-06 20:18:33.860968	f	professor	aluno
-27	14	3	4	Fernanda, fiquei com d£vida sobre a respira‡Æo.	2025-11-06 20:18:33.860968	f	aluno	professor
+27	14	3	4	Fernanda, fiquei com dúvida sobre a respiração.	2025-11-06 20:18:33.860968	f	aluno	professor
 28	14	4	3	Lucas, respire sempre pelo nariz e solte pela boca.	2025-11-06 20:18:33.860968	f	professor	aluno
 29	15	3	5	Bruno, gostei da aula de hoje.	2025-11-06 20:18:33.860968	f	aluno	professor
 30	15	5	3	Que bom, Lucas! Vamos evoluir juntos.	2025-11-06 20:18:33.860968	f	professor	aluno
 31	16	4	1	Oi Paulo, como sei se estou evoluindo bem?	2025-11-06 20:18:33.860968	f	aluno	professor
 32	16	1	4	Ana, acompanhe suas cargas e tempos de descanso.	2025-11-06 20:18:33.860968	f	professor	aluno
-33	17	4	2	Juliana, minha alimenta‡Æo est  afetando meu desempenho?	2025-11-06 20:18:33.860968	f	aluno	professor
-34	17	2	4	Sim, Ana. Tente incluir mais prote¡nas nas refei‡äes.	2025-11-06 20:18:33.860968	f	professor	aluno
-35	18	4	3	Ricardo, qual o melhor hor rio pra treinar?	2025-11-06 20:18:33.860968	f	aluno	professor
-36	18	3	4	Depende da sua rotina, Ana. O importante ‚ manter constƒncia.	2025-11-06 20:18:33.860968	f	professor	aluno
+33	17	4	2	Juliana, minha alimentação está afetando meu desempenho?	2025-11-06 20:18:33.860968	f	aluno	professor
+34	17	2	4	Sim, Ana. Tente incluir mais proteínas nas refeições.	2025-11-06 20:18:33.860968	f	professor	aluno
+35	18	4	3	Ricardo, qual o melhor horário pra treinar?	2025-11-06 20:18:33.860968	f	aluno	professor
+36	18	3	4	Depende da sua rotina, Ana. O importante é manter constância.	2025-11-06 20:18:33.860968	f	professor	aluno
 37	19	4	4	Fernanda, posso trocar a esteira pela bike?	2025-11-06 20:18:33.860968	f	aluno	professor
-38	19	4	4	Claro, Ana! A bike tamb‚m trabalha bem as pernas.	2025-11-06 20:18:33.860968	f	professor	aluno
+38	19	4	4	Claro, Ana! A bike também trabalha bem as pernas.	2025-11-06 20:18:33.860968	f	professor	aluno
 39	20	4	5	Bruno, aumentei o peso e senti dor.	2025-11-06 20:18:33.860968	f	aluno	professor
 40	20	5	4	Ana, reduza um pouco e ajuste sua postura.	2025-11-06 20:18:33.860968	f	professor	aluno
 41	21	5	1	Oi Paulo, posso treinar duas vezes por dia?	2025-11-06 20:18:33.860968	f	aluno	professor
-42	21	1	5	Carlos, s¢ se houver bom descanso entre as sessäes.	2025-11-06 20:18:33.860968	f	professor	aluno
-43	22	5	2	Juliana, qual melhor treino pra for‡a?	2025-11-06 20:18:33.860968	f	aluno	professor
-44	22	2	5	Carlos, o treino de resistˆncia muscular ‚ ¢timo pra isso.	2025-11-06 20:18:33.860968	f	professor	aluno
+42	21	1	5	Carlos, só se houver bom descanso entre as sessões.	2025-11-06 20:18:33.860968	f	professor	aluno
+43	22	5	2	Juliana, qual melhor treino pra força?	2025-11-06 20:18:33.860968	f	aluno	professor
+44	22	2	5	Carlos, o treino de resistência muscular é ótimo pra isso.	2025-11-06 20:18:33.860968	f	professor	aluno
 45	23	5	3	Ricardo, esqueci minha ficha de treino.	2025-11-06 20:18:33.860968	f	aluno	professor
-46	23	3	5	Sem problema, Carlos. Te envio uma nova versÆo.	2025-11-06 20:18:33.860968	f	professor	aluno
+46	23	3	5	Sem problema, Carlos. Te envio uma nova versão.	2025-11-06 20:18:33.860968	f	professor	aluno
 47	24	5	4	Fernanda, posso fazer treino leve no domingo?	2025-11-06 20:18:33.860968	f	aluno	professor
-48	24	4	5	Pode sim, Carlos. Domingo ‚ ¢timo pra treino regenerativo.	2025-11-06 20:18:33.860968	f	professor	aluno
-49	25	5	5	Bruno, quando ‚ o pr¢ximo desafio da academia?	2025-11-06 20:18:33.860968	f	aluno	professor
-50	25	5	5	Na pr¢xima semana, Carlos! Prepare-se!	2025-11-06 20:18:33.860968	f	professor	aluno
+48	24	4	5	Pode sim, Carlos. Domingo é ótimo pra treino regenerativo.	2025-11-06 20:18:33.860968	f	professor	aluno
+49	25	5	5	Bruno, quando é o próximo desafio da academia?	2025-11-06 20:18:33.860968	f	aluno	professor
+50	25	5	5	Na próxima semana, Carlos! Prepare-se!	2025-11-06 20:18:33.860968	f	professor	aluno
 \.
 
 
@@ -967,16 +1001,16 @@ COPY public.mensagens (me_id, co_id, remetente_id, destinatario_id, me_conteudo,
 --
 
 COPY public.modalidades (mo_id, mo_nome, mo_descricao) FROM stdin;
-1	Muscula‡Æo	Treinos com foco em for‡a, resistˆncia e hipertrofia.
-2	Pilates	Atividade voltada para flexibilidade, respira‡Æo e postura.
-3	Funcional	Exerc¡cios de alta intensidade com movimentos corporais.
-4	Alongamento	Sessäes leves voltadas para mobilidade e flexibilidade.
-5	Cross Training	Treinos intensos que misturam for‡a e cardio.
+1	Musculação	Treinos com foco em força, resistência e hipertrofia.
+2	Pilates	Atividade voltada para flexibilidade, respiração e postura.
+3	Funcional	Exercícios de alta intensidade com movimentos corporais.
+4	Alongamento	Sessões leves voltadas para mobilidade e flexibilidade.
+5	Cross Training	Treinos intensos que misturam força e cardio.
 6	HIIT	Treinos intervalados de alta intensidade.
-7	Yoga	Pr tica voltada ao equil¡brio, concentra‡Æo e bem-estar.
-8	Spinning	Aulas de ciclismo indoor com alta queima cal¢rica.
-9	Zumba	Dan‡a aer¢bica com ritmos latinos para condicionamento f¡sico.
-10	Abdominal Express	Aulas r pidas com foco na regiÆo abdominal.
+7	Yoga	Prática voltada ao equilíbrio, concentração e bem-estar.
+8	Spinning	Aulas de ciclismo indoor com alta queima calórica.
+9	Zumba	Dança aeróbica com ritmos latinos para condicionamento físico.
+10	Abdominal Express	Aulas rápidas com foco na região abdominal.
 \.
 
 
@@ -1003,16 +1037,16 @@ COPY public.pagamentos (pa_id, pa_al_id, pa_valor, pa_metodo, pa_status, pa_data
 --
 
 COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_estoque) FROM stdin;
-1	Whey Protein 900g	180	Suplemento proteico sabor baunilha.	Dispon¡vel	25
-2	Creatina Monohidratada 300g	120	Aumenta for‡a e desempenho nos treinos.	Dispon¡vel	30
-3	Pr‚-Treino Explosive 250g	150	F¢rmula energ‚tica para treino intenso.	Dispon¡vel	15
-4	Camiseta Dry Fit Academia	70	Camiseta leve e respir vel, ideal para treinos.	Dispon¡vel	40
-5	Garrafa Esportiva 1L	40	Pl stico resistente com tampa antivazamento.	Dispon¡vel	60
-6	Toalha de Microfibra Fitness	35	Secagem r pida e compacta.	Dispon¡vel	50
-7	Luvas de Treino em Couro	90	Protege as mÆos durante levantamento de peso.	Dispon¡vel	20
-8	Barra de Cereal Proteica	10	Snack com alto teor de prote¡na.	Dispon¡vel	100
-9	Cinto de Muscula‡Æo	130	Suporte lombar para levantamento de peso.	Dispon¡vel	10
-10	Tapioca Proteica 500g	55	Mistura pronta com whey e fibras.	Dispon¡vel	25
+1	Whey Protein 900g	180	Suplemento proteico sabor baunilha.	Disponível	25
+2	Creatina Monohidratada 300g	120	Aumenta força e desempenho nos treinos.	Disponível	30
+3	Pré-Treino Explosive 250g	150	Fórmula energética para treino intenso.	Disponível	15
+4	Camiseta Dry Fit Academia	70	Camiseta leve e respirável, ideal para treinos.	Disponível	40
+5	Garrafa Esportiva 1L	40	Plástico resistente com tampa antivazamento.	Disponível	60
+6	Toalha de Microfibra Fitness	35	Secagem rápida e compacta.	Disponível	50
+7	Luvas de Treino em Couro	90	Protege as mãos durante levantamento de peso.	Disponível	20
+8	Barra de Cereal Proteica	10	Snack com alto teor de proteína.	Disponível	100
+9	Cinto de Musculação	130	Suporte lombar para levantamento de peso.	Disponível	10
+10	Tapioca Proteica 500g	55	Mistura pronta com whey e fibras.	Disponível	25
 \.
 
 
@@ -1021,14 +1055,14 @@ COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_esto
 --
 
 COPY public.treinos (tr_id, tr_prof_id, tr_nome, tr_descricao, tr_dificuldade) FROM stdin;
-1	1	Treino de For‡a A	Foco em superiores: peito, costas e tr¡ceps.	Intermedi rio
-2	1	Treino de For‡a B	Foco em inferiores: pernas e gl£teos.	Intermedi rio
-3	2	Treino Pilates Core	Exerc¡cios de estabilidade e fortalecimento abdominal.	Iniciante
-4	3	Treino Funcional Total	Movimentos compostos com alta intensidade.	Avan‡ado
+1	1	Treino de Força A	Foco em superiores: peito, costas e tríceps.	Intermediário
+2	1	Treino de Força B	Foco em inferiores: pernas e glúteos.	Intermediário
+3	2	Treino Pilates Core	Exercícios de estabilidade e fortalecimento abdominal.	Iniciante
+4	3	Treino Funcional Total	Movimentos compostos com alta intensidade.	Avançado
 5	3	Treino Funcional Leve	Funcional de baixo impacto para iniciantes.	Iniciante
-6	4	Treino de Alongamento Relax	S‚rie de alongamentos guiados e leves.	Iniciante
-7	5	Treino HIIT Express	Alta intensidade com pausas curtas.	Avan‡ado
-8	5	Treino Resistˆncia 360	Combina resistˆncia e agilidade em circuito.	Intermedi rio
+6	4	Treino de Alongamento Relax	Série de alongamentos guiados e leves.	Iniciante
+7	5	Treino HIIT Express	Alta intensidade com pausas curtas.	Avançado
+8	5	Treino Resistência 360	Combina resistência e agilidade em circuito.	Intermediário
 \.
 
 
@@ -1074,9 +1108,9 @@ COPY public.treinos_exercicios (tr_id, ex_id, te_repeticoes, te_series, te_desca
 --
 
 COPY public.turmas (tu_id, tu_nome, tu_prof_id, tu_mod_id, tu_hor_id) FROM stdin;
-1	Muscula‡Æo Iniciante - ManhÆ	1	1	1
-2	Muscula‡Æo Intermedi ria - Noite	1	1	2
-3	Pilates Avan‡ado	2	2	3
+1	Musculação Iniciante - Manhã	1	1	1
+2	Musculação Intermediária - Noite	1	1	2
+3	Pilates Avançado	2	2	3
 4	Funcional Intensivo	3	3	4
 5	Treino de Alongamento	4	1	5
 6	HIIT - Alta Intensidade	5	3	6
@@ -1089,91 +1123,91 @@ COPY public.turmas (tu_id, tu_nome, tu_prof_id, tu_mod_id, tu_hor_id) FROM stdin
 -- Name: alunos_al_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.alunos_al_id_seq', (SELECT MAX(al_id) FROM public.alunos) + 1, true);
+SELECT pg_catalog.setval('public.alunos_al_id_seq', 6, true);
 
 
 --
 -- Name: avisos_av_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.avisos_av_id_seq', (SELECT MAX(av_id) FROM public.avisos) + 1, true);
+SELECT pg_catalog.setval('public.avisos_av_id_seq', 9, true);
 
 
 --
 -- Name: conversas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.conversas_id_seq', (SELECT MAX(co_id) FROM public.conversas) + 1, true);
+SELECT pg_catalog.setval('public.conversas_id_seq', 26, true);
 
 
 --
 -- Name: desafios_de_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('desafios_de_id_seq', (SELECT MAX(de_id) FROM public.desafios) + 1, true);
+SELECT pg_catalog.setval('public.desafios_de_id_seq', 9, false);
 
 
 --
 -- Name: exercicios_ex_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercicios_ex_id_seq', (SELECT MAX(ex_id) FROM public.exercicios) + 1, true);
+SELECT pg_catalog.setval('public.exercicios_ex_id_seq', 11, true);
 
 
 --
 -- Name: funcionarios_fu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.funcionarios_fu_id_seq', (SELECT MAX(fu_id) FROM public.funcionarios) + 1, true);
+SELECT pg_catalog.setval('public.funcionarios_fu_id_seq', 11, true);
 
 
 --
 -- Name: horarios_hor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.horarios_hor_id_seq', (SELECT MAX(hor_id) FROM public.horarios) + 1, true);
+SELECT pg_catalog.setval('public.horarios_hor_id_seq', 11, true);
 
 
 --
 -- Name: mensagens_me_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.mensagens_me_id_seq', (SELECT MAX(me_id) FROM public.mensagens) + 1, true);
+SELECT pg_catalog.setval('public.mensagens_me_id_seq', 51, true);
 
 
 --
 -- Name: modalidades_mo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.modalidades_mo_id_seq', (SELECT MAX(mo_id) FROM public.modalidades) + 1, true);
+SELECT pg_catalog.setval('public.modalidades_mo_id_seq', 11, true);
 
 
 --
 -- Name: pagamentos_pa_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pagamentos_pa_id_seq', (SELECT MAX(pa_id) FROM public.pagamentos) + 1, true);
+SELECT pg_catalog.setval('public.pagamentos_pa_id_seq', 11, true);
 
 
 --
 -- Name: produtos_pd_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.produtos_pd_id_seq', (SELECT MAX(pd_id) FROM public.produtos) + 1, true);
+SELECT pg_catalog.setval('public.produtos_pd_id_seq', 11, true);
 
 
 --
 -- Name: treinos_tr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.treinos_tr_id_seq', (SELECT MAX(tr_id) FROM public.treinos) + 1, true);
+SELECT pg_catalog.setval('public.treinos_tr_id_seq', 9, true);
 
 
 --
 -- Name: turmas_tu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.turmas_tu_id_seq', (SELECT MAX(tu_id) FROM public.turmas) + 1, true);
+SELECT pg_catalog.setval('public.turmas_tu_id_seq', 9, true);
 
 
 --

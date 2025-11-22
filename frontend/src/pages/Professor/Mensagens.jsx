@@ -76,7 +76,7 @@ export default function MensagensProf() {
       console.log("Abrindo chat ID:", co_id);
 
       const res = await fetch(
-        `http://localhost:3000/api/professor/mensagens/${co_id}`,
+        `${import.meta.env.VITE_BASE_URL}/professor/mensagens/${co_id}`,
         { credentials: "include" }
       );
 
@@ -109,7 +109,7 @@ export default function MensagensProf() {
   const enviarMensagem = async (texto) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/professor/mensagens/${selectedChatId}`,
+        `${import.meta.env.VITE_BASE_URL}professor/mensagens/${selectedChatId}`,
         {
           method: "POST",
           credentials: "include",

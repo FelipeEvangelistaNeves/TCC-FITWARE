@@ -8,17 +8,16 @@ export default function PerfilAluno({ aluno, onBack }) {
   useEffect(() => {
     async function fetchTreinos() {
       try {
-        console.log("Aluno Id", aluno);
         const res = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/treinos/${aluno.al_id}`,
+          `${import.meta.env.VITE_BASE_URL}/professor/alunos/${
+            aluno.al_id
+          }/treinos`,
           { credentials: "include" }
         );
 
         if (!res.ok) throw new Error("Erro ao carregar mensagens");
 
         const data = await res.json();
-
-        console.log("📦 TREINOS RECEBIDOS DO BACKEND:", data);
 
         // 🔥 O erro estava aqui:
         // setTreinos(data);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaMoon, FaSun } from "react-icons/fa";
 import "../../styles/pages/public/modalidades.scss";
-
+import "../../styles/pages/public/public.scss";
 const Modalidades = () => {
   const [isLight, setIsLight] = useState(false);
 
@@ -54,7 +54,7 @@ const Modalidades = () => {
   ];
 
   return (
-    <div className="modalidades-page">
+    <div className="home-container">
       <div className="theme-switch">
         <div className="container-theme">
           <button
@@ -72,22 +72,24 @@ const Modalidades = () => {
           </button>
         </div>
       </div>
-      <section className="intro">
-        <h2>Nossas Modalidades</h2>
-        <p>
-          Oferecemos treinos completos para atender diferentes perfis e
-          objetivos.
-        </p>
-      </section>
+      <div className="modalidades-page">
+        <section className="intro">
+          <h2>Nossas Modalidades</h2>
+          <p>
+            Oferecemos treinos completos para atender diferentes perfis e
+            objetivos.
+          </p>
+        </section>
 
-      <div className="modalidades-grid">
-        {modalidades.map((m, idx) => (
-          <div key={idx} className="modalidade-card">
-            <i className={`bi ${m.icon} icone`}></i>
-            <h4>{m.titulo}</h4>
-            <p>{m.descricao}</p>
-          </div>
-        ))}
+        <div className="modalidades-grid">
+          {modalidades.map((m, idx) => (
+            <div key={idx} className="modalidade-card">
+              <i className={`bi ${m.icon} icone`}></i>
+              <h4>{m.titulo}</h4>
+              <p>{m.descricao}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

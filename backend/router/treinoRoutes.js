@@ -56,6 +56,20 @@ router.get(
   dataTreinosDoProfessor
 );
 
+// Criar um novo treino (professor)
+router.post(
+  "/professor",
+  authMiddleware([ROLES.professor]),
+  require("../controllers/treinoController").addTreino
+);
+
+// Atualizar um treino (professor dono)
+router.put(
+  "/professor/:id",
+  authMiddleware([ROLES.professor]),
+  require("../controllers/treinoController").updateTreino
+);
+
 /**
  * @swagger
  * /treinos/aluno:

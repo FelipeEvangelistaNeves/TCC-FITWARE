@@ -74,7 +74,7 @@ export default function Alunos() {
   const handleUpdateAluno = async (dados) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/alunos/${dados.al_id}`,
+        `${import.meta.env.VITE_BASE_URL}/admin/alunos/${dados.al_id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -104,10 +104,13 @@ export default function Alunos() {
 
   const handleDeleteAluno = async (aluno) => {
     try {
-      await fetch(`http://localhost:3000/admin/alunos/${aluno.al_id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      await fetch(
+        `${import.meta.env.VITE_BASE_URL}/admin/alunos/${aluno.al_id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       setAlunos((prev) => prev.filter((a) => a.al_id !== aluno.al_id));
       setShowDeleteModal(false);

@@ -76,7 +76,9 @@ export default function Professores() {
   const handleUpdateProfessor = async (edited) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/professor/crud/editar/${edited.fu_id}`,
+        `${import.meta.env.VITE_BASE_URL}/professor/crud/editar/${
+          edited.fu_id
+        }`,
         {
           method: "PUT",
           credentials: "include",
@@ -105,7 +107,7 @@ export default function Professores() {
   const handleDeleteProfessor = async (prof) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/professor/crud/deletar/${prof.fu_id}`,
+        `${import.meta.env.VITE_BASE_URL}/professor/crud/deletar/${prof.fu_id}`,
         {
           method: "DELETE",
           credentials: "include",

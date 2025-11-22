@@ -35,6 +35,19 @@ router.delete("/crud/deletar/:id", authMiddleware(), deletarProfessor);
 // DASHBOARD + ALUNOS + CHAT + TREINOS
 router.get("/dashboard", authMiddleware(), dataProfDashboard);
 router.get("/allAlunos", authMiddleware(), dataProfAlunos);
+
+// rotas de exercícios para professor
+router.get(
+  "/exercicios",
+  authMiddleware(),
+  require("../controllers/treinoController").listarExercicios
+);
+router.post(
+  "/exercicios",
+  authMiddleware(),
+  require("../controllers/treinoController").criarExercicio
+);
+
 router.get("/conversas", authMiddleware(), dataProfConversas);
 router.get("/mensagens/:id", authMiddleware(), dataProfMensagens);
 router.post("/mensagens/:id", authMiddleware(), enviarMensagemProfessor);

@@ -46,7 +46,7 @@ export default function ResgatePontosModal({ onClose }) {
   const handleResgatarClick = async (produtoId) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/produtos/search/${produtoId}`,
+        `${import.meta.env.VITE_BASE_URL}/produtos/search/${produtoId}`,
         {
           method: "GET",
           credentials: "include",

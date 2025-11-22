@@ -104,7 +104,7 @@ export default function Brindes() {
       };
 
       const res = await fetch(
-        `http://localhost:3000/api/produtos/update/${editado.id}`,
+        `${import.meta.env.VITE_BASE_URL}/produtos/update/${editado.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -127,7 +127,7 @@ export default function Brindes() {
   const handleDelete = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/produtos/delete/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/produtos/delete/${id}`,
         {
           method: "DELETE",
           credentials: "include",

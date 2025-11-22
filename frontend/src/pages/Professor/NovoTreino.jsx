@@ -2,29 +2,13 @@ import React, { useEffect, useState } from "react";
 import "../../styles/pages/professor/novoTreino.scss";
 import { X, Plus, Trash } from "lucide-react";
 
-export default function EditarTreino({ treino, onClose, onSaved }) {
-  // Se o componente for renderizado apenas quando treino existe, ainda protegemos:
-  if (!treino && !onClose) return null;
+export default function NovoTreino({ onClose, onSaved }) {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("Força");
+  const [observations, setObservations] = useState("");
 
-  // Form fields (pré-preenchidos quando `treino` é passado)
-  const [name, setName] = useState(treino?.tr_nome ?? "");
-  const [description, setDescription] = useState(treino?.tr_descricao ?? "");
-  const [category, setCategory] = useState(treino?.tr_categoria ?? "Força");
-  const [observations, setObservations] = useState(
-    treino?.tr_observacoes ?? ""
-  );
-
-  // Exercícios locais — inicial com os do treino (se existirem) ou vazio
-  const initialExercises =
-    treino?.Exercicios?.map((ex) => ({
-      id: ex.ex_id ?? Math.random().toString(36).slice(2, 9),
-      nome: ex.ex_nome ?? "",
-      series: ex.ex_series ?? "",
-      repeticoes: ex.ex_repeticoes ?? "",
-      observacoes: ex.ex_observacoes ?? "",
-    })) || [];
-
-  const [exercises, setExercises] = useState(initialExercises);
+  const [exercises, setExercises] = useState([]);
   const [allExercises, setAllExercises] = useState([]);
   const [loadingExercises, setLoadingExercises] = useState(false);
   const [exerciseFilter, setExerciseFilter] = useState("");
@@ -34,7 +18,6 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
   const [selectedAlunos, setSelectedAlunos] = useState([]);
   const [loadingAlunos, setLoadingAlunos] = useState(false);
 
-  // Buscar alunos ao montar
   useEffect(() => {
     const fetchAlunos = async () => {
       setLoadingAlunos(true);
@@ -56,7 +39,8 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
     };
 
     fetchAlunos();
-    // buscar exercícios do sistema
+
+    // buscar todos os exercícios do sistema
     const fetchExs = async () => {
       setLoadingExercises(true);
       try {
@@ -77,62 +61,12 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
     fetchExs();
   }, []);
 
-  // Mantém o form sincronizado se o prop `treino` mudar
-  useEffect(() => {
-    setName(treino?.tr_nome ?? "");
-    setDescription(treino?.tr_descricao ?? "");
-    setCategory(treino?.tr_categoria ?? "Força");
-    setObservations(treino?.tr_observacoes ?? "");
-
-    // Se o treino já tiver alunos associados, preencher aqui
-    // Ex: setSelectedAlunos(treino.Alunos.map(a => a.al_id));
-    // Por enquanto, resetamos ou mantemos vazio se não vier do backend
-    setSelectedAlunos([]);
-
-    const inits =
-      treino?.Exercicios?.map((ex) => ({
-        id: ex.ex_id ?? Math.random().toString(36).slice(2, 9),
-        nome: ex.ex_nome ?? "",
-        series: ex.ex_series ?? "",
-        repeticoes: ex.ex_repeticoes ?? "",
-        observacoes: ex.ex_observacoes ?? "",
-      })) || [];
-
-    setExercises(inits);
-
-    // Se o treino vier apenas com informações mínimas (sem ex_id), buscar detalhes completos
-    const fetchDetalhes = async () => {
-      if (!treino?.tr_id) return;
-      try {
-        const r = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/treinos/detalhes/${treino.tr_id}`
-        );
-        if (!r.ok) return;
-        const data = await r.json();
-        const full = (data.exercicios || []).map((ex) => ({
-          id: ex.id, // número do exercício no sistema
-          ex_id: ex.id,
-          nome: ex.nome,
-          series: ex.series,
-          repeticoes: ex.repeticoes,
-          observacoes: ex.observacoes || "",
-        }));
-        if (full.length > 0) setExercises(full);
-      } catch (err) {
-        console.error("Erro ao carregar detalhes do treino:", err);
-      }
-    };
-
-    fetchDetalhes();
-  }, [treino]);
-
   const toggleAluno = (id) => {
     setSelectedAlunos((prev) =>
       prev.includes(id) ? prev.filter((al_id) => al_id !== id) : [...prev, id]
     );
   };
 
-  // Adiciona exercício vazio
   const addExercise = () => {
     setExercises((prev) => [
       ...prev,
@@ -183,9 +117,8 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
     }
   };
 
-  const removeExercise = (id) => {
+  const removeExercise = (id) =>
     setExercises((prev) => prev.filter((ex) => ex.id !== id));
-  };
 
   const updateExercise = (id, key, value) => {
     setExercises((prev) =>
@@ -196,35 +129,20 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    const exerciciosPayload = exercises.map((ex) => {
-      const ex_id =
-        ex.ex_id ??
-        (/^[0-9]+$/.test(String(ex.id || "")) ? Number(ex.id) : undefined);
-      return {
-        ex_id,
-        nome: ex.nome,
-        series: ex.series,
-        repeticoes: ex.repeticoes,
-        observacoes: ex.observacoes,
-      };
-    });
-
     const payload = {
       tr_nome: name,
       tr_descricao: description,
       tr_categoria: category,
       tr_observacoes: observations,
       alunos: selectedAlunos,
-      exercicios: exerciciosPayload,
+      exercicios: exercises.map(({ id, ...rest }) => rest),
     };
 
     try {
-      if (!treino || !treino.tr_id) throw new Error("ID do treino ausente");
-
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/treinos/professor/${treino.tr_id}`,
+        `${import.meta.env.VITE_BASE_URL}/treinos/professor`,
         {
-          method: "PUT",
+          method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -233,20 +151,20 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        console.error("Erro ao atualizar treino:", err);
-        alert(err.error || "Falha ao atualizar treino");
+        console.error("Erro ao criar treino:", err);
+        alert(err.error || "Falha ao criar treino");
         return;
       }
 
+      // sucesso
       if (typeof onSaved === "function") onSaved();
       if (typeof onClose === "function") onClose();
     } catch (error) {
-      console.error("Erro ao salvar treino:", error);
-      alert("Erro ao salvar treino");
+      console.error("Erro ao enviar pedido:", error);
+      alert("Erro de rede ao criar treino");
     }
   };
 
-  // Fecha ao clicar no overlay
   const handleOverlayClick = () => {
     if (typeof onClose === "function") onClose();
   };
@@ -255,7 +173,7 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
     <div className="novo-treino-overlay" onClick={handleOverlayClick}>
       <aside
         className="novo-treino-drawer"
-        onClick={(e) => e.stopPropagation()} // evita fechamento ao clicar dentro
+        onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="drawer-title"
@@ -264,13 +182,10 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
           <button aria-label="Fechar" className="icon-btn" onClick={onClose}>
             <X size={20} />
           </button>
-          <h2 id="drawer-title">
-            {treino ? "Editar Treino" : "Criar Novo Treino"}
-          </h2>
+          <h2 id="drawer-title">Criar Novo Treino</h2>
         </header>
 
         <form className="drawer-body" onSubmit={handleSave}>
-          {/* Nome */}
           <label className="field">
             <span className="label-title">Nome do Treino</span>
             <input
@@ -281,7 +196,6 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
             />
           </label>
 
-          {/* Categoria */}
           <label className="field">
             <span className="label-title">Categoria</span>
             <select
@@ -295,7 +209,6 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
             </select>
           </label>
 
-          {/* Selecionar Alunos */}
           <label className="field">
             <span className="label-title">Selecionar Alunos</span>
             <div className="alunos-selection-list">
@@ -318,7 +231,6 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
             </div>
           </label>
 
-          {/* Alunos Selecionados (Resumo) */}
           {selectedAlunos.length > 0 && (
             <div className="selected-alunos">
               <span className="subtitle">
@@ -341,7 +253,6 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
             </div>
           )}
 
-          {/* Exercícios */}
           <div className="exercises-section">
             <div className="exercises-header">
               <h3>Exercícios</h3>
@@ -453,7 +364,6 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
             </div>
           </div>
 
-          {/* Observações gerais */}
           <label className="field">
             <span className="label-title">Observações Gerais</span>
             <textarea
@@ -469,7 +379,7 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
             Cancelar
           </button>
           <button className="btn-primary" onClick={handleSave}>
-            {treino ? "Salvar Mudanças" : "Enviar Treino"}
+            Enviar Treino
           </button>
         </footer>
       </aside>

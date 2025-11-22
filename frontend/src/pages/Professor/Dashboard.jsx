@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../../styles/pages/professor/dashboardProf.scss";
 import { Dumbbell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +13,12 @@ export default function DashboardProf() {
   useEffect(() => {
     async function fetchDashboard() {
       try {
-        const res = await fetch("http://localhost:3000/api/professor/dashboard", {
-          credentials: "include",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/professor/dashboard`,
+          {
+            credentials: "include",
+          }
+        );
 
         if (!res.ok) throw new Error("Erro ao carregar dashboard");
 
@@ -32,10 +35,13 @@ export default function DashboardProf() {
 
   useEffect(() => {
     async function fetchUltimosAvisos() {
-      try{
-        const res = await fetch("http://localhost:3000/api/professor/avisosRecent", {
-          credentials: "include",
-        });
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/professor/avisosRecent`,
+          {
+            credentials: "include",
+          }
+        );
 
         if (!res.ok) {
           throw new Error("Erro ao buscar avisos");
@@ -52,10 +58,8 @@ export default function DashboardProf() {
     fetchUltimosAvisos();
   }, []);
 
-
   return (
     <div className="dashboard-aluno">
-      
       {/* Summary Cards */}
       <section className="summary-cards">
         <div className="summary-card">
@@ -74,35 +78,47 @@ export default function DashboardProf() {
       {/* quick actions */}
       <section className="quick-actions">
         <h2>Ações Rápidas</h2>
-          <div className="actions-grid">
-            <button className="action-card" onClick={() => navigate('/professor/alunos')} >
-                <div>
-                  <i class="bi bi-person"></i>
-                </div>
-                <div className="action-label">Alunos</div>
-            </button>
+        <div className="actions-grid">
+          <button
+            className="action-card"
+            onClick={() => navigate("/professor/alunos")}
+          >
+            <div>
+              <i class="bi bi-person"></i>
+            </div>
+            <div className="action-label">Alunos</div>
+          </button>
 
-            <button className="action-card" onClick={() => navigate('/professor/treinos')} >
-              <div>
-                <Dumbbell size={22} />
-              </div>
-              <div className="action-label">Treinos</div>
-            </button>
+          <button
+            className="action-card"
+            onClick={() => navigate("/professor/treinos")}
+          >
+            <div>
+              <Dumbbell size={22} />
+            </div>
+            <div className="action-label">Treinos</div>
+          </button>
 
-            <button className="action-card" onClick={() => navigate('/professor/mensagens')} >
-              <div>
-                <i class="bi bi-chat-left-text"></i>
-              </div>
-              <div className="action-label">Mensagens</div>
-            </button>
+          <button
+            className="action-card"
+            onClick={() => navigate("/professor/mensagens")}
+          >
+            <div>
+              <i class="bi bi-chat-left-text"></i>
+            </div>
+            <div className="action-label">Mensagens</div>
+          </button>
 
-            <button className="action-card" onClick={() => navigate('/professor/perfil')} >
-              <div>
-                <i class="bi bi-clock"></i>
-              </div>
-              <div className="action-label">Perfil</div>
-            </button>
-          </div>
+          <button
+            className="action-card"
+            onClick={() => navigate("/professor/perfil")}
+          >
+            <div>
+              <i class="bi bi-clock"></i>
+            </div>
+            <div className="action-label">Perfil</div>
+          </button>
+        </div>
       </section>
 
       <section className="atividade-card">
@@ -127,7 +143,6 @@ export default function DashboardProf() {
           ))}
         </ul>
       </section>
-
     </div>
   );
 }
