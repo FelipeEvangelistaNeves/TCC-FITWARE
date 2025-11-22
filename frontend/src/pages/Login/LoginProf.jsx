@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../styles/pages/login/loginmob.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 
 export default function LoginProfessor() {
@@ -37,6 +37,9 @@ export default function LoginProfessor() {
   return (
     <div className="login-container">
       <div className="login-card">
+        <Link to="/" className="back-link">
+          <i className="bi bi-arrow-left"></i>
+        </Link>
         <img src={Logo} alt="logo fitware" className="login-avatar" />
         <h2 className="login-title">FitWare</h2>
         <p className="login-subtitle">

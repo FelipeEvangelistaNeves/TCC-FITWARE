@@ -1,15 +1,33 @@
 @import "./../../abstract/variables.scss";
 
-// 🔲 Container principal
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background-color: var(--app-bg);
-  padding: 20px; // espaçamento mobile
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--app-bg);
+  padding: 20px;
+  transition: background $transition, color $transition;
+  font-family: var(--font-family);
+  .back-link {
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-text);
 
-  // 📦 Card
+    i {
+      font-size: 1.8rem;
+    }
+
+    &:hover {
+      color: var(--color-purple);
+    }
+  }
+  /* ==========================
+     CARD DE LOGIN
+  ==========================*/
   .login-card {
     width: 100%;
     max-width: 400px;
@@ -17,52 +35,59 @@
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
-    color: $text;
+    color: $text-color;
     padding: 28px 20px;
-    //font-family: $ff;
-   // transition: background $transition, color $transition;
+    font-family: $ff;
+    transition: background $transition, color $transition;
   }
 
-  // 👤 Avatar
-  .login-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: $white;
-    margin: 0 auto 20px auto;
-    box-shadow: 0 2px 6px rgba(var(--shadow-rgb), 0.08);
-  }
+    /* Avatar / Ícone */
+    .login-avatar {
+      width: 80px;
+      height: 80px;
+      background: var(--surface-2);
+      border-radius: 50%;
+      margin: 0 auto 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(var(--shadow-rgb), 0.2);
 
-  // 📌 Títulos
-  .login-title {
-    font-weight: bold;
-    color: var(--color-text);
-    margin-bottom: 5px;
-  }
-
-  .login-subtitle {
-    color: $primary;
-    margin-bottom: 25px;
-  }
-
-  .error-msg {
-    color: #ff4444;
-    font-weight: 600;
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  // 📝 Inputs
-  .input-group {
-    text-align: left;
-    margin-bottom: 15px;
-
-    label {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 5px;
-      color: $color-text-muted;
+      i {
+        font-size: 36px;
+        color: var(--color-purple);
+      }
     }
+
+    /* Títulos */
+    .login-title {
+      font-weight: 700;
+      font-size: 1.6rem;
+      text-align: center;
+      margin-bottom: 6px;
+      color: var(--color-text);
+    }
+
+    .login-subtitle {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* ==========================
+       CAMPOS
+    ==========================*/
+    .input-group {
+      margin-bottom: 16px;
+      text-align: left;
+
+      label {
+        display: block;
+        font-size: 14px;
+        color: var(--color-text-muted);
+        margin-bottom: 6px;
+      }
 
     input {
       width: 100%;
@@ -70,36 +95,37 @@
       border-radius: 8px !important;
       border: 1px solid transparent;
       background-color: var(--surface-2);
-      color: $text;
+      color: $text-color;
       font-size: 16px;
       caret-color: $primary;
-      //transition: border $transition, box-shadow $transition,
-        //background $transition;
+      transition: border $transition, box-shadow $transition,
+        background $transition;
 
-      &:focus {
-        border: 0, 5px solid $primary;
-        /* use theme RGB token for an alpha ring so no hard-coded rgba is needed */
-
-        outline: none;
+        &:focus {
+          border-color: var(--color-purple);
+          outline: none;
+          box-shadow: 0 0 6px rgba(var(--color-purple-rgb), 0.4);
+        }
       }
     }
-  }
 
-  // 🔗 Esqueceu a senha
-  .forgot-password {
-    text-align: left;
-    margin-bottom: 20px;
+    /* ==========================
+       Esqueci a senha
+    ==========================*/
+    .forgot-password {
+      margin-bottom: 20px;
+      text-align: left;
 
-    a {
-      font-size: 14px;
-      color: $primary;
-      text-decoration: none;
+      a {
+        font-size: 14px;
+        color: var(--color-purple);
+        text-decoration: none;
 
-      &:hover {
-        text-decoration: underline;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
-  }
 
   // 🔘 Botão
   .button-log-mob {
@@ -113,38 +139,29 @@
     color: $white; // usa $white (mapeado para var(--white))
     border: 1px solid transparent;
     font-weight: 700;
-    //font-family: $ff;
+    font-family: $ff;
     font-size: 15px;
     text-align: center;
     cursor: pointer;
-    //transition: background $transition, color $transition, transform 0.08s,
-      //box-shadow $transition;
+    transition: background $transition, color $transition, transform 0.08s,
+      box-shadow $transition;
     box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.08);
 
-    &:hover {
-      /* usa um tom de destaque já definido pelo tema */
-      background: $color-purple; /* var(--color-purple) */
-      box-shadow: 0 8px 22px rgba(var(--shadow-rgb), 0.1);
-    }
+      &:hover {
+        background: var(--color-purple-hover);
+        box-shadow: 0 6px 20px rgba(var(--shadow-rgb), 0.15);
+      }
 
-    &:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 12px rgba(var(--shadow-rgb), 0.08);
-    }
-
-    &:focus {
-      outline: none;
-      /* fallback: usar borda de contraste com a cor principal (funciona com CSS vars) */
-      border: 1px solid $color-purple;
-      /* use CSS var RGB token to keep ring theme-aware and avoid fixed colors */
-      box-shadow: 0 0 0 4px rgba(var(--color-purple-rgb), 0.12);
-    }
+      &:active {
+        transform: translateY(1px);
+        box-shadow: 0 4px 12px rgba(var(--shadow-rgb), 0.1);
+      }
 
     /* estado desabilitado */
     &.disabled,
     &:disabled {
-      //background: $disabled-bg; /* ex: $border-color */
-      //color: $disabled-text; /* ex: $color-text-muted */
+      background: $disabled-bg; /* ex: $border-color */
+      color: $disabled-text; /* ex: $color-text-muted */
       cursor: not-allowed;
       opacity: 0.95;
       box-shadow: none;
@@ -152,22 +169,18 @@
     }
   }
 
-  // 📱 Responsividade
+  /* ==========================
+     RESPONSIVIDADE
+  ==========================*/
   @media (min-width: 480px) {
     .login-card {
-      padding: 40px 30px;
+      padding: 36px 28px;
     }
   }
 
   @media (min-width: 768px) {
     .login-card {
-      max-width: 500px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .login-card {
-      max-width: 600px;
+      max-width: 480px;
     }
   }
 }

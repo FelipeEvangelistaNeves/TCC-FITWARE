@@ -1,9 +1,49 @@
-import React from "react";
 import "../../styles/pages/public/sobre.scss";
-
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FaMoon, FaSun } from "react-icons/fa";
 const Sobre = () => {
+  const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("fitware-theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light-mode");
+      setIsLight(true);
+    }
+  }, []);
+
+  const toggleTheme = (mode) => {
+    const isLightMode = mode === "light";
+    setIsLight(isLightMode);
+
+    if (isLightMode) {
+      document.body.classList.add("light-mode");
+      localStorage.setItem("fitware-theme", "light");
+    } else {
+      document.body.classList.remove("light-mode");
+      localStorage.setItem("fitware-theme", "dark");
+    }
+  };
   return (
     <div className="sobre-page">
+      <div className="theme-switch">
+        <div className="container-theme">
+          <button
+            className={!isLight ? "active" : ""}
+            onClick={() => toggleTheme("dark")}
+          >
+            <FaMoon />
+          </button>
+
+          <button
+            className={isLight ? "active" : ""}
+            onClick={() => toggleTheme("light")}
+          >
+            <FaSun />
+          </button>
+        </div>
+      </div>
       <section className="sobre-intro">
         <h2>Sobre a FitWare</h2>
         <p>

@@ -233,13 +233,6 @@ export default function Treinos() {
                   <td>{t.atribuido}</td>
                   <td>
                     {/* Enviar (novo ícone) */}
-                    <button
-                      className="action-btn"
-                      title="Enviar Treino"
-                      onClick={() => openSendModal(t)}
-                    >
-                      <i className="bi bi-send-fill"></i>
-                    </button>
 
                     <button
                       className="action-btn"

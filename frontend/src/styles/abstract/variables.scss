@@ -1,4 +1,6 @@
 $ROOT: true;
+$transition: 0.25s ease;
+
 /* Theme CSS variables: defaults = DARK theme. Toggling `body.light-mode` switches to light palette. */
 :root {
   /* dark (default - inspirado na Twitch) */

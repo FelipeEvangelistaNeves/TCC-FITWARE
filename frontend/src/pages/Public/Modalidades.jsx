@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FaMoon, FaSun } from "react-icons/fa";
 import "../../styles/pages/public/modalidades.scss";
 
 const Modalidades = () => {
+  const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("fitware-theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light-mode");
+      setIsLight(true);
+    }
+  }, []);
+
+  const toggleTheme = (mode) => {
+    const isLightMode = mode === "light";
+    setIsLight(isLightMode);
+
+    if (isLightMode) {
+      document.body.classList.add("light-mode");
+      localStorage.setItem("fitware-theme", "light");
+    } else {
+      document.body.classList.remove("light-mode");
+      localStorage.setItem("fitware-theme", "dark");
+    }
+  };
   const modalidades = [
     {
       icon: "bi-heart-pulse",
@@ -31,6 +55,23 @@ const Modalidades = () => {
 
   return (
     <div className="modalidades-page">
+      <div className="theme-switch">
+        <div className="container-theme">
+          <button
+            className={!isLight ? "active" : ""}
+            onClick={() => toggleTheme("dark")}
+          >
+            <FaMoon />
+          </button>
+
+          <button
+            className={isLight ? "active" : ""}
+            onClick={() => toggleTheme("light")}
+          >
+            <FaSun />
+          </button>
+        </div>
+      </div>
       <section className="intro">
         <h2>Nossas Modalidades</h2>
         <p>
