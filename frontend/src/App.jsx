@@ -5,6 +5,7 @@ import ProfRoutes from "./routes/ProfRoutes";
 import LoginDesk from "./pages/Login/LoginDesk";
 import LoginProf from "./pages/Login/LoginProf";
 import LoginAluno from "./pages/Login/LoginAluno";
+import EsqueciSenha from "./pages/Login/EsqueciSenha";
 import PublicRoutes from "./routes/PublicRoutes";
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/login/admin" element={<LoginDesk />} />
         <Route path="/login/professor" element={<LoginProf />} />
         <Route path="/login/aluno" element={<LoginAluno />} />
+        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
 
         {/* Rotas internas de cada tipo de usuário */}
         <Route path="/admin/*" element={<AdminRoutes />} />

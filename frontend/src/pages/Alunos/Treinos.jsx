@@ -61,9 +61,7 @@ export default function TreinoAluno() {
   }, []);
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("Todos");
-  const [treinoAtivo, setTreinoAtivo] = useState(null);
-  const [tempoRestante, setTempoRestante] = useState(0);
-  const [timerAtivo, setTimerAtivo] = useState(false);
+  const [modalTreinoAtivo, setModalTreinoAtivo] = useState(null);
 
   // Filtragem por tipo e busca
   const treinosFiltrados = treinos.filter(
@@ -72,35 +70,8 @@ export default function TreinoAluno() {
       t.titulo.toLowerCase().includes(busca.toLowerCase())
   );
 
-  // Controle do cronômetro
-  useEffect(() => {
-    let intervalo;
-    if (timerAtivo && tempoRestante > 0) {
-      intervalo = setInterval(() => {
-        setTempoRestante((prev) => prev - 1);
-      }, 1000);
-    } else if (tempoRestante === 0 && treinoAtivo) {
-      setTimerAtivo(false);
-      setTreinoAtivo(null);
-    }
-    return () => clearInterval(intervalo);
-  }, [timerAtivo, tempoRestante]);
-
   const iniciarTreino = (treino) => {
-    setTreinoAtivo(treino.id);
-    setTempoRestante(treino.tempo * 60);
-    setTimerAtivo(true);
-  };
-
-  const pararTreino = () => {
-    setTimerAtivo(false);
-    setTreinoAtivo(null);
-  };
-
-  const formatarTempo = (segundos) => {
-    const min = Math.floor(segundos / 60);
-    const sec = segundos % 60;
-    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    setModalTreinoAtivo(treino);
   };
 
   return (
@@ -156,34 +127,33 @@ export default function TreinoAluno() {
                 <span className="trainer-name">{treino.treinador}</span>
               </div>
 
-              <button
-                className="start-btn"
-                onClick={() => abrirDetalhes(treino.id)}
-              >
-                Detalhes
-              </button>
+              <div className="workout-actions">
+                <button
+                  className="start-btn secondary"
+                  onClick={() => abrirDetalhes(treino.id)}
+                >
+                  Detalhes
+                </button>
 
-              {treinoAtivo === treino.id && timerAtivo ? (
-                <div className="workout-timer">
-                  <div className="timer-display">
-                    {formatarTempo(tempoRestante)}
-                  </div>
-                  <button className="stop-btn" onClick={pararTreino}>
-                    Parar
-                  </button>
-                </div>
-              ) : (
                 <button
                   className="start-btn"
                   onClick={() => iniciarTreino(treino)}
                 >
                   Iniciar
                 </button>
-              )}
+              </div>
             </div>
           </div>
         ))}
       </section>
+
+      {modalTreinoAtivo && (
+        <TreinoActiveModal
+          treino={modalTreinoAtivo}
+          onClose={() => setModalTreinoAtivo(null)}
+          onMinimize={() => setModalTreinoAtivo(null)}
+        />
+      )}
     </div>
   );
 }
