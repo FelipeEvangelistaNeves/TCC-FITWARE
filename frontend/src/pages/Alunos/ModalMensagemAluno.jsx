@@ -54,7 +54,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
         {/* ===== Cabeçalho ===== */}
         <div className="chat-header">
           <button className="back-btn" onClick={onClose}>
-            <i class="bi bi-arrow-left"></i>
+            <i className="bi bi-arrow-left"></i>
           </button>
           <div className="user-info">
             <div className="avatar-placeholder">
@@ -86,7 +86,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
             onKeyDown={handleKeyPress}
           />
           <button onClick={handleSendMessage}>
-            <i class="bi bi-send"></i>
+            <i className="bi bi-send"></i>
           </button>
         </div>
       </div>

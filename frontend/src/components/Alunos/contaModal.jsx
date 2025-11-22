@@ -7,7 +7,7 @@ export default function ContaModal({ isOpen, onClose }) {
   // Buscar dados do aluno logado
   useEffect(() => {
     if (isOpen) {
-      fetch("http://localhost:3000/api/alunos/me", {
+      fetch(`${import.meta.env.VITE_BASE_URL}/aluno/me`, {
         credentials: "include",
       })
         .then((res) => res.json())
@@ -28,7 +28,7 @@ export default function ContaModal({ isOpen, onClose }) {
 
   const handleSave = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/alunos/update", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/aluno/update`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

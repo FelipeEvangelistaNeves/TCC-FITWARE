@@ -23,10 +23,13 @@ export default function Alunos() {
   useEffect(() => {
     const fetchAlunos = async () => {
       try {
-        const res = await fetch("http://localhost:3000/admin/allAlunos", {
-          method: "GET",
-          credentials: "include",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/admin/allAlunos`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
         if (!res.ok) throw new Error("Erro ao buscar alunos");
 
@@ -44,14 +47,17 @@ export default function Alunos() {
 
   const handleAddAluno = async (novo) => {
     try {
-      const res = await fetch("http://localhost:3000/admin/criarAluno", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(novo),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/admin/criarAluno`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(novo),
+        }
+      );
 
       const data = await res.json();
 

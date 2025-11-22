@@ -47,12 +47,13 @@ export default function Header() {
 
   async function handleLogout() {
     try {
-      const res = await fetch("http://localhost:3000/logout", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
       const data = await res.json();
       if (data.success) {
+        sessionStorage.clear();
         window.location.href = "/"; // redireciona pro login
       }
     } catch (err) {
@@ -74,7 +75,8 @@ export default function Header() {
             <div className="user-section">
               <div
                 className={`fw-dropdown ${showDropdown ? "fw-show" : ""}`}
-                ref={dropdownRef}>
+                ref={dropdownRef}
+              >
                 <button
                   className="btn user-profile-btn"
                   type="button"
@@ -110,28 +112,22 @@ export default function Header() {
                   </li>
                   <li>
                     <div className="theme-switch-wrapper fw-dropdown-item">
-                       
-                    <i
-                              className={`bi ${
-                                isLight ? "bi-sun-fill" : "bi-moon-stars-fill"
-                              }`}
-                            ></i>
-                        <span >
-                        {isLight ? "Modo Claro" : "Modo Escuro"}
-                      </span>
+                      <i
+                        className={`bi ${
+                          isLight ? "bi-sun-fill" : "bi-moon-stars-fill"
+                        }`}
+                      ></i>
+                      <span>{isLight ? "Modo Claro" : "Modo Escuro"}</span>
                       <div className="theme-switch" onClick={toggleTheme}>
                         <div
                           className={`switch-track ${isLight ? "light" : ""}`}
                         >
-                          <div className="switch-handle">
-                          
-                          </div>
+                          <div className="switch-handle"></div>
                         </div>
                       </div>
-                    
                     </div>
                   </li>
-                  
+
                   <li>
                     <button
                       className="fw-dropdown-item text-danger"

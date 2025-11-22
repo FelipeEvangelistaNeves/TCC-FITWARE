@@ -1,18 +1,9 @@
-const jwt = require("jsonwebtoken");
 const LoggerMessages = require("../loggerMessages");
-const { Treino, Funcionario } = require("../models");
+const { Treino, Funcionario, Aluno, Exercicio } = require("../models");
 
-const dataTreinos = async (req, res) => {
+const dataTreinosDoProfessor = async (req, res) => {
   try {
-    const token = req.cookies.token;
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Token ausente. Faça login novamente." });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const profId = decoded.id; // ID do prof que está logado
+    const profId = req.user.id;
 
     const prof = await Funcionario.findByPk(profId, {
       attributes: { exclude: ["fu_senha"] },
@@ -22,7 +13,81 @@ const dataTreinos = async (req, res) => {
       return res.status(404).json({ message: "Professor não encontrado." });
     }
 
-    const treinos = await Treino.findByProfId(profId);
+    const treinosRaw = await Treino.findByProfId(profId);
+
+    const treinos = treinosRaw.map((tr) => {
+      const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
+        nome: ex.ex_nome,
+        repeticoes: ex.TreinoExercicio?.te_repeticoes ?? null,
+        series: ex.TreinoExercicio?.te_series ?? null,
+        descanso: ex.TreinoExercicio?.te_descanso ?? null,
+      }));
+
+      return {
+        id: tr.tr_id,
+        nome: tr.tr_nome,
+        descricao: tr.tr_descricao,
+        dificuldade: tr.tr_dificuldade,
+        funcionario: tr.Funcionario?.fu_nome ?? null,
+        exercicios,
+      };
+    });
+
+    return res.status(200).json(treinos);
+  } catch (error) {
+    console.error(LoggerMessages.TREINOS_FAILED, error);
+    return res.status(500).json({ error: LoggerMessages.TREINOS_FAILED });
+  }
+};
+
+const dataTreinosDoAluno = async (req, res) => {
+  try {
+    const alunoId = req.user.id;
+
+    const aluno = await Aluno.findOne({
+      where: { al_id: alunoId },
+      include: [
+        {
+          model: Treino,
+          attributes: ["tr_id", "tr_nome", "tr_descricao", "tr_dificuldade"],
+          include: [
+            {
+              model: Funcionario,
+              attributes: ["fu_id", "fu_nome"],
+            },
+            {
+              model: Exercicio,
+              attributes: ["ex_id", "ex_nome"],
+              through: {
+                attributes: ["te_repeticoes", "te_series", "te_descanso"],
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!aluno) {
+      return res.status(404).json({ error: "Aluno não encontrado" });
+    }
+
+    const treinos = aluno.Treinos.map((tr) => {
+      const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
+        nome: ex.ex_nome,
+        repeticoes: ex.TreinoExercicio?.te_repeticoes ?? null,
+        series: ex.TreinoExercicio?.te_series ?? null,
+        descanso: ex.TreinoExercicio?.te_descanso ?? null,
+      }));
+
+      return {
+        id: tr.tr_id,
+        nome: tr.tr_nome,
+        descricao: tr.tr_descricao,
+        dificuldade: tr.tr_dificuldade,
+        funcionario: tr.Funcionario?.fu_nome ?? null,
+        exercicios,
+      };
+    });
 
     return res.status(200).json(treinos);
   } catch (error) {
@@ -32,5 +97,6 @@ const dataTreinos = async (req, res) => {
 };
 
 module.exports = {
-  dataTreinos,
+  dataTreinosDoProfessor,
+  dataTreinosDoAluno,
 };

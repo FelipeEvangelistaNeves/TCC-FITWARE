@@ -18,7 +18,7 @@ export default function PerfilAluno() {
   useEffect(() => {
     const fetchAlunos = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/alunos", {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/aluno`, {
           method: "GET",
           credentials: "include",
           headers: {

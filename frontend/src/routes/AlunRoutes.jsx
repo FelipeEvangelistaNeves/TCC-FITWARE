@@ -11,29 +11,12 @@ export default function AlunoRoutes() {
   const [auth, setAuth] = useState(null); // null = carregando
 
   useEffect(() => {
-    async function checkAuth() {
-      try {
-        const res = await fetch("http://localhost:3000/protected", {
-          credentials: "include",
-        });
-
-        if (res.status === 401) {
-          return setAuth(false);
-        }
-
-        const data = await res.json();
-
-        if (data.user && data.user.role === "Aluno") {
-          setAuth(true);
-        } else {
-          setAuth(false);
-        }
-      } catch (err) {
-        console.error("Erro ao verificar autenticação:", err);
-        setAuth(false);
-      }
+    const role = sessionStorage.getItem("user-role");
+    if (role === "Aluno") {
+      setAuth(true);
+    } else {
+      setAuth(false);
     }
-    checkAuth();
   }, []);
 
   if (auth === null) {

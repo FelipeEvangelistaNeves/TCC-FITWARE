@@ -76,6 +76,7 @@ Aluno.belongsToMany(Treino, {
   through: AlunoTreino,
   foreignKey: "al_id",
 });
+
 Treino.belongsToMany(Aluno, {
   through: AlunoTreino,
   foreignKey: "tr_id",
@@ -135,7 +136,6 @@ Funcionario.findByPk = async function (id) {
 };
 
 // Treinos
-
 Treino.findByProfId = async function (profId) {
   return await Treino.findAll({
     where: { tr_prof_id: profId },
@@ -146,8 +146,10 @@ Treino.findByProfId = async function (profId) {
       },
       {
         model: Exercicio,
-        through: { attributes: [] },
         attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
+        through: {
+          attributes: ["te_repeticoes", "te_series", "te_descanso"],
+        },
       },
     ],
   });

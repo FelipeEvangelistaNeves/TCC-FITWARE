@@ -4,91 +4,45 @@ import "../../styles/pages/aluno/treinos.scss";
 import TreinoActiveModal from "./TreinoActiveModal";
 
 export default function TreinoAluno() {
-  const [treinos, setTreinos] = useState([
-    {
-      tr_id: 1,
-      tr_nome: "Treino de Força",
-      tr_categoria: "Força",
-      tr_descricao: "Intermediário • 45 min",
-      tr_tempo: 45,
-      Funcionario: { fu_nome: "João Paulo" },
-      Exercicios: [
-        {
-          ex_id: 1,
-          ex_nome: "Agachamento",
-          ex_repeticoes: "3×12",
-          ex_descricao: "Mantenha a postura ereta e desça até 90 graus.",
-        },
-        {
-          ex_id: 2,
-          ex_nome: "Supino",
-          ex_repeticoes: "3×10",
-          ex_descricao:
-            "Barra na linha do peito, cotovelos levemente fechados.",
-        },
-        {
-          ex_id: 3,
-          ex_nome: "Remada",
-          ex_repeticoes: "3×10",
-          ex_descricao:
-            "Puxe a barra em direção ao abdômen, contraindo as costas.",
-        },
-      ],
-    },
-    {
-      tr_id: 2,
-      tr_nome: "Treino de Cardio",
-      tr_categoria: "Cardio",
-      tr_descricao: "Iniciante • 30 min",
-      tr_tempo: 30,
-      Funcionario: { fu_nome: "João Paulo" },
-      Exercicios: [
-        {
-          ex_id: 4,
-          ex_nome: "Corrida",
-          ex_repeticoes: "20 min",
-          ex_descricao: "Ritmo moderado constante na esteira ou rua.",
-        },
-        {
-          ex_id: 5,
-          ex_nome: "Pular corda",
-          ex_repeticoes: "10 min",
-          ex_descricao: "Saltos curtos e rápidos, mantendo o ritmo.",
-        },
-      ],
-    },
-    {
-      tr_id: 3,
-      tr_nome: "Treino Funcional",
-      tr_categoria: "Funcional",
-      tr_descricao: "Avançado • 60 min",
-      tr_tempo: 60,
-      Funcionario: { fu_nome: "João Paulo" },
-      Exercicios: [
-        {
-          ex_id: 6,
-          ex_nome: "Burpees",
-          ex_repeticoes: "3×15",
-          ex_descricao: "Movimento completo: flexão, agachamento e salto.",
-        },
-        {
-          ex_id: 7,
-          ex_nome: "Mountain Climbers",
-          ex_repeticoes: "3×20",
-          ex_descricao:
-            "Traga os joelhos ao peito alternadamente em posição de prancha.",
-        },
-        {
-          ex_id: 8,
-          ex_nome: "Prancha",
-          ex_repeticoes: "3×1 min",
-          ex_descricao: "Corpo alinhado, contraia o abdômen e glúteos.",
-        },
-      ],
-    },
-  ]);
   const [erro, setErro] = useState(null);
 
+  const [treinos, setTreinos] = useState([]);
+
+  useEffect(() => {
+    const fetchTreinos = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/aluno`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
+
+        const data = await res.json();
+        const treinosFormatados = data.map((t) => ({
+          id: t.id,
+          titulo: t.nome,
+          nivel: t.dificuldade,
+          treinador: t.funcionario,
+          exercicios: t.exercicios.map((ex) => ({
+            nome: ex.nome,
+            sets: `${ex.series}×${ex.repeticoes}`,
+          })),
+        }));
+        setTreinos(treinosFormatados);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTreinos();
+  }, []);
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("Todos");
 
@@ -160,27 +114,13 @@ export default function TreinoAluno() {
 
       {/* Seção de treinos */}
       <section className="workouts-section">
-        <div className="section-header">
-          {["Todos", "Força", "Cardio", "Funcional"].map((tipo) => (
-            <button
-              key={tipo}
-              className={`filter-btn ${filtro === tipo ? "active" : ""}`}
-              onClick={() => setFiltro(tipo)}
-            >
-              {tipo}
-            </button>
-          ))}
-        </div>
-
         {/* Cards de treino */}
         {treinosFiltrados.map((treino) => (
           <div className="workout-card" key={treino.tr_id}>
             <div className="workout-header">
               <div className="workout-info">
-                <h3>{treino.tr_nome}</h3>
-                <p className="workout-details">
-                  {treino.tr_descricao || "Sem descrição"}
-                </p>
+                <h3>{treino.titulo}</h3>
+                <p className="workout-details">{treino.nivel}</p>
               </div>
             </div>
 

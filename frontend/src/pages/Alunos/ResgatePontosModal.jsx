@@ -11,7 +11,7 @@ export default function ResgatePontosModal({ onClose }) {
   // 🔹 Buscar produtos e saldo
   const fetchProdutos = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/produtos/all", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/produtos/all`, {
         method: "GET",
         credentials: "include",
       });
@@ -24,7 +24,7 @@ export default function ResgatePontosModal({ onClose }) {
 
   const fetchSaldo = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/alunos", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/alunos`, {
         method: "GET",
         credentials: "include",
       });
@@ -67,12 +67,15 @@ export default function ResgatePontosModal({ onClose }) {
   // 🔹 Confirmar resgate (POST + atualização)
   const confirmarResgate = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/produtos/resgatar", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ produtoId: produtoSelecionado.pd_id }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/produtos/resgatar`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ produtoId: produtoSelecionado.pd_id }),
+        }
+      );
 
       const data = await res.json();
 

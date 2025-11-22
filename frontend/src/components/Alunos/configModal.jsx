@@ -12,13 +12,15 @@ export default function ConfigModal({ isOpen, onClose }) {
 
   async function handleLogout() {
     try {
-      const res = await fetch("http://localhost:3000/logout", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
       const data = await res.json();
       if (data.success) {
-        window.location.href = "/"; // redireciona pro login
+        sessionStorage.clear();
+        window.location.href = "/";
+        // redireciona pro login
       }
     } catch (err) {
       console.error("Erro ao fazer logout:", err);
@@ -42,7 +44,8 @@ export default function ConfigModal({ isOpen, onClose }) {
 
           <div
             className="config-option"
-            onClick={() => setShowContaModal(true)}>
+            onClick={() => setShowContaModal(true)}
+          >
             <span>Geral</span>
             <i className="bi bi-chevron-right"></i>
           </div>

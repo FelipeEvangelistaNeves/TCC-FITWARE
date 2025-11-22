@@ -23,13 +23,16 @@ export default function PerfilProf() {
   useEffect(() => {
     const fetchProfessor = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/professor/me", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json; charset=utf-8",
-          },
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/professor/me`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
 
         if (!res.ok) throw new Error("Erro ao buscar dados do professor");
 
@@ -90,7 +93,6 @@ export default function PerfilProf() {
 
       {/* Conteúdo */}
       <div className="perfil-content">
-
         {/* Informações pessoais */}
         <div className="card perfil-card">
           <div className="card-header-between">
@@ -124,7 +126,10 @@ export default function PerfilProf() {
           <div className="card-header-between">
             <h4>Certificações</h4>
 
-            <button className="ver-todas-btn" onClick={() => setShowCertModal(true)}>
+            <button
+              className="ver-todas-btn"
+              onClick={() => setShowCertModal(true)}
+            >
               Ver Todas
             </button>
           </div>
@@ -133,7 +138,9 @@ export default function PerfilProf() {
             <div className="cert-item">
               <i className="bi bi-award"></i>
               <div>
-                <p className="cert-titulo">CREF - Conselho Regional de Educação Física</p>
+                <p className="cert-titulo">
+                  CREF - Conselho Regional de Educação Física
+                </p>
                 <p className="cert-detalhe">{cref}</p>
               </div>
             </div>
@@ -141,7 +148,9 @@ export default function PerfilProf() {
             <div className="cert-item">
               <i className="bi bi-mortarboard"></i>
               <div>
-                <p className="cert-titulo">Especialização em Treinamento Funcional</p>
+                <p className="cert-titulo">
+                  Especialização em Treinamento Funcional
+                </p>
                 <p className="cert-detalhe">Universidade do Esporte - 2020</p>
               </div>
             </div>
@@ -151,11 +160,17 @@ export default function PerfilProf() {
 
       {/* MODAL CERTIFICAÇÕES */}
       {showCertModal && (
-        <div className="cert-modal-overlay" onClick={() => setShowCertModal(false)}>
+        <div
+          className="cert-modal-overlay"
+          onClick={() => setShowCertModal(false)}
+        >
           <div className="cert-modal" onClick={(e) => e.stopPropagation()}>
             <div className="cert-modal-header">
               <h4>Certificações</h4>
-              <span className="close-btn" onClick={() => setShowCertModal(false)}>
+              <span
+                className="close-btn"
+                onClick={() => setShowCertModal(false)}
+              >
                 &times;
               </span>
             </div>
@@ -178,7 +193,10 @@ export default function PerfilProf() {
               </div>
             </div>
 
-            <button className="close-footer-btn" onClick={() => setShowCertModal(false)}>
+            <button
+              className="close-footer-btn"
+              onClick={() => setShowCertModal(false)}
+            >
               Fechar
             </button>
           </div>
