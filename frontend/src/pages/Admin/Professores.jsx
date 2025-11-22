@@ -26,7 +26,7 @@ export default function Professores() {
     const fetchProfessores = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3000/api/professor/crud/listar",
+          `${import.meta.env.VITE_BASE_URL}/professor/crud/listar`,
           {
             method: "GET",
             credentials: "include",
@@ -50,7 +50,7 @@ export default function Professores() {
   const handleAddProfessor = async (novo) => {
     try {
       const res = await fetch(
-        "http://localhost:3000/api/professor/crud/criar",
+        `${import.meta.env.VITE_BASE_URL}/professor/crud/criar`,
         {
           method: "POST",
           credentials: "include",

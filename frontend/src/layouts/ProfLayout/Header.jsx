@@ -7,7 +7,7 @@ export default function HeaderProfessor({ title, avisos }) {
 
   async function handleLogout() {
     try {
-      const res = await fetch("http://localhost:3000/logout", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -41,10 +41,7 @@ export default function HeaderProfessor({ title, avisos }) {
       {showDropdown && (
         <div className="notification-overlay">
           <div className="notification-header">
-            <button
-              className="back-btn"
-              onClick={() => setShowDropdown(false)}
-            >
+            <button className="back-btn" onClick={() => setShowDropdown(false)}>
               <ArrowLeft size={20} />
               <span>Voltar</span>
             </button>

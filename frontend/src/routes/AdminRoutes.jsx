@@ -16,23 +16,12 @@ export default function AdminRoutes() {
   const [auth, setAuth] = useState(null);
 
   useEffect(() => {
-    async function checkAuth() {
-      try {
-        const res = await fetch("http://localhost:3000/protected", {
-          credentials: "include",
-        });
-        if (res.status === 401) return setAuth(false);
-        const data = await res.json();
-        if (data.user.role === "Secretario") {
-          setAuth(true);
-        } else {
-          setAuth(false);
-        }
-      } catch {
-        setAuth(false);
-      }
+    const role = sessionStorage.getItem("user-role");
+    if (role === "Secretario") {
+      setAuth(true);
+    } else {
+      setAuth(false);
     }
-    checkAuth();
   }, []);
 
   if (auth === null) return <p>Carregando...</p>;

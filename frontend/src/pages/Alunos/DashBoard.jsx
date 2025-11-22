@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/dashboardAluno.scss";
 
 export default function DashboardAluno() {
-  const treinos = [
+  const treinosmock = [
     {
       id: 1,
       tipo: "Força",
@@ -41,6 +41,42 @@ export default function DashboardAluno() {
       treinador: "João Paulo",
     },
   ];
+  const [treinos, setTreinos] = useState([]);
+  useEffect(() => {
+    const fetchTreinos = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/aluno`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
+
+        const data = await res.json();
+        const treinosFormatados = data.map((t) => ({
+          id: t.id,
+          titulo: t.nome,
+          nivel: t.dificuldade,
+          treinador: t.funcionario,
+          exercicios: t.exercicios.map((ex) => ({
+            nome: ex.nome,
+            sets: `${ex.series}×${ex.repeticoes}`,
+          })),
+        }));
+        setTreinos(treinosFormatados);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTreinos();
+  }, []);
 
   const [filtro, setFiltro] = useState("Todos");
   const [treinoAtivo, setTreinoAtivo] = useState(null);
@@ -86,17 +122,12 @@ export default function DashboardAluno() {
         <div className="summary-card">
           <h3>Treinos</h3>
           <div className="card-number">12</div>
-          <div className="card-subtitle">Completos</div>
+          <div className="card-subtitle">Disponíveis</div>
         </div>
         <div className="summary-card">
           <h3>Desafios</h3>
           <div className="card-number">3</div>
           <div className="card-subtitle">Ativos</div>
-        </div>
-        <div className="summary-card">
-          <h3>Calorias</h3>
-          <div className="card-number">450</div>
-          <div className="card-subtitle">Hoje</div>
         </div>
       </section>
 
@@ -144,7 +175,9 @@ export default function DashboardAluno() {
 
               {treinoAtivo === treino.id && timerAtivo ? (
                 <div className="workout-timer">
-                  <div className="timer-display">{formatarTempo(tempoRestante)}</div>
+                  <div className="timer-display">
+                    {formatarTempo(tempoRestante)}
+                  </div>
                   <button className="stop-btn" onClick={pararTreino}>
                     Parar
                   </button>

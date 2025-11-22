@@ -3,7 +3,7 @@ import "../../styles/pages/aluno/dashboardAluno.scss";
 import "../../styles/pages/aluno/treinos.scss";
 
 export default function TreinoAluno() {
-  const treinos = [
+  const treinosmock = [
     {
       id: 1,
       tipo: "Força",
@@ -44,6 +44,43 @@ export default function TreinoAluno() {
     },
   ];
 
+  const [treinos, setTreinos] = useState([]);
+
+  useEffect(() => {
+    const fetchTreinos = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/aluno`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
+
+        const data = await res.json();
+        const treinosFormatados = data.map((t) => ({
+          id: t.id,
+          titulo: t.nome,
+          nivel: t.dificuldade,
+          treinador: t.funcionario,
+          exercicios: t.exercicios.map((ex) => ({
+            nome: ex.nome,
+            sets: `${ex.series}×${ex.repeticoes}`,
+          })),
+        }));
+        setTreinos(treinosFormatados);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTreinos();
+  }, []);
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("Todos");
   const [treinoAtivo, setTreinoAtivo] = useState(null);
@@ -106,27 +143,13 @@ export default function TreinoAluno() {
 
       {/* Seção de treinos */}
       <section className="workouts-section">
-        <div className="section-header">
-          {["Todos", "Força", "Cardio", "Funcional"].map((tipo) => (
-            <button
-              key={tipo}
-              className={`filter-btn ${filtro === tipo ? "active" : ""}`}
-              onClick={() => setFiltro(tipo)}
-            >
-              {tipo}
-            </button>
-          ))}
-        </div>
-
         {/* Cards de treino */}
         {treinosFiltrados.map((treino) => (
           <div className="workout-card" key={treino.id}>
             <div className="workout-header">
               <div className="workout-info">
                 <h3>{treino.titulo}</h3>
-                <p className="workout-details">
-                  {treino.nivel} • {treino.tempo} min
-                </p>
+                <p className="workout-details">{treino.nivel}</p>
               </div>
             </div>
 

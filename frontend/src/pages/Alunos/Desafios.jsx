@@ -9,7 +9,7 @@ export default function DesafiosAlunoPage() {
   useEffect(() => {
     const fetchDesafios = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/desafios", {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/desafios`, {
           method: "GET",
           credentials: "include",
           headers: {

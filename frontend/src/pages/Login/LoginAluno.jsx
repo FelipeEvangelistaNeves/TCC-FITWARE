@@ -13,16 +13,24 @@ export default function LoginAluno() {
     setErrorMsg("");
 
     try {
-      const response = await fetch("http://localhost:3000/aluno/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // garante envio/recebimento de cookies
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/login/aluno`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // garante envio/recebimento de cookies
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok && data.success) {
+        sessionStorage.setItem("user-nome", data.user.nome);
+        sessionStorage.setItem("user-role", data.user.role);
+        sessionStorage.setItem("user-id", data.user.id);
+        sessionStorage.setItem("user-email", data.user.email);
+
         navigate("/aluno");
       } else {
         setErrorMsg(data.message || "Email ou senha incorretos.");

@@ -15,7 +15,7 @@ export default function DashboardAluno() {
   useEffect(() => {
     const fetchTreinos = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/treinos", {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/treinos`, {
           method: "GET",
           credentials: "include",
         });

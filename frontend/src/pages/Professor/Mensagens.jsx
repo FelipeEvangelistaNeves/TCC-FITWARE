@@ -19,7 +19,7 @@ export default function MensagensProf() {
     const fetchConversas = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3000/api/professor/conversas",
+          `${import.meta.env.VITE_BASE_URL}/professor/conversas`,
           {
             credentials: "include",
           }

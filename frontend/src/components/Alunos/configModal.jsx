@@ -9,7 +9,7 @@ export default function ConfigModal({ isOpen, onClose }) {
 
   async function handleLogout() {
     try {
-      const res = await fetch("http://localhost:3000/logout", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -39,7 +39,8 @@ export default function ConfigModal({ isOpen, onClose }) {
 
           <div
             className="config-option"
-            onClick={() => setShowContaModal(true)}>
+            onClick={() => setShowContaModal(true)}
+          >
             <span>Geral</span>
             <i className="bi bi-chevron-right"></i>
           </div>
