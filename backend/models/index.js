@@ -119,7 +119,6 @@ Funcionario.findByPk = async function (id) {
 };
 
 // Treinos
-
 Treino.findByProfId = async function (profId) {
   return await Treino.findAll({
     where: { tr_prof_id: profId },
@@ -130,8 +129,16 @@ Treino.findByProfId = async function (profId) {
       },
       {
         model: Exercicio,
-        through: { attributes: [] },
-        attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
+        attributes: ["ex_id", "ex_nome"],
+        through: {
+          attributes: [
+            "ex_id",
+            "te_repeticoes",
+            "te_series",
+            "te_descanso",
+            "ex_grupo_muscular",
+          ],
+        },
       },
     ],
   });
