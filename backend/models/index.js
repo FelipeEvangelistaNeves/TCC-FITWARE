@@ -129,15 +129,9 @@ Treino.findByProfId = async function (profId) {
       },
       {
         model: Exercicio,
-        attributes: ["ex_id", "ex_nome"],
+        attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
         through: {
-          attributes: [
-            "ex_id",
-            "te_repeticoes",
-            "te_series",
-            "te_descanso",
-            "ex_grupo_muscular",
-          ],
+          attributes: ["te_repeticoes", "te_series", "te_descanso"],
         },
       },
     ],
