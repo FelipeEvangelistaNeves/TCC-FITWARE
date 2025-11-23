@@ -89,7 +89,7 @@ export default function PerfilAluno({ aluno, onBack }) {
             <div className="acoes-card">
               <button
                 className="detalhes"
-                onClick={() => setTreinoSelecionado(item)}
+                onClick={() => setTreinoSelecionado(item.Treino)}
               >
                 Ver Detalhes
               </button>
