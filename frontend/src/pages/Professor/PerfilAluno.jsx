@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/pages/professor/perfilAluno.scss";
+import DetalhesTreino from "./DetalhesTreino";
 
 export default function PerfilAluno({ aluno, onBack }) {
   const [treinos, setTreinos] = useState([]);
   const [carregando, setCarregando] = useState(true);
+  const [treinoSelecionado, setTreinoSelecionado] = useState(null);
 
   useEffect(() => {
     async function fetchTreinos() {
@@ -19,10 +21,6 @@ export default function PerfilAluno({ aluno, onBack }) {
 
         const data = await res.json();
 
-        // 🔥 O erro estava aqui:
-        // setTreinos(data);
-
-        // ✔️ CORRETO:
         setTreinos(data.treinosAluno);
       } catch (err) {
         console.error("Erro ao buscar treinos:", err);
@@ -89,11 +87,24 @@ export default function PerfilAluno({ aluno, onBack }) {
             </ul>
 
             <div className="acoes-card">
-              <button className="detalhes">Ver Detalhes</button>
+              <button
+                className="detalhes"
+                onClick={() => setTreinoSelecionado(item.Treino)}
+              >
+                Ver Detalhes
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Modal de Detalhes do Treino */}
+      {treinoSelecionado && (
+        <DetalhesTreino
+          treino={treinoSelecionado}
+          onClose={() => setTreinoSelecionado(null)}
+        />
+      )}
     </div>
   );
 }

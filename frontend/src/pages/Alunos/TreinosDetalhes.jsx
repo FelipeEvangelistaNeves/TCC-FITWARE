@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/pages/professor/detalhestreino.scss";
+import "../../styles/pages/aluno/treinos.scss";
 
 export default function TreinoDetalhesModal({ treino, onClose }) {
   if (!treino) return null;

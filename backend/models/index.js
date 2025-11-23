@@ -84,12 +84,12 @@ Treino.belongsToMany(Aluno, {
 
 AlunoTreino.belongsTo(Treino, {
   foreignKey: "tr_id",
-  as: "Treino"
+  as: "Treino",
 });
 
 Treino.hasMany(AlunoTreino, {
   foreignKey: "tr_id",
-  as: "AlunoTreinos"
+  as: "AlunoTreinos",
 });
 Treino.belongsToMany(Exercicio, {
   through: TreinoExercicio,
@@ -97,7 +97,6 @@ Treino.belongsToMany(Exercicio, {
   otherKey: "ex_id",
   as: "Exercicios",
 });
-
 
 // 🔹 Funcionario ↔ Treino (1:N) (professor do treino)
 Funcionario.hasMany(Treino, { foreignKey: "tr_prof_id" });

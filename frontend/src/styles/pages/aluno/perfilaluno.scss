@@ -6,8 +6,11 @@
 .perfil-container {
   background-color: var(--app-bg);
   color: var(--color-text);
-  min-height: 100vh;
+  min-height: 100vh; // Removido para evitar scroll excessivo dentro do layout
+  flex: 1; // Ocupa o espaço restante do main
+  width: 100%;
   padding: 1.5rem;
+  padding-bottom: 80px; // Espaço para a bottom nav
   display: flex;
   flex-direction: column;
   gap: 1rem;

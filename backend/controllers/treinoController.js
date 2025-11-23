@@ -176,7 +176,7 @@ const dataDetalhesDoTreino = async (req, res) => {
 const listarExercicios = async (req, res) => {
   try {
     const exames = await Exercicio.findAll({
-      attributes: ["ex_id", "ex_nome", "ex_instrucao"],
+      attributes: ["ex_id", "ex_nome", "ex_instrucao", "ex_grupo_muscular"],
     });
     return res.status(200).json({ exercicios: exames });
   } catch (error) {

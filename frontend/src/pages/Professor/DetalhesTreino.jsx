@@ -60,8 +60,14 @@ export default function DetalhesTreino({ treino, onClose }) {
                   {i + 1}. {ex.ex_nome}
                 </div>
                 <div className="ex-info">
-                  <span>{ex.ex_repeticoes || "–"} repetições</span>
-                  <span>{ex.ex_series ? `${ex.ex_series} séries` : ""}</span>
+                  <span>
+                    {ex.TreinoExercicio?.te_repeticoes || "–"} repetições
+                  </span>
+                  <span>
+                    {ex.TreinoExercicio?.te_series
+                      ? `${ex.TreinoExercicio.te_series} séries`
+                      : ""}
+                  </span>
                 </div>
               </div>
             ))

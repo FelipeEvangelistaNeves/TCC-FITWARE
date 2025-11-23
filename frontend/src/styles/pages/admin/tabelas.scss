@@ -134,6 +134,12 @@
         td {
           vertical-align: middle;
 
+          /* ===== User Info (Avatar + Nome) ===== */
+          .user-info {
+            display: flex;
+            align-items: center;
+          }
+
           /* ===== Avatar Circular / Ícones ===== */
           .icone {
             width: 32px;
@@ -145,6 +151,7 @@
             font-weight: 600;
             color: $white;
             margin-right: $spacing-sm;
+            background: var(--color-purple); // Cor padrão
 
             &.blue {
               background: var(--color-blue);
