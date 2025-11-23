@@ -193,11 +193,13 @@ export default function Professores() {
 
                 <td className="user-info">
                   <div className="icone">
-                    {(p.fu_nome || "")
+                    {(p.fu_nome || "?")
                       .split(" ")
+                      .filter((n) => n.length > 0)
                       .map((n) => n[0])
                       .join("")
-                      .slice(0, 2)}
+                      .slice(0, 2)
+                      .toUpperCase() || "??"}
                   </div>
                   {p.fu_nome}
                 </td>
