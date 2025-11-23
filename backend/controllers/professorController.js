@@ -149,12 +149,6 @@ const dataProfAlunos = async (req, res) => {
 const dataProfConversas = async (req, res) => {
   try {
     const token = req.cookies.token;
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Token ausente. Faça login novamente." });
-    }
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const professorId = decoded.id;
 
@@ -169,7 +163,6 @@ const dataProfConversas = async (req, res) => {
             "al_nome",
             "al_email",
             "al_telefone",
-            "al_pontos",
           ],
         },
       ],
@@ -188,12 +181,6 @@ const dataProfConversas = async (req, res) => {
 const dataProfMensagens = async (req, res) => {
   try {
     const token = req.cookies.token;
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Token ausente. Faça login novamente." });
-    }
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const professorId = decoded.id;
 

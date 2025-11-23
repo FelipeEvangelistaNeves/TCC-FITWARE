@@ -1,4 +1,4 @@
-const { Aluno, Turma, Conversa, Funcionario } = require("../models");
+const { Aluno, Turma, Conversa, Funcionario, Mensagem } = require("../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ quiet: true });
 
@@ -91,36 +91,72 @@ const atualizarAluno = async (req, res) => {
 /**
  * 🔹 Conversas do aluno logado
  */
-const getConversasAluno = async (req, res) => {
+const dataAlunoConversas = async (req, res) => {
   try {
     const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: "Token ausente." });
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const alunoId = decoded.id;
 
     const conversas = await Conversa.findAll({
       where: { al_id: alunoId },
-      attributes: ["co_id", "al_id", "prof_id"],
       include: [
         {
           model: Funcionario,
-          as: "professor",
-          attributes: ["fu_id", "fu_nome"],
+          attributes: [
+            "fu_id", 
+            "fu_nome", 
+            "fu_email", 
+            "fu_telefone"
+          ],
         },
       ],
       order: [["co_id", "DESC"]],
     });
 
-    return res.json({ success: true, conversas });
+    return res.json({ conversas });
   } catch (error) {
     console.error("Erro ao buscar conversas:", error);
     return res.status(500).json({ message: "Erro ao buscar conversas." });
   }
 };
 
+const dataAlunoMensagem = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const alunoId = decoded.id;
+
+    const conversaId = req.params.id;
+
+    if (!conversaId) {
+      return res.status(400).json({ message: "ID da conversa é obrigatório." });
+    }
+
+    const conversa = await Conversa.findOne({
+      where: { co_id: conversaId, al_id: alunoId },
+    });
+
+    if (!conversa) {
+      return res
+        .status(403)
+        .json({ message: "Acesso negado a esta conversa." });
+    }
+
+    const mensagens = await Mensagem.findAll({
+      where: { co_id: conversaId },
+      order: [["me_id", "ASC"]],
+    });
+
+    res.json({ mensagens });
+  } catch (error) {
+    console.error("Erro ao buscar mensagens:", error);
+    return res.status(500).json({ message: "Erro ao buscar mensagens." });
+  }
+}
+
 module.exports = {
   dataAluno,
   atualizarAluno,
-  getConversasAluno,
+  dataAlunoConversas,
+  dataAlunoMensagem,
 };
