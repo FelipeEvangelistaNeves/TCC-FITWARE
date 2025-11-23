@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/pages/professor/chatModal.scss";
 
-export default function ChatModal({ isOpen, onClose, contactName }) {
-  const [mensagens, setMensagens] = useState([
-    { id: 1, texto: "Oi! Tudo bem?", tipo: "recebida" },
-    { id: 2, texto: "Tudo ótimo! E você?", tipo: "enviada" },
-  ]);
+export default function ChatModal({ 
+  isOpen, 
+  onClose, 
+  contactName,
+  mensagens = [], 
+}) {
   const [inputValue, setInputValue] = useState("");
   const chatBodyRef = useRef(null);
 
@@ -71,7 +72,7 @@ export default function ChatModal({ isOpen, onClose, contactName }) {
         <div className="chat-body" ref={chatBodyRef}>
           {mensagens.map((msg) => (
             <div key={msg.id} className={`msg ${msg.tipo}`}>
-              {msg.texto}
+              {msg.me_conteudo}
             </div>
           ))}
         </div>

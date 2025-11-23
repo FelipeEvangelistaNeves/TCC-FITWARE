@@ -26,7 +26,6 @@ export default function MensagensAluno() {
         if (!res.ok) throw new Error("Erro ao buscar conversas");
 
         const data = await res.json();
-        console.log("Conversas do aluno recebidas:", data);
 
         const randomColor = () => {
           const colors = ["purple", "orange", "blue"];
@@ -70,7 +69,7 @@ export default function MensagensAluno() {
   // =============================
   const openChat = async (co_id) => {
     try {
-      console.log("Abrindo conversa do aluno ID:", co_id);
+      console.log("Abrindo chat ID:", co_id);
 
       const res = await fetch(
         `${import.meta.env.VITE_BASE_URL}/aluno/mensagens/${co_id}`,
@@ -81,11 +80,13 @@ export default function MensagensAluno() {
 
       const data = await res.json();
 
-      // Normaliza as mensagens para mesmo padrão do professor
+      // Normalizar mensagens
       const normalizadas = data.mensagens.map((m) => ({
         ...m,
         tipo:
-          m.remetente_tipo.toLowerCase() === "aluno" ? "enviada" : "recebida",
+          m.remetente_tipo.toLowerCase() === "aluno"
+            ? "enviada"
+            : "recebida",
       }));
 
       setMensagensDaConversa(normalizadas);
