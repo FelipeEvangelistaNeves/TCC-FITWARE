@@ -1,93 +1,140 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/pages/aluno/mensagensAluno.scss";
 import ChatModal from "../../pages/Alunos/ModalMensagemAluno";
 
-export default function MensagensProf() {
-  const [activeTab, setActiveTab] = useState("todas");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isChatOpen, setIsChatOpen] = useState(false);
+export default function MensagensAluno() {
+  const [conversas, setConversas] = useState([]);
+  const [mensagensDaConversa, setMensagensDaConversa] = useState([]);
+  const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [erro, setErro] = useState("");
 
-  // ===== Declare `messages` antes de qualquer uso =====
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      name: "Personal Felipe",
-      initials: "PF",
-      color: "purple",
-      time: "10:30",
-      preview: "Como está indo o treino de força?",
-      unread: 2,
-      favorite: false,
-    },
-    {
-      id: 2,
-      name: "Personal Thiago",
-      initials: "PT",
-      color: "orange",
-      time: "Ontem",
-      preview: "Mesmo horário amanhã?",
-      unread: 0,
-      favorite: true,
-    },
-    {
-      id: 3,
-      name: "Nutricionista Alessandra",
-      initials: "NA",
-      color: "blue",
-      time: "Seg",
-      preview: "Tudo OK para a consulta de terça-feira?",
-      unread: 0,
-      favorite: false,
-    },
-  ]);
+  // =============================
+  // BUSCAR TODAS AS CONVERSAS DO ALUNO
+  // =============================
+  useEffect(() => {
+    const fetchConversas = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/aluno/conversas`,
+          {
+            credentials: "include",
+          }
+        );
 
-  // ===== Toggle favorito =====
-  const toggleFavorite = (id, e) => {
-    // evitar que o clique no botão de favorito abra o modal
-    if (e && typeof e.stopPropagation === "function") e.stopPropagation();
+        if (!res.ok) throw new Error("Erro ao buscar conversas");
 
-    setMessages((prev) =>
-      prev.map((msg) =>
-        msg.id === id ? { ...msg, favorite: !msg.favorite } : msg
-      )
-    );
+        const data = await res.json();
+        console.log("Conversas do aluno recebidas:", data);
+
+        const randomColor = () => {
+          const colors = ["purple", "orange", "blue"];
+          return colors[Math.floor(Math.random() * colors.length)];
+        };
+
+        // Normaliza para o mesmo padrão da versão do professor
+        const normalizadas = data.conversas.map((c) => {
+          const prof = c.Funcionario || {};
+          const nome = prof.fu_nome || "Professor";
+
+          const initials = nome
+            .split(" ")
+            .map((p) => p[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+          return {
+            id: c.co_id,
+            name: nome,
+            initials,
+            preview: "Clique para ver a conversa",
+            time: "",
+            color: randomColor(),
+          };
+        });
+
+        setConversas(normalizadas);
+      } catch (err) {
+        console.error(err);
+        setErro("Erro ao carregar conversas");
+      }
+    };
+
+    fetchConversas();
+  }, []);
+
+  // =============================
+  // ABRIR CHAT E BUSCAR MENSAGENS
+  // =============================
+  const openChat = async (co_id) => {
+    try {
+      console.log("Abrindo conversa do aluno ID:", co_id);
+
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/aluno/mensagens/${co_id}`,
+        { credentials: "include" }
+      );
+
+      if (!res.ok) throw new Error("Erro ao carregar mensagens");
+
+      const data = await res.json();
+
+      // Normaliza as mensagens para mesmo padrão do professor
+      const normalizadas = data.mensagens.map((m) => ({
+        ...m,
+        tipo:
+          m.remetente_tipo.toLowerCase() === "aluno" ? "enviada" : "recebida",
+      }));
+
+      setMensagensDaConversa(normalizadas);
+      setSelectedContact(conversas.find((c) => c.id === co_id));
+      setSelectedChatId(co_id);
+    } catch (err) {
+      console.error("Erro ao abrir chat:", err);
+      setErro("Erro ao carregar mensagens");
+    }
   };
 
-  // ===== Filtragem — versão segura =====
-  const filteredMessages = messages.filter((msg) => {
-    const name = msg && msg.name ? String(msg.name).toLowerCase() : "";
-    const preview = msg && msg.preview ? String(msg.preview).toLowerCase() : "";
-    const search = searchTerm ? String(searchTerm).toLowerCase() : "";
+  // =============================
+  // ENVIAR MENSAGEM
+  // =============================
+  const enviarMensagem = async (texto) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/aluno/mensagens/${selectedChatId}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ conteudo: texto }),
+        }
+      );
 
-    const matchesSearch = name.includes(search) || preview.includes(search);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erro ao enviar mensagem");
 
-    if (activeTab === "nao-lidas") {
-      return msg.unread > 0 && matchesSearch;
+      const msg = data.novaMensagem;
+
+      const mensagemFormatada = {
+        me_id: msg.me_id,
+        me_conteudo: msg.me_conteudo,
+        me_tempo: msg.me_tempo,
+        remetente_id: msg.remetente_id,
+        remetente_tipo: msg.remetente_tipo,
+        tipo: "enviada",
+      };
+
+      setMensagensDaConversa((prev) => [...prev, mensagemFormatada]);
+    } catch (err) {
+      console.error("Erro ao enviar:", err);
     }
-
-    if (activeTab === "favoritas") {
-      return msg.favorite === true && matchesSearch;
-    }
-
-    return matchesSearch;
-  });
-
-  // ===== Abrir / fechar chat =====
-  const openChat = (contact) => {
-    // console.log("Abrindo chat com:", contact); // descomente para debugar
-    setSelectedContact(contact);
-    setIsChatOpen(true);
-  };
-
-  const closeChat = () => {
-    setIsChatOpen(false);
-    setSelectedContact(null);
   };
 
   return (
     <div className="mensagens-aluno">
-      {/* ===== Search Bar ===== */}
+      {/* Campo de busca (se quiser remover, me avise) */}
       <div className="search-container">
         <div className="search-bar">
           <i className="fas fa-search search-icon"></i>
@@ -101,43 +148,16 @@ export default function MensagensProf() {
         </div>
       </div>
 
-      {/* ===== Filter Tabs ===== */}
-      <div className="filter-tabs">
-        <button
-          className={`filter-tab ${activeTab === "todas" ? "active" : ""}`}
-          onClick={() => setActiveTab("todas")}
-        >
-          Todas
-        </button>
-        <button
-          className={`filter-tab ${activeTab === "nao-lidas" ? "active" : ""}`}
-          onClick={() => setActiveTab("nao-lidas")}
-        >
-          Não lidas
-        </button>
-        <button
-          className={`filter-tab ${activeTab === "favoritas" ? "active" : ""}`}
-          onClick={() => setActiveTab("favoritas")}
-        >
-          Favoritas
-        </button>
-      </div>
-
-      {/* ===== Messages List ===== */}
+      {/* Lista de conversas */}
       <div className="messages-list">
-        {filteredMessages.length === 0 ? (
-          <div className="no-messages">Nenhuma mensagem encontrada.</div>
+        {conversas.length === 0 ? (
+          <div className="no-messages">Nenhuma conversa encontrada.</div>
         ) : (
-          filteredMessages.map((msg) => (
+          conversas.map((msg) => (
             <div
-              className="message-item"
               key={msg.id}
-              onClick={() => openChat(msg)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") openChat(msg);
-              }}
+              className="message-item"
+              onClick={() => openChat(msg.id)}
             >
               <div className={`message-avatar ${msg.color}`}>
                 <span>{msg.initials}</span>
@@ -151,24 +171,6 @@ export default function MensagensProf() {
 
                 <div className="message-bottom">
                   <p className="message-preview">{msg.preview}</p>
-                  <div
-                    className="message-actions"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    {msg.unread > 0 && (
-                      <div className="unread-badge">
-                        <span>{msg.unread}</span>
-                      </div>
-                    )}
-                    <i
-                      className={`favorite-btn ${
-                        msg.favorite ? "bi bi-star-fill" : "bi bi-star"
-                      }`}
-                      onClick={(e) => toggleFavorite(msg.id, e)}
-                    />
-                  </div>
                 </div>
               </div>
             </div>
@@ -176,12 +178,13 @@ export default function MensagensProf() {
         )}
       </div>
 
-      {/* ===== Modal do Chat ===== */}
+      {/* Modal */}
       <ChatModal
-        isOpen={isChatOpen}
-        onClose={closeChat}
-        contactName={selectedContact ? selectedContact.name : null}
-        messages={messages}
+        isOpen={selectedChatId !== null}
+        onClose={() => setSelectedChatId(null)}
+        contactName={selectedContact?.name}
+        mensagens={mensagensDaConversa}
+        onSendMessage={enviarMensagem}
       />
     </div>
   );

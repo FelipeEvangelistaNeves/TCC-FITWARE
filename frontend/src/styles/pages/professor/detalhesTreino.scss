@@ -153,6 +153,7 @@
   margin-bottom: $spacing-md;
   overflow-y: auto;
   flex: 1;
+  flex-direction: column;
 
   /* Scrollbar estilizada */
   &::-webkit-scrollbar {

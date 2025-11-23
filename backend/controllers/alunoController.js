@@ -1,4 +1,4 @@
-const { Aluno, Turma } = require("../models");
+const { Aluno, Turma, Conversa, Funcionario } = require("../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ quiet: true });
 
@@ -88,4 +88,41 @@ const atualizarAluno = async (req, res) => {
   }
 };
 
-module.exports = { dataAluno, atualizarAluno };
+/**
+ * 🔹 Conversas do aluno logado
+ */
+const getConversasAluno = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Token ausente." });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const alunoId = decoded.id;
+
+    const conversas = await Conversa.findAll({
+      where: { al_id: alunoId },
+      include: [
+        {
+          model: Funcionario,
+          attributes: ["fu_id", "fu_nome"],
+        },
+      ],
+
+      order: [["createdAt", "DESC"]],
+    });
+
+    return res.json({
+      success: true,
+      conversas,
+    });
+  } catch (error) {
+    console.error("Erro ao buscar conversas:", error);
+    return res.status(500).json({ message: "Erro ao buscar conversas." });
+  }
+};
+
+module.exports = {
+  dataAluno,
+  atualizarAluno,
+  getConversasAluno,
+};

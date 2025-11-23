@@ -140,36 +140,6 @@ export default function MensagensProf() {
     }
   };
 
-  // =============================
-  // FILTRAGEM DE CONVERSAS
-  // =============================
-  useEffect(() => {
-    const search = searchTerm.toLowerCase();
-
-    const filtradas = conversas.filter((msg) => {
-      const nome = msg.name.toLowerCase();
-      const preview = msg.preview.toLowerCase();
-
-      const matches = nome.includes(search) || preview.includes(search);
-
-      if (activeTab === "favoritas") return msg.favorite && matches;
-      if (activeTab === "nao-lidas") return msg.unread > 0 && matches;
-
-      return matches;
-    });
-
-    setFilteredConversas(filtradas);
-  }, [searchTerm, activeTab, conversas]);
-
-  const toggleFavorite = (id, e) => {
-    e.stopPropagation();
-    setConversas((prev) =>
-      prev.map((msg) =>
-        msg.id === id ? { ...msg, favorite: !msg.favorite } : msg
-      )
-    );
-  };
-
   return (
     <div className="mensagens-prof">
       {/* Search */}
@@ -184,28 +154,6 @@ export default function MensagensProf() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="filter-tabs">
-        <button
-          className={`filter-tab ${activeTab === "todas" ? "active" : ""}`}
-          onClick={() => setActiveTab("todas")}
-        >
-          Todas
-        </button>
-        <button
-          className={`filter-tab ${activeTab === "nao-lidas" ? "active" : ""}`}
-          onClick={() => setActiveTab("nao-lidas")}
-        >
-          Não lidas
-        </button>
-        <button
-          className={`filter-tab ${activeTab === "favoritas" ? "active" : ""}`}
-          onClick={() => setActiveTab("favoritas")}
-        >
-          Favoritas
-        </button>
       </div>
 
       {/* Lista */}
@@ -234,21 +182,7 @@ export default function MensagensProf() {
                   <div
                     className="message-actions"
                     onClick={(e) => e.stopPropagation()}
-                  >
-                    {msg.unread > 0 && (
-                      <div className="unread-badge">
-                        <span>{msg.unread}</span>
-                      </div>
-                    )}
-                    <i
-                      className={
-                        msg.favorite
-                          ? "bi bi-star-fill favorite-btn"
-                          : "bi bi-star"
-                      }
-                      onClick={(e) => toggleFavorite(msg.id, e)}
-                    />
-                  </div>
+                  ></div>
                 </div>
               </div>
             </div>

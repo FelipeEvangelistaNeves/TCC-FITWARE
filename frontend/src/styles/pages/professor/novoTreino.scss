@@ -1,34 +1,33 @@
 @import "./../../abstract/variables.scss";
 
-/* Overlay que escurece o fundo */
+/* ============================
+   OVERLAY
+============================ */
 .novo-treino-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(var(--shadow-rgb), 0.6);
   z-index: 9999;
   display: flex;
   justify-content: flex-end;
   align-items: stretch;
   backdrop-filter: blur(4px);
-  transition: opacity 0.3s ease;
 }
 
-/* Drawer (painel lateral) */
+/* ============================
+   DRAWER
+============================ */
 .novo-treino-drawer {
   width: 480px;
   max-width: 100%;
-  background: var(--surface-1); /* Solid background */
-  color: $text;
   height: 100vh;
-  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+  background: var(--surface-1);
+  border-left: 1px solid var(--border-color);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
-  transform: translateX(0);
-  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideIn 0.28s ease;
   position: relative;
-  padding: 0;
-  overflow: hidden;
-  border-left: 1px solid rgba($white, 0.1);
 
   @media (max-width: 768px) {
     width: 100%;
@@ -40,180 +39,171 @@
     transform: translateX(100%);
     opacity: 0;
   }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
-/* Header */
+/* ============================
+   HEADER
+============================ */
 .drawer-header {
   display: flex;
-  align-items: center;
-  gap: $spacing-md;
   justify-content: space-between;
-  padding: $spacing-lg $spacing-lg $spacing-md;
-  background: var(--surface-1); /* Solid background */
-  border-bottom: 1px solid $border-color;
-  z-index: 10;
+  align-items: center;
+  background: var(--surface-1);
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
 
   h2 {
-    font-size: 20px;
-    font-weight: 700;
     margin: 0;
-    flex: 1;
-    color: $white;
-    letter-spacing: -0.5px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
   }
 
   .icon-btn {
-    background: transparent;
     border: none;
-    color: $text-2;
+    background: transparent;
+    color: var(--color-text-muted);
     cursor: pointer;
     padding: 8px;
-    border-radius: 50%;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 6px;
+    transition: 0.15s;
 
     &:hover {
-      background: rgba($white, 0.1);
-      color: $white;
-    }
-  }
-
-  .save-btn {
-    background: linear-gradient(135deg, $primary, darken($primary, 5%));
-    color: $white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: $radius-md;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba($primary, 0.3);
-
-    &:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba($primary, 0.4);
-    }
-
-    &:active {
-      transform: translateY(0);
+      background: rgba(var(--white-rgb), 0.12);
+      color: var(--white);
     }
   }
 }
 
-/* Body (scrollable) */
+/* ============================
+   BODY
+============================ */
 .drawer-body {
-  overflow-y: auto;
-  padding: $spacing-lg;
+  flex: 1;
+  padding: 22px;
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
-  flex: 1;
+  gap: 18px;
+  overflow-y: auto;
 
-  /* Scrollbar estilizada */
   &::-webkit-scrollbar {
     width: 6px;
   }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
   &::-webkit-scrollbar-thumb {
-    background: rgba($white, 0.1);
-    border-radius: 3px;
-    &:hover {
-      background: rgba($white, 0.2);
-    }
+    background: rgba(var(--shadow-rgb), 0.28);
+    border-radius: 4px;
   }
 }
 
-/* Fields */
-.field {
+/* ============================
+   BASE INPUT STYLE
+============================ */
+.input-base {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--color-text);
+  font-size: 15px;
+  transition: 0.2s;
+  outline: none;
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:hover {
+    background: var(--surface-hover);
+  }
+
+  &:focus {
+    border-color: var(--color-purple);
+    box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.25);
+    background: var(--surface-1);
+  }
+}
+
+/* Aplicar automaticamente */
+.field input,
+.field select,
+.field textarea,
+.exercise-controls input,
+.exercise-notes {
+  @extend .input-base;
+}
+
+.field select {
+  @extend .input-base;
+  appearance: none;
+
+  padding-right: 36px;
+  cursor: pointer;
+
+  &:focus {
+    border-color: var(--color-purple);
+    box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.25);
+  }
+  option {
+    background: var(--surface-2);
+    color: var(--color-text);
+  }
+}
+
+/* ============================
+   ALUNOS
+============================ */
+.alunos-selection-list {
+  background: var(--surface-2);
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 180px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 
-  .label-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: $text-2;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  input[type="text"],
-  select,
-  textarea {
-    background: $surface-2;
-    border: 1px solid transparent;
-    color: $text;
-    padding: 12px 16px;
-    border-radius: $radius-md;
-    outline: none;
-    font-size: 15px;
-    transition: all 0.2s;
-    width: 100%;
-
-    &:focus {
-      background: ($surface-2, 2%);
-      border-color: $primary;
-      box-shadow: 0 0 0 2px rgba($primary, 0.2);
-    }
-
-    &::placeholder {
-      color: rgba($text-2, 0.6);
-    }
-
-    option {
-      background: var(--surface-2);
-      color: $text;
-    }
-  }
-
-  textarea {
-    min-height: 100px;
-    resize: vertical;
-    line-height: 1.5;
-  }
-
-  .select-placeholder,
-  .file-placeholder {
-    background: rgba($surface-2, 0.5);
-    border: 2px dashed $border-color;
-    padding: 24px;
-    border-radius: $radius-md;
-    color: $text-2;
+  .loading-text,
+  .empty-text {
+    color: var(--color-text-muted);
     text-align: center;
+    padding: 10px;
     font-size: 14px;
+  }
+
+  .aluno-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: 0.15s;
 
     &:hover {
-      border-color: $primary;
-      color: $primary;
-      background: rgba($primary, 0.05);
+      background: var(--surface-hover);
+    }
+
+    input {
+      accent-color: var(--color-purple);
+    }
+
+    .aluno-name {
+      font-size: 14px;
     }
   }
 }
 
-/* Selected alunos (visual) */
 .selected-alunos {
-  background: $surface-2;
-  padding: 16px;
-  border-radius: $radius-md;
-  border: 1px solid rgba($white, 0.05);
+  background: var(--surface-2);
+  border-radius: 10px;
+  padding: 12px;
 
   .subtitle {
     font-size: 12px;
     font-weight: 600;
-    color: $text-2;
-    margin-bottom: 12px;
-    display: block;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
     text-transform: uppercase;
   }
 
@@ -223,319 +213,61 @@
     flex-wrap: wrap;
 
     .tag {
-      background: rgba($primary, 0.15);
-      color: ($primary, 10%);
-      padding: 6px 12px;
+      background: rgba(var(--color-purple-rgb), 0.15);
+      color: var(--color-purple);
+      padding: 6px 10px;
       border-radius: 20px;
       font-size: 13px;
-      font-weight: 500;
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      border: 1px solid rgba($primary, 0.2);
+      gap: 6px;
 
       .tag-remove {
         width: 16px;
         height: 16px;
-        background: rgba($black, 0.2);
+        background: var(--color-red);
+        color: var(--white);
         border: none;
         border-radius: 50%;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: $white;
         font-size: 10px;
-        transition: background 0.2s;
-
-        &:hover {
-          background: $color-red;
-        }
-
-        &::before {
-          content: "✕";
-        }
       }
     }
   }
 }
 
-/* Student Selection List */
-.alunos-selection-list {
-  max-height: 200px;
-  overflow-y: auto;
-  background: var(--surface-2);
-  border-radius: $radius-md;
-  padding: 10px;
+/* ============================
+   EXERCÍCIOS
+============================ */
+.exercises-header {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid transparent;
+  justify-content: space-between;
+  align-items: center;
 
-  /* Scrollbar */
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba($white, 0.1);
-    border-radius: 3px;
-  }
-
-  .loading-text,
-  .empty-text {
-    text-align: center;
-    color: $text-2;
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .aluno-checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover {
-      background: rgba($white, 0.05);
-    }
-
-    input[type="checkbox"] {
-      accent-color: $primary;
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-
-    .aluno-name {
-      font-size: 14px;
-      color: $text;
-    }
-  }
-}
-
-/* Exercises */
-.exercises-section {
-  margin-top: 8px;
-
-  .exercises-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-
-    h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-      color: $text;
-    }
-
-    .add-ex-btn {
-      background: rgba($primary, 0.1);
-      color: $primary;
-      border: 1px solid rgba($primary, 0.2);
-      padding: 8px 14px;
-      border-radius: $radius-md;
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.2s;
-
-      &:hover {
-        background: $primary;
-        color: $white;
-      }
-    }
-  }
-
-  .muted {
-    color: $text-2;
-    text-align: center;
-    padding: 20px;
-    background: $surface-2;
-    border-radius: $radius-md;
-    font-size: 14px;
-  }
-
-  .exercises-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .exercise-card {
-    background: $surface-2;
-    border: 1px solid transparent;
-    border-radius: $radius-md;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: all 0.2s;
-    position: relative;
-
-    &:hover {
-      border-color: rgba($primary, 0.3);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .exercise-top {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .exercise-index {
-      background: linear-gradient(135deg, $primary, darken($primary, 10%));
-      color: $white;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      box-shadow: 0 2px 6px rgba($primary, 0.3);
-    }
-
-    .exercise-name {
-      flex: 1;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba($white, 0.1);
-      color: $text;
-      font-weight: 600;
-      font-size: 16px;
-      padding: 8px 0;
-      outline: none;
-      transition: border-color 0.2s;
-
-      &:focus {
-        border-color: $primary;
-      }
-
-      &::placeholder {
-        color: $text-2;
-        font-weight: 400;
-      }
-    }
-
-    .remove-ex-btn {
-      background: rgba($surface-3, 0.5);
-      border: none;
-      color: $text-2;
-      cursor: pointer;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-
-      &:hover {
-        background: rgba($color-red, 0.1);
-        color: $color-red;
-      }
-    }
-
-    .exercise-controls {
-      display: flex;
-      gap: 12px;
-      padding-left: 44px; /* Alinha com o nome */
-
-      input.small {
-        width: 100px;
-        padding: 8px 12px;
-        font-size: 14px;
-        background: $surface-3;
-        border: 1px solid transparent;
-        border-radius: 8px;
-        color: $text;
-
-        &:focus {
-          border-color: $primary;
-          background: ($surface-3, 2%);
-        }
-      }
-    }
-
-    .exercise-notes {
-      background: $surface-3;
-      border: 1px solid transparent;
-      color: $text;
-      padding: 10px 12px;
-      border-radius: 8px;
-      min-height: 60px;
-      resize: vertical;
-      font-size: 13px;
-      margin-left: 44px;
-      width: calc(100% - 44px);
-      transition: all 0.2s;
-
-      &:focus {
-        border-color: $primary;
-        background: ($surface-3, 2%);
-      }
-
-      &::placeholder {
-        color: $text-2;
-      }
-    }
-  }
-}
-
-/* Footer */
-.drawer-footer {
-  display: flex;
-  gap: 12px;
-  padding: 20px $spacing-lg;
-  border-top: 1px solid $border-color;
-  background: var(--surface-1); /* Solid background */
-  margin-top: auto;
-
-  button {
-    flex: 1;
-    padding: 12px;
-    border-radius: $radius-md;
-    font-weight: 600;
+  h3 {
+    margin: 0;
     font-size: 15px;
+    font-weight: 600;
+  }
+
+  .add-ex-btn {
+    background: var(--color-purple);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    color: var(--white);
     cursor: pointer;
-    transition: all 0.2s;
+    font-size: 14px;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    justify-content: center;
-  }
-
-  .btn-cancel {
-    background: transparent;
-    border: 1px solid $border-color;
-    color: $text-2;
+    gap: 8px;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: rgba($white, 0.05);
-      color: $text;
-      border-color: $text-2;
-    }
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, $primary, darken($primary, 5%));
-    border: none;
-    color: $white;
-    box-shadow: 0 4px 12px rgba($primary, 0.25);
-
-    &:hover {
+      background: var(--color-purple-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba($primary, 0.35);
+      box-shadow: 0 4px 12px rgba(var(--color-purple-rgb), 0.3);
     }
 
     &:active {
@@ -544,34 +276,195 @@
   }
 }
 
-/* Responsive: mobile full-screen drawer */
-@media (max-width: 768px) {
-  .novo-treino-drawer {
-    width: 100%;
+.exercise-card {
+  background: var(--surface-2);
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &:hover {
+    border-color: var(--color-purple);
+    background: rgba(var(--color-purple-rgb), 0.05);
   }
 
-  .drawer-header {
-    padding: 16px;
+  .exercise-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
 
-    h2 {
-      font-size: 18px;
-    }
-  }
-
-  .drawer-body {
-    padding: 16px;
-  }
-
-  .exercise-card {
-    .exercise-controls,
-    .exercise-notes {
-      margin-left: 0;
-      width: 100%;
-      padding-left: 0;
-    }
-
-    .exercise-controls input.small {
+    select {
       flex: 1;
+      min-width: 180px;
+      appearance: none;
+
+      padding-right: 36px;
+      cursor: pointer;
     }
+  }
+
+  .exercise-index {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(
+      135deg,
+      var(--color-purple),
+      var(--color-purple-light)
+    );
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .remove-ex-btn {
+    background: rgba(var(--color-red-rgb), 0.12);
+    border: none;
+    border-radius: 8px;
+    color: var(--color-red);
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: var(--color-red);
+      color: var(--white);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .create-ex-btn {
+    background: rgba(var(--color-purple-rgb), 0.12);
+    border: 1px solid rgba(var(--color-purple-rgb), 0.3);
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: var(--color-purple);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--color-purple);
+      color: var(--white);
+      border-color: var(--color-purple);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+/* ============================
+   MINI MODAL – CRIAR EXERCÍCIO
+============================ */
+.ex-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(var(--shadow-rgb), 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  backdrop-filter: blur(4px);
+}
+
+.ex-modal {
+  background: var(--surface-1);
+  padding: 22px;
+  width: 90%;
+  max-width: 340px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+}
+
+.ex-modal-actions {
+  display: flex;
+  gap: 10px;
+
+  button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-cancel {
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--color-text-muted);
+
+    &:hover {
+      background: var(--surface-2);
+      border-color: var(--color-text-muted);
+    }
+  }
+
+  .btn-primary {
+    background: var(--color-purple);
+    border: none;
+    color: var(--white);
+
+    &:hover {
+      background: var(--color-purple-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(var(--color-purple-rgb), 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ============================
+   FOOTER
+============================ */
+.drawer-footer {
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid var(--border-color);
+
+  button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .btn-cancel {
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--border-color);
+  }
+  .btn-primary {
+    background: var(--color-purple);
+    color: var(--white);
+    border: none;
   }
 }

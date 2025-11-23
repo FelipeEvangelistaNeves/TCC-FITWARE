@@ -44,11 +44,17 @@ export default function TreinoAluno() {
         const treinosFormatados = data.map((t) => ({
           id: t.id,
           titulo: t.nome,
+          descricao: t.descricao,
           nivel: t.dificuldade,
           treinador: t.funcionario,
+          tempo: t.tempo,
           exercicios: t.exercicios.map((ex) => ({
             nome: ex.nome,
             sets: `${ex.series}×${ex.repeticoes}`,
+            series: ex.series,
+            repeticoes: ex.repeticoes,
+            instrucao: ex.instrucao,
+            descanso: ex.descanso,
           })),
         }));
         setTreinos(treinosFormatados);
@@ -71,7 +77,17 @@ export default function TreinoAluno() {
   );
 
   const iniciarTreino = (treino) => {
-    setModalTreinoAtivo(treino);
+    // Adiciona todos os dados relevantes dos exercícios para o modal
+    const exerciciosDetalhados = treino.exercicios.map((ex) => ({
+      nome: ex.nome,
+      sets: ex.sets,
+      instrucao: ex.instrucao,
+      descanso: ex.descanso,
+    }));
+    setModalTreinoAtivo({
+      ...treino,
+      exercicios: exerciciosDetalhados,
+    });
   };
 
   return (
@@ -110,7 +126,7 @@ export default function TreinoAluno() {
             </div>
 
             <div className="exercises-list">
-              {treino.exercicios.map((ex, i) => (
+              {treino.exercicios.slice(0, 3).map((ex, i) => (
                 <div className="exercise-item" key={i}>
                   <span className="exercise-number">{i + 1}</span>
                   <span className="exercise-name">{ex.nome}</span>
@@ -128,13 +144,6 @@ export default function TreinoAluno() {
               </div>
 
               <div className="workout-actions">
-                <button
-                  className="start-btn secondary"
-                  onClick={() => abrirDetalhes(treino.id)}
-                >
-                  Detalhes
-                </button>
-
                 <button
                   className="start-btn"
                   onClick={() => iniciarTreino(treino)}

@@ -24,8 +24,9 @@ const dataTreinosDoProfessor = async (req, res) => {
     const treinosRaw = await Treino.findByProfId(profId);
 
     const treinos = treinosRaw.map((tr) => {
-      const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
+      const exercicios = (tr.Exercicios || []).map((ex) => ({
         nome: ex.ex_nome,
+        instrucao: ex.ex_instrucao,
         repeticoes: ex.TreinoExercicio?.te_repeticoes ?? null,
         series: ex.TreinoExercicio?.te_series ?? null,
         descanso: ex.TreinoExercicio?.te_descanso ?? null,
@@ -65,7 +66,7 @@ const dataTreinosDoAluno = async (req, res) => {
             },
             {
               model: Exercicio,
-              attributes: ["ex_id", "ex_nome"],
+              attributes: ["ex_id", "ex_nome", "ex_instrucao"],
               through: {
                 attributes: ["te_repeticoes", "te_series", "te_descanso"],
               },
@@ -80,8 +81,9 @@ const dataTreinosDoAluno = async (req, res) => {
     }
 
     const treinos = aluno.Treinos.map((tr) => {
-      const exercicios = (tr.Exercicios || []).slice(0, 3).map((ex) => ({
+      const exercicios = (tr.Exercicios || []).map((ex) => ({
         nome: ex.ex_nome,
+        instrucao: ex.ex_instrucao,
         repeticoes: ex.TreinoExercicio?.te_repeticoes ?? null,
         series: ex.TreinoExercicio?.te_series ?? null,
         descanso: ex.TreinoExercicio?.te_descanso ?? null,
@@ -159,7 +161,7 @@ const dataDetalhesDoTreino = async (req, res) => {
 const listarExercicios = async (req, res) => {
   try {
     const exames = await Exercicio.findAll({
-      attributes: ["ex_id", "ex_nome", "ex_grupo_muscular"],
+      attributes: ["ex_id", "ex_nome", "ex_instrucao"],
     });
     return res.status(200).json({ exercicios: exames });
   } catch (error) {
@@ -208,9 +210,9 @@ addTreino = async (req, res) => {
   const {
     tr_nome,
     tr_descricao,
-    tr_categoria, // será salvo em tr_dificuldade
+    tr_dificuldade, // Recebe dificuldade do frontend
     alunos = [], // array de ids
-    exercicios = [], // [{ nome, series, repeticoes, observacoes, ex_id? }]
+    exercicios = [], // [{ nome, series, repeticoes, intrucao, descanso, ex_id? }]
   } = req.body;
 
   if (!tr_nome)
@@ -225,13 +227,16 @@ addTreino = async (req, res) => {
         tr_prof_id: profId,
         tr_nome,
         tr_descricao: tr_descricao || null,
-        tr_dificuldade: tr_categoria || null,
+        tr_dificuldade: tr_dificuldade || null,
       },
       { transaction: t }
     );
 
     // Processa exercícios: se vier ex_id usa o existente, senão cria novo exercício
     for (const exPayload of exercicios) {
+      // Valida se exercício tem dados válidos
+      if (!exPayload.ex_id && !exPayload.nome) continue;
+
       let exRecord = null;
 
       if (exPayload.ex_id) {
@@ -244,7 +249,7 @@ addTreino = async (req, res) => {
         exRecord = await Exercicio.create(
           {
             ex_nome: exPayload.nome || "",
-            ex_instrucao: exPayload.observacoes || null,
+            ex_instrucao: exPayload.intrucao || null,
             ex_video: null,
             ex_grupo_muscular: null,
             ex_dificuldade: null,
@@ -303,7 +308,7 @@ updateTreino = async (req, res) => {
   const {
     tr_nome,
     tr_descricao,
-    tr_categoria,
+    tr_dificuldade,
     alunos = [],
     exercicios = [],
   } = req.body;
@@ -330,7 +335,7 @@ updateTreino = async (req, res) => {
     // Atualiza campos do treino
     treino.tr_nome = tr_nome || treino.tr_nome;
     treino.tr_descricao = tr_descricao || treino.tr_descricao;
-    treino.tr_dificuldade = tr_categoria || treino.tr_dificuldade;
+    treino.tr_dificuldade = tr_dificuldade || treino.tr_dificuldade;
     await treino.save({ transaction: t });
 
     // Remove associações antigas de exercícios e recria
@@ -340,6 +345,9 @@ updateTreino = async (req, res) => {
     });
 
     for (const exPayload of exercicios) {
+      // Valida se exercício tem dados válidos
+      if (!exPayload.ex_id && !exPayload.nome) continue;
+
       let exRecord = null;
 
       if (exPayload.ex_id) {
@@ -352,7 +360,7 @@ updateTreino = async (req, res) => {
         exRecord = await Exercicio.create(
           {
             ex_nome: exPayload.nome || "",
-            ex_instrucao: exPayload.observacoes || null,
+            ex_instrucao: exPayload.intrucao || null,
             ex_video: null,
             ex_grupo_muscular: null,
             ex_dificuldade: null,
@@ -397,12 +405,67 @@ updateTreino = async (req, res) => {
   }
 };
 
+deletarTreino = async (req, res) => {
+  const profId = req.user && req.user.id;
+  const treinoId = req.params.id;
+
+  if (!profId)
+    return res.status(401).json({ error: "Professor não autenticado" });
+
+  const t = await sequelize.transaction();
+
+  try {
+    const treino = await Treino.findOne({
+      where: { tr_id: treinoId },
+      transaction: t,
+    });
+
+    if (!treino) {
+      await t.rollback();
+      return res.status(404).json({ error: "Treino não encontrado" });
+    }
+
+    if (treino.tr_prof_id !== profId) {
+      await t.rollback();
+      return res
+        .status(403)
+        .json({ error: "Acesso negado: não é dono do treino" });
+    }
+
+    // Remove associações de exercícios
+    await TreinoExercicio.destroy({
+      where: { tr_id: treinoId },
+      transaction: t,
+    });
+
+    // Remove associações de alunos
+    await AlunoTreino.destroy({
+      where: { tr_id: treinoId },
+      transaction: t,
+    });
+
+    // Deleta o treino
+    await Treino.destroy({
+      where: { tr_id: treinoId },
+      transaction: t,
+    });
+
+    await t.commit();
+    return res.status(200).json({ message: "Treino deletado com sucesso" });
+  } catch (error) {
+    await t.rollback();
+    console.error("Erro ao deletar treino:", error);
+    return res.status(500).json({ error: "Erro ao deletar treino" });
+  }
+};
+
 module.exports = {
   dataTreinosDoProfessor,
   dataTreinosDoAluno,
-  dataDetalhesDoTreino, // <-- NOVO
+  dataDetalhesDoTreino,
   addTreino,
   updateTreino,
+  deletarTreino,
   listarExercicios,
   criarExercicio,
 };

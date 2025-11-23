@@ -36,11 +36,14 @@ export default function DashboardAluno() {
         tr_nome: t.nome,
         tr_descricao: t.descricao,
         tr_dificuldade: t.dificuldade,
+        tempo: t.tempo,
         Funcionario: { fu_nome: t.funcionario },
         Exercicios: t.exercicios.map((ex) => ({
           ex_nome: ex.nome,
           ex_series: ex.series,
           ex_repeticoes: ex.repeticoes,
+          ex_descanso: ex.descanso,
+          ex_intrucao: ex.instrucao,
         })),
       }));
 
@@ -95,6 +98,27 @@ export default function DashboardAluno() {
     setNovoTreino(false);
   };
 
+  const deletarTreino = async (treinoId) => {
+    if (!window.confirm("Tem certeza que deseja excluir este treino?")) return;
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/treinos/professor/${treinoId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) throw new Error("Erro ao deletar treino");
+
+      setTreinos((prev) => prev.filter((t) => t.tr_id !== treinoId));
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao excluir treino");
+    }
+  };
+
   return (
     <div className="dashboard-aluno">
       {/* Search Bar */}
@@ -112,20 +136,6 @@ export default function DashboardAluno() {
 
       {/* Filtros */}
       <section className="workouts-section">
-        <div className="section-header">
-          {["Todos", "Força", "Cardio", "Funcional"].map((cat) => (
-            <button
-              key={cat}
-              className={`filter-btn ${
-                filtroCategoria === cat ? "active" : ""
-              }`}
-              onClick={() => setFiltroCategoria(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
         {/* Cards de Treino */}
         {treinosFiltrados.length === 0 ? (
           <p>Nenhum treino encontrado.</p>
@@ -135,17 +145,26 @@ export default function DashboardAluno() {
               <div className="workout-header">
                 <div className="workout-info">
                   <h3>{treino.tr_nome}</h3>
-                  <p className="workout-details">{treino.tr_descricao}</p>
+                  <span className="workout-dificuldade">
+                    {treino.tr_dificuldade}
+                  </span>
                 </div>
+                <button
+                  className="delete-btn"
+                  title="Excluir treino"
+                  onClick={() => deletarTreino(treino.tr_id)}
+                >
+                  <i className="bi bi-trash"></i>
+                </button>
               </div>
 
               <div className="exercises-list">
                 {treino.Exercicios?.map((ex, index) => (
-                  <div className="exercise-item" key={ex.ex_id}>
+                  <div className="exercise-item" key={index}>
                     <span className="exercise-number">{index + 1}</span>
                     <span className="exercise-name">{ex.ex_nome}</span>
                     <span className="exercise-sets">
-                      {ex.ex_repeticoes || ""}
+                      {ex.ex_series}x{ex.ex_repeticoes}
                     </span>
                   </div>
                 ))}

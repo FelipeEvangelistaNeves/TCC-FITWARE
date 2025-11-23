@@ -5,7 +5,7 @@ import { Play, Pause, Square, Check, Minimize2 } from "lucide-react";
 export default function TreinoActiveModal({ treino, onClose, onMinimize }) {
   // Estado do Timer (contagem regressiva)
   const [tempoRestante, setTempoRestante] = useState(
-    (treino.tr_tempo || treino.tempo || 30) * 60
+    (treino.tr_tempo || treino.tempo || 60) * 60
   );
   const [ativo, setAtivo] = useState(true);
 
@@ -17,6 +17,9 @@ export default function TreinoActiveModal({ treino, onClose, onMinimize }) {
       concluido: false,
     }))
   );
+
+  // Descrição do treino
+  const descricaoTreino = treino.tr_descricao || treino.descricao || "";
 
   // Lógica do Timer
   useEffect(() => {
@@ -63,6 +66,13 @@ export default function TreinoActiveModal({ treino, onClose, onMinimize }) {
           </button>
         </div>
 
+        {/* Descrição do Treino */}
+        {descricaoTreino && (
+          <div className="descricao-treino">
+            <p>{descricaoTreino}</p>
+          </div>
+        )}
+
         {/* Seção do Timer */}
         <div className="timer-section">
           <span className="time-display">{formatarTempo(tempoRestante)}</span>
@@ -89,15 +99,35 @@ export default function TreinoActiveModal({ treino, onClose, onMinimize }) {
                 {ex.concluido && <Check size={16} />}
               </div>
               <div className="exercise-info">
+                <span className="exercise-number">{index + 1}</span>
                 <span className="exercise-name">{ex.ex_nome || ex.nome}</span>
-                {(ex.ex_descricao || ex.descricao) && (
-                  <span className="exercise-desc">
-                    {ex.ex_descricao || ex.descricao}
-                  </span>
+
+                {/* Séries e Repetições */}
+                <div className="exercise-series">
+                  <span className="value">{ex.series}</span>
+                  <span>x</span>
+                  <span className="value">{ex.repeticoes}</span>
+                </div>
+
+                {/* Instrução */}
+                {(ex.ex_intrucao || ex.instrucao) && (
+                  <div className="exercise-instrucao">
+                    <span className="label">Instrução:</span>
+                    <span className="value">
+                      {ex.ex_intrucao || ex.instrucao}
+                    </span>
+                  </div>
                 )}
-                <span className="exercise-meta">
-                  {ex.ex_repeticoes || ex.sets}
-                </span>
+
+                {/* Descanso */}
+                {(ex.ex_descanso || ex.descanso) && (
+                  <div className="exercise-descanso">
+                    <span className="label">Descanso: </span>
+                    <span className="value">
+                      {ex.ex_descanso || ex.descanso}s
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}

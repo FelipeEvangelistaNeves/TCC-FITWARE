@@ -6,6 +6,8 @@ const {
   listarAlunosAdmin,
   atualizarAlunoAdmin,
   deletarAluno,
+  atualizarExercicioAdmin,
+  deletarExercicioAdmin,
 } = require("../controllers/adminController");
 const LoggerMessages = require("../loggerMessages");
 
@@ -43,5 +45,9 @@ router.post("/criarAluno", authMiddleware(), criarAluno);
 router.get("/allAlunos", authMiddleware(), listarAlunosAdmin);
 router.put("/alunos/:id", authMiddleware(), atualizarAlunoAdmin);
 router.delete("/alunos/:id", authMiddleware(), deletarAluno);
+
+// 🔹 ROTAS - EXERCÍCIOS
+router.put("/exercicios/:id", authMiddleware(), atualizarExercicioAdmin);
+router.delete("/exercicios/:id", authMiddleware(), deletarExercicioAdmin);
 
 module.exports = router;

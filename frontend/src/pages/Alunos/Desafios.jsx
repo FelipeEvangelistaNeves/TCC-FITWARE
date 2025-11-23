@@ -6,6 +6,17 @@ export default function DesafiosAlunoPage() {
   const [desafios, setDesafios] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
+  // contadores derivadas
+  const ativosCount = desafios.filter(
+    (d) => String(d.de_status).toLowerCase() === "ativo"
+  ).length;
+  const concluidosCount = desafios.filter((d) =>
+    String(d.de_status).toLowerCase().includes("concl")
+  ).length;
+  const totalPoints = desafios
+    .filter((d) => String(d.de_status).toLowerCase() === "ativo")
+    .reduce((sum, d) => sum + (Number(d.de_pontos) || 0), 0);
+
   useEffect(() => {
     const fetchDesafios = async () => {
       try {
@@ -19,15 +30,7 @@ export default function DesafiosAlunoPage() {
         if (!res.ok) throw new Error("Erro ao buscar dados dos desafios");
 
         const data = await res.json();
-        if (Array.isArray(data)) {
-          setDesafios(data);
-        } else {
-          console.error(
-            "A API retornou dados não esperados (não é um array).",
-            data
-          );
-          setDesafios([]);
-        }
+        setDesafios(data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -37,23 +40,24 @@ export default function DesafiosAlunoPage() {
     fetchDesafios();
   }, []);
 
+  console.log(desafios);
   return (
     <div className="desafios-container">
       {/* Cards de resumo */}
       <section className="summary-cards">
         <div className="summary-card">
           <h3>Ativos</h3>
-          <div className="card-number">3</div>
+          <div className="card-number">{ativosCount}</div>
           <div className="card-subtitle">Em andamento</div>
         </div>
         <div className="summary-card">
           <h3>Concluídos</h3>
-          <div className="card-number">12</div>
+          <div className="card-number">{concluidosCount}</div>
           <div className="card-subtitle">Completos</div>
         </div>
         <div className="summary-card">
           <h3>Pontos</h3>
-          <div className="card-number">850</div>
+          <div className="card-number">{totalPoints}</div>
           <div className="card-subtitle">Totais</div>
         </div>
       </section>
@@ -64,34 +68,22 @@ export default function DesafiosAlunoPage() {
         {carregando && <p>Carregando desafios...</p>}
 
         {!carregando && desafios.length > 0
-          ? desafios.map((desafio) =>
-              desafio.de_status === "Ativo" ? (
-                <DesafioCard
-                  key={desafio.de_id}
-                  titulo={desafio.de_nome}
-                  descricao={desafio.de_descricao}
-                  pontos={desafio.de_pontos}
-                />
-              ) : null
-            )
-          : !carregando && <p>Nenhum desafio ativo encontrado...</p>}
-      </section>
-
-      {/* Desafios disponíveis */}
-      <section className="desafios-section">
-        <h2>Desafios Disponíveis</h2>
-        {!carregando && desafios.some((d) => d.de_status === "Inativo")
           ? desafios
-              .filter((d) => d.de_status === "Inativo")
+              .filter(
+                (desafio) => String(desafio.de_status).toLowerCase() === "ativo"
+              )
               .map((desafio) => (
                 <DesafioCard
                   key={desafio.de_id}
                   titulo={desafio.de_nome}
                   descricao={desafio.de_descricao}
                   pontos={desafio.de_pontos}
+                  status={desafio.de_status}
+                  endDate={desafio.de_end}
+                  progress={desafio.de_progresso}
                 />
               ))
-          : !carregando && <p>Nenhum desafio disponível...</p>}
+          : !carregando && <p>Nenhum desafio ativo encontrado...</p>}
       </section>
     </div>
   );

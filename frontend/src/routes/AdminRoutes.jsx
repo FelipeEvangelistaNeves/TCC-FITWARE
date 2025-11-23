@@ -5,6 +5,7 @@ import Alunos from "./../pages/Admin/Alunos";
 import Professores from "./../pages/Admin/Professores";
 import Desafios from "./../pages/Admin/Desafios";
 import Treinos from "./../pages/Admin/Treinos";
+import Exercicios from "./../pages/Admin/Exercicios";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import Financeiro from "./../pages/Admin/Financeiro";
 import Brindes from "./../pages/Admin/Brindes";
@@ -38,6 +39,7 @@ export default function AdminRoutes() {
         <Route path="desafios" element={<Desafios />} />
         <Route path="financeiro" element={<Financeiro />} />
         <Route path="treinos" element={<Treinos />} />
+        <Route path="exercicios" element={<Exercicios />} />
         <Route path="brindes" element={<Brindes />} />
         <Route path="notificacoes" element={<Notificacao />} />
         <Route path="perfil" element={<MeuPerfil />} />

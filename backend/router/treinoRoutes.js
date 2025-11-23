@@ -7,6 +7,9 @@ const {
   dataTreinosDoProfessor,
   dataTreinosDoAluno,
   dataDetalhesDoTreino,
+  addTreino,
+  updateTreino,
+  deletarTreino,
 } = require("../controllers/treinoController");
 const ROLES = require("../constants/roles");
 
@@ -113,5 +116,15 @@ router.put(
 router.get("/aluno", authMiddleware([ROLES.aluno]), dataTreinosDoAluno);
 // 🔹 NOVA ROTA → detalhes do treino
 router.get("/detalhes/:id", dataDetalhesDoTreino);
+// 🔹 ROTA POST → criar treino
+router.post("/professor", authMiddleware([ROLES.professor]), addTreino);
+// 🔹 ROTA PUT → atualizar treino
+router.put("/professor/:id", authMiddleware([ROLES.professor]), updateTreino);
+// 🔹 ROTA DELETE → deletar treino
+router.delete(
+  "/professor/:id",
+  authMiddleware([ROLES.professor]),
+  deletarTreino
+);
 
 module.exports = router;

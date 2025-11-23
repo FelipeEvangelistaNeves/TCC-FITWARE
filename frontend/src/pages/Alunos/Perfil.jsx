@@ -69,13 +69,6 @@ export default function PerfilAluno() {
         >
           Histórico
         </button>
-
-        <button
-          className={abaAtiva === "pontos" ? "active" : ""}
-          onClick={() => setAbaAtiva("pontos")}
-        >
-          Pontos
-        </button>
       </div>
 
       {/* CONTEÚDO */}

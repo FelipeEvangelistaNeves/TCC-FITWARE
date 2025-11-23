@@ -25,11 +25,17 @@ export default function DashboardAluno() {
         const treinosFormatados = data.map((t) => ({
           id: t.id,
           titulo: t.nome,
+          descricao: t.descricao,
           nivel: t.dificuldade,
           treinador: t.funcionario,
+          tempo: t.tempo,
           exercicios: t.exercicios.map((ex) => ({
             nome: ex.nome,
             sets: `${ex.series}×${ex.repeticoes}`,
+            series: ex.series,
+            repeticoes: ex.repeticoes,
+            instrucao: ex.instrucao,
+            descanso: ex.descanso,
           })),
         }));
         setTreinos(treinosFormatados);
@@ -56,7 +62,7 @@ export default function DashboardAluno() {
       <section className="summary-cards">
         <div className="summary-card">
           <h3>Treinos</h3>
-          <div className="card-number">12</div>
+          <div className="card-number">{treinos.length}</div>
           <div className="card-subtitle">Disponíveis</div>
         </div>
         <div className="summary-card">
@@ -67,31 +73,17 @@ export default function DashboardAluno() {
       </section>
 
       <section className="workouts-section">
-        <div className="section-header">
-          {["Todos", "Força", "Cardio", "Funcional"].map((tipo) => (
-            <button
-              key={tipo}
-              className={`filter-btn ${filtro === tipo ? "active" : ""}`}
-              onClick={() => setFiltro(tipo)}
-            >
-              {tipo}
-            </button>
-          ))}
-        </div>
-
         {treinosFiltrados.map((treino) => (
           <div className="workout-card" key={treino.id}>
             <div className="workout-header">
               <div className="workout-info">
                 <h3>{treino.titulo}</h3>
-                <p className="workout-details">
-                  {treino.nivel} • {treino.tempo} min
-                </p>
+                <p className="workout-details">{treino.nivel}</p>
               </div>
             </div>
 
             <div className="exercises-list">
-              {treino.exercicios.map((ex, i) => (
+              {treino.exercicios.slice(0, 3).map((ex, i) => (
                 <div className="exercise-item" key={i}>
                   <span className="exercise-number">{i + 1}</span>
                   <span className="exercise-name">{ex.nome}</span>
@@ -108,12 +100,14 @@ export default function DashboardAluno() {
                 <span className="trainer-name">{treino.treinador}</span>
               </div>
 
-              <button
-                className="start-btn"
-                onClick={() => iniciarTreino(treino)}
-              >
-                Iniciar
-              </button>
+              <div className="workout-actions">
+                <button
+                  className="start-btn"
+                  onClick={() => iniciarTreino(treino)}
+                >
+                  Iniciar
+                </button>
+              </div>
             </div>
           </div>
         ))}

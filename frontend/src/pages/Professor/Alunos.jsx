@@ -71,19 +71,6 @@ export default function AlunosProf() {
         </div>
       </div>
 
-      {/* Filtros */}
-      <div className="filter-tabs">
-        {["Todos", "Ativos", "Inativos"].map((f) => (
-          <button
-            key={f}
-            className={`filter-tab ${filtro === f ? "active" : ""}`}
-            onClick={() => setFiltro(f)}
-          >
-            {f}
-          </button>
-        ))}
-      </div>
-
       {/* Lista de alunos */}
       <div className="messages-list">
         {alunosFiltrados.map((aluno) => {

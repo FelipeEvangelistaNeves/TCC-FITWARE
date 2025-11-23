@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // ====== ESTILOS ======
 import "../../styles/pages/admin/tabelas.scss";
@@ -24,58 +24,28 @@ export default function Desafios() {
   const [selecionado, setSelecionado] = useState(null);
 
   // ====== DADOS ======
-  const [desafios, setDesafios] = useState([
-    {
-      id: "#DS-1001",
-      nome: "Desafio 7 Dias",
-      descricao: "Treinar todos os dias por uma semana",
-      tipo: "Frequência",
-      duracao: "7 dias",
-      participantes: 42,
-      pontos: 100,
-      status: "ativo",
-      icone: "📅",
-    },
-    {
-      id: "#DS-1002",
-      nome: "Desafio 10K",
-      descricao: "Correr 10km em uma semana",
-      tipo: "Cardio",
-      duracao: "7 dias",
-      participantes: 28,
-      pontos: 150,
-      status: "ativo",
-      icone: "🏃",
-    },
-    {
-      id: "#DS-1003",
-      nome: "Desafio de Nutrição",
-      descricao: "Seguir plano nutricional por 14 dias",
-      tipo: "Nutrição",
-      duracao: "14 dias",
-      participantes: 35,
-      pontos: 200,
-      status: "concluido",
-      icone: "🥗",
-    },
-  ]);
+  const [desafios, setDesafios] = useState([]);
+  const [carregando, setCarregando] = useState(true);
 
   // ====== FILTROS ======
   const filtrados = desafios.filter((d) => {
     const termo = busca.toLowerCase();
 
-    const matchBusca =
-      d.nome.toLowerCase().includes(termo) ||
-      d.tipo.toLowerCase().includes(termo) ||
-      d.descricao.toLowerCase().includes(termo);
+    const nome = String(d.de_nome || d.nome || "").toLowerCase();
+    const tipo = String(d.de_tag || d.tipo || "").toLowerCase();
+    const descricao = String(d.de_descricao || d.descricao || "").toLowerCase();
 
+    const matchBusca =
+      nome.includes(termo) || tipo.includes(termo) || descricao.includes(termo);
+
+    const status = String(d.de_status || d.status || "").toLowerCase();
     const matchAba =
       activeTab === "ativos"
-        ? d.status === "ativo"
+        ? status === "ativo"
         : activeTab === "concluidos"
-        ? d.status === "concluido"
+        ? status.includes("concl")
         : activeTab === "programados"
-        ? d.status === "programado"
+        ? status === "inativo"
         : true;
 
     return matchBusca && matchAba;
@@ -91,21 +61,103 @@ export default function Desafios() {
   };
 
   // ===== CRUD HANDLERS =====
-  const adicionar = (novo) => {
-    const novoId = "#DS-" + Math.floor(1000 + Math.random() * 9000);
-    setDesafios([{ ...novo, id: novoId }, ...desafios]);
-    setShowAdd(false);
+  const adicionar = async (novo) => {
+    try {
+      const payload = {
+        de_nome: novo.nome,
+        de_descricao: novo.descricao,
+        de_tag: novo.tipo,
+        de_pontos: novo.pontos,
+        de_status: novo.status,
+      };
+
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/desafios`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Falha ao criar desafio");
+        return;
+      }
+
+      const data = await res.json();
+      const novoDesafio = data.desafio || data;
+      setDesafios((prev) => [novoDesafio, ...prev]);
+      setShowAdd(false);
+    } catch (error) {
+      console.error("Erro ao criar desafio:", error);
+      alert("Erro ao criar desafio");
+    }
   };
 
   const atualizar = (editado) => {
-    setDesafios((prev) => prev.map((d) => (d.id === editado.id ? editado : d)));
+    setDesafios((prev) =>
+      prev.map((d) => {
+        const idA = d.de_id || d.id;
+        const idB = editado.de_id || editado.id;
+        return idA === idB ? editado : d;
+      })
+    );
     setShowEditar(false);
   };
 
-  const deletar = () => {
-    setDesafios((prev) => prev.filter((d) => d.id !== selecionado.id));
-    setShowExcluir(false);
+  const deletar = async () => {
+    if (!selecionado) return;
+    const id = selecionado.de_id || selecionado.id;
+    if (!id) {
+      // fallback to local removal
+      setDesafios((prev) => prev.filter((d) => d !== selecionado));
+      setShowExcluir(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/desafios/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Falha ao deletar desafio");
+        return;
+      }
+
+      setDesafios((prev) => prev.filter((d) => (d.de_id || d.id) !== id));
+      setShowExcluir(false);
+    } catch (error) {
+      console.error("Erro ao deletar desafio:", error);
+      alert("Erro ao deletar desafio");
+    }
   };
+
+  // Fetch backend desafios on mount
+  useEffect(() => {
+    const fetchDesafios = async () => {
+      try {
+        setCarregando(true);
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/desafios`, {
+          method: "GET",
+          credentials: "include",
+          headers: { Accept: "application/json; charset=utf-8" },
+        });
+        if (!res.ok) throw new Error("Erro ao buscar desafios");
+        const data = await res.json();
+        setDesafios(data || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setCarregando(false);
+      }
+    };
+    fetchDesafios();
+  }, []);
 
   return (
     <div className="tabela-page admin-modal">
@@ -163,34 +215,47 @@ export default function Desafios() {
         </thead>
 
         <tbody>
-          {exibidos.length > 0 ? (
+          {carregando ? (
+            <tr>
+              <td colSpan="7" className="sem-resultado">
+                Carregando desafios...
+              </td>
+            </tr>
+          ) : exibidos.length > 0 ? (
             exibidos.map((d, index) => (
-              <tr key={d.id}>
+              <tr key={d.de_id || d.id || index}>
                 <td>{inicio + index + 1}</td>
 
                 <td className="user-info">
-                  <div className="icone purple">{d.icone}</div>
+                  <div className="icone purple">
+                    {d.de_icone || d.icone || "🎯"}
+                  </div>
                   <div>
-                    <strong>{d.nome}</strong>
-                    <small>{d.descricao}</small>
+                    <strong>{d.de_nome || d.nome}</strong>
+                    <small>{d.de_descricao || d.descricao}</small>
                   </div>
                 </td>
 
-                <td>{d.tipo}</td>
-                <td>{d.duracao}</td>
-                <td>⭐ {d.pontos}</td>
+                <td>{d.de_tag || d.tipo}</td>
+                <td>
+                  {d.de_duracao ||
+                    d.duracao ||
+                    (d.de_end ? d.de_end.split("T")[0] : "")}
+                </td>
+                <td>⭐ {d.de_pontos || d.pontos}</td>
 
                 <td>
                   <span
                     className={`status ${
-                      d.status === "ativo"
+                      String(d.de_status || d.status).toLowerCase() === "ativo"
                         ? "pago"
-                        : d.status === "programado"
+                        : String(d.de_status || d.status).toLowerCase() ===
+                          "programado"
                         ? "pendente"
                         : "cancelado"
                     }`}
                   >
-                    {d.status}
+                    {d.de_status || d.status}
                   </span>
                 </td>
 

@@ -90,7 +90,6 @@ export default function PerfilAluno({ aluno, onBack }) {
 
             <div className="acoes-card">
               <button className="detalhes">Ver Detalhes</button>
-              <button className="duplicar">Duplicar</button>
             </div>
           </div>
         ))}

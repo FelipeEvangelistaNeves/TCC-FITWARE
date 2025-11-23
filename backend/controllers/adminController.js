@@ -116,9 +116,65 @@ listarAlunosAdmin = async (req, res) => {
   }
 };
 
+// ======================== //
+// ===== CRUD EXERCÍCIOS ===== //
+// ======================== //
+const { Exercicio, TreinoExercicio } = require("../models");
+
+atualizarExercicioAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { ex_nome, ex_instrucao, ex_grupo_muscular } = req.body;
+
+    const exercicio = await Exercicio.findByPk(id);
+
+    if (!exercicio) {
+      return res.status(404).json({ error: "Exercício não encontrado" });
+    }
+
+    await exercicio.update({
+      ex_nome: ex_nome || exercicio.ex_nome,
+      ex_instrucao: ex_instrucao || exercicio.ex_instrucao,
+      ex_grupo_muscular: ex_grupo_muscular || exercicio.ex_grupo_muscular,
+    });
+
+    return res.status(200).json({ message: "Exercício atualizado", exercicio });
+  } catch (error) {
+    console.error("Erro ao atualizar exercício:", error);
+    return res.status(500).json({ error: "Erro ao atualizar exercício" });
+  }
+};
+
+deletarExercicioAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const exercicio = await Exercicio.findByPk(id);
+
+    if (!exercicio) {
+      return res.status(404).json({ error: "Exercício não encontrado" });
+    }
+
+    // Remove associações em treinos_exercicios
+    await TreinoExercicio.destroy({
+      where: { ex_id: id },
+    });
+
+    // Remove o exercício
+    await exercicio.destroy();
+
+    return res.status(200).json({ message: "Exercício deletado com sucesso" });
+  } catch (error) {
+    console.error("Erro ao deletar exercício:", error);
+    return res.status(500).json({ error: "Erro ao deletar exercício" });
+  }
+};
+
 module.exports = {
   criarAluno,
   atualizarAlunoAdmin,
   deletarAluno,
   listarAlunosAdmin,
+  atualizarExercicioAdmin,
+  deletarExercicioAdmin,
 };

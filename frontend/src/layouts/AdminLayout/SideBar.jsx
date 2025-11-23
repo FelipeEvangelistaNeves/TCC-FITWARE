@@ -34,6 +34,11 @@ export default function SideBar() {
       icon: "bi-activity",
     },
     {
+      path: "/admin/exercicios",
+      label: "Exercícios",
+      icon: "bi-clipboard-check",
+    },
+    {
       path: "/admin/desafios",
       label: "Desafios",
       icon: "bi-watch",
