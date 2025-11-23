@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
 import ResgatePontosModal from "./ResgatePontosModal";
+import DetalhesTreino from "../Professor/DetalhesTreino";
 
 import ConfigModal from "../../components/Alunos/configModal";
 
@@ -13,6 +14,7 @@ export default function PerfilAluno() {
 
   const [abaAtiva, setAbaAtiva] = useState("historico");
   const [modalAberto, setModalAberto] = useState(false);
+  const [treinoSelecionado, setTreinoSelecionado] = useState(null);
   const [showConfig, setShowConfig] = useState(false);
 
   useEffect(() => {
@@ -79,16 +81,52 @@ export default function PerfilAluno() {
             <div className="historico-cards">
               {[
                 {
+                  tr_nome: "Treino de Pernas",
                   titulo: "Treino de Pernas",
+                  tr_descricao: "45 minutos com agachamentos e leg press.",
                   descricao: "45 minutos com agachamentos e leg press.",
+                  tr_categoria: "Hipertrofia",
                   data: "Hoje",
                   pontos: "+50",
+                  Funcionario: {
+                    fu_nome: "Carlos Silva",
+                    fu_especialidade: "Musculação",
+                  },
+                  Exercicios: [
+                    {
+                      ex_id: 1,
+                      ex_nome: "Agachamento Livre",
+                      ex_repeticoes: "12",
+                      ex_series: "4",
+                    },
+                    {
+                      ex_id: 2,
+                      ex_nome: "Leg Press 45",
+                      ex_repeticoes: "15",
+                      ex_series: "3",
+                    },
+                  ],
                 },
                 {
+                  tr_nome: "Cardio",
                   titulo: "Cardio",
+                  tr_descricao: "30 minutos de esteira e corrida leve.",
                   descricao: "30 minutos de esteira e corrida leve.",
+                  tr_categoria: "Resistência",
                   data: "Ontem",
                   pontos: "+40",
+                  Funcionario: {
+                    fu_nome: "Ana Lima",
+                    fu_especialidade: "Cardio",
+                  },
+                  Exercicios: [
+                    {
+                      ex_id: 3,
+                      ex_nome: "Esteira",
+                      ex_repeticoes: "30 min",
+                      ex_series: "1",
+                    },
+                  ],
                 },
               ].map((treino, i) => (
                 <div className="card-treino" key={i}>
@@ -103,7 +141,12 @@ export default function PerfilAluno() {
                     <span>
                       <i className="bi bi-clock"></i> {treino.data}
                     </span>
-                    <button className="btn-detalhes">Detalhes</button>
+                    <button
+                      className="btn-detalhes"
+                      onClick={() => setTreinoSelecionado(treino)}
+                    >
+                      Detalhes
+                    </button>
                   </div>
                 </div>
               ))}
@@ -153,6 +196,13 @@ export default function PerfilAluno() {
 
       {modalAberto && (
         <ResgatePontosModal onClose={() => setModalAberto(false)} />
+      )}
+
+      {treinoSelecionado && (
+        <DetalhesTreino
+          treino={treinoSelecionado}
+          onClose={() => setTreinoSelecionado(null)}
+        />
       )}
     </div>
   );
