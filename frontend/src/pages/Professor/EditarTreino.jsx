@@ -7,21 +7,24 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
   if (!treino && !onClose) return null;
 
   // Form fields (pré-preenchidos quando `treino` é passado)
-  const [name, setName] = useState(treino?.tr_nome ?? "");
-  const [description, setDescription] = useState(treino?.tr_descricao ?? "");
-  const [category, setCategory] = useState(treino?.tr_categoria ?? "Força");
-  const [observations, setObservations] = useState(
-    treino?.tr_observacoes ?? ""
+  const [name, setName] = useState(treino?.tr_nome ?? treino?.nome ?? "");
+  const [description, setDescription] = useState(
+    treino?.tr_descricao ?? treino?.descricao ?? ""
+  );
+  const [difficulty, setDifficulty] = useState(
+    treino?.tr_dificuldade ?? treino?.dificuldade ?? "Leve"
   );
 
   // Exercícios locais — inicial com os do treino (se existirem) ou vazio
   const initialExercises =
-    treino?.Exercicios?.map((ex) => ({
+    treino?.exercicios?.map((ex) => ({
       id: ex.ex_id ?? Math.random().toString(36).slice(2, 9),
-      nome: ex.ex_nome ?? "",
-      series: ex.ex_series ?? "",
-      repeticoes: ex.ex_repeticoes ?? "",
-      observacoes: ex.ex_observacoes ?? "",
+      ex_id: ex.ex_id,
+      nome: ex.nome ?? "",
+      series: ex.series ?? "",
+      repeticoes: ex.repeticoes ?? "",
+      descanso: ex.descanso ?? "60",
+      intrucao: ex.instrucao ?? "",
     })) || [];
 
   const [exercises, setExercises] = useState(initialExercises);
@@ -79,47 +82,55 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
 
   // Mantém o form sincronizado se o prop `treino` mudar
   useEffect(() => {
-    setName(treino?.tr_nome ?? "");
-    setDescription(treino?.tr_descricao ?? "");
-    setCategory(treino?.tr_categoria ?? "Força");
-    setObservations(treino?.tr_observacoes ?? "");
-
-    // Se o treino já tiver alunos associados, preencher aqui
-    // Ex: setSelectedAlunos(treino.Alunos.map(a => a.al_id));
-    // Por enquanto, resetamos ou mantemos vazio se não vier do backend
-    setSelectedAlunos([]);
+    setName(treino?.tr_nome ?? treino?.nome ?? "");
+    setDescription(treino?.tr_descricao ?? treino?.descricao ?? "");
+    setDifficulty(treino?.tr_dificuldade ?? treino?.dificuldade ?? "Leve");
 
     const inits =
-      treino?.Exercicios?.map((ex) => ({
+      treino?.exercicios?.map((ex) => ({
         id: ex.ex_id ?? Math.random().toString(36).slice(2, 9),
-        nome: ex.ex_nome ?? "",
-        series: ex.ex_series ?? "",
-        repeticoes: ex.ex_repeticoes ?? "",
-        observacoes: ex.ex_observacoes ?? "",
+        ex_id: ex.ex_id,
+        nome: ex.nome ?? "",
+        series: ex.series ?? "",
+        repeticoes: ex.repeticoes ?? "",
+        descanso: ex.descanso ?? "60",
+        intrucao: ex.instrucao ?? "",
       })) || [];
 
     setExercises(inits);
 
     // Se o treino vier apenas com informações mínimas (sem ex_id), buscar detalhes completos
     const fetchDetalhes = async () => {
-      if (!treino?.tr_id) return;
+      if (!treino?.tr_id && !treino?.id) return;
       try {
+        const trId = treino.tr_id ?? treino.id;
         const r = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/treinos/detalhes/${treino.tr_id}`
+          `${import.meta.env.VITE_BASE_URL}/treinos/detalhes/${trId}`
         );
         if (!r.ok) return;
         const data = await r.json();
+
+        // Carregar exercícios detalhados
         const full = (data.exercicios || []).map((ex) => ({
-          id: ex.id, // número do exercício no sistema
-          ex_id: ex.id,
+          id: ex.ex_id ?? Math.random().toString(36).slice(2, 9),
+          ex_id: ex.ex_id,
           nome: ex.nome,
           series: ex.series,
           repeticoes: ex.repeticoes,
-          observacoes: ex.observacoes || "",
+          descanso: ex.descanso ?? "60",
+          intrucao: ex.instrucao || "",
         }));
         if (full.length > 0) setExercises(full);
+
+        // Carregar alunos associados
+        if (data.alunos && Array.isArray(data.alunos)) {
+          setSelectedAlunos(data.alunos.map((a) => a.al_id));
+        } else {
+          setSelectedAlunos([]);
+        }
       } catch (err) {
         console.error("Erro ao carregar detalhes do treino:", err);
+        setSelectedAlunos([]);
       }
     };
 
@@ -172,7 +183,12 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
         setExercises((prev) =>
           prev.map((ex) =>
             ex.id === selectId
-              ? { ...ex, ex_id: exercicio.ex_id, nome: exercicio.ex_nome }
+              ? {
+                  ...ex,
+                  ex_id: exercicio.ex_id,
+                  nome: exercicio.ex_nome,
+                  intrucao: exercicio.ex_instrucao || "",
+                }
               : ex
           )
         );
@@ -196,33 +212,32 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    const exerciciosPayload = exercises.map((ex) => {
-      const ex_id =
-        ex.ex_id ??
-        (/^[0-9]+$/.test(String(ex.id || "")) ? Number(ex.id) : undefined);
-      return {
-        ex_id,
+    const exerciciosPayload = exercises
+      .map((ex) => ({
+        ex_id: ex.ex_id ?? undefined,
         nome: ex.nome,
         series: ex.series,
         repeticoes: ex.repeticoes,
-        observacoes: ex.observacoes,
-      };
-    });
+        descanso: ex.descanso,
+        intrucao: ex.intrucao,
+      }))
+      .filter((ex) => ex.ex_id || ex.nome);
 
     const payload = {
       tr_nome: name,
       tr_descricao: description,
-      tr_categoria: category,
-      tr_observacoes: observations,
-      alunos: selectedAlunos,
+      tr_dificuldade: difficulty,
+      alunos: selectedAlunos.length === 0 ? [] : selectedAlunos,
       exercicios: exerciciosPayload,
     };
 
     try {
-      if (!treino || !treino.tr_id) throw new Error("ID do treino ausente");
+      if (!treino || (!treino.tr_id && !treino.id))
+        throw new Error("ID do treino ausente");
 
+      const trId = treino.tr_id ?? treino.id;
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/treinos/professor/${treino.tr_id}`,
+        `${import.meta.env.VITE_BASE_URL}/treinos/professor/${trId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -281,17 +296,17 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
             />
           </label>
 
-          {/* Categoria */}
+          {/* Dificuldade */}
           <label className="field">
-            <span className="label-title">Categoria</span>
+            <span className="label-title">Dificuldade</span>
             <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
             >
-              <option>Força</option>
-              <option>Cardio</option>
-              <option>Funcional</option>
-              <option>Mobilidade</option>
+              <option>Leve</option>
+              <option>Moderado</option>
+              <option>Difícil</option>
+              <option>Intenso</option>
             </select>
           </label>
 
@@ -363,103 +378,90 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
                 <div className="exercise-card" key={ex.id}>
                   <div className="exercise-top">
                     <div className="exercise-index">{idx + 1}</div>
-                    <div
-                      style={{ display: "flex", gap: 8, alignItems: "center" }}
+
+                    <select
+                      value={ex.ex_id || ""}
+                      onChange={(ev) => {
+                        const selected = allExercises.find(
+                          (a) => String(a.ex_id) === String(ev.target.value)
+                        );
+                        updateExercise(ex.id, "ex_id", selected?.ex_id || null);
+                        updateExercise(ex.id, "nome", selected?.ex_nome || "");
+                        updateExercise(
+                          ex.id,
+                          "intrucao",
+                          selected?.ex_instrucao || ""
+                        );
+                      }}
                     >
-                      <input
-                        className="exercise-search"
-                        placeholder="Pesquisar exercícios..."
-                        value={exerciseFilter}
-                        onChange={(e) => setExerciseFilter(e.target.value)}
-                      />
-                      <select
-                        value={ex.ex_id || ""}
-                        onChange={(ev) => {
-                          const selected = allExercises.find(
-                            (a) => String(a.ex_id) === String(ev.target.value)
-                          );
-                          updateExercise(
-                            ex.id,
-                            "ex_id",
-                            selected ? selected.ex_id : undefined
-                          );
-                          updateExercise(
-                            ex.id,
-                            "nome",
-                            selected ? selected.ex_nome : ev.target.value
-                          );
-                        }}
-                      >
-                        <option value="">-- selecionar exercício --</option>
-                        {allExercises
-                          .filter((a) =>
-                            a.ex_nome
-                              .toLowerCase()
-                              .includes(exerciseFilter.toLowerCase())
-                          )
-                          .map((a) => (
-                            <option key={a.ex_id} value={a.ex_id}>
-                              {a.ex_nome}
-                            </option>
-                          ))}
-                      </select>
-                      <button
-                        type="button"
-                        onClick={() => handleCreateExercise(ex.id)}
-                        className="add-new-ex-btn"
-                      >
-                        Criar exercício
-                      </button>
-                      <button
-                        type="button"
-                        className="remove-ex-btn"
-                        onClick={() => removeExercise(ex.id)}
-                        aria-label={`Remover exercício ${idx + 1}`}
-                      >
-                        <Trash size={14} />
-                      </button>
-                    </div>
+                      <option value="">Selecionar exercício...</option>
+                      {allExercises
+                        .filter((a) =>
+                          a.ex_nome
+                            .toLowerCase()
+                            .includes(exerciseFilter.toLowerCase())
+                        )
+                        .map((a) => (
+                          <option key={a.ex_id} value={a.ex_id}>
+                            {a.ex_nome}
+                          </option>
+                        ))}
+                    </select>
 
-                    <div className="exercise-controls">
-                      <input
-                        className="small"
-                        placeholder="Séries"
-                        value={ex.series}
-                        onChange={(e) =>
-                          updateExercise(ex.id, "series", e.target.value)
-                        }
-                      />
-                      <input
-                        className="small"
-                        placeholder="Reps"
-                        value={ex.repeticoes}
-                        onChange={(e) =>
-                          updateExercise(ex.id, "repeticoes", e.target.value)
-                        }
-                      />
-                    </div>
+                    <button
+                      type="button"
+                      className="remove-ex-btn"
+                      onClick={() => removeExercise(ex.id)}
+                      aria-label={`Remover exercício ${idx + 1}`}
+                    >
+                      <Trash size={14} />
+                    </button>
+                  </div>
 
-                    <textarea
-                      className="exercise-notes"
-                      placeholder="Observações (opcional)"
-                      value={ex.observacoes}
+                  <div className="exercise-controls">
+                    <input
+                      placeholder="Séries"
+                      value={ex.series}
                       onChange={(e) =>
-                        updateExercise(ex.id, "observacoes", e.target.value)
+                        updateExercise(ex.id, "series", e.target.value)
+                      }
+                    />
+                    <input
+                      placeholder="Repetições"
+                      value={ex.repeticoes}
+                      onChange={(e) =>
+                        updateExercise(ex.id, "repeticoes", e.target.value)
+                      }
+                    />
+                    <input
+                      placeholder="Descanso (s)"
+                      value={ex.descanso}
+                      onChange={(e) =>
+                        updateExercise(ex.id, "descanso", e.target.value)
                       }
                     />
                   </div>
+
+                  <textarea
+                    className="exercise-notes"
+                    placeholder="Instruções (opcional)"
+                    value={ex.intrucao}
+                    onChange={(e) =>
+                      updateExercise(ex.id, "intrucao", e.target.value)
+                    }
+                  />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Observações gerais */}
+          {/* Descrição */}
           <label className="field">
-            <span className="label-title">Observações Gerais</span>
+            <span className="label-title">Descrição</span>
             <textarea
-              placeholder="Adicione observações gerais sobre o treino..."
-              value={observations}
-              onChange={(e) => setObservations(e.target.value)}
+              placeholder="Descrição do treino..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </label>
         </form>

@@ -89,9 +89,8 @@ export default function HeaderAluno({ title }) {
           <div className="notification-header">
             <button className="back-btn" onClick={() => setShowDropdown(false)}>
               <ArrowLeft size={20} />
-              <span>Voltar</span>
             </button>
-            <h6>Notificações</h6>
+            <h4>Notificações</h4>
           </div>
 
           <div className="notification-list">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
 import "../../styles/pages/admin/forms.scss";
 
@@ -23,51 +23,51 @@ export default function Treinos() {
   const [showSendModal, setShowSendModal] = useState(false);
   const [selectedTreino, setSelectedTreino] = useState(null);
 
-  // ==== LISTA DE TREINOS ====
-  const [treinos, setTreinos] = useState([
-    {
-      id: 1,
-      nome: "Treino de Força",
-      descricao: "Foco em membros superiores",
-      tipo: "Força",
-      duracao: "45 min",
-      nivel: "Intermediário",
-      nivelClass: "intermediario",
-      exercicios: 6,
-      atribuido: 24,
-      icone: "bi-lightning-charge",
-      cor: "purple",
-      data: "2025-10-25",
-    },
-    {
-      id: 2,
-      nome: "Treino de Cardio",
-      descricao: "Corrida e exercícios aeróbicos",
-      tipo: "Cardio",
-      duracao: "30 min",
-      nivel: "Iniciante",
-      nivelClass: "iniciante",
-      exercicios: 3,
-      atribuido: 36,
-      icone: "bi-heart-pulse",
-      cor: "blue",
-      data: "2025-10-27",
-    },
-    {
-      id: 3,
-      nome: "Treino Funcional",
-      descricao: "Circuito de alta intensidade",
-      tipo: "Funcional",
-      duracao: "40 min",
-      nivel: "Avançado",
-      nivelClass: "avancado",
-      exercicios: 8,
-      atribuido: 18,
-      icone: "bi-fire",
-      cor: "orange",
-      data: "2025-10-20",
-    },
-  ]);
+  // ==== LISTA DE TREINOS (vinda do backend) ====
+  const [treinos, setTreinos] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchTreinos = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/treinos`, {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Falha ao buscar treinos");
+      const data = await res.json();
+      // data is array of treinos formatted by backend
+      const mapped = (data || []).map((t) => ({
+        id: t.id || t.tr_id,
+        nome: t.nome || t.tr_nome,
+        descricao: t.descricao || t.tr_descricao,
+        tipo: t.dificuldade || t.tr_dificuldade || "-",
+        duracao: t.duracao || "",
+        nivel: t.dificuldade || "-",
+        nivelClass: (t.dificuldade || "").toLowerCase().includes("inic")
+          ? "iniciante"
+          : (t.dificuldade || "").toLowerCase().includes("inter")
+          ? "intermediario"
+          : "avancado",
+        exercicios: t.exercicios || 0,
+        atribuido: t.atribuido || 0,
+        icone: "bi-lightning-charge",
+        cor: "purple",
+        data: t.data || "",
+        raw: t,
+      }));
+
+      setTreinos(mapped);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTreinos();
+  }, []);
 
   // ==== FILTROS ====
   const filteredTreinos = treinos.filter((t) => {
@@ -100,42 +100,147 @@ export default function Treinos() {
 
   // ==== CRUD HANDLERS ====
   const handleAddTreino = (novo) => {
-    const novoTreino = {
-      ...novo,
-      id: Date.now(),
-      cor: "purple",
-      icone: "bi-lightning-charge",
-      nivelClass:
-        novo.nivel === "Iniciante"
-          ? "iniciante"
-          : novo.nivel === "Intermediário"
-          ? "intermediario"
-          : "avancado",
-      exercicios: novo.exercicios?.length || 0,
-      atribuido: 0,
-      data: new Date().toISOString().split("T")[0],
-    };
-    setTreinos((prev) => [novoTreino, ...prev]);
-    setShowAddModal(false);
-    setCurrentPage(1);
+    // create via backend then refresh
+    (async () => {
+      try {
+        const payload = {
+          tr_nome: novo.nome,
+          tr_descricao: novo.descricao,
+          tr_dificuldade: novo.nivel || novo.tipo,
+          exercicios: (novo.exercicios || []).map((ex) => ({
+            nome: ex.nome,
+            series: ex.series,
+            repeticoes: ex.repeticoes,
+            descanso: ex.descanso,
+          })),
+          alunos: novo.alunos || [],
+        };
+
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/treinos`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          alert(err.error || "Falha ao criar treino");
+          return;
+        }
+
+        await fetchTreinos();
+        setShowAddModal(false);
+        setCurrentPage(1);
+      } catch (error) {
+        console.error("Erro ao criar treino:", error);
+        alert("Erro ao criar treino");
+      }
+    })();
   };
 
+  // not working (i may know whats happening)
   const handleUpdateTreino = (editado) => {
-    setTreinos((prev) => prev.map((t) => (t.id === editado.id ? editado : t)));
-    setShowEditModal(false);
+    (async () => {
+      try {
+        const payload = {
+          tr_nome: editado.nome,
+          tr_descricao: editado.descricao,
+          tr_dificuldade: editado.nivel || editado.tipo,
+          exercicios: editado.raw?.Exercicios
+            ? editado.raw.Exercicios.map((ex) => ({
+                ex_id: ex.ex_id,
+                nome: ex.ex_nome,
+                series: ex.TreinoExercicio?.te_series,
+                repeticoes: ex.TreinoExercicio?.te_repeticoes,
+                descanso: ex.TreinoExercicio?.te_descanso,
+              }))
+            : [],
+          alunos: editado.raw?.Alunos
+            ? editado.raw.Alunos.map((a) => a.al_id)
+            : [],
+        };
+
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/${editado.id}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          alert(err.error || "Falha ao atualizar treino");
+          return;
+        }
+
+        await fetchTreinos();
+        setShowEditModal(false);
+      } catch (error) {
+        console.error("Erro ao atualizar treino:", error);
+        alert("Erro ao atualizar treino");
+      }
+    })();
   };
 
   const handleDeleteTreino = (id) => {
-    setTreinos((prev) => prev.filter((t) => t.id !== id));
-    setShowDeleteModal(false);
+    (async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/${id}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          }
+        );
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          alert(err.error || "Falha ao deletar treino");
+          return;
+        }
+        await fetchTreinos();
+        setShowDeleteModal(false);
+      } catch (error) {
+        console.error("Erro ao deletar treino:", error);
+        alert("Erro ao deletar treino");
+      }
+    })();
   };
 
   const handleSendTreino = (payload) => {
-    // payload = { treinoId, treinoNome, alunos: [...], mensagem }
-    console.log("EnviarTreino payload:", payload);
-    alert(
-      `Treino "${payload.treinoNome}" enviado para ${payload.alunos.length} aluno(s).`
-    );
+    // payload = { treino, destinatarios: [...ids], mensagem }
+    (async () => {
+      try {
+        const { treino, destinatarios } = payload;
+        if (!destinatarios || destinatarios.length === 0) {
+          alert("Selecione ao menos um aluno.");
+          return;
+        }
+
+        let success = 0;
+        for (const al of destinatarios) {
+          const res = await fetch(
+            `${import.meta.env.VITE_BASE_URL}/treinos/${treino.id}/delegar`,
+            {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ al_id: al }),
+            }
+          );
+          if (res.ok) success++;
+        }
+
+        alert(`Treino "${treino.nome}" atribuído a ${success} aluno(s).`);
+        setShowSendModal(false);
+      } catch (err) {
+        console.error("Erro ao enviar treino:", err);
+        alert("Erro ao enviar treino");
+      }
+    })();
   };
 
   // abrir modais
@@ -341,7 +446,7 @@ export default function Treinos() {
           <DeleteTreinoModal
             treino={selectedTreino}
             onClose={() => setShowDeleteModal(false)}
-            onConfirm={() => handleDeleteTreino(selectedTreino.id)}
+            onDelete={(treino) => handleDeleteTreino(treino.id)}
           />
         )}
 
@@ -352,7 +457,7 @@ export default function Treinos() {
               setShowSendModal(false);
               setSelectedTreino(null);
             }}
-            onSend={(payload) => handleSendTreino(payload)}
+            onSent={(payload) => handleSendTreino(payload)}
           />
         )}
       </div>

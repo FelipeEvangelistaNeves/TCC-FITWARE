@@ -35,7 +35,7 @@ export default function MensagensAluno() {
 
         // Normaliza para o mesmo padrão da versão do professor
         const normalizadas = data.conversas.map((c) => {
-          const prof = c.Funcionario || {};
+          const prof = c.professor || {};
           const nome = prof.fu_nome || "Professor";
 
           const initials = nome

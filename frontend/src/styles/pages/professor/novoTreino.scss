@@ -23,11 +23,9 @@
   height: 100vh;
   background: var(--surface-1);
   border-left: 1px solid var(--border-color);
-  color: var(--color-text);
   display: flex;
   flex-direction: column;
   animation: slideIn 0.28s ease;
-  position: relative;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -69,7 +67,7 @@
     transition: 0.15s;
 
     &:hover {
-      background: rgba(var(--white-rgb), 0.12);
+      background: rgba(var(--white-rgb), 0.1);
       color: var(--white);
     }
   }
@@ -96,18 +94,19 @@
 }
 
 /* ============================
-   BASE INPUT STYLE
+   INPUT BASE STYLE
 ============================ */
 .input-base {
   width: 100%;
   background: var(--surface-2);
-  border: 1px solid transparent;
   border-radius: 10px;
-  padding: 12px 14px;
+  padding: 11px 14px;
+  margin-top: 6px;
   color: var(--color-text);
   font-size: 15px;
-  transition: 0.2s;
+  border: 1px solid transparent;
   outline: none;
+  transition: 0.2s;
 
   &::placeholder {
     color: var(--color-text-muted);
@@ -124,28 +123,39 @@
   }
 }
 
-/* Aplicar automaticamente */
 .field input,
-.field select,
 .field textarea,
 .exercise-controls input,
 .exercise-notes {
   @extend .input-base;
 }
 
-.field select {
+/* ============================
+   SELECT ESTILIZADO DO ZERO
+============================ */
+.field select,
+.exercise-card select {
   @extend .input-base;
   appearance: none;
-
-  padding-right: 36px;
   cursor: pointer;
+  position: relative;
+
+  padding-right: 40px;
+  background-color: var(--surface-2);
+  background-repeat: no-repeat;
+
+  &:hover {
+    background-color: var(--surface-hover);
+  }
 
   &:focus {
     border-color: var(--color-purple);
-    box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.25);
+    background-color: var(--surface-1);
+    box-shadow: 0 0 0 3px rgba(var(--color-purple-rgb), 0.25);
   }
+
   option {
-    background: var(--surface-2);
+    background: var(--surface-1);
     color: var(--color-text);
   }
 }
@@ -165,9 +175,9 @@
 
   .loading-text,
   .empty-text {
-    color: var(--color-text-muted);
     text-align: center;
-    padding: 10px;
+    color: var(--color-text-muted);
+    padding: 8px;
     font-size: 14px;
   }
 
@@ -175,10 +185,10 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 6px;
+    padding: 6px 8px;
     border-radius: 6px;
     cursor: pointer;
-    transition: 0.15s;
+    transition: 0.2s;
 
     &:hover {
       background: var(--surface-hover);
@@ -190,48 +200,6 @@
 
     .aluno-name {
       font-size: 14px;
-    }
-  }
-}
-
-.selected-alunos {
-  background: var(--surface-2);
-  border-radius: 10px;
-  padding: 12px;
-
-  .subtitle {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-
-  .tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-
-    .tag {
-      background: rgba(var(--color-purple-rgb), 0.15);
-      color: var(--color-purple);
-      padding: 6px 10px;
-      border-radius: 20px;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-
-      .tag-remove {
-        width: 16px;
-        height: 16px;
-        background: var(--color-red);
-        color: var(--white);
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 10px;
-      }
     }
   }
 }
@@ -252,17 +220,17 @@
 
   .add-ex-btn {
     background: var(--color-purple);
-    border: none;
+    color: white;
     padding: 10px 16px;
     border-radius: 10px;
-    color: var(--white);
-    cursor: pointer;
     font-size: 14px;
+    border: none;
+    cursor: pointer;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
+    gap: 6px;
+    transition: 0.2s;
 
     &:hover {
       background: var(--color-purple-hover);
@@ -277,167 +245,56 @@
 }
 
 .exercise-card {
-  background: var(--surface-2);
-  border-radius: 10px;
+  background: rgba(var(--color-purple-rgb), 0.06);
   border: 1px solid transparent;
+  border-radius: 10px;
   padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-
-  &:hover {
-    border-color: var(--color-purple);
-    background: rgba(var(--color-purple-rgb), 0.05);
-  }
+  transition: 0.2s;
 
   .exercise-top {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
+    flex-wrap: wrap;
     align-items: center;
-
-    select {
-      flex: 1;
-      min-width: 180px;
-      appearance: none;
-
-      padding-right: 36px;
-      cursor: pointer;
-    }
   }
 
   .exercise-index {
     width: 32px;
     height: 32px;
     border-radius: 8px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
     background: linear-gradient(
       135deg,
       var(--color-purple),
       var(--color-purple-light)
     );
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    flex-shrink: 0;
+    color: white;
   }
 
   .remove-ex-btn {
     background: rgba(var(--color-red-rgb), 0.12);
+    color: var(--color-red);
     border: none;
     border-radius: 8px;
-    color: var(--color-red);
-    padding: 8px 10px;
+    padding: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: 0.2s;
 
     &:hover {
       background: var(--color-red);
-      color: var(--white);
+      color: white;
       transform: scale(1.05);
     }
 
     &:active {
-      transform: scale(0.95);
-    }
-  }
-
-  .create-ex-btn {
-    background: rgba(var(--color-purple-rgb), 0.12);
-    border: 1px solid rgba(var(--color-purple-rgb), 0.3);
-    padding: 8px 14px;
-    border-radius: 8px;
-    color: var(--color-purple);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: var(--color-purple);
-      color: var(--white);
-      border-color: var(--color-purple);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-}
-
-/* ============================
-   MINI MODAL – CRIAR EXERCÍCIO
-============================ */
-.ex-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(var(--shadow-rgb), 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999999;
-  backdrop-filter: blur(4px);
-}
-
-.ex-modal {
-  background: var(--surface-1);
-  padding: 22px;
-  width: 90%;
-  max-width: 340px;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-
-  h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--color-text);
-  }
-}
-
-.ex-modal-actions {
-  display: flex;
-  gap: 10px;
-
-  button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .btn-cancel {
-    border: 1px solid var(--border-color);
-    background: transparent;
-    color: var(--color-text-muted);
-
-    &:hover {
-      background: var(--surface-2);
-      border-color: var(--color-text-muted);
-    }
-  }
-
-  .btn-primary {
-    background: var(--color-purple);
-    border: none;
-    color: var(--white);
-
-    &:hover {
-      background: var(--color-purple-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(var(--color-purple-rgb), 0.3);
-    }
-
-    &:active {
-      transform: translateY(0);
+      transform: scale(0.96);
     }
   }
 }
@@ -453,18 +310,19 @@
 
   button {
     flex: 1;
-    padding: 12px;
     border-radius: 8px;
+    padding: 12px;
   }
 
   .btn-cancel {
     background: transparent;
-    color: var(--color-text-muted);
     border: 1px solid var(--border-color);
+    color: var(--color-text-muted);
   }
+
   .btn-primary {
     background: var(--color-purple);
-    color: var(--white);
+    color: white;
     border: none;
   }
 }

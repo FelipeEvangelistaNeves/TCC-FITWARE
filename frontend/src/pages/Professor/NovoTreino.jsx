@@ -14,11 +14,6 @@ export default function NovoTreino({ onClose, onSaved }) {
   const [loadingAlunos, setLoadingAlunos] = useState(false);
   const [loadingExercises, setLoadingExercises] = useState(false);
 
-  // Modal para criar novo exercício
-  const [showNewExerciseModal, setShowNewExerciseModal] = useState(false);
-  const [newExerciseName, setNewExerciseName] = useState("");
-  const [pendingExerciseId, setPendingExerciseId] = useState(null);
-
   useEffect(() => {
     const fetchData = async () => {
       setLoadingAlunos(true);
@@ -79,34 +74,6 @@ export default function NovoTreino({ onClose, onSaved }) {
     );
   };
 
-  const handleCreateExerciseSubmit = async () => {
-    if (!newExerciseName.trim()) return;
-
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/professor/exercicios`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ex_nome: newExerciseName }),
-        }
-      );
-
-      const { exercicio } = await res.json();
-      setAllExercises((prev) => [exercicio, ...prev]);
-
-      if (pendingExerciseId) {
-        updateExercise(pendingExerciseId, "ex_id", exercicio.ex_id);
-        updateExercise(pendingExerciseId, "nome", exercicio.ex_nome);
-      }
-    } catch (e) {}
-
-    setShowNewExerciseModal(false);
-    setNewExerciseName("");
-    setPendingExerciseId(null);
-  };
-
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -114,9 +81,9 @@ export default function NovoTreino({ onClose, onSaved }) {
       tr_nome: name,
       tr_descricao: description,
       tr_dificuldade: difficulty,
-      alunos: selectedAlunos,
+      alunos: selectedAlunos.length === 0 ? [] : selectedAlunos, // Se vazio, vai para todos
       exercicios: exercises
-        .map(({ id, ex_instrucao, ...ex }) => ex)
+        .map(({ id, ...ex }) => ex)
         .filter((ex) => ex.ex_id || ex.nome), // Filtra exercícios vazios
     };
 
@@ -160,6 +127,7 @@ export default function NovoTreino({ onClose, onSaved }) {
               type="text"
               placeholder="Ex.: Treino A – Força"
               value={name}
+              required
               onChange={(e) => setName(e.target.value)}
             />
           </label>
@@ -239,7 +207,15 @@ export default function NovoTreino({ onClose, onSaved }) {
                 <div className="exercise-card" key={ex.id}>
                   <div className="exercise-top">
                     <div className="exercise-index">{index + 1}</div>
-
+                    <div className="a">
+                      <button
+                        type="button"
+                        className="remove-ex-btn"
+                        onClick={() => removeExercise(ex.id)}
+                      >
+                        <Trash size={14} />
+                      </button>
+                    </div>
                     <select
                       value={ex.ex_id || ""}
                       onChange={(ev) => {
@@ -248,6 +224,11 @@ export default function NovoTreino({ onClose, onSaved }) {
                         );
                         updateExercise(ex.id, "ex_id", selected?.ex_id || null);
                         updateExercise(ex.id, "nome", selected?.ex_nome || "");
+                        updateExercise(
+                          ex.id,
+                          "intrucao",
+                          selected?.ex_instrucao || ""
+                        );
                       }}
                     >
                       <option value="">Selecionar exercício...</option>
@@ -257,25 +238,6 @@ export default function NovoTreino({ onClose, onSaved }) {
                         </option>
                       ))}
                     </select>
-
-                    <button
-                      type="button"
-                      className="add-ex-btn"
-                      onClick={() => {
-                        setPendingExerciseId(ex.id);
-                        setShowNewExerciseModal(true);
-                      }}
-                    >
-                      Criar novo
-                    </button>
-
-                    <button
-                      type="button"
-                      className="remove-ex-btn"
-                      onClick={() => removeExercise(ex.id)}
-                    >
-                      <Trash size={14} />
-                    </button>
                   </div>
 
                   <div className="exercise-controls">
@@ -334,41 +296,6 @@ export default function NovoTreino({ onClose, onSaved }) {
           </button>
         </footer>
       </aside>
-
-      {/* MODAL CRIAR EXERCICIO */}
-      {showNewExerciseModal && (
-        <div
-          className="ex-modal-overlay"
-          onClick={() => setShowNewExerciseModal(false)}
-        >
-          <div className="ex-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Novo Exercício</h3>
-
-            <input
-              type="text"
-              placeholder="Nome do exercício"
-              className="input-base"
-              value={newExerciseName}
-              onChange={(e) => setNewExerciseName(e.target.value)}
-            />
-
-            <div className="ex-modal-actions">
-              <button
-                className="btn-cancel"
-                onClick={() => setShowNewExerciseModal(false)}
-              >
-                Cancelar
-              </button>
-              <button
-                className="btn-primary"
-                onClick={handleCreateExerciseSubmit}
-              >
-                Criar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

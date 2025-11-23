@@ -114,7 +114,7 @@ export default function DashboardProf() {
             onClick={() => navigate("/professor/perfil")}
           >
             <div>
-              <i class="bi bi-clock"></i>
+              <i className="bi bi-clock"></i>
             </div>
             <div className="action-label">Perfil</div>
           </button>

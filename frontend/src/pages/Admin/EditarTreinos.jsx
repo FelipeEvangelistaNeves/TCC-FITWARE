@@ -10,7 +10,8 @@ export default function EditTreino({ treino, onClose, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(form.id, form);
+    // pass the full edited object to the parent for consistency
+    onSave(form);
     onClose();
   };
 
@@ -19,7 +20,8 @@ export default function EditTreino({ treino, onClose, onSave }) {
       <div className="modal-overlay" onClick={onClose}>
         <div
           className="modal-content form-card"
-          onClick={(e) => e.stopPropagation()}>
+          onClick={(e) => e.stopPropagation()}
+        >
           <h3>Editar Treino</h3>
 
           <div className="form-group">
@@ -34,7 +36,8 @@ export default function EditTreino({ treino, onClose, onSave }) {
             <label>Tipo</label>
             <select
               value={form.tipo}
-              onChange={(e) => handleChange("tipo", e.target.value)}>
+              onChange={(e) => handleChange("tipo", e.target.value)}
+            >
               <option>Força</option>
               <option>Cardio</option>
               <option>Funcional</option>
@@ -46,7 +49,8 @@ export default function EditTreino({ treino, onClose, onSave }) {
             <label>Nível</label>
             <select
               value={form.nivel}
-              onChange={(e) => handleChange("nivel", e.target.value)}>
+              onChange={(e) => handleChange("nivel", e.target.value)}
+            >
               <option>Iniciante</option>
               <option>Intermediário</option>
               <option>Avançado</option>
@@ -66,7 +70,8 @@ export default function EditTreino({ treino, onClose, onSave }) {
             <label>Status</label>
             <select
               value={form.status}
-              onChange={(e) => handleChange("status", e.target.value)}>
+              onChange={(e) => handleChange("status", e.target.value)}
+            >
               <option>Ativo</option>
               <option>Inativo</option>
             </select>

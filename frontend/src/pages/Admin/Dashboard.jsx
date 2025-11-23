@@ -100,20 +100,18 @@ export default function Dashboard() {
       {/* Cards */}
       <div className="cards-grid ">
         <div className="card">
+          <span className="card-title">Alunos Ativos</span>
           <span className="card-value">156</span>
-          <span className="card-change positive">+12% este mês</span>
         </div>
 
         <div className="card">
           <span className="card-title">Desafios Ativos</span>
           <span className="card-value ">24</span>
-          <span className="card-change negative">-3% este mês</span>
         </div>
 
         <div className="card">
-          <span className="card-title">Pontos Resgatados</span>
-          <span className="card-value ">12.5k</span>
-          <span className="card-change positive">+18% este mês</span>
+          <span className="card-title">Total de treinos</span>
+          <span className="card-value ">3</span>
         </div>
       </div>
 

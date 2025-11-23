@@ -77,6 +77,14 @@
     background: var(--surface-2);
     border-bottom: 1px solid var(--border-color);
 
+    h4 {
+      flex: 1;
+      text-align: center;
+      margin: 0;
+      font-weight: 600;
+      color: var(--color-yellow);
+    }
+
     h6 {
       flex: 1;
       text-align: center;
@@ -107,11 +115,18 @@
     padding: 1rem;
     background: var(--app-bg);
 
+    .notification-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--color-text);
+    }
+
     .notification-item {
       background: var(--surface-2);
-      border-radius: 8px;
+      border-radius: 16px;
       padding: 12px;
-      margin-bottom: 8px;
+      margin-bottom: 20px;
       font-size: 14px;
       border: 1px solid var(--border-color);
       transition: background 0.2s;
@@ -119,6 +134,13 @@
       &:hover {
         background: var(--surface-hover);
       }
+    }
+
+    .notification-time {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--color-purple);
     }
   }
 }
