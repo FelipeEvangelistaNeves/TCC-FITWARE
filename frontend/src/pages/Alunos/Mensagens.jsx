@@ -118,6 +118,7 @@ export default function MensagensAluno() {
 
       const msg = data.novaMensagem;
 
+      // normalização para encaixar no formato do front
       const mensagemFormatada = {
         me_id: msg.me_id,
         me_conteudo: msg.me_conteudo,
@@ -127,6 +128,7 @@ export default function MensagensAluno() {
         tipo: "enviada",
       };
 
+      // adiciona no estado
       setMensagensDaConversa((prev) => [...prev, mensagemFormatada]);
     } catch (err) {
       console.error("Erro ao enviar:", err);

@@ -6,6 +6,7 @@ export default function ChatModal({
   onClose, 
   contactName,
   mensagens = [], 
+  onSendMessage
 }) {
   const [inputValue, setInputValue] = useState("");
   const chatBodyRef = useRef(null);
@@ -21,7 +22,7 @@ export default function ChatModal({
       const viewportHeight = window.innerHeight;
       const windowHeight = document.documentElement.clientHeight;
 
-      if (vieportHeigh < windowHeight - 100) {
+      if (viewportHeight < windowHeight - 100) {
         chatFooterRef.current?.scrollIntoView({ behavior: "smooth" });
       }
     };
@@ -30,21 +31,16 @@ export default function ChatModal({
     return () => window.removeEventListener("resize", handleSize);
   }, []);
 
-  const handleSendMessage = () => {
+  const handleSend = () => {
     const texto = inputValue.trim();
     if (!texto) return;
 
-    setMensagens((prev) => [
-      ...prev,
-      { id: prev.length + 1, texto, tipo: "enviada" },
-    ]);
+    onSendMessage(texto); // O pai envia de verdade
     setInputValue("");
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
+    if (e.key === "Enter") handleSend();
   };
 
   if (!isOpen) return null;
@@ -70,6 +66,9 @@ export default function ChatModal({
 
         {/* ===== Corpo do chat ===== */}
         <div className="chat-body" ref={chatBodyRef}>
+          {mensagens.length === 0 && (
+            <div className="no-messages">Nenhuma mensagem ainda.</div>
+          )}
           {mensagens.map((msg) => (
             <div key={msg.id} className={`msg ${msg.tipo}`}>
               {msg.me_conteudo}
@@ -86,7 +85,7 @@ export default function ChatModal({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button onClick={handleSendMessage}>
+          <button onClick={handleSend}>
             <i className="bi bi-send"></i>
           </button>
         </div>

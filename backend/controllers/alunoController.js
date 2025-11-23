@@ -154,9 +154,53 @@ const dataAlunoMensagem = async (req, res) => {
   }
 }
 
+const enviarMensagemAluno = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const alunoId = decoded.id;
+
+    const co_id = req.params.id;
+    const { conteudo } = req.body;
+
+    const conversa = await Conversa.findByPk(co_id);
+
+    if (!conversa) {
+      return res.status(404).json({ message: "Conversa não encontrada" });
+    }
+
+    // IDs corretos para o trigger
+    const remetente_id = alunoId;
+    const destinatario_id = conversa.prof_id;
+
+    const remetente_tipo = "aluno";
+    const destinatario_tipo = "professor";
+
+    console.log("Enviando mensagem na conversa ID:", co_id);
+    console.log("Conteudo:", conteudo);
+    const novaMensagem = await Mensagem.create({
+      co_id,
+      remetente_id,
+      destinatario_id,
+      remetente_tipo,
+      destinatario_tipo,
+      me_conteudo: conteudo,
+      me_tempo: new Date(),
+      me_lida: false,
+    });
+
+    return res.json({ message: "Mensagem enviada", novaMensagem });
+
+  } catch (err) {
+    console.error("Erro ao enviar mensagem:", err);
+    return res.status(500).json({ message: "Erro ao enviar mensagem" });
+  }
+};
+
 module.exports = {
   dataAluno,
   atualizarAluno,
   dataAlunoConversas,
   dataAlunoMensagem,
+  enviarMensagemAluno,
 };
