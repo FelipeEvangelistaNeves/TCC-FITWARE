@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/pages/aluno/mensagensAluno.scss";
-import "../../styles/pages/aluno/dashboardAluno.scss";
-import "../../styles/pages/aluno/treinos.scss";
+import "../../styles/pages/admin/tabelas.scss";
 
 export default function Exercicios() {
   const [exercicios, setExercicios] = useState([]);
@@ -14,6 +12,10 @@ export default function Exercicios() {
     ex_instrucao: "",
     ex_grupo_muscular: "",
   });
+
+  // Paginação
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Fetch exercícios
   const fetchExercicios = async () => {
@@ -50,6 +52,20 @@ export default function Exercicios() {
       ex.ex_grupo_muscular?.toLowerCase().includes(texto)
     );
   });
+
+  // Lógica de Paginação
+  const totalPages = Math.ceil(exerciciosFiltrados.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const exerciciosPaginados = exerciciosFiltrados.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   // Resetar formulário
   const resetForm = () => {
@@ -142,17 +158,122 @@ export default function Exercicios() {
   if (erro) return <p>{erro}</p>;
 
   return (
-    <div className="dashboard-aluno">
-      {/* Search Bar */}
-      <div className="search-container">
-        <div className="search-bar">
+    <div className="admin-modal tabela-page">
+      {/* Header da Tabela */}
+      <div className="tabela-header">
+        <h2>Gerenciar Exercícios</h2>
+        <div className="acoes-header">
           <input
             type="text"
             placeholder="Buscar exercício..."
             className="search-input"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Volta pra pág 1 ao buscar
+            }}
           />
+          <button className="add-btn" onClick={() => setShowForm(true)}>
+            + Adicionar Exercício
+          </button>
+        </div>
+      </div>
+
+      {/* Tabela */}
+      <table className="tabela">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Grupo Muscular</th>
+            <th>Instruções</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {exerciciosPaginados.length > 0 ? (
+            exerciciosPaginados.map((ex) => (
+              <tr key={ex.ex_id}>
+                <td>{ex.ex_id}</td>
+                <td className="user-info">{ex.ex_nome}</td>
+                <td>
+                  <span className="nivel intermediario">
+                    {ex.ex_grupo_muscular || "Geral"}
+                  </span>
+                </td>
+                <td
+                  style={{
+                    maxWidth: "300px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                  title={ex.ex_instrucao}
+                >
+                  {ex.ex_instrucao || "—"}
+                </td>
+                <td>
+                  <button className="action-btn" onClick={() => handleEdit(ex)}>
+                    <i className="bi bi-pencil"></i>
+                  </button>
+                  <button
+                    className="action-btn"
+                    onClick={() => handleDelete(ex.ex_id)}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">Nenhum exercício encontrado.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* Paginação */}
+      <div className="paginacao">
+        <span>Itens por página:</span>
+        <select
+          value={itemsPerPage}
+          onChange={(e) => {
+            setItemsPerPage(Number(e.target.value));
+            setCurrentPage(1);
+          }}
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+        </select>
+
+        <div className="pages">
+          <button
+            className="page"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <i className="bi bi-chevron-left"></i>
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              className={`page ${currentPage === i + 1 ? "active" : ""}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            className="page"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <i className="bi bi-chevron-right"></i>
+          </button>
         </div>
       </div>
 
@@ -243,54 +364,6 @@ export default function Exercicios() {
           </div>
         </div>
       )}
-
-      {/* Lista de Exercícios */}
-      <section className="workouts-section">
-        {exerciciosFiltrados.length === 0 ? (
-          <p>Nenhum exercício encontrado.</p>
-        ) : (
-          exerciciosFiltrados.map((ex) => (
-            <div className="workout-card" key={ex.ex_id}>
-              <div className="workout-header">
-                <div className="workout-info">
-                  <h3>{ex.ex_nome}</h3>
-                  <span className="workout-dificuldade">
-                    {ex.ex_grupo_muscular || "Sem grupo"}
-                  </span>
-                </div>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(ex.ex_id)}
-                  title="Deletar"
-                >
-                  <i className="bi bi-trash"></i>
-                </button>
-              </div>
-
-              {ex.ex_instrucao && (
-                <div style={{ padding: "12px 0", fontSize: "14px" }}>
-                  <p style={{ color: "var(--color-text-muted)", margin: "0" }}>
-                    {ex.ex_instrucao}
-                  </p>
-                </div>
-              )}
-
-              <div className="treino-actions">
-                <button className="start-btn" onClick={() => handleEdit(ex)}>
-                  Editar
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </section>
-
-      {/* Botão Novo */}
-      <div className="treino-actions">
-        <button className="new-btn" onClick={() => setShowForm(true)}>
-          Adicionar Novo Exercício
-        </button>
-      </div>
     </div>
   );
 }
