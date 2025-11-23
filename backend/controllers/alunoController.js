@@ -101,20 +101,18 @@ const getConversasAluno = async (req, res) => {
 
     const conversas = await Conversa.findAll({
       where: { al_id: alunoId },
+      attributes: ["co_id", "al_id", "prof_id"],
       include: [
         {
           model: Funcionario,
+          as: "professor",
           attributes: ["fu_id", "fu_nome"],
         },
       ],
-
-      order: [["createdAt", "DESC"]],
+      order: [["co_id", "DESC"]],
     });
 
-    return res.json({
-      success: true,
-      conversas,
-    });
+    return res.json({ success: true, conversas });
   } catch (error) {
     console.error("Erro ao buscar conversas:", error);
     return res.status(500).json({ message: "Erro ao buscar conversas." });

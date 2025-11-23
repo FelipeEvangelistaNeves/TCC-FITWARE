@@ -18,5 +18,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  // 🔥 ASSOCIAÇÃO CONTRÁRIA (opcional, mas bom ter)
+  Funcionario.associate = (models) => {
+    Funcionario.hasMany(models.Conversa, {
+      foreignKey: "prof_id",
+      as: "conversas",
+    });
+  };
+
   return Funcionario;
 };

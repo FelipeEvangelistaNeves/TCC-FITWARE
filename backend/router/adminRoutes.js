@@ -8,6 +8,8 @@ const {
   deletarAluno,
   atualizarExercicioAdmin,
   deletarExercicioAdmin,
+  getAdminProfile,
+  updateAdminProfile,
 } = require("../controllers/adminController");
 const LoggerMessages = require("../loggerMessages");
 
@@ -40,6 +42,26 @@ router.get(
     });
   }
 );
+
+// Perfil do admin (GET /admin/profile - retorna dados do funcionario logado)
+router.get("/profile", authMiddleware(["Secretario"]), async (req, res) => {
+  try {
+    return getAdminProfile(req, res);
+  } catch (error) {
+    console.error("Erro na rota GET /admin/profile:", error);
+    return res.status(500).json({ error: "Erro interno do servidor." });
+  }
+});
+
+// Atualizar perfil do admin
+router.put("/profile", authMiddleware(["Secretario"]), async (req, res) => {
+  try {
+    return updateAdminProfile(req, res);
+  } catch (error) {
+    console.error("Erro na rota PUT /admin/profile:", error);
+    return res.status(500).json({ error: "Erro interno do servidor." });
+  }
+});
 
 router.post("/criarAluno", authMiddleware(), criarAluno);
 router.get("/allAlunos", authMiddleware(), listarAlunosAdmin);

@@ -121,9 +121,16 @@ const dataDetalhesDoTreino = async (req, res) => {
         },
         {
           model: Exercicio,
-          attributes: ["ex_id", "ex_nome"],
+          attributes: ["ex_id", "ex_nome", "ex_instrucao"],
           through: {
             attributes: ["te_series", "te_repeticoes", "te_descanso"],
+          },
+        },
+        {
+          model: Aluno,
+          attributes: ["al_id", "al_nome"],
+          through: {
+            attributes: [],
           },
         },
       ],
@@ -135,10 +142,17 @@ const dataDetalhesDoTreino = async (req, res) => {
 
     const exercicios = treino.Exercicios.map((ex) => ({
       id: ex.ex_id,
+      ex_id: ex.ex_id,
       nome: ex.ex_nome,
+      instrucao: ex.ex_instrucao,
       series: ex.TreinoExercicio.te_series,
       repeticoes: ex.TreinoExercicio.te_repeticoes,
       descanso: ex.TreinoExercicio.te_descanso,
+    }));
+
+    const alunos = (treino.Alunos || []).map((a) => ({
+      al_id: a.al_id,
+      al_nome: a.al_nome,
     }));
 
     const treinoFormatado = {
@@ -148,6 +162,7 @@ const dataDetalhesDoTreino = async (req, res) => {
       dificuldade: treino.tr_dificuldade,
       funcionario: treino.Funcionario.fu_nome,
       exercicios,
+      alunos,
     };
 
     return res.status(200).json(treinoFormatado);
@@ -195,6 +210,96 @@ const criarExercicio = async (req, res) => {
   } catch (error) {
     console.error("Erro ao criar exercício:", error);
     return res.status(500).json({ error: "Erro ao criar exercício" });
+  }
+};
+
+// Listar todos os treinos (público/admin)
+const listAllTreinos = async (req, res) => {
+  try {
+    const treinosRaw = await Treino.findAll({
+      include: [
+        { model: Funcionario, attributes: ["fu_nome"] },
+        {
+          model: Exercicio,
+          attributes: ["ex_id"],
+          through: { attributes: [] },
+        },
+        { model: Aluno, attributes: ["al_id"], through: { attributes: [] } },
+      ],
+    });
+
+    const treinos = treinosRaw.map((tr) => ({
+      id: tr.tr_id,
+      nome: tr.tr_nome,
+      descricao: tr.tr_descricao,
+      dificuldade: tr.tr_dificuldade,
+      funcionario: tr.Funcionario?.fu_nome || null,
+      exercicios: (tr.Exercicios || []).length,
+      atribuido: (tr.Alunos || []).length,
+    }));
+
+    return res.status(200).json(treinos);
+  } catch (error) {
+    console.error("Erro ao listar treinos:", error);
+    return res.status(500).json({ error: "Erro ao listar treinos" });
+  }
+};
+
+// Delegar (atribuir) um treino a um aluno
+const delegarTreino = async (req, res) => {
+  const userId = req.user && req.user.id;
+  const userRole = req.user && req.user.role;
+  const treinoId = req.params.id;
+  const { al_id } = req.body;
+
+  if (!userId)
+    return res.status(401).json({ error: "Usuário não autenticado" });
+  if (!al_id)
+    return res.status(400).json({ error: "ID do aluno é obrigatório" });
+
+  const t = await sequelize.transaction();
+  try {
+    const treino = await Treino.findByPk(treinoId, { transaction: t });
+    if (!treino) {
+      await t.rollback();
+      return res.status(404).json({ error: "Treino não encontrado" });
+    }
+
+    // professor dono do treino ou secretario podem delegar
+    if (userRole !== "Secretario" && treino.tr_prof_id !== userId) {
+      await t.rollback();
+      return res.status(403).json({ error: "Acesso negado" });
+    }
+
+    const aluno = await Aluno.findByPk(al_id, { transaction: t });
+    if (!aluno) {
+      await t.rollback();
+      return res.status(404).json({ error: "Aluno não encontrado" });
+    }
+
+    // evita duplicatas
+    const exists = await AlunoTreino.findOne({
+      where: { al_id: aluno.al_id, tr_id: treino.tr_id },
+      transaction: t,
+    });
+    if (exists) {
+      await t.rollback();
+      return res
+        .status(400)
+        .json({ error: "Treino já atribuído a este aluno" });
+    }
+
+    await AlunoTreino.create(
+      { al_id: aluno.al_id, tr_id: treino.tr_id },
+      { transaction: t }
+    );
+
+    await t.commit();
+    return res.status(201).json({ message: "Treino atribuído ao aluno" });
+  } catch (error) {
+    await t.rollback();
+    console.error("Erro ao delegar treino:", error);
+    return res.status(500).json({ error: "Erro ao delegar treino" });
   }
 };
 
@@ -272,10 +377,10 @@ addTreino = async (req, res) => {
     }
 
     // Vincula alunos ao treino
-    for (const al_id of alunos) {
-      // opcional: verificar se aluno existe
-      const aluno = await Aluno.findByPk(al_id, { transaction: t });
-      if (aluno) {
+    if (alunos.length === 0) {
+      // Se nenhum aluno foi selecionado, vincula a TODOS
+      const todosAlunos = await Aluno.findAll({ transaction: t });
+      for (const aluno of todosAlunos) {
         await AlunoTreino.create(
           {
             al_id: aluno.al_id,
@@ -283,6 +388,20 @@ addTreino = async (req, res) => {
           },
           { transaction: t }
         );
+      }
+    } else {
+      // Se alunos foram selecionados, vincula apenas aos selecionados
+      for (const al_id of alunos) {
+        const aluno = await Aluno.findByPk(al_id, { transaction: t });
+        if (aluno) {
+          await AlunoTreino.create(
+            {
+              al_id: aluno.al_id,
+              tr_id: novoTreino.tr_id,
+            },
+            { transaction: t }
+          );
+        }
       }
     }
 
@@ -468,4 +587,6 @@ module.exports = {
   deletarTreino,
   listarExercicios,
   criarExercicio,
+  listAllTreinos,
+  delegarTreino,
 };

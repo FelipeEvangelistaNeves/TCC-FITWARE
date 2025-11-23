@@ -10,6 +10,8 @@ const {
   addTreino,
   updateTreino,
   deletarTreino,
+  listAllTreinos,
+  delegarTreino,
 } = require("../controllers/treinoController");
 const ROLES = require("../constants/roles");
 
@@ -125,6 +127,36 @@ router.delete(
   "/professor/:id",
   authMiddleware([ROLES.professor]),
   deletarTreino
+);
+
+// Listar todos os treinos (público/admin)
+router.get("/", listAllTreinos);
+
+// Detalhes por id (compatível com /treinos/:id)
+router.get("/:id", dataDetalhesDoTreino);
+
+// Rotas RESTful genéricas (criar/atualizar/deletar) — exigem professor
+router.post(
+  "/",
+  authMiddleware([ROLES.professor, ROLES.secretario]),
+  addTreino
+);
+router.put(
+  "/:id",
+  authMiddleware([ROLES.professor, ROLES.secretario]),
+  updateTreino
+);
+router.delete(
+  "/:id",
+  authMiddleware([ROLES.professor, ROLES.secretario]),
+  deletarTreino
+);
+
+// Delegar treino a um aluno
+router.post(
+  "/:id/delegar",
+  authMiddleware([ROLES.professor, ROLES.secretario]),
+  delegarTreino
 );
 
 module.exports = router;

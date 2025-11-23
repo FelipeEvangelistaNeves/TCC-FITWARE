@@ -1,4 +1,4 @@
-const { Aluno } = require("../models");
+const { Aluno, Funcionario } = require("../models");
 const bcrypt = require("bcrypt");
 require("dotenv").config({
   quiet: true,
@@ -170,6 +170,81 @@ deletarExercicioAdmin = async (req, res) => {
   }
 };
 
+// ======= Perfil do Admin (Secretario) =======
+const getAdminProfile = async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId)
+      return res.status(401).json({ error: "Usuário não autenticado" });
+
+    const func = await Funcionario.findByPk(userId, {
+      attributes: [
+        "fu_id",
+        "fu_nome",
+        "fu_email",
+        "fu_cpf",
+        "fu_telefone",
+        "fu_dtnasc",
+        "fu_cargo",
+        "fu_cref",
+      ],
+    });
+
+    if (!func)
+      return res.status(404).json({ error: "Funcionário não encontrado" });
+
+    return res.json(func);
+  } catch (err) {
+    console.error("Erro ao buscar perfil do admin:", err);
+    return res.status(500).json({ error: "Erro ao buscar perfil" });
+  }
+};
+
+const updateAdminProfile = async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId)
+      return res.status(401).json({ error: "Usuário não autenticado" });
+
+    const func = await Funcionario.findByPk(userId);
+    if (!func)
+      return res.status(404).json({ error: "Funcionário não encontrado" });
+
+    const { nome, email, senha, cpf, telefone, dtNasc, cref } = req.body;
+
+    if (nome !== undefined) func.fu_nome = nome;
+    if (email !== undefined) func.fu_email = email;
+    if (cpf !== undefined) func.fu_cpf = cpf;
+    if (telefone !== undefined) func.fu_telefone = telefone;
+    if (dtNasc !== undefined) func.fu_dtnasc = dtNasc;
+    if (cref !== undefined) func.fu_cref = cref;
+
+    if (senha) {
+      const hash = await bcrypt.hash(senha, 10);
+      func.fu_senha = hash;
+    }
+
+    await func.save();
+
+    // return updated public fields
+    const updated = {
+      fu_id: func.fu_id,
+      fu_nome: func.fu_nome,
+      fu_email: func.fu_email,
+      fu_cpf: func.fu_cpf,
+      fu_telefone: func.fu_telefone,
+      fu_dtnasc: func.fu_dtnasc,
+      fu_cargo: func.fu_cargo,
+      fu_cref: func.fu_cref,
+    };
+
+    return res.json({ message: "Perfil atualizado", funcionario: updated });
+  } catch (err) {
+    console.error("Erro ao atualizar perfil do admin:", err);
+    return res.status(500).json({ error: "Erro ao atualizar perfil" });
+  }
+};
+
 module.exports = {
   criarAluno,
   atualizarAlunoAdmin,
@@ -177,4 +252,6 @@ module.exports = {
   listarAlunosAdmin,
   atualizarExercicioAdmin,
   deletarExercicioAdmin,
+  getAdminProfile,
+  updateAdminProfile,
 };
