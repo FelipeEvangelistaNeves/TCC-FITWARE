@@ -44,7 +44,7 @@ export default function LoginAluno() {
   return (
     <div className="login-container">
       <div className="login-card">
-        <Link to="/" className="back-link">
+        <Link to="/escolherlogin" className="back-link">
           <i className="bi bi-arrow-left"></i>
         </Link>
         <img src={Logo} alt="logo fitware" className="login-avatar" />

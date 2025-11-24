@@ -5,6 +5,10 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/base/style.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { initFetchInterceptor } from "./utils/fetchInterceptor";
+
+initFetchInterceptor();
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>

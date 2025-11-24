@@ -58,6 +58,7 @@ export default function DesafioCard({
           value={pct}
           disabled
           aria-label={`Progresso do desafio ${titulo}`}
+          style={{ "--progress": `${pct}%` }}
         />
         <div
           style={{

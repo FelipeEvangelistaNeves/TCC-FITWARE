@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/pages/professor/perfilprof.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import ConfigProf from "../../components/Professor/configProf";
 import HistAtiv from "../../components/Professor/HistAtiv";
 
 export default function PerfilProf() {
+  const navigate = useNavigate();
   const [iniciais, setIniciais] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -19,6 +21,10 @@ export default function PerfilProf() {
 
   // Estado modal histórico atividades
   const [showHistorico, setShowHistorico] = useState(false);
+
+  // Estados para estatísticas dinâmicas
+  const [totalAlunos, setTotalAlunos] = useState(0);
+  const [totalTreinos, setTotalTreinos] = useState(0);
 
   useEffect(() => {
     const fetchProfessor = async () => {
@@ -49,7 +55,48 @@ export default function PerfilProf() {
       }
     };
 
+    const fetchEstatisticas = async () => {
+      try {
+        // Buscar total de alunos
+        const resAlunos = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/professor/allAlunos`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (resAlunos.ok) {
+          const dataAlunos = await resAlunos.json();
+          setTotalAlunos(dataAlunos.alunos?.length || 0);
+        }
+
+        // Buscar total de treinos
+        const resDashboard = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/professor/dashboard`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (resDashboard.ok) {
+          const dataDashboard = await resDashboard.json();
+          setTotalTreinos(dataDashboard.totalTreinos || 0);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar estatísticas:", error);
+      }
+    };
+
     fetchProfessor();
+    fetchEstatisticas();
   }, []);
 
   return (
@@ -76,17 +123,19 @@ export default function PerfilProf() {
         <p>Personal Trainer</p>
 
         <div className="stats-grid">
-          <div className="stat-item">
-            <span className="stat-number">42</span>
+          <div
+            className="stat-item stat-button"
+            onClick={() => navigate("/professor/alunos")}
+          >
+            <span className="stat-number">{totalAlunos}</span>
             <span className="stat-label">Alunos</span>
           </div>
-          <div className="stat-item">
-            <span className="stat-number">156</span>
+          <div
+            className="stat-item stat-button"
+            onClick={() => navigate("/professor/treinos")}
+          >
+            <span className="stat-number">{totalTreinos}</span>
             <span className="stat-label">Treinos</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">89</span>
-            <span className="stat-label">Mensagens</span>
           </div>
         </div>
       </div>
