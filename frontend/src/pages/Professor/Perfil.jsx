@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/pages/professor/perfilprof.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import ConfigProf from "../../components/Professor/configProf";
 import HistAtiv from "../../components/Professor/HistAtiv";
 
 export default function PerfilProf() {
+  const navigate = useNavigate();
   const [iniciais, setIniciais] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -76,17 +78,19 @@ export default function PerfilProf() {
         <p>Personal Trainer</p>
 
         <div className="stats-grid">
-          <div className="stat-item">
+          <div
+            className="stat-item stat-button"
+            onClick={() => navigate("/professor/alunos")}
+          >
             <span className="stat-number">42</span>
             <span className="stat-label">Alunos</span>
           </div>
-          <div className="stat-item">
+          <div
+            className="stat-item stat-button"
+            onClick={() => navigate("/professor/treinos")}
+          >
             <span className="stat-number">156</span>
             <span className="stat-label">Treinos</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">89</span>
-            <span className="stat-label">Mensagens</span>
           </div>
         </div>
       </div>
