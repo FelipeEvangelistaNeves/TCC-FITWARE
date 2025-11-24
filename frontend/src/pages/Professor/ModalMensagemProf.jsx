@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import "../../styles/pages/professor/chatModal.scss";
 
-export default function ChatModal({ isOpen,
+export default function ChatModal({ 
+  isOpen,
   onClose,
   contactName,
   mensagens = [],
@@ -46,8 +47,6 @@ export default function ChatModal({ isOpen,
   const handleKeyPress = (e) => {
     if (e.key === "Enter") handleSend();
   };
-
-  if (!isOpen) return null;
 
   if (!isOpen) return null;
 

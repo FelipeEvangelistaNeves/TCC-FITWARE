@@ -109,7 +109,7 @@ export default function MensagensProf() {
   const enviarMensagem = async (texto) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}professor/mensagens/${selectedChatId}`,
+        `${import.meta.env.VITE_BASE_URL}/professor/mensagens/${selectedChatId}`,
         {
           method: "POST",
           credentials: "include",
