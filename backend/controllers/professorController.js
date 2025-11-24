@@ -46,6 +46,7 @@ const dataProfessor = async (req, res) => {
       (firstName ? firstName[0] : "") + (lastName ? lastName[0] : "");
 
     res.json({
+      fu_id: professor.fu_id,
       nome: professor.fu_nome,
       email: professor.fu_email,
       cargo: professor.fu_cargo,
@@ -158,12 +159,7 @@ const dataProfConversas = async (req, res) => {
       include: [
         {
           model: Aluno,
-          attributes: [
-            "al_id",
-            "al_nome",
-            "al_email",
-            "al_telefone",
-          ],
+          attributes: ["al_id", "al_nome", "al_email", "al_telefone"],
         },
       ],
       order: [["co_id", "DESC"]],

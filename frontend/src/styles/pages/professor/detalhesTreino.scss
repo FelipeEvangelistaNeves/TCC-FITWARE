@@ -182,32 +182,70 @@
     background: $surface-2;
     border: 1px solid transparent;
     border-radius: $radius-md;
-    padding: 12px;
-    margin-bottom: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--color-purple);
     transition: all 0.2s;
 
     &:hover {
-      border-color: rgba($primary, 0.3);
-      transform: translateY(-1px);
+      background: rgba(var(--color-purple-rgb), 0.05);
+      border-color: var(--color-purple);
+      transform: translateX(4px);
     }
 
     .ex-nome {
       font-weight: 600;
       font-size: 15px;
       color: $text;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
 
-    .ex-info {
+    .ex-detalhes {
       display: flex;
-      gap: 16px;
-      font-size: 13px;
-      color: $text-2;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
 
-      span {
+      .detalhe-field {
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 6px;
+        padding: 6px 12px;
+        background: rgba(var(--color-purple-rgb), 0.1);
+        border-radius: 6px;
+        border: 1px solid rgba(var(--color-purple-rgb), 0.2);
+
+        .label {
+          font-size: 11px;
+          font-weight: 700;
+          color: var(--color-text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .value {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--color-purple);
+        }
+      }
+    }
+
+    .ex-instrucao {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(var(--color-purple-rgb), 0.08);
+      border-left: 3px solid var(--color-purple);
+      border-radius: 4px;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+
+      strong {
+        color: var(--color-text);
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 600;
       }
     }
   }
@@ -252,12 +290,63 @@
   }
 }
 
-/* Mensagem de erro */
-.erro {
-  color: $color-red;
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
+/* Seção de Alunos */
+.alunos-section {
+  padding: 24px;
+  border-top: 1px solid rgba($white, 0.1);
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    color: var(--color-text-muted);
+  }
+
+  .alunos-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .aluno-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(var(--color-purple-rgb), 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(var(--color-purple-rgb), 0.3);
+
+    .aluno-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--color-purple);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .aluno-nome {
+      font-size: 13px;
+      color: var(--color-text);
+      font-weight: 500;
+    }
+  }
+
+  .sem-alunos {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    text-align: center;
+    padding: 16px;
+    background: rgba(var(--shadow-rgb), 0.05);
+    border-radius: 8px;
+  }
 }
 
 /* Responsive */
@@ -276,7 +365,8 @@
 
   .exercicios,
   .descricao,
-  .professor-info {
+  .professor-info,
+  .alunos-section {
     padding: 0 16px;
   }
 

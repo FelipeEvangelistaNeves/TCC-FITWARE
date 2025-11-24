@@ -34,6 +34,7 @@ const dataTreinosDoProfessor = async (req, res) => {
 
       return {
         id: tr.tr_id,
+        tr_prof_id: tr.tr_prof_id,
         nome: tr.tr_nome,
         descricao: tr.tr_descricao,
         dificuldade: tr.tr_dificuldade,
@@ -419,6 +420,7 @@ addTreino = async (req, res) => {
 
 updateTreino = async (req, res) => {
   const profId = req.user && req.user.id;
+  const userRole = req.user && req.user.role;
   const treinoId = req.params.id;
 
   if (!profId)
@@ -444,11 +446,14 @@ updateTreino = async (req, res) => {
       return res.status(404).json({ error: "Treino não encontrado" });
     }
 
-    if (treino.tr_prof_id !== profId) {
+    // Apenas Secretário pode editar treinos
+    // Professor só pode editar seus próprios treinos
+    if (userRole === "Professor" && treino.tr_prof_id !== profId) {
       await t.rollback();
-      return res
-        .status(403)
-        .json({ error: "Acesso negado: não é dono do treino" });
+      return res.status(403).json({
+        error:
+          "Acesso negado: professores não podem editar treinos de outros professores ou da academia",
+      });
     }
 
     // Atualiza campos do treino
@@ -526,6 +531,7 @@ updateTreino = async (req, res) => {
 
 deletarTreino = async (req, res) => {
   const profId = req.user && req.user.id;
+  const userRole = req.user && req.user.role;
   const treinoId = req.params.id;
 
   if (!profId)
@@ -544,11 +550,14 @@ deletarTreino = async (req, res) => {
       return res.status(404).json({ error: "Treino não encontrado" });
     }
 
-    if (treino.tr_prof_id !== profId) {
+    // Apenas Secretário pode deletar treinos
+    // Professor só pode deletar seus próprios treinos
+    if (userRole === "Professor" && treino.tr_prof_id !== profId) {
       await t.rollback();
-      return res
-        .status(403)
-        .json({ error: "Acesso negado: não é dono do treino" });
+      return res.status(403).json({
+        error:
+          "Acesso negado: professores não podem excluir treinos de outros professores ou da academia",
+      });
     }
 
     // Remove associações de exercícios

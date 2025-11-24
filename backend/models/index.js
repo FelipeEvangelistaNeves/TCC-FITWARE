@@ -20,6 +20,7 @@ const TreinoExercicio = require("./treinos_exercicios")(sequelize, DataTypes);
 const Aviso = require("./avisos")(sequelize, DataTypes);
 const Mensagem = require("./mensagens")(sequelize, DataTypes);
 const Conversa = require("./conversas")(sequelize, DataTypes);
+const DesafioImagem = require("./desafios_imagem")(sequelize, DataTypes);
 
 // ==================== RELACIONAMENTOS ====================
 
@@ -177,4 +178,5 @@ module.exports = {
   Treino,
   TreinoExercicio,
   Turma,
+  DesafioImagem,
 };

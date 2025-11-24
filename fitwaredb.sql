@@ -2,8 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.5
--- Dumped by pg_dump version 17.5
+\restrict aAsBx0zPmC05PP5LzmA5RdO85fN4gGxju4sBuPSpSy3zp6w83bxVC93IvqC4oyS
+
+-- Dumped from database version 18.1
+-- Dumped by pg_dump version 18.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,74 +25,74 @@ SET row_security = off;
 
 CREATE FUNCTION public.verificar_participantes_mensagem() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-
-DECLARE
-
-    aluno_id INT;
-
-    professor_id INT;
-
-BEGIN
-
-    -- Busca os participantes da conversa
-
-    SELECT al_id, prof_id INTO aluno_id, professor_id
-
-    FROM conversas
-
-    WHERE co_id = NEW.co_id;
-
-
-
-    -- Verifica se a conversa existe
-
-    IF aluno_id IS NULL THEN
-
-        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
-
-    END IF;
-
-
-
-    -- Verifica se remetente e destinatário pertencem … conversa
-
-    IF NOT (
-
-        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
-
-         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
-
-        OR
-
-        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
-
-         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
-
-    ) THEN
-
-        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
-
-    END IF;
-
-
-
-    -- Evita remetente e destinatário iguais do mesmo tipo
-
-    IF NEW.remetente_tipo = NEW.destinatario_tipo
-
-       AND NEW.remetente_id = NEW.destinatario_id THEN
-
-        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
-
-    END IF;
-
-
-
-    RETURN NEW;
-
-END;
-
+    AS $$
+
+DECLARE
+
+    aluno_id INT;
+
+    professor_id INT;
+
+BEGIN
+
+    -- Busca os participantes da conversa
+
+    SELECT al_id, prof_id INTO aluno_id, professor_id
+
+    FROM conversas
+
+    WHERE co_id = NEW.co_id;
+
+
+
+    -- Verifica se a conversa existe
+
+    IF aluno_id IS NULL THEN
+
+        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
+
+    END IF;
+
+
+
+    -- Verifica se remetente e destinatário pertencem … conversa
+
+    IF NOT (
+
+        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
+
+         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
+
+        OR
+
+        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
+
+         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
+
+    ) THEN
+
+        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
+
+    END IF;
+
+
+
+    -- Evita remetente e destinatário iguais do mesmo tipo
+
+    IF NEW.remetente_tipo = NEW.destinatario_tipo
+
+       AND NEW.remetente_id = NEW.destinatario_id THEN
+
+        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
+
+    END IF;
+
+
+
+    RETURN NEW;
+
+END;
+
 $$;
 
 
@@ -293,6 +295,44 @@ ALTER SEQUENCE public.desafios_de_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.desafios_de_id_seq OWNED BY public.desafios.de_id;
+
+
+--
+-- Name: desafios_imagem; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.desafios_imagem (
+    di_id integer NOT NULL,
+    di_aluno_id integer NOT NULL,
+    di_desafio_id integer NOT NULL,
+    di_image_url text NOT NULL,
+    di_created_at timestamp without time zone DEFAULT now(),
+    di_updated_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.desafios_imagem OWNER TO postgres;
+
+--
+-- Name: desafios_imagem_di_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.desafios_imagem_di_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.desafios_imagem_di_id_seq OWNER TO postgres;
+
+--
+-- Name: desafios_imagem_di_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.desafios_imagem_di_id_seq OWNED BY public.desafios_imagem.di_id;
 
 
 --
@@ -680,6 +720,13 @@ ALTER TABLE ONLY public.desafios ALTER COLUMN de_id SET DEFAULT nextval('public.
 
 
 --
+-- Name: desafios_imagem di_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.desafios_imagem ALTER COLUMN di_id SET DEFAULT nextval('public.desafios_imagem_di_id_seq'::regclass);
+
+
+--
 -- Name: exercicios ex_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -747,11 +794,11 @@ ALTER TABLE ONLY public.turmas ALTER COLUMN tu_id SET DEFAULT nextval('public.tu
 --
 
 COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_dtnasc, al_pontos, al_treinos_completos, al_status) FROM stdin;
-1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	150	5	ativo
 2	Maria Clara Souza	maria@email.com	$2b$10$riY3y/4AK5xVECSXC7hjs.NcT.dU8U5lhWjDpc29h5PEYa6tApBQW	23456789012	11988888888	1995-07-21	200	8	ativo
 3	Lucas Almeida	lucas@email.com	$2b$10$90uJejb9BaA9zzvEyou7ueVtERs00KEjYR68n6KT90HIdi8Fwj.c6	34567890123	11977777777	1999-02-18	100	3	ativo
 4	Ana Beatriz Ramos	ana@email.com	$2b$10$Y9sW05D0kaEQAgUvWhx2n.ZZveul6yjCB9Hr2R3ZrzfauF0HbCV0S	45678901234	11966666666	2000-11-09	250	10	ativo
 5	Carlos Henrique Dias	carlos@email.com	$2b$10$deBbNrfkaX8oa6/qKOtW2.dWl9pjwzbiaGypwU/ui3zBD.5AHZaPq	56789012345	11955555555	1997-05-25	180	6	ativo
+1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	110	5	ativo
 \.
 
 
@@ -769,7 +816,6 @@ COPY public.alunos_desafios (al_id, de_id) FROM stdin;
 4	4
 4	5
 5	3
-5	8
 \.
 
 
@@ -778,21 +824,17 @@ COPY public.alunos_desafios (al_id, de_id) FROM stdin;
 --
 
 COPY public.alunos_treinos (al_id, tr_id) FROM stdin;
-1	1
-1	3
-1	7
-2	2
 2	4
-2	3
-3	1
 3	5
 3	6
-4	3
 4	4
-4	7
 5	5
 5	6
-5	8
+2	21
+3	21
+4	21
+5	21
+1	21
 \.
 
 
@@ -873,14 +915,23 @@ COPY public.conversas (co_id, al_id, prof_id) FROM stdin;
 --
 
 COPY public.desafios (de_id, de_nome, de_descricao, de_pontos, de_tag, de_progresso, de_start, de_end, de_status) FROM stdin;
-1	Primeiros Passos	Complete seu primeiro treino com sucesso.	50	iniciacao	0	2025-11-01 00:00:00	2025-12-01 00:00:00	ativo
-2	Foco Total	Conclua 5 treinos em uma semana.	120	consistencia	0	2025-11-01 00:00:00	2025-11-30 00:00:00	ativo
-3	Corpo em Movimento	Participe de 3 turmas diferentes.	100	participacao	0	2025-11-05 00:00:00	2025-12-05 00:00:00	ativo
-4	Desafio do Core	Complete todos os exercícios abdominais do mês.	150	core	0	2025-11-10 00:00:00	2025-12-10 00:00:00	ativo
 5	Energia Máxima	Participe de uma aula de HIIT sem pausas.	200	hiit	0	2025-11-10 00:00:00	2025-12-10 00:00:00	ativo
-6	Alongue-se	Faça 4 sessões de alongamento nesta semana.	80	flexibilidade	0	2025-11-03 00:00:00	2025-11-30 00:00:00	ativo
 7	Funcional Power	Complete 3 treinos funcionais no mês.	130	funcional	0	2025-11-01 00:00:00	2025-12-01 00:00:00	ativo
-8	Resistência 100%	Treine 4 dias seguidos sem faltar.	160	resistencia	0	2025-11-15 00:00:00	2025-12-15 00:00:00	ativo
+4	Desafio do Core	Complete todos os exercícios abdominais do mês.	150	core	33	2025-11-10 00:00:00	2025-12-10 00:00:00	ativo
+1	Primeiros Passos	Complete seu primeiro treino com sucesso.	50	iniciacao	50	2025-11-01 00:00:00	2025-12-01 00:00:00	ativo
+6	Alongue-se	Faça 500 sessões de alongamento.	2000	flexibilidade	0	2025-11-03 00:00:00	2025-11-30 00:00:00	Concluído
+2	Foco Total	Conclua 5 treinos em uma semana.	120	consistencia	0	2025-11-01 00:00:00	2025-11-30 00:00:00	Inativo
+3	Corpo em Movimento	Participe de 3 turmas diferentes.	100	participacao	25	2025-11-05 00:00:00	2025-12-05 00:00:00	Ativo
+\.
+
+
+--
+-- Data for Name: desafios_imagem; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.desafios_imagem (di_id, di_aluno_id, di_desafio_id, di_image_url, di_created_at, di_updated_at) FROM stdin;
+1	1	1	https://fitware-etec-s3.s3.amazonaws.com/desafios/ee6e3332-d644-41be-9d62-32f4c7bfaae9.jpeg	2025-11-23 22:08:51.085931	2025-11-23 22:08:51.085931
+2	1	1	https://fitware-etec-s3.s3.amazonaws.com/desafios/a4c3aa98-48c7-4cee-960d-3f6f161b6225.jpeg	2025-11-23 22:10:58.4313	2025-11-23 22:10:58.4313
 \.
 
 
@@ -899,6 +950,9 @@ COPY public.exercicios (ex_id, ex_nome, ex_instrucao, ex_video, ex_grupo_muscula
 8	Bíceps com Halteres	Flexione os cotovelos controlando o movimento.	https://videos.academia.com/biceps.mp4	Braços	Iniciante
 9	Elevação Lateral	Levante os braços até a altura dos ombros.	https://videos.academia.com/elevacao-lateral.mp4	Ombros	Iniciante
 10	Abdominal Supra	Eleve o tronco até contrair o abdômen.	https://videos.academia.com/abdominal.mp4	Core	Iniciante
+24	aaa	\N	\N	\N	\N
+25	fffff	\N	\N	\N	\N
+26	asad	\N	\N	\N	\N
 \.
 
 
@@ -908,15 +962,16 @@ COPY public.exercicios (ex_id, ex_nome, ex_instrucao, ex_video, ex_grupo_muscula
 
 COPY public.funcionarios (fu_id, fu_nome, fu_email, fu_senha, fu_cpf, fu_telefone, fu_dtnasc, fu_cargo, fu_cref) FROM stdin;
 1	Felipe Evangelista	felipe@fitware.com	$2b$10$CSeDQRkzagkk9HrHj9L9beh962l2Zv7Z6osmLcTwXRbYZYGsamAqm	11122233344	11988887777	1985-03-14	Professor	CREF123456-SP
-2	Filipe Mello	filipe@fitware.com	$2b$10$4Oo0sdwc1peMQ54NjPxR6eMrAmloG9pBwEJ.05N/bGIkv.JVDu8DO	22233344455	11999998888	1990-06-22	Professor	CREF987654-SP
 3	Thiago William	thiago@fitware.com	$2b$10$FayQtTKNseroOqrxTTdjv.qv0khRTEfp1gDEAtbg/0tkFVPmpwPHq	33344455566	11977776666	1988-11-09	Professor	CREF456789-SP
 4	Pedro Nogueira	pedro@fitware.com	$2b$10$OTtMQu8sj9jI6P0i3ck2ju9/MnqGZUwco7MeygZikm9/5pLX82sr2	44455566677	11955554444	1992-09-18	Professor	CREF321654-SP
 5	Bruno Almeida	bruno@fitware.com	$2b$10$EvRjPP0oWvt0qSHeSt9xd.6KwsK8I1sJRGX6kNbm.rBzTLqF8iVMW	55566677788	11933332222	1986-02-10	Professor	CREF654987-SP
-6	Anthony Dias	anthony@fitware.com	$2b$10$3pP1qM81cg/94RBhCha6GuoOuOEaDacznqBfrRnTWx0KHcwMcSiNW	66677788899	11922221111	1995-08-25	Secretario	\N
 7	Marcus Vinicius	marcus@fitware.com	$2b$10$CuDRFDSfuN7XRhC0hp.7YeOyUnRjfxXFmzZyATbmzCtJULjF5gKi6	77788899900	11911110000	1993-12-04	Secretario	\N
 8	Samyra Herculano	samyra@fitware.com	$2b$10$IVEBdU7qwueV3mLgJMHRxeGlr5epHt.GyPxyVmaNXIHE9de5NZEwG	88899900011	11955553333	1998-05-19	Secretario	\N
 9	Ermyone Vieira	ermyone@fitware.com	$2b$10$/6IVJ4NTCBAn.bStkkaGdO1bYhBOs3Z3H99Z6GSpqYdqRW/pGG2w6	99900011122	11977774444	1991-10-07	Secretario	\N
 10	Ana Leonel	ana@fitware.com	$2b$10$1fuxqKYzcc0B35xl6nYWkeUQjUx8ClArg7DJCUojqKcLF10gJQyBG	00011122233	11966665555	1997-01-30	Secretario	\N
+12	Anthony	anthony@email.com	$2b$10$ZoJMD9bvRfzN2WPUf1cb8ulNWSbedw1ZhVIJ941E60T0xMrA/8Oji	88877718191	11943321019	2008-03-12	Professor	1213
+6	Anthony Dias	anthony@fitwar.com	$2b$10$3pP1qM81cg/94RBhCha6GuoOuOEaDacznqBfrRnTWx0KHcwMcSiNW	66677788899	11922221111	1995-08-25	Secretario	\N
+2	Filipe Mello	filipe@fitware.com	$2b$10$CSeDQRkzagkk9HrHj9L9beh962l2Zv7Z6osmLcTwXRbYZYGsamAqm	22233344455	11999998888	1990-06-22	Professor	CREF987654-SP
 \.
 
 
@@ -1044,9 +1099,9 @@ COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_esto
 5	Garrafa Esportiva 1L	40	Plástico resistente com tampa antivazamento.	Disponível	60
 6	Toalha de Microfibra Fitness	35	Secagem rápida e compacta.	Disponível	50
 7	Luvas de Treino em Couro	90	Protege as mãos durante levantamento de peso.	Disponível	20
-8	Barra de Cereal Proteica	10	Snack com alto teor de proteína.	Disponível	100
 9	Cinto de Musculação	130	Suporte lombar para levantamento de peso.	Disponível	10
 10	Tapioca Proteica 500g	55	Mistura pronta com whey e fibras.	Disponível	25
+8	Barra de Cereal Proteica	10	Snack com alto teor de proteína.	disponivel	11
 \.
 
 
@@ -1055,14 +1110,12 @@ COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_esto
 --
 
 COPY public.treinos (tr_id, tr_prof_id, tr_nome, tr_descricao, tr_dificuldade) FROM stdin;
-1	1	Treino de Força A	Foco em superiores: peito, costas e tríceps.	Intermediário
-2	1	Treino de Força B	Foco em inferiores: pernas e glúteos.	Intermediário
-3	2	Treino Pilates Core	Exercícios de estabilidade e fortalecimento abdominal.	Iniciante
 4	3	Treino Funcional Total	Movimentos compostos com alta intensidade.	Avançado
 5	3	Treino Funcional Leve	Funcional de baixo impacto para iniciantes.	Iniciante
 6	4	Treino de Alongamento Relax	Série de alongamentos guiados e leves.	Iniciante
-7	5	Treino HIIT Express	Alta intensidade com pausas curtas.	Avançado
-8	5	Treino Resistência 360	Combina resistência e agilidade em circuito.	Intermediário
+7	5	Treino HIIT Express	Alta intensidade com pausas curtas.	Força
+8	5	Treino Resistência 360	Combina resistência e agilidade em circuito.	Força
+21	6	felipe	boa sorte com ele\n	Intermediário
 \.
 
 
@@ -1071,17 +1124,9 @@ COPY public.treinos (tr_id, tr_prof_id, tr_nome, tr_descricao, tr_dificuldade) F
 --
 
 COPY public.treinos_exercicios (tr_id, ex_id, te_repeticoes, te_series, te_descanso) FROM stdin;
-1	2	10	4	60
-1	3	12	3	60
-1	7	10	3	60
-1	9	15	2	45
-2	1	12	4	60
-2	5	10	3	60
-2	4	30	2	45
-2	10	20	3	30
-3	4	40	3	30
-3	10	25	2	30
-3	9	20	2	30
+21	24	10	3	60
+21	25	12	3	61112
+21	26	10	3	60
 4	1	15	4	45
 4	6	20	3	45
 4	7	12	3	60
@@ -1092,14 +1137,14 @@ COPY public.treinos_exercicios (tr_id, ex_id, te_repeticoes, te_series, te_desca
 6	4	45	2	30
 6	9	30	2	30
 6	10	25	2	30
-7	1	20	4	20
-7	6	20	4	20
-7	10	30	3	15
-7	5	15	3	20
-8	3	12	4	45
-8	7	10	3	45
+7	1	20	4	60
+7	5	15	3	60
+7	6	20	4	60
+7	10	30	3	60
 8	2	12	3	60
-8	4	40	2	30
+8	3	12	4	60
+8	4	40	2	60
+8	7	10	3	60
 \.
 
 
@@ -1148,17 +1193,24 @@ SELECT pg_catalog.setval('public.desafios_de_id_seq', 9, false);
 
 
 --
+-- Name: desafios_imagem_di_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.desafios_imagem_di_id_seq', 2, true);
+
+
+--
 -- Name: exercicios_ex_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercicios_ex_id_seq', 11, true);
+SELECT pg_catalog.setval('public.exercicios_ex_id_seq', 26, true);
 
 
 --
 -- Name: funcionarios_fu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.funcionarios_fu_id_seq', 11, true);
+SELECT pg_catalog.setval('public.funcionarios_fu_id_seq', 12, true);
 
 
 --
@@ -1200,7 +1252,7 @@ SELECT pg_catalog.setval('public.produtos_pd_id_seq', 11, true);
 -- Name: treinos_tr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.treinos_tr_id_seq', 9, true);
+SELECT pg_catalog.setval('public.treinos_tr_id_seq', 21, true);
 
 
 --
@@ -1256,6 +1308,14 @@ ALTER TABLE ONLY public.avisos
 
 ALTER TABLE ONLY public.conversas
     ADD CONSTRAINT conversas_pkey PRIMARY KEY (co_id);
+
+
+--
+-- Name: desafios_imagem desafios_imagem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.desafios_imagem
+    ADD CONSTRAINT desafios_imagem_pkey PRIMARY KEY (di_id);
 
 
 --
@@ -1433,6 +1493,22 @@ ALTER TABLE ONLY public.conversas
 
 
 --
+-- Name: desafios_imagem fk_di_aluno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.desafios_imagem
+    ADD CONSTRAINT fk_di_aluno FOREIGN KEY (di_aluno_id) REFERENCES public.alunos(al_id) ON DELETE CASCADE;
+
+
+--
+-- Name: desafios_imagem fk_di_desafio; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.desafios_imagem
+    ADD CONSTRAINT fk_di_desafio FOREIGN KEY (di_desafio_id) REFERENCES public.desafios(de_id) ON DELETE CASCADE;
+
+
+--
 -- Name: treinos_exercicios treinos_exercicios_ex_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1451,4 +1527,6 @@ ALTER TABLE ONLY public.treinos_exercicios
 --
 -- PostgreSQL database dump complete
 --
+
+\unrestrict aAsBx0zPmC05PP5LzmA5RdO85fN4gGxju4sBuPSpSy3zp6w83bxVC93IvqC4oyS
 

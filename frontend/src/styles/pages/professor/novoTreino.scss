@@ -129,7 +129,9 @@
 .exercise-notes {
   @extend .input-base;
 }
-
+.exercise-notes {
+  min-height: 100px;
+}
 /* ============================
    SELECT ESTILIZADO DO ZERO
 ============================ */

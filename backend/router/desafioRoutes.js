@@ -4,9 +4,8 @@ const router = express.Router();
 const {
   dataDesafio,
   updateDesafio,
-} = require("../controllers/desafioController");
-const {
   criarDesafio,
+  uploadImageDesafio,
   deletarDesafio,
 } = require("../controllers/desafioController");
 const { authMiddleware } = require("../middleware/auth");
@@ -33,6 +32,11 @@ router.put("/:id", authMiddleware([ROLES.secretario]), async (req, res) => {
     return res.status(500).json({ error: "Erro interno do servidor." });
   }
 });
+router.patch(
+  "/:desafioId/imagem",
+  authMiddleware([ROLES.aluno]),
+  uploadImageDesafio
+);
 
 // Criar desafio (admin/secretario)
 router.post("/", authMiddleware([ROLES.secretario]), async (req, res) => {

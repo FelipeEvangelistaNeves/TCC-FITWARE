@@ -12,6 +12,7 @@ export default function DashboardAluno() {
   const [mostrarDetalhes, setMostrarDetalhes] = useState(false);
   const [novoTreino, setNovoTreino] = useState(false);
   const [erro, setErro] = useState(null);
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
 
   // 🔍 filtros
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,6 +34,7 @@ export default function DashboardAluno() {
       const data = await res.json();
       const treinosFormatados = data.map((t) => ({
         tr_id: t.id,
+        tr_prof_id: t.tr_prof_id,
         tr_nome: t.nome,
         tr_descricao: t.descricao,
         tr_dificuldade: t.dificuldade,
@@ -56,6 +58,7 @@ export default function DashboardAluno() {
 
   useEffect(() => {
     fetchTreinos();
+    obterUsuarioLogado();
   }, []);
 
   if (erro) return <p>{erro}</p>;
@@ -79,8 +82,42 @@ export default function DashboardAluno() {
   });
 
   const abrirDetalhes = (treino) => {
-    setTreinoSelecionado(treino);
-    setMostrarDetalhes(true);
+    // Buscar detalhes completos do treino para incluir alunos e instruções
+    const fetchDetalhes = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/treinos/detalhes/${treino.tr_id}`,
+          {
+            credentials: "include",
+          }
+        );
+        if (!res.ok) throw new Error("Erro ao buscar detalhes");
+        const data = await res.json();
+
+        // Formatar dados para compatibilidade com DetalhesTreino
+        const treinoCompleto = {
+          ...treino,
+          Exercicios: (data.exercicios || []).map((ex) => ({
+            ex_id: ex.id,
+            ex_nome: ex.nome,
+            ex_series: ex.series,
+            ex_repeticoes: ex.repeticoes,
+            ex_descanso: ex.descanso,
+            ex_intrucao: ex.instrucao,
+          })),
+          Alunos: data.alunos || [],
+        };
+
+        setTreinoSelecionado(treinoCompleto);
+        setMostrarDetalhes(true);
+      } catch (error) {
+        console.error("Erro ao carregar detalhes:", error);
+        setTreinoSelecionado(treino);
+        setMostrarDetalhes(true);
+      }
+    };
+
+    fetchDetalhes();
   };
 
   const fecharDetalhes = () => {
@@ -98,24 +135,50 @@ export default function DashboardAluno() {
     setNovoTreino(false);
   };
 
-  const deletarTreino = async (treinoId) => {
+  const obterUsuarioLogado = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/professor/me`, {
+        credentials: "include",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUsuarioLogado(data);
+      }
+    } catch (error) {
+      console.error("Erro ao obter dados do usuário:", error);
+    }
+  };
+
+  const deletarTreino = async (treinoId, treinoProfId) => {
+    // Verificar se o treino pertence ao professor logado
+    if (usuarioLogado?.fu_id !== treinoProfId) {
+      alert(
+        "Você não pode excluir treinos de outros professores ou da academia."
+      );
+      return;
+    }
+
     if (!window.confirm("Tem certeza que deseja excluir este treino?")) return;
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/treinos/professor/${treinoId}`,
+        `${import.meta.env.VITE_BASE_URL}/treinos/${treinoId}`,
         {
           method: "DELETE",
           credentials: "include",
         }
       );
 
-      if (!res.ok) throw new Error("Erro ao deletar treino");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Erro ao deletar treino");
+      }
 
       setTreinos((prev) => prev.filter((t) => t.tr_id !== treinoId));
+      alert("Treino excluído com sucesso!");
     } catch (error) {
       console.error(error);
-      alert("Erro ao excluir treino");
+      alert(error.message || "Erro ao excluir treino");
     }
   };
 
@@ -149,13 +212,17 @@ export default function DashboardAluno() {
                     {treino.tr_dificuldade}
                   </span>
                 </div>
-                <button
-                  className="delete-btn"
-                  title="Excluir treino"
-                  onClick={() => deletarTreino(treino.tr_id)}
-                >
-                  <i className="bi bi-trash"></i>
-                </button>
+                {usuarioLogado?.fu_id === treino.tr_prof_id && (
+                  <button
+                    className="delete-btn"
+                    title="Excluir treino"
+                    onClick={() =>
+                      deletarTreino(treino.tr_id, treino.tr_prof_id)
+                    }
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+                )}
               </div>
 
               <div className="exercises-list">

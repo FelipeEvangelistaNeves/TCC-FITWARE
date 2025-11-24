@@ -1,0 +1,95 @@
+@import "../../abstract/variables.scss";
+
+.pqjuntar-page {
+  padding: 32px 24px;
+  background: var(--color-bg);
+  min-height: 100vh;
+  .theme-switch {
+    top: 20px;
+    right: 20px;
+    flex-direction: row;
+    display: flex;
+    background: var(--color-bg);
+    gap: 8px;
+    justify-content: end;
+    padding: 10px 16px;
+    border-radius: 14px;
+    /* garante que fica por cima */
+    .container-theme {
+      display: flex;
+      padding: 3px;
+      border-radius: 10px;
+      background-color: var(--surface-2);
+      gap: 5px;
+    }
+    button {
+      background: transparent;
+      border: none;
+      padding: 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      color: var(--white);
+      transition: 0.2s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button.active {
+      background: var(--surface-hover);
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+  }
+  .sobre-intro {
+    text-align: center;
+    margin-bottom: 32px;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    p {
+      margin-top: 8px;
+      color: var(--color-text-muted);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 14px;
+    }
+  }
+
+  .sobre-missao {
+    display: grid;
+    //grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+
+    .sobre-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      h3 {
+        color: var(--color-purple);
+        margin-bottom: 8px;
+        font-size: 24px;
+      }
+
+      p {
+        color: var(--color-text-muted);
+        font-size: 16px;
+      }
+    }
+  }
+}

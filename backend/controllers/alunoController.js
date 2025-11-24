@@ -39,6 +39,7 @@ const dataAluno = async (req, res) => {
       nome: aluno.al_nome,
       email: aluno.al_email,
       pontos: aluno.al_pontos,
+      telefone: aluno.al_telefone,
       iniciais,
       turmas: aluno.Turmas,
     });
@@ -102,12 +103,7 @@ const dataAlunoConversas = async (req, res) => {
       include: [
         {
           model: Funcionario,
-          attributes: [
-            "fu_id", 
-            "fu_nome", 
-            "fu_email", 
-            "fu_telefone"
-          ],
+          attributes: ["fu_id", "fu_nome", "fu_email", "fu_telefone"],
         },
       ],
       order: [["co_id", "DESC"]],
@@ -152,7 +148,7 @@ const dataAlunoMensagem = async (req, res) => {
     console.error("Erro ao buscar mensagens:", error);
     return res.status(500).json({ message: "Erro ao buscar mensagens." });
   }
-}
+};
 
 module.exports = {
   dataAluno,

@@ -1,4 +1,6 @@
-const { Desafio } = require("../models");
+const { parseMultipart } = require("../scripts/parse_multipart");
+const { uploadBufferToS3 } = require("../scripts/upload_s3_img");
+const { Desafio, DesafioImagem } = require("../models");
 const LoggerMessages = require("../loggerMessages");
 
 const dataDesafio = async () => {
@@ -77,6 +79,49 @@ const criarDesafio = async (req, res) => {
   }
 };
 
+const uploadImageDesafio = async (req, res) => {
+  try {
+    const { desafioId } = req.params;
+
+    const desafio = await Desafio.findByPk(desafioId);
+    if (!desafio) {
+      return res.status(404).json({
+        success: false,
+        message: "Desafio não encontrado.",
+      });
+    }
+    const { fields, file } = await parseMultipart(req);
+    // verifica se o desafio existe
+
+    if (!file) {
+      return res.status(400).json({ error: "é obrigatório imagem do desafio" });
+    }
+
+    const { buffer, info } = file;
+
+    const allowed = ["image/jpeg", "image/png"];
+    if (!allowed.includes(info.mimeType)) {
+      return res.status(400).json({ error: "somente JPG/PNG " });
+    }
+
+    const imageUrl = await uploadBufferToS3(buffer, info.mimeType, "desafios");
+
+    const imagem = await DesafioImagem.create({
+      di_aluno_id: req.user.id,
+      di_desafio_id: desafioId,
+      di_image_url: imageUrl,
+    });
+
+    return res.status(201).json({
+      message: "imagem enviada com sucesso",
+      imagem,
+    });
+  } catch (err) {
+    console.error("Erro ao Salvar Imagem:", err);
+    return res.status(500).json({ error: "erro no server" });
+  }
+};
+
 const deletarDesafio = async (req, res) => {
   try {
     const id = req.params.id;
@@ -97,4 +142,5 @@ module.exports = {
   updateDesafio,
   criarDesafio,
   deletarDesafio,
+  uploadImageDesafio,
 };
