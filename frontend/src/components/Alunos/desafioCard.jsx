@@ -9,6 +9,7 @@ export default function DesafioCard({
   progress,
   endDate,
   status,
+  onEnviar,
 }) {
   const pct = Number(progress) || 0;
 
@@ -70,6 +71,10 @@ export default function DesafioCard({
           <span>{pontos} pontos</span>
         </div>
       </div>
+
+      <button className="btn-enviar" onClick={onEnviar}>
+        Enviar Comprovação
+      </button>
 
       <div className="desafio-footer">
         {/* Footer kept minimal; slider now shows progress and points above */}

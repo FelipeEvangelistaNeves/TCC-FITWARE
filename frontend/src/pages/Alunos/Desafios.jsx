@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/pages/aluno/desafios.scss";
 import DesafioCard from "../../components/Alunos/desafioCard";
+import UploadDesafioModal from "./UploadDesafioModal";
 
 export default function DesafiosAlunoPage() {
   const [desafios, setDesafios] = useState([]);
   const [carregando, setCarregando] = useState(true);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [desafioSelecionado, setDesafioSelecionado] = useState(null);
+
+  const abrirModal = (id) => {
+    setDesafioSelecionado(id);
+    setModalOpen(true);
+  };
+
+  const fecharModal = () => {
+    setModalOpen(false);
+    setDesafioSelecionado(null);
+  };
 
   // contadores derivadas
   const ativosCount = desafios.filter(
@@ -81,10 +95,17 @@ export default function DesafiosAlunoPage() {
                   status={desafio.de_status}
                   endDate={desafio.de_end}
                   progress={desafio.de_progresso}
+                  onEnviar={() => abrirModal(desafio.de_id)}
                 />
               ))
           : !carregando && <p>Nenhum desafio ativo encontrado...</p>}
       </section>
+
+      <UploadDesafioModal
+        isOpen={modalOpen}
+        onClose={fecharModal}
+        desafioId={desafioSelecionado}
+      />
     </div>
   );
 }

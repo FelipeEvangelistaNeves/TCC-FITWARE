@@ -25,74 +25,142 @@ SET row_security = off;
 
 CREATE FUNCTION public.verificar_participantes_mensagem() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-
-DECLARE
-
-    aluno_id INT;
-
-    professor_id INT;
-
-BEGIN
-
-    -- Busca os participantes da conversa
-
-    SELECT al_id, prof_id INTO aluno_id, professor_id
-
-    FROM conversas
-
-    WHERE co_id = NEW.co_id;
-
-
-
-    -- Verifica se a conversa existe
-
-    IF aluno_id IS NULL THEN
-
-        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
-
-    END IF;
-
-
-
-    -- Verifica se remetente e destinatário pertencem … conversa
-
-    IF NOT (
-
-        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
-
-         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
-
-        OR
-
-        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
-
-         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
-
-    ) THEN
-
-        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
-
-    END IF;
-
-
-
-    -- Evita remetente e destinatário iguais do mesmo tipo
-
-    IF NEW.remetente_tipo = NEW.destinatario_tipo
-
-       AND NEW.remetente_id = NEW.destinatario_id THEN
-
-        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
-
-    END IF;
-
-
-
-    RETURN NEW;
-
-END;
-
+    AS $$
+
+
+
+DECLARE
+
+
+
+    aluno_id INT;
+
+
+
+    professor_id INT;
+
+
+
+BEGIN
+
+
+
+    -- Busca os participantes da conversa
+
+
+
+    SELECT al_id, prof_id INTO aluno_id, professor_id
+
+
+
+    FROM conversas
+
+
+
+    WHERE co_id = NEW.co_id;
+
+
+
+
+
+
+
+    -- Verifica se a conversa existe
+
+
+
+    IF aluno_id IS NULL THEN
+
+
+
+        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
+
+
+
+    END IF;
+
+
+
+
+
+
+
+    -- Verifica se remetente e destinatário pertencem … conversa
+
+
+
+    IF NOT (
+
+
+
+        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
+
+
+
+         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
+
+
+
+        OR
+
+
+
+        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
+
+
+
+         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
+
+
+
+    ) THEN
+
+
+
+        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
+
+
+
+    END IF;
+
+
+
+
+
+
+
+    -- Evita remetente e destinatário iguais do mesmo tipo
+
+
+
+    IF NEW.remetente_tipo = NEW.destinatario_tipo
+
+
+
+       AND NEW.remetente_id = NEW.destinatario_id THEN
+
+
+
+        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
+
+
+
+    END IF;
+
+
+
+
+
+
+
+    RETURN NEW;
+
+
+
+END;
+
+
+
 $$;
 
 
@@ -150,7 +218,8 @@ ALTER SEQUENCE public.alunos_al_id_seq OWNED BY public.alunos.al_id;
 
 CREATE TABLE public.alunos_desafios (
     al_id integer NOT NULL,
-    de_id integer NOT NULL
+    de_id integer NOT NULL,
+    ad_status integer NOT NULL
 );
 
 
@@ -794,11 +863,11 @@ ALTER TABLE ONLY public.turmas ALTER COLUMN tu_id SET DEFAULT nextval('public.tu
 --
 
 COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_dtnasc, al_pontos, al_treinos_completos, al_status) FROM stdin;
+1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	110	5	ativo
 2	Maria Clara Souza	maria@email.com	$2b$10$riY3y/4AK5xVECSXC7hjs.NcT.dU8U5lhWjDpc29h5PEYa6tApBQW	23456789012	11988888888	1995-07-21	200	8	ativo
 3	Lucas Almeida	lucas@email.com	$2b$10$90uJejb9BaA9zzvEyou7ueVtERs00KEjYR68n6KT90HIdi8Fwj.c6	34567890123	11977777777	1999-02-18	100	3	ativo
 4	Ana Beatriz Ramos	ana@email.com	$2b$10$Y9sW05D0kaEQAgUvWhx2n.ZZveul6yjCB9Hr2R3ZrzfauF0HbCV0S	45678901234	11966666666	2000-11-09	250	10	ativo
 5	Carlos Henrique Dias	carlos@email.com	$2b$10$deBbNrfkaX8oa6/qKOtW2.dWl9pjwzbiaGypwU/ui3zBD.5AHZaPq	56789012345	11955555555	1997-05-25	180	6	ativo
-1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	110	5	ativo
 \.
 
 

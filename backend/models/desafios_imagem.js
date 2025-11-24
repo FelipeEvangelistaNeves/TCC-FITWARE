@@ -36,18 +36,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  DesafioImagem.associate = (models) => {
-    // DesafioImagem → Aluno (N:1)
-    DesafioImagem.belongsTo(models.Aluno, {
-      foreignKey: "di_aluno_id",
-      onDelete: "CASCADE",
-    });
-
-    DesafioImagem.belongsTo(models.Desafio, {
-      foreignKey: "di_desafio_id",
-      onDelete: "CASCADE",
-    });
-  };
-
   return DesafioImagem;
 };

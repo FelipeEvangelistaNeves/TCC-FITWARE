@@ -113,6 +113,17 @@ Exercicio.belongsToMany(Treino, {
   foreignKey: "ex_id",
 });
 
+// 🔹 Desafio ↔ Imagens
+DesafioImagem.belongsTo(Aluno, {
+  foreignKey: "di_aluno_id",
+  onDelete: "CASCADE",
+});
+
+DesafioImagem.belongsTo(Desafio, {
+  foreignKey: "di_desafio_id",
+  onDelete: "CASCADE",
+});
+
 // ================ Métodos personalizados ================ //
 
 // Alunos
