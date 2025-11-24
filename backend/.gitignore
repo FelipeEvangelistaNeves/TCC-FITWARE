@@ -8,7 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # API keys and secrets
-
+.env
+.env.*
 
 node_modules
 .DS_Store
