@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/treinos.scss";
 
 export default function DashboardAluno() {
+  const [treinosCompletos, setTreinosCompletos] = useState();
   const [treinos, setTreinos] = useState([]);
   useEffect(() => {
     const fetchTreinos = async () => {
@@ -22,13 +23,15 @@ export default function DashboardAluno() {
         if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
 
         const data = await res.json();
-        const treinosFormatados = data.map((t) => ({
+
+        console.log(data);
+        const treinosFormatados = data.treinos.map((t) => ({
           id: t.id,
           titulo: t.nome,
+          treinos_completos: t.treinos_completos,
           descricao: t.descricao,
           nivel: t.dificuldade,
           treinador: t.funcionario,
-          tempo: t.tempo,
           exercicios: t.exercicios.map((ex) => ({
             nome: ex.nome,
             sets: `${ex.series}×${ex.repeticoes}`,
@@ -38,6 +41,8 @@ export default function DashboardAluno() {
             descanso: ex.descanso,
           })),
         }));
+        
+        setTreinosCompletos(data.treinos_completos);
         setTreinos(treinosFormatados);
       } catch (error) {
         console.error(error);
@@ -62,13 +67,18 @@ export default function DashboardAluno() {
       <section className="summary-cards">
         <div className="summary-card">
           <h3>Treinos</h3>
-          <div className="card-number">{treinos.length}</div>
-          <div className="card-subtitle">Disponíveis</div>
+          <div className="card-number">{treinosCompletos}</div>
+          <div className="card-subtitle">Completos</div>
         </div>
         <div className="summary-card">
           <h3>Desafios</h3>
-          <div className="card-number">3</div>
+          <div className="card-number">2</div>
           <div className="card-subtitle">Ativos</div>
+        </div>
+        <div className="summary-card">
+          <h3>Treinos</h3>
+          <div className="card-number">{treinos.length}</div>
+          <div className="card-subtitle">Disponíveis</div>
         </div>
       </section>
 
