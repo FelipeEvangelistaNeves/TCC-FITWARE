@@ -82,6 +82,35 @@
         font-size: 0.9rem;
         color: var(--color-text);
       }
+
+      &.stat-button {
+        cursor: pointer;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        background: var(--surface-2);
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(var(--shadow-rgb), 0.2);
+
+        &:hover {
+          transform: translateY(-4px) scale(1.05);
+          background: var(--surface-3);
+          border-color: var(--color-purple);
+          box-shadow: 0 6px 16px rgba(138, 43, 226, 0.3);
+
+          .stat-number {
+            color: var(--color-purple);
+          }
+
+          .stat-label {
+            color: var(--yellow);
+          }
+        }
+
+        &:active {
+          transform: translateY(-2px) scale(1.02);
+        }
+      }
     }
   }
 }
