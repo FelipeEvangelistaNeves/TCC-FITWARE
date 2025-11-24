@@ -1,129 +1,152 @@
 import { useEffect, useState } from "react";
-import Chart from "chart.js/auto";
 import "../../styles/pages/admin/dashboard.scss";
 
 export default function Dashboard() {
   const [showModal, setShowModal] = useState(false);
 
-  const atividades = [
-    {
-      id: 1,
-      nome: "Maria Silva",
-      acao: "completou o treino de força",
-      hora: "Hoje, 14:30",
-      cor: "#5A67D8",
-      iniciais: "MS",
-    },
-    {
-      id: 2,
-      nome: "Pedro Alves",
-      acao: "resgatou pontos por uma consulta",
-      hora: "Hoje, 12:15",
-      cor: "#48BB78",
-      iniciais: "PA",
-    },
-    {
-      id: 3,
-      nome: "Carlos Mendes",
-      acao: "iniciou o desafio de 7 dias",
-      hora: "Ontem, 18:45",
-      cor: "#F6AD55",
-      iniciais: "CM",
-    },
-    {
-      id: 4,
-      nome: "Ana Santos",
-      acao: "completou o desafio de nutrição",
-      hora: "Ontem, 10:20",
-      cor: "#FC8181",
-      iniciais: "AS",
-    },
-    {
-      id: 5,
-      nome: "Lucas Pereira",
-      acao: "alcançou 1000 pontos de fidelidade",
-      hora: "2 dias atrás, 09:00",
-      cor: "#9F7AEA",
-      iniciais: "LP",
-    },
-    {
-      id: 6,
-      nome: "Juliana Costa",
-      acao: "participou da aula de HIIT",
-      hora: "2 dias atrás, 17:40",
-      cor: "#4299E1",
-      iniciais: "JC",
-    },
-  ];
+  const [cards, setCards] = useState({
+    alunos: 0,
+    desafios: 0,
+    treinos: 0,
+  });
 
+  const [atividades, setAtividades] = useState([]);
+
+  // Extrai a inicial do nome
+  const getInitial = (nome) => {
+    if (!nome) return "?";
+    return nome.trim().charAt(0).toUpperCase();
+  };
+
+  // ------------------------------
+  // BUSCAR DADOS DO BACKEND
+  // ------------------------------
   useEffect(() => {
-    const ctx = document.getElementById("activityChart").getContext("2d");
-    const chartInstance = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
-        datasets: [
-          {
-            label: "Atividade de Alunos",
-            data: [12, 19, 14, 17, 22, 18, 25],
-            borderColor: "#7f24c6",
-            backgroundColor: "rgba(127, 36, 198, 0.2)",
-            fill: true,
-            tension: 0.3,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { labels: {} } },
-        scales: {
-          x: {
-            ticks: {},
-            grid: { color: "rgba(255,255,255,0.2)" },
-          },
-          y: {
-            ticks: {},
-            grid: { color: "rgba(255,255,255,0.2)" },
-          },
-        },
-      },
-    });
-
-    return () => chartInstance.destroy();
+    fetchDashboardData();
   }, []);
+
+  async function fetchDashboardData() {
+    try {
+      // 1️⃣ Total de alunos (usando rota /admin/allAlunos que já existe)
+      let alunosTotal = 0;
+      const alunosRes = await fetch("http://localhost:3000/admin/allAlunos", {
+        credentials: "include",
+      });
+      if (alunosRes.ok) {
+        try {
+          const alunosDataList = await alunosRes.json();
+          alunosTotal = alunosDataList?.alunos?.length || 0;
+        } catch (e) {
+          console.warn("Não foi possível parsear /admin/allAlunos:", e);
+        }
+      } else {
+        console.warn(
+          "Erro ao buscar alunos:",
+          alunosRes.status,
+          alunosRes.statusText
+        );
+      }
+
+      // 2️⃣ Desafios
+      const desafiosRes = await fetch("http://localhost:3000/desafios", {
+        credentials: "include",
+      });
+      let desafiosData = [];
+      if (desafiosRes.ok) {
+        try {
+          desafiosData = await desafiosRes.json();
+        } catch (e) {
+          console.warn("Não foi possível parsear /desafios:", e);
+        }
+      }
+
+      // 3️⃣ Treinos
+      const treinosRes = await fetch("http://localhost:3000/treinos", {
+        credentials: "include",
+      });
+      let treinosData = [];
+      if (treinosRes.ok) {
+        try {
+          treinosData = await treinosRes.json();
+        } catch (e) {
+          console.warn("Não foi possível parsear /treinos:", e);
+        }
+      }
+
+      // 4️⃣ Atividades Recentes (rota correta no backend: /admin/dashboard/atividades)
+      const atividadesRes = await fetch(
+        "http://localhost:3000/admin/dashboard/atividades",
+        {
+          credentials: "include",
+        }
+      );
+      let atividadesData = { atividades: [] };
+      if (atividadesRes.ok) {
+        try {
+          atividadesData = await atividadesRes.json();
+        } catch (e) {
+          console.warn(
+            "Não foi possível parsear /admin/dashboard/atividades:",
+            e
+          );
+        }
+      } else {
+        console.warn(
+          "Erro ao buscar atividades:",
+          atividadesRes.status,
+          atividadesRes.statusText
+        );
+      }
+
+      // Atualiza cards
+      setCards({
+        alunos: alunosTotal,
+        desafios:
+          (Array.isArray(desafiosData)
+            ? desafiosData.filter(
+                (d) =>
+                  String(d.de_status || d.status || "").toLowerCase() ===
+                  "ativo"
+              ).length
+            : 0) || 0,
+        treinos: Array.isArray(treinosData) ? treinosData.length : 0,
+      });
+
+      // Atividades recentes: o backend retorna { atividades: [...] }
+      setAtividades(
+        Array.isArray(atividadesData?.atividades)
+          ? atividadesData.atividades
+          : []
+      );
+    } catch (err) {
+      console.error("Erro ao carregar dashboard:", err);
+    }
+  }
 
   return (
     <div className="dashboard-admin">
       <h1>Dashboard</h1>
 
       {/* Cards */}
-      <div className="cards-grid ">
+      <div className="cards-grid">
         <div className="card">
           <span className="card-title">Alunos Ativos</span>
-          <span className="card-value">156</span>
+          <span className="card-value">{cards.alunos}</span>
         </div>
 
         <div className="card">
           <span className="card-title">Desafios Ativos</span>
-          <span className="card-value ">24</span>
+          <span className="card-value">{cards.desafios}</span>
         </div>
 
         <div className="card">
-          <span className="card-title">Total de treinos</span>
-          <span className="card-value ">3</span>
+          <span className="card-title">Total de Treinos</span>
+          <span className="card-value">{cards.treinos}</span>
         </div>
       </div>
 
-      {/* Gráfico + Atividade */}
+      {/* Gráfico + Atividades */}
       <div className="content-grid">
-        {/* Gráfico */}
-        <div className="chart-section" style={{ height: "320px" }}>
-          <h2 className="section-title">Atividade de Alunos</h2>
-          <canvas id="activityChart"></canvas>
-        </div>
-
-        {/* Atividade Recente */}
         <div className="activity-section">
           <div className="section-header">
             <h2 className="section-title">Atividade Recente</h2>
@@ -131,11 +154,15 @@ export default function Dashboard() {
               Ver Tudo
             </button>
           </div>
+
           <ul className="activity-list">
-            {atividades.slice(0, 4).map((a) => (
-              <li className="activity-item" key={a.id}>
-                <div className="avatar" style={{ background: a.cor }}>
-                  {a.iniciais}
+            {atividades.slice(0, 4).map((a, i) => (
+              <li className="activity-item" key={i}>
+                <div
+                  className="avatar"
+                  style={{ background: a.cor || "#7f24c6" }}
+                >
+                  {getInitial(a.nome)}
                 </div>
                 <div className="activity-info">
                   <span className="name">
@@ -149,7 +176,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -159,11 +186,15 @@ export default function Dashboard() {
                 ✕
               </button>
             </div>
+
             <ul className="modal-list">
-              {atividades.map((a) => (
-                <li className="activity-item" key={a.id}>
-                  <div className="avatar" style={{ background: a.cor }}>
-                    {a.iniciais}
+              {atividades.map((a, i) => (
+                <li className="activity-item" key={i}>
+                  <div
+                    className="avatar"
+                    style={{ background: a.cor || "#7f24c6" }}
+                  >
+                    {getInitial(a.nome)}
                   </div>
                   <div className="activity-info">
                     <span className="name">

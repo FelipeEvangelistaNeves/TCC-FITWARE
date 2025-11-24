@@ -35,7 +35,14 @@ router.put("/:id", authMiddleware([ROLES.secretario]), async (req, res) => {
 router.patch(
   "/:desafioId/imagem",
   authMiddleware([ROLES.aluno]),
-  uploadImageDesafio
+  async (req, res) => {
+    try {
+      return uploadImageDesafio(req, res);
+    } catch (error) {
+      console.error("Erro na rota PATCH /desafios/:desafioId/imagem", error);
+      return res.status(500).json({ error: "Erro interno do servidor." });
+    }
+  }
 );
 
 // Criar desafio (admin/secretario)

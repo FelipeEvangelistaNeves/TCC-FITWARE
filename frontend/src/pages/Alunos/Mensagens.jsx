@@ -34,8 +34,10 @@ export default function MensagensAluno() {
 
         // Normaliza para o mesmo padrão da versão do professor
         const normalizadas = data.conversas.map((c) => {
-          const prof = c.professor || {};
-          const nome = prof.fu_nome || "Professor";
+          console.log("Conversa:", c); // Debug
+          // O backend retorna Funcionario, não professor
+          const prof = c.Funcionario || c.professor || {};
+          const nome = prof.fu_nome || prof.name || "Professor";
 
           const initials = nome
             .split(" ")
@@ -51,6 +53,8 @@ export default function MensagensAluno() {
             preview: "Clique para ver a conversa",
             time: "",
             color: randomColor(),
+            profName: nome,
+            profInitials: initials,
           };
         });
 
@@ -84,19 +88,70 @@ export default function MensagensAluno() {
       const normalizadas = data.mensagens.map((m) => ({
         ...m,
         tipo:
-          m.remetente_tipo.toLowerCase() === "aluno"
-            ? "enviada"
-            : "recebida",
+          m.remetente_tipo.toLowerCase() === "aluno" ? "enviada" : "recebida",
       }));
 
       setMensagensDaConversa(normalizadas);
-      setSelectedContact(conversas.find((c) => c.id === co_id));
+      // Buscar contact com informações atualizadas
+      const contact = conversas.find((c) => c.id === co_id);
+      setSelectedContact(contact);
       setSelectedChatId(co_id);
     } catch (err) {
       console.error("Erro ao abrir chat:", err);
       setErro("Erro ao carregar mensagens");
     }
   };
+
+  // =============================
+  // POLLING: BUSCAR MENSAGENS A CADA 5 SEGUNDOS
+  // =============================
+  useEffect(() => {
+    if (!selectedChatId) return;
+
+    const fetchMensagens = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/aluno/mensagens/${selectedChatId}`,
+          { credentials: "include" }
+        );
+
+        if (!res.ok) throw new Error("Erro ao carregar mensagens");
+
+        const data = await res.json();
+
+        const normalizadas = data.mensagens.map((m) => ({
+          ...m,
+          tipo:
+            m.remetente_tipo.toLowerCase() === "aluno" ? "enviada" : "recebida",
+        }));
+
+        setMensagensDaConversa(normalizadas);
+      } catch (err) {
+        console.error("Erro ao buscar mensagens:", err);
+      }
+    };
+
+    // Fazer requisição inicial
+    fetchMensagens();
+
+    // Configurar polling a cada 5 segundos
+    const interval = setInterval(fetchMensagens, 5000);
+
+    return () => clearInterval(interval);
+  }, [selectedChatId]);
+
+  // =============================
+  // MANTER selectedContact SINCRONIZADO
+  // =============================
+  useEffect(() => {
+    if (selectedChatId && conversas.length > 0) {
+      const contact = conversas.find((c) => c.id === selectedChatId);
+      console.log("Buscando contato:", { selectedChatId, conversas, contact });
+      if (contact) {
+        setSelectedContact(contact);
+      }
+    }
+  }, [selectedChatId, conversas]);
 
   // =============================
   // ENVIAR MENSAGEM
@@ -186,6 +241,7 @@ export default function MensagensAluno() {
         isOpen={selectedChatId !== null}
         onClose={() => setSelectedChatId(null)}
         contactName={selectedContact?.name}
+        contactInitials={selectedContact?.initials}
         mensagens={mensagensDaConversa}
         onSendMessage={enviarMensagem}
       />

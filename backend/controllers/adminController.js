@@ -1,4 +1,10 @@
-const { Aluno, Funcionario } = require("../models");
+const {
+  Aluno,
+  Funcionario,
+  AlunoTreino,
+  Treino,
+  Desafio,
+} = require("../models");
 const bcrypt = require("bcrypt");
 require("dotenv").config({
   quiet: true,
@@ -244,6 +250,73 @@ const updateAdminProfile = async (req, res) => {
     return res.status(500).json({ error: "Erro ao atualizar perfil" });
   }
 };
+// ======================== //
+
+// ======= Dashboard Estatísticas =======
+const getTotalAlunos = async (req, res) => {
+  try {
+    // Tenta contar apenas alunos com status 'Ativo' (mais útil para dashboard)
+    try {
+      const total = await Aluno.count({ where: { al_status: "Ativo" } });
+      return res.json({ total });
+    } catch (innerErr) {
+      // Se count falhar por algum motivo (ex: dialect mismatch), tenta buscar
+      // todos e filtrar em memória como fallback seguro.
+      console.warn(
+        "Fallback: erro ao usar count(), tentando buscar e filtrar:",
+        innerErr
+      );
+      const alunos = await Aluno.findAll({ attributes: ["al_status"] });
+      const total = (alunos || []).filter(
+        (a) => a.al_status === "Ativo"
+      ).length;
+      return res.json({ total });
+    }
+  } catch (err) {
+    console.error("Erro ao contar alunos:", err);
+    return res.status(500).json({ error: "Erro ao buscar total de alunos" });
+  }
+};
+
+const getTotalDesafios = async (req, res) => {
+  try {
+    const total = await Desafio.count();
+    return res.json({ total });
+  } catch (err) {
+    console.error("Erro ao contar desafios:", err);
+    return res.status(500).json({ error: "Erro ao buscar total de desafios" });
+  }
+};
+
+// Gera atividades recentes a partir das associações existentes (sem alterar o banco).
+// Usa `AlunoTreino` para montar uma lista das últimas atribuições/associações
+// (ordenamos por al_id/tr_id como aproximação de recência, já que não há timestamps).
+const getAtividadesRecentes = async (req, res) => {
+  try {
+    const regs = await AlunoTreino.findAll({
+      limit: 10,
+      order: [["al_id", "DESC"]],
+      include: [
+        { model: Aluno, as: "Aluno", attributes: ["al_nome"] },
+        { model: Treino, as: "Treino", attributes: ["tr_nome"] },
+      ],
+    });
+
+    const formatado = (regs || []).map((r) => ({
+      id: `${r.al_id}-${r.tr_id}`,
+      nome: r.Aluno?.al_nome || "Aluno",
+      acao: r.Treino
+        ? `atribuído ao treino: ${r.Treino.tr_nome}`
+        : "associação",
+      hora: null,
+    }));
+
+    return res.json({ atividades: formatado });
+  } catch (err) {
+    console.error("Erro ao buscar atividades:", err);
+    return res.status(500).json({ error: "Erro ao buscar atividades" });
+  }
+};
 
 module.exports = {
   criarAluno,
@@ -254,4 +327,7 @@ module.exports = {
   deletarExercicioAdmin,
   getAdminProfile,
   updateAdminProfile,
+  getTotalAlunos,
+  getTotalDesafios,
+  getAtividadesRecentes,
 };

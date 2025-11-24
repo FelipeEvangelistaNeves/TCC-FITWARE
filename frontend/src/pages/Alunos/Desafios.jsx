@@ -76,9 +76,9 @@ export default function DesafiosAlunoPage() {
       </section>
 
       {/* Desafios ativos */}
+      {carregando && <p>Carregando desafios...</p>}
       <section className="desafios-section">
         <h2>Desafios Ativos</h2>
-        {carregando && <p>Carregando desafios...</p>}
 
         {!carregando && desafios.length > 0
           ? desafios

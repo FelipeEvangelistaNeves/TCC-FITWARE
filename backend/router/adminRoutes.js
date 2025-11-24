@@ -10,6 +10,9 @@ const {
   deletarExercicioAdmin,
   getAdminProfile,
   updateAdminProfile,
+  getAtividadesRecentes,
+  getTotalAlunos,
+  getTotalDesafios,
 } = require("../controllers/adminController");
 const LoggerMessages = require("../loggerMessages");
 
@@ -62,6 +65,50 @@ router.put("/profile", authMiddleware(["Secretario"]), async (req, res) => {
     return res.status(500).json({ error: "Erro interno do servidor." });
   }
 });
+
+// ======= DASHBOARD ADMIN =======
+
+// Total de alunos
+router.get(
+  "/dashboard/total-alunos",
+  authMiddleware(["Secretario"]),
+  async (req, res) => {
+    try {
+      return getTotalAlunos(req, res);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json({ error: "Erro interno" });
+    }
+  }
+);
+
+// Total de desafios
+router.get(
+  "/dashboard/total-desafios",
+  authMiddleware(["Secretario"]),
+  async (req, res) => {
+    try {
+      return getTotalDesafios(req, res);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json({ error: "Erro interno" });
+    }
+  }
+);
+
+// Atividades recentes
+router.get(
+  "/dashboard/atividades",
+  authMiddleware(["Secretario"]),
+  async (req, res) => {
+    try {
+      return getAtividadesRecentes(req, res);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json({ error: "Erro interno" });
+    }
+  }
+);
 
 router.post("/criarAluno", authMiddleware(), criarAluno);
 router.get("/allAlunos", authMiddleware(), listarAlunosAdmin);

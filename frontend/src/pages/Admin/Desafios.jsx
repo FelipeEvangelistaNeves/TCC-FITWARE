@@ -163,7 +163,7 @@ export default function Desafios() {
     <div className="tabela-page admin-modal">
       {/* HEADER */}
       <div className="tabela-header">
-        <h2>Desafios</h2>
+        <h2>Gerenciar Desafios</h2>
         <div className="acoes-header">
           <input
             type="text"
@@ -176,28 +176,6 @@ export default function Desafios() {
             + Criar Desafio
           </button>
         </div>
-      </div>
-
-      {/* TABS */}
-      <div className="tabs">
-        <button
-          className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}
-        >
-          Ativos
-        </button>
-        <button
-          className={`tab ${activeTab === "concluidos" ? "active" : ""}`}
-          onClick={() => setActiveTab("concluidos")}
-        >
-          Concluídos
-        </button>
-        <button
-          className={`tab ${activeTab === "programados" ? "active" : ""}`}
-          onClick={() => setActiveTab("programados")}
-        >
-          Programados
-        </button>
       </div>
 
       {/* TABELA */}

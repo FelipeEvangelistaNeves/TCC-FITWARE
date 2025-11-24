@@ -5,6 +5,7 @@ export default function UploadDesafioModal({ isOpen, onClose, desafioId }) {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   if (!isOpen) return null;
 
@@ -14,8 +15,18 @@ export default function UploadDesafioModal({ isOpen, onClose, desafioId }) {
     setPreview(URL.createObjectURL(img));
   };
 
+  const handleCancelar = () => {
+    setFile(null);
+    setPreview(null);
+    setShowSuccess(false);
+    onClose();
+  };
+
   const handleEnviar = async () => {
-    if (!file) return alert("Selecione uma imagem!");
+    if (!file) {
+      alert("Selecione uma imagem!");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -35,8 +46,10 @@ export default function UploadDesafioModal({ isOpen, onClose, desafioId }) {
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
 
-      alert("Imagem enviada com sucesso!");
-      onClose();
+      setShowSuccess(true);
+      setTimeout(() => {
+        handleCancelar();
+      }, 2000);
     } catch (error) {
       console.error(error);
       alert("Erro ao enviar a imagem.");
@@ -48,21 +61,37 @@ export default function UploadDesafioModal({ isOpen, onClose, desafioId }) {
   return (
     <div className="upload-modal-overlay">
       <div className="upload-modal">
-        <h2>Enviar Comprovação</h2>
+        {showSuccess ? (
+          <div className="success-message">
+            <div className="success-icon">✓</div>
+            <h3>Imagem enviada com sucesso!</h3>
+            <p>Sua comprovação foi recebida.</p>
+          </div>
+        ) : (
+          <>
+            <h2>Enviar Comprovação</h2>
 
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+            <input type="file" accept="image/*" onChange={handleFileChange} />
 
-        {preview && <img src={preview} alt="Preview" className="preview-img" />}
+            {preview && (
+              <img src={preview} alt="Preview" className="preview-img" />
+            )}
 
-        <div className="actions">
-          <button className="cancel" onClick={onClose}>
-            Cancelar
-          </button>
+            <div className="actions">
+              <button className="cancel" onClick={handleCancelar}>
+                Cancelar
+              </button>
 
-          <button className="send" onClick={handleEnviar} disabled={loading}>
-            {loading ? "Enviando..." : "Enviar"}
-          </button>
-        </div>
+              <button
+                className="send"
+                onClick={handleEnviar}
+                disabled={loading || !file}
+              >
+                {loading ? "Enviando..." : "Enviar"}
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

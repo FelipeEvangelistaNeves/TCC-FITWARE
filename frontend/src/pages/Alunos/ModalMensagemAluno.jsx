@@ -1,15 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/pages/professor/chatModal.scss";
 
-export default function ChatModal({ 
-  isOpen, 
-  onClose, 
+export default function ChatModal({
+  isOpen,
+  onClose,
   contactName,
-  mensagens = [], 
-  onSendMessage
+  contactInitials,
+  mensagens = [],
+  onSendMessage,
 }) {
   const [inputValue, setInputValue] = useState("");
   const chatBodyRef = useRef(null);
+  const chatFooterRef = useRef(null);
+
+  // Debug
+  useEffect(() => {
+    console.log("ChatModal recebeu:", { contactName, contactInitials });
+  }, [contactName, contactInitials]);
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -55,7 +62,8 @@ export default function ChatModal({
           </button>
           <div className="user-info">
             <div className="avatar-placeholder">
-              {contactName ? contactName.charAt(0).toUpperCase() : "?"}
+              {contactInitials ||
+                (contactName ? contactName.charAt(0).toUpperCase() : "?")}
             </div>
             <span>{contactName || "Sem contato"}</span>
           </div>

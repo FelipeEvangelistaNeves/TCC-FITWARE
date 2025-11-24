@@ -88,6 +88,11 @@ AlunoTreino.belongsTo(Treino, {
   as: "Treino",
 });
 
+AlunoTreino.belongsTo(Aluno, {
+  foreignKey: "al_id",
+  as: "Aluno",
+});
+
 Treino.hasMany(AlunoTreino, {
   foreignKey: "tr_id",
   as: "AlunoTreinos",

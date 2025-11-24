@@ -35,7 +35,7 @@ export default function Alunos() {
 
         const data = await res.json();
 
-        // 🔥 Ordena do menor ID → maior ID
+        // Ordena do menor ID → maior ID
         setAlunos(data.alunos.sort((a, b) => a.al_id - b.al_id));
       } catch (error) {
         console.error("Erro ao carregar alunos:", error);
@@ -161,21 +161,6 @@ export default function Alunos() {
             + Adicionar Aluno
           </button>
         </div>
-      </div>
-
-      <div className="tabs">
-        <button
-          className={`tab ${activeTab === "todos" ? "active" : ""}`}
-          onClick={() => setActiveTab("todos")}
-        >
-          Todos os Alunos
-        </button>
-        <button
-          className={`tab ${activeTab === "ativos" ? "active" : ""}`}
-          onClick={() => setActiveTab("ativos")}
-        >
-          Ativos
-        </button>
       </div>
 
       <table className="tabela">

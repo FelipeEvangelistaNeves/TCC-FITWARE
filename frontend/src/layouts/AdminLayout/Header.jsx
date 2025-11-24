@@ -7,6 +7,7 @@ export default function Header() {
   const dropdownRef = useRef(null);
 
   const [isLight, setIsLight] = useState(false);
+  const [usuario, setUsuario] = useState({ nome: "Usuário", iniciais: "U" });
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("fitware-theme");
@@ -14,6 +15,35 @@ export default function Header() {
       document.body.classList.add("light-mode");
       setIsLight(true);
     }
+
+    // Puxar dados do usuário logado
+    const fetchUsuario = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/admin/profile`,
+          {
+            credentials: "include",
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          const nome = data.fu_nome || "Usuário";
+          const iniciais = nome
+            .split(" ")
+            .slice(0, 2)
+            .map((p) => p.charAt(0).toUpperCase())
+            .join("");
+          setUsuario({
+            nome,
+            iniciais: iniciais || "U",
+          });
+        }
+      } catch (err) {
+        console.warn("Erro ao puxar dados do usuário:", err);
+      }
+    };
+
+    fetchUsuario();
   }, []);
 
   const toggleTheme = () => {
@@ -85,7 +115,7 @@ export default function Header() {
                   aria-expanded={showDropdown}
                 >
                   <div className="user-avatar">
-                    <span>JP</span>
+                    <span>{usuario.iniciais}</span>
                   </div>
                 </button>
 
@@ -95,7 +125,7 @@ export default function Header() {
                   }`}
                 >
                   <li>
-                    <h6 className="fw-dropdown-header">João Paulo</h6>
+                    <h6 className="fw-dropdown-header">{usuario.nome}</h6>
                   </li>
 
                   <li>

@@ -47,6 +47,22 @@
     &:hover {
       background: $surface-3;
     }
+
+    &::file-selector-button {
+      background: $surface-1;
+      color: $white;
+      border: none;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      font-family: $font-family;
+      font-size: $font-size-base;
+      transition: background $theme-transition;
+
+      &:hover {
+        background: $color-purple-light;
+      }
+    }
   }
 
   .preview-img {
@@ -104,6 +120,44 @@
       }
     }
   }
+
+  .success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-md;
+    text-align: center;
+    padding: $spacing-lg;
+
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      background: $color-green;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: $white;
+      font-weight: bold;
+      animation: successPulse 0.6s ease-out;
+    }
+
+    h3 {
+      font-family: $font-family;
+      font-size: $font-size-large;
+      color: $color-text;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    p {
+      font-family: $font-family;
+      font-size: $font-size-small;
+      color: $color-text-muted;
+      margin: 0;
+    }
+  }
 }
 
 /* ========= Animação ========= */
@@ -115,5 +169,19 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }

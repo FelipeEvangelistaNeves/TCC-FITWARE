@@ -1,0 +1,452 @@
+@import "./../../abstract/variables.scss";
+
+/* ============================
+   OVERLAY
+============================ */
+.treino-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(var(--shadow-rgb), 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+}
+
+/* ============================
+   MODAL
+============================ */
+.treino-modal {
+  background: var(--surface-1);
+  color: var(--color-text);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 12px 32px rgba(var(--shadow-rgb), 0.4);
+  animation: modalSlide 0.32s ease-out;
+
+  @keyframes modalSlide {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+}
+
+/* ============================
+   HEADER
+============================ */
+.treino-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px;
+  background: linear-gradient(
+    135deg,
+    var(--color-purple) 0%,
+    var(--color-purple-light) 100%
+  );
+  border-radius: 14px 14px 0 0;
+  border-bottom: 1px solid var(--border-color);
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 6px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    transition: 0.2s;
+
+    &:hover {
+      background: rgba(var(--white-rgb), 0.18);
+    }
+  }
+}
+
+/* ============================
+   BODY
+============================ */
+.treino-modal-body {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(var(--shadow-rgb), 0.4);
+    border-radius: 4px;
+  }
+}
+
+/* ============================
+   SECTION TITLES
+============================ */
+.treino-section {
+  margin-bottom: 26px;
+
+  h3 {
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text);
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--color-purple);
+    display: inline-block;
+  }
+}
+
+/* ============================
+   FORM GRID
+============================ */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  &.full {
+    grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================
+   FORM FIELD
+============================ */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--color-text);
+    font-size: 14px;
+    transition: 0.2s;
+    outline: none;
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    &:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.3);
+    }
+
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
+  }
+
+  /* SELECT SEM SETA E SEM BACKGROUND-IMAGE */
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+/* ============================
+   SELECT ALUNOS
+============================ */
+.alunos-selection {
+  background: var(--surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow-y: auto;
+  max-height: 260px;
+
+  .aluno-option {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+    transition: 0.15s;
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    input {
+      accent-color: var(--color-purple);
+    }
+
+    label {
+      color: var(--color-text);
+      cursor: pointer;
+    }
+  }
+}
+
+.selected-alunos {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  .tag {
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(var(--color-purple-rgb), 0.14);
+    color: var(--color-purple);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .remove {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--color-purple);
+      font-size: 16px;
+      line-height: 0;
+      transition: 0.15s;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+/* ============================
+   EXERCÍCIOS
+============================ */
+.exercises-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.exercises-header {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border-color);
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+
+  h4 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-text);
+  }
+
+  .add-btn {
+    background: var(--color-purple);
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+
+    &:hover {
+      background: var(--color-purple-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(var(--color-purple-rgb), 0.24);
+    }
+  }
+}
+
+.exercises-list {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.exercise-item {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--surface-1);
+
+  &:last-child {
+    border-bottom: none;
+  }
+  select {
+    width: 100%;
+    max-height: 200px;
+    padding: 12px 14px 12px 14px;
+    padding-right: 32px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--surface-2)
+      url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")
+      no-repeat right 8px center;
+    background-size: 20px;
+    color: var(--text-color);
+    appearance: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(140, 84, 255, 0.4);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+  }
+}
+
+.exercise-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .exercise-name {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-red);
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.18s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.exercise-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+
+  input {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--color-text);
+    transition: 0.2s;
+    outline: none;
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    &:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.3);
+    }
+  }
+}
+
+.exercise-instructions {
+  background: var(--surface-2);
+  border-left: 3px solid var(--color-purple);
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+/* ============================
+   FOOTER
+============================ */
+.treino-modal-footer {
+  padding: 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid var(--border-color);
+  background: var(--surface-2);
+}
+
+.btn-cancel {
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--color-text-muted);
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background: var(--surface-hover);
+  }
+}
+
+.btn-save {
+  background: var(--color-purple);
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: var(--color-purple-hover);
+    transform: translateY(-1px);
+  }
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 768px) {
+  .treino-modal {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exercise-controls {
+    grid-template-columns: 1fr;
+  }
+}

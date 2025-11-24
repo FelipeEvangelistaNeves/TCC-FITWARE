@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import "../../styles/pages/professor/chatModal.scss";
 
-export default function ChatModal({ 
+export default function ChatModal({
   isOpen,
   onClose,
   contactName,
   mensagens = [],
-  onSendMessage
- }) {
+  onSendMessage,
+}) {
   // const [mensagens, setMensagens] = useState([
   //   { id: 1, texto: "Oi! Tudo bem?", tipo: "recebida" },
   //   { id: 2, texto: "Tudo ótimo! E você?", tipo: "enviada" },
@@ -53,23 +53,30 @@ export default function ChatModal({
   return (
     <div className="chat-modal active">
       <div className="chat-window">
-
         {/* Cabeçalho */}
         <div className="chat-header">
-          <span>{contactName || "Conversa"}</span>
-          <span className="close" onClick={onClose}>&times;</span>
+          <button className="back-btn" onClick={onClose}>
+            <i className="bi bi-arrow-left"></i>
+          </button>
+          <div className="user-info">
+            <div className="avatar-placeholder">
+              <span>
+                {contactName.charAt(0).toUpperCase() || "Conversa"}
+                {contactName.charAt(1).toUpperCase() || "?"}
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Corpo */}
         <div className="chat-body" ref={chatBodyRef}>
-          
           {mensagens.length === 0 && (
             <div className="no-messages">Nenhuma mensagem ainda.</div>
           )}
 
           {mensagens.map((msg) => (
             <div
-              key={msg.me_id ?? msg.id} 
+              key={msg.me_id ?? msg.id}
               className={`msg ${msg.tipo}`} // agora existe tipo
             >
               {msg.me_conteudo}
@@ -86,7 +93,9 @@ export default function ChatModal({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button onClick={handleSend}>Enviar</button>
+          <button onClick={handleSend}>
+            <i className="bi bi-send"></i>
+          </button>
         </div>
       </div>
     </div>

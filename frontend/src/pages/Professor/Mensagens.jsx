@@ -104,12 +104,61 @@ export default function MensagensProf() {
   };
 
   // =============================
+  // POLLING DE MENSAGENS (5 SEGUNDOS)
+  // =============================
+  useEffect(() => {
+    if (!selectedChatId) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_BASE_URL
+          }/professor/mensagens/${selectedChatId}`,
+          { credentials: "include" }
+        );
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+        const normalizadas = data.mensagens.map((m) => ({
+          ...m,
+          tipo:
+            m.remetente_tipo.toLowerCase() === "professor"
+              ? "enviada"
+              : "recebida",
+        }));
+
+        setMensagensDaConversa(normalizadas);
+      } catch (err) {
+        console.error("Erro no polling:", err);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [selectedChatId]);
+
+  // =============================
+  // SINCRONIZAR selectedContact COM CONVERSAS
+  // =============================
+  useEffect(() => {
+    if (selectedChatId) {
+      const contact = conversas.find((c) => c.id === selectedChatId);
+      if (contact) {
+        setSelectedContact(contact);
+      }
+    }
+  }, [selectedChatId, conversas]);
+
+  // =============================
   // ENVIAR MENSAGEM
   // =============================
   const enviarMensagem = async (texto) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/professor/mensagens/${selectedChatId}`,
+        `${
+          import.meta.env.VITE_BASE_URL
+        }/professor/mensagens/${selectedChatId}`,
         {
           method: "POST",
           credentials: "include",

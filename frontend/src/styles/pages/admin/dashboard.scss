@@ -62,8 +62,6 @@
 
   // ===== Seção de Gráficos e Atividades =====
   .content-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
     gap: $spacing-md;
 
     @media (max-width: 992px) {

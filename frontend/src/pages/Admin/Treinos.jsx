@@ -36,13 +36,12 @@ export default function Treinos() {
       });
       if (!res.ok) throw new Error("Falha ao buscar treinos");
       const data = await res.json();
-      // data is array of treinos formatted by backend
+      // Mapear dados do backend diretamente
       const mapped = (data || []).map((t) => ({
-        id: t.id || t.tr_id,
-        nome: t.nome || t.tr_nome,
-        descricao: t.descricao || t.tr_descricao,
-        tipo: t.dificuldade || t.tr_dificuldade || "-",
-        duracao: t.duracao || "",
+        id: t.id,
+        nome: t.nome,
+        descricao: t.descricao,
+        tipo: t.dificuldade || "-",
         nivel: t.dificuldade || "-",
         nivelClass: (t.dificuldade || "").toLowerCase().includes("inic")
           ? "iniciante"
@@ -53,7 +52,6 @@ export default function Treinos() {
         atribuido: t.atribuido || 0,
         icone: "bi-lightning-charge",
         cor: "purple",
-        data: t.data || "",
         raw: t,
       }));
 
@@ -99,89 +97,25 @@ export default function Treinos() {
   };
 
   // ==== CRUD HANDLERS ====
-  const handleAddTreino = (novo) => {
-    // create via backend then refresh
+  const handleAddTreino = () => {
     (async () => {
       try {
-        const payload = {
-          tr_nome: novo.nome,
-          tr_descricao: novo.descricao,
-          tr_dificuldade: novo.nivel || novo.tipo,
-          exercicios: (novo.exercicios || []).map((ex) => ({
-            nome: ex.nome,
-            series: ex.series,
-            repeticoes: ex.repeticoes,
-            descanso: ex.descanso,
-          })),
-          alunos: novo.alunos || [],
-        };
-
-        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/treinos`, {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          alert(err.error || "Falha ao criar treino");
-          return;
-        }
-
         await fetchTreinos();
         setShowAddModal(false);
         setCurrentPage(1);
       } catch (error) {
-        console.error("Erro ao criar treino:", error);
-        alert("Erro ao criar treino");
+        console.error("Erro ao atualizar lista:", error);
       }
     })();
   };
 
-  // not working (i may know whats happening)
-  const handleUpdateTreino = (editado) => {
+  const handleUpdateTreino = () => {
     (async () => {
       try {
-        const payload = {
-          tr_nome: editado.nome,
-          tr_descricao: editado.descricao,
-          tr_dificuldade: editado.nivel || editado.tipo,
-          exercicios: editado.raw?.Exercicios
-            ? editado.raw.Exercicios.map((ex) => ({
-                ex_id: ex.ex_id,
-                nome: ex.ex_nome,
-                series: ex.TreinoExercicio?.te_series,
-                repeticoes: ex.TreinoExercicio?.te_repeticoes,
-                descanso: ex.TreinoExercicio?.te_descanso,
-              }))
-            : [],
-          alunos: editado.raw?.Alunos
-            ? editado.raw.Alunos.map((a) => a.al_id)
-            : [],
-        };
-
-        const res = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/treinos/${editado.id}`,
-          {
-            method: "PUT",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          }
-        );
-
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          alert(err.error || "Falha ao atualizar treino");
-          return;
-        }
-
         await fetchTreinos();
         setShowEditModal(false);
       } catch (error) {
-        console.error("Erro ao atualizar treino:", error);
-        alert("Erro ao atualizar treino");
+        console.error("Erro ao atualizar lista:", error);
       }
     })();
   };
@@ -287,29 +221,11 @@ export default function Treinos() {
           </div>
         </div>
 
-        {/* TABS */}
-        <div className="tabs">
-          <button
-            className={`tab ${activeTab === "todos" ? "active" : ""}`}
-            onClick={() => setActiveTab("todos")}
-          >
-            Todos os Treinos
-          </button>
-          <button
-            className={`tab ${activeTab === "recentes" ? "active" : ""}`}
-            onClick={() => setActiveTab("recentes")}
-          >
-            Recentes
-          </button>
-        </div>
-
         {/* TABELA */}
         <table className="tabela">
           <thead>
             <tr>
               <th>Nome do Treino</th>
-              <th>Tipo</th>
-              <th>Duração</th>
               <th>Nível</th>
               <th>Exercícios</th>
               <th>Atribuído</th>
@@ -329,12 +245,6 @@ export default function Treinos() {
                       <small>{t.descricao}</small>
                     </div>
                   </td>
-                  <td>{t.tipo}</td>
-                  <td>{t.duracao}</td>
-                  <td>
-                    <span className={`nivel ${t.nivelClass}`}>{t.nivel}</span>
-                  </td>
-                  <td>{t.exercicios}</td>
                   <td>{t.atribuido}</td>
                   <td>
                     {/* Enviar (novo ícone) */}
@@ -367,7 +277,7 @@ export default function Treinos() {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="sem-resultado">
+                <td colSpan="5" className="sem-resultado">
                   Nenhum treino encontrado.
                 </td>
               </tr>
@@ -423,7 +333,7 @@ export default function Treinos() {
         {showAddModal && (
           <AddTreinoModal
             onClose={() => setShowAddModal(false)}
-            onSave={(novo) => handleAddTreino(novo)}
+            onSave={handleAddTreino}
           />
         )}
 
@@ -431,7 +341,7 @@ export default function Treinos() {
           <EditTreinoModal
             treino={selectedTreino}
             onClose={() => setShowEditModal(false)}
-            onSave={(editado) => handleUpdateTreino(editado)}
+            onSaved={handleUpdateTreino}
           />
         )}
 
