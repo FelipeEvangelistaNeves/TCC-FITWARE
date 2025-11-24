@@ -22,6 +22,10 @@ export default function PerfilProf() {
   // Estado modal histórico atividades
   const [showHistorico, setShowHistorico] = useState(false);
 
+  // Estados para estatísticas dinâmicas
+  const [totalAlunos, setTotalAlunos] = useState(0);
+  const [totalTreinos, setTotalTreinos] = useState(0);
+
   useEffect(() => {
     const fetchProfessor = async () => {
       try {
@@ -51,7 +55,48 @@ export default function PerfilProf() {
       }
     };
 
+    const fetchEstatisticas = async () => {
+      try {
+        // Buscar total de alunos
+        const resAlunos = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/professor/allAlunos`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (resAlunos.ok) {
+          const dataAlunos = await resAlunos.json();
+          setTotalAlunos(dataAlunos.alunos?.length || 0);
+        }
+
+        // Buscar total de treinos
+        const resDashboard = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/professor/dashboard`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        if (resDashboard.ok) {
+          const dataDashboard = await resDashboard.json();
+          setTotalTreinos(dataDashboard.totalTreinos || 0);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar estatísticas:", error);
+      }
+    };
+
     fetchProfessor();
+    fetchEstatisticas();
   }, []);
 
   return (
@@ -82,14 +127,14 @@ export default function PerfilProf() {
             className="stat-item stat-button"
             onClick={() => navigate("/professor/alunos")}
           >
-            <span className="stat-number">42</span>
+            <span className="stat-number">{totalAlunos}</span>
             <span className="stat-label">Alunos</span>
           </div>
           <div
             className="stat-item stat-button"
             onClick={() => navigate("/professor/treinos")}
           >
-            <span className="stat-number">156</span>
+            <span className="stat-number">{totalTreinos}</span>
             <span className="stat-label">Treinos</span>
           </div>
         </div>
