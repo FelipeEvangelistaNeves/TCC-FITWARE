@@ -219,7 +219,7 @@ ALTER SEQUENCE public.alunos_al_id_seq OWNED BY public.alunos.al_id;
 CREATE TABLE public.alunos_desafios (
     al_id integer NOT NULL,
     de_id integer NOT NULL,
-    ad_status integer NOT NULL
+    ad_status character varying(11) NOT NULL
 );
 
 
@@ -875,16 +875,16 @@ COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_
 -- Data for Name: alunos_desafios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.alunos_desafios (al_id, de_id) FROM stdin;
-1	1
-1	5
-2	2
-2	7
-3	1
-3	6
-4	4
-4	5
-5	3
+COPY public.alunos_desafios (al_id, de_id, ad_status) FROM stdin;
+1	1	concluido
+1	5	ativo
+2	2	inativo
+2	7	ativo
+3	1	concluido
+3	6	concluido
+4	4	ativo
+4	5	inativo
+5	3	
 \.
 
 
