@@ -81,7 +81,7 @@ const LoginDesk = () => {
         </div>
 
         <div className="login-right">
-          <Link to="/" className="back-link">
+          <Link to="/escolherlogin" className="back-link">
             <i className="bi bi-arrow-left"></i>
           </Link>
 
