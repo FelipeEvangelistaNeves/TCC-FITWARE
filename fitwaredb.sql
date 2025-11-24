@@ -884,7 +884,7 @@ COPY public.alunos_desafios (al_id, de_id, ad_status) FROM stdin;
 3	6	concluido
 4	4	ativo
 4	5	inativo
-5	3	
+5	3	inativo
 \.
 
 

@@ -54,7 +54,6 @@ export default function DesafiosAlunoPage() {
     fetchDesafios();
   }, []);
 
-  console.log(desafios);
   return (
     <div className="desafios-container">
       {/* Cards de resumo */}
