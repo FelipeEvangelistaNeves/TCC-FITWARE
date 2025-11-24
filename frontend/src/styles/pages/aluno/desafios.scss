@@ -382,5 +382,113 @@
         transition: background 0.2s ease;
       }
     }
+
+    .progress-wrapper {
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(
+          to right,
+          var(--color-purple) 0%,
+          var(--color-purple) var(--progress, 0%),
+          var(--surface-3) var(--progress, 0%),
+          var(--surface-3) 100%
+        );
+        border-radius: 12px;
+        outline: none;
+        cursor: not-allowed;
+        box-shadow: 0 2px 6px rgba(138, 43, 226, 0.2);
+        transition: all 0.3s ease;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(
+            135deg,
+            var(--color-purple),
+            var(--color-purple-light)
+          );
+          border-radius: 50%;
+          cursor: not-allowed;
+          box-shadow: 0 2px 8px rgba(138, 43, 226, 0.4),
+            0 0 0 3px rgba(138, 43, 226, 0.1);
+          transition: all 0.3s ease;
+        }
+
+        &::-moz-range-thumb {
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(
+            135deg,
+            var(--color-purple),
+            var(--color-purple-light)
+          );
+          border: none;
+          border-radius: 50%;
+          cursor: not-allowed;
+          box-shadow: 0 2px 8px rgba(138, 43, 226, 0.4),
+            0 0 0 3px rgba(138, 43, 226, 0.1);
+          transition: all 0.3s ease;
+        }
+
+        &::-moz-range-track {
+          width: 100%;
+          height: 8px;
+          background: var(--surface-3);
+          border-radius: 12px;
+        }
+
+        &::-moz-range-progress {
+          height: 8px;
+          background: linear-gradient(
+            90deg,
+            var(--color-purple),
+            var(--color-purple-light)
+          );
+          border-radius: 12px;
+        }
+
+        &::-ms-track {
+          width: 100%;
+          height: 8px;
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+          border-radius: 12px;
+        }
+
+        &::-ms-fill-lower {
+          background: linear-gradient(
+            90deg,
+            var(--color-purple),
+            var(--color-purple-light)
+          );
+          border-radius: 12px;
+        }
+
+        &::-ms-fill-upper {
+          background: var(--surface-3);
+          border-radius: 12px;
+        }
+
+        &::-ms-thumb {
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(
+            135deg,
+            var(--color-purple),
+            var(--color-purple-light)
+          );
+          border: none;
+          border-radius: 50%;
+          cursor: not-allowed;
+          box-shadow: 0 2px 8px rgba(138, 43, 226, 0.4);
+        }
+      }
+    }
   }
 }
