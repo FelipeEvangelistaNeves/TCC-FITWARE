@@ -4,6 +4,7 @@ const {
   Funcionario,
   Aluno,
   Exercicio,
+  Desafio,
   TreinoExercicio,
   AlunoTreino,
   sequelize,
@@ -55,6 +56,7 @@ const dataTreinosDoAluno = async (req, res) => {
     const alunoId = req.user.id;
 
     const aluno = await Aluno.findOne({
+      attributes: ["al_treinos_completos"],
       where: { al_id: alunoId },
       include: [
         {
@@ -73,6 +75,10 @@ const dataTreinosDoAluno = async (req, res) => {
               },
             },
           ],
+        },
+        {
+          model: Desafio,
+          attributes: ["de_id"]
         },
       ],
     });
@@ -99,8 +105,13 @@ const dataTreinosDoAluno = async (req, res) => {
         exercicios,
       };
     });
-
-    return res.status(200).json(treinos);
+    
+    console.log(aluno);
+    return res.status(200).json({
+      treinos,
+      treinos_completos: aluno.al_treinos_completos,
+      desafioId: aluno.de_id,  // Aqui está o campo adicionado fora do array de treinos
+    });
   } catch (error) {
     console.error(LoggerMessages.TREINOS_FAILED, error);
     return res.status(500).json({ error: LoggerMessages.TREINOS_FAILED });
@@ -307,7 +318,7 @@ const delegarTreino = async (req, res) => {
 // ======================== //
 // ===== CRUD TREINOS ===== //
 // ======================== //
-addTreino = async (req, res) => {
+const addTreino = async (req, res) => {
   const profId = req.user && req.user.id;
 
   if (!profId)

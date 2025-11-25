@@ -1,5 +1,6 @@
-const { Produto } = require("../models");
+const { Produto, Aluno, Resgate } = require("../models");
 const LoggerMessages = require("../loggerMessages");
+const crypto = require("crypto");
 
 /**
  * 🔹 Cria um novo produto
@@ -113,7 +114,7 @@ const deletarProduto = async (req, res) => {
 };
 
 /**
- * 🔹 Resgatar produto (debita pontos e reduz estoque)
+ * 🔹 Resgatar produto (debita pontos, reduz estoque e cria comprovante)
  */
 const resgatarProduto = async (req, res) => {
   try {
@@ -141,8 +142,7 @@ const resgatarProduto = async (req, res) => {
     }
 
     // Buscar aluno e verificar saldo
-    const { Aluno } = require("../models");
-    const alunoData = await Aluno.findByPk(aluno.id); // ou aluno.al_id dependendo da sua tabela
+    const alunoData = await Aluno.findByPk(aluno.id);
 
     if (!alunoData) {
       return res
@@ -163,16 +163,33 @@ const resgatarProduto = async (req, res) => {
     await alunoData.save();
     await produto.save();
 
-    res.json({
+    // Criar hash único do resgate
+    const hash = crypto
+      .createHash("sha256")
+      .update(`${alunoData.al_id}-${produto.pd_id}-${Date.now()}`)
+      .digest("hex")
+      .slice(0, 16);
+
+    // Registrar resgate
+    const registroResgate = await Resgate.create({
+      al_id: alunoData.al_id,
+      pd_id: produto.pd_id,
+      re_hash: hash,
+      re_preco: produto.pd_valor,
+    });
+
+    return res.json({
       success: true,
       message: `Produto "${produto.pd_nome}" resgatado com sucesso!`,
       novoSaldo: alunoData.al_pontos,
+      comprovante: registroResgate,
     });
   } catch (err) {
     console.error("Erro ao resgatar produto:", err);
-    res
-      .status(500)
-      .json({ success: false, message: "Erro interno ao resgatar produto." });
+    return res.status(500).json({
+      success: false,
+      message: "Erro interno ao resgatar produto.",
+    });
   }
 };
 

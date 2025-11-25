@@ -11,16 +11,31 @@ export default function ProfRoutes() {
   const [auth, setAuth] = useState(null);
 
   useEffect(() => {
-    const role = localStorage.getItem("user-role");
-    if (role === "Professor") {
-      setAuth(true);
-    } else {
-      setAuth(false);
+    function checkAuth() {
+      const role = localStorage.getItem("user-role");
+
+      if (role !== "Professor") {
+        setAuth(false);
+      } else {
+        setAuth(true);
+      }
     }
+
+    checkAuth();
+
+    const interval = setInterval(checkAuth, 2000);
+
+    window.addEventListener("storage", checkAuth);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("storage", checkAuth);
+    };
   }, []);
 
   if (auth === null) return <p>Carregando...</p>;
-  if (!auth) {
+
+  if (auth === false) {
     window.location.href = "/login/professor";
     return null;
   }

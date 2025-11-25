@@ -2,10 +2,8 @@
 -- PostgreSQL database dump
 --
 
-\restrict aAsBx0zPmC05PP5LzmA5RdO85fN4gGxju4sBuPSpSy3zp6w83bxVC93IvqC4oyS
-
--- Dumped from database version 18.1
--- Dumped by pg_dump version 18.1
+-- Dumped from database version 17.5
+-- Dumped by pg_dump version 17.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -672,6 +670,44 @@ ALTER SEQUENCE public.produtos_pd_id_seq OWNED BY public.produtos.pd_id;
 
 
 --
+-- Name: resgates; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.resgates (
+    re_id integer NOT NULL,
+    al_id integer NOT NULL,
+    pd_id integer NOT NULL,
+    re_hash character varying(255) NOT NULL,
+    re_preco integer NOT NULL,
+    re_data timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.resgates OWNER TO postgres;
+
+--
+-- Name: resgates_re_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.resgates_re_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.resgates_re_id_seq OWNER TO postgres;
+
+--
+-- Name: resgates_re_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.resgates_re_id_seq OWNED BY public.resgates.re_id;
+
+
+--
 -- Name: treinos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -845,6 +881,13 @@ ALTER TABLE ONLY public.produtos ALTER COLUMN pd_id SET DEFAULT nextval('public.
 
 
 --
+-- Name: resgates re_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.resgates ALTER COLUMN re_id SET DEFAULT nextval('public.resgates_re_id_seq'::regclass);
+
+
+--
 -- Name: treinos tr_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -863,11 +906,11 @@ ALTER TABLE ONLY public.turmas ALTER COLUMN tu_id SET DEFAULT nextval('public.tu
 --
 
 COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_dtnasc, al_pontos, al_treinos_completos, al_status) FROM stdin;
-1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	110	5	ativo
 2	Maria Clara Souza	maria@email.com	$2b$10$riY3y/4AK5xVECSXC7hjs.NcT.dU8U5lhWjDpc29h5PEYa6tApBQW	23456789012	11988888888	1995-07-21	200	8	ativo
 3	Lucas Almeida	lucas@email.com	$2b$10$90uJejb9BaA9zzvEyou7ueVtERs00KEjYR68n6KT90HIdi8Fwj.c6	34567890123	11977777777	1999-02-18	100	3	ativo
 4	Ana Beatriz Ramos	ana@email.com	$2b$10$Y9sW05D0kaEQAgUvWhx2n.ZZveul6yjCB9Hr2R3ZrzfauF0HbCV0S	45678901234	11966666666	2000-11-09	250	10	ativo
 5	Carlos Henrique Dias	carlos@email.com	$2b$10$deBbNrfkaX8oa6/qKOtW2.dWl9pjwzbiaGypwU/ui3zBD.5AHZaPq	56789012345	11955555555	1997-05-25	180	6	ativo
+1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	65	5	ativo
 \.
 
 
@@ -1117,6 +1160,7 @@ COPY public.mensagens (me_id, co_id, remetente_id, destinatario_id, me_conteudo,
 48	24	4	5	Pode sim, Carlos. Domingo é ótimo pra treino regenerativo.	2025-11-06 20:18:33.860968	f	professor	aluno
 49	25	5	5	Bruno, quando é o próximo desafio da academia?	2025-11-06 20:18:33.860968	f	aluno	professor
 50	25	5	5	Na próxima semana, Carlos! Prepare-se!	2025-11-06 20:18:33.860968	f	professor	aluno
+52	5	1	5	vsfd otario	2025-11-24 13:25:07.255	f	aluno	professor
 \.
 
 
@@ -1166,11 +1210,21 @@ COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_esto
 3	Pré-Treino Explosive 250g	150	Fórmula energética para treino intenso.	Disponível	15
 4	Camiseta Dry Fit Academia	70	Camiseta leve e respirável, ideal para treinos.	Disponível	40
 5	Garrafa Esportiva 1L	40	Plástico resistente com tampa antivazamento.	Disponível	60
-6	Toalha de Microfibra Fitness	35	Secagem rápida e compacta.	Disponível	50
 7	Luvas de Treino em Couro	90	Protege as mãos durante levantamento de peso.	Disponível	20
 9	Cinto de Musculação	130	Suporte lombar para levantamento de peso.	Disponível	10
 10	Tapioca Proteica 500g	55	Mistura pronta com whey e fibras.	Disponível	25
-8	Barra de Cereal Proteica	10	Snack com alto teor de proteína.	disponivel	11
+6	Toalha de Microfibra Fitness	35	Secagem rápida e compacta.	Disponível	49
+8	Barra de Cereal Proteica	10	Snack com alto teor de proteína.	disponivel	10
+\.
+
+
+--
+-- Data for Name: resgates; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.resgates (re_id, al_id, pd_id, re_hash, re_preco, re_data) FROM stdin;
+1	1	6	f3fe5b63a1045316	35	2025-11-24 15:10:56.208
+2	1	8	c0ed0f22b83b785d	10	2025-11-24 22:29:42.236
 \.
 
 
@@ -1293,7 +1347,7 @@ SELECT pg_catalog.setval('public.horarios_hor_id_seq', 11, true);
 -- Name: mensagens_me_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.mensagens_me_id_seq', 51, true);
+SELECT pg_catalog.setval('public.mensagens_me_id_seq', 52, true);
 
 
 --
@@ -1314,7 +1368,14 @@ SELECT pg_catalog.setval('public.pagamentos_pa_id_seq', 11, true);
 -- Name: produtos_pd_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.produtos_pd_id_seq', 11, true);
+SELECT pg_catalog.setval('public.produtos_pd_id_seq', 12, true);
+
+
+--
+-- Name: resgates_re_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.resgates_re_id_seq', 2, true);
 
 
 --
@@ -1452,6 +1513,22 @@ ALTER TABLE ONLY public.produtos
 
 
 --
+-- Name: resgates resgates_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.resgates
+    ADD CONSTRAINT resgates_pkey PRIMARY KEY (re_id);
+
+
+--
+-- Name: resgates resgates_re_hash_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.resgates
+    ADD CONSTRAINT resgates_re_hash_key UNIQUE (re_hash);
+
+
+--
 -- Name: treinos_exercicios treinos_exercicios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1578,6 +1655,22 @@ ALTER TABLE ONLY public.desafios_imagem
 
 
 --
+-- Name: resgates fk_resgates_aluno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.resgates
+    ADD CONSTRAINT fk_resgates_aluno FOREIGN KEY (al_id) REFERENCES public.alunos(al_id) ON DELETE CASCADE;
+
+
+--
+-- Name: resgates fk_resgates_produto; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.resgates
+    ADD CONSTRAINT fk_resgates_produto FOREIGN KEY (pd_id) REFERENCES public.produtos(pd_id) ON DELETE CASCADE;
+
+
+--
 -- Name: treinos_exercicios treinos_exercicios_ex_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1596,6 +1689,4 @@ ALTER TABLE ONLY public.treinos_exercicios
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict aAsBx0zPmC05PP5LzmA5RdO85fN4gGxju4sBuPSpSy3zp6w83bxVC93IvqC4oyS
 
