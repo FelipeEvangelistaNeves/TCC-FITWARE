@@ -5,10 +5,11 @@ export default function ResgatePontosModal({ onClose }) {
   const [produtos, setProdutos] = useState([]);
   const [saldo, setSaldo] = useState(0);
   const [mensagem, setMensagem] = useState("");
+  const [comprovante, setComprovante] = useState(null);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  // 🔹 Buscar produtos e saldo
+  // 🔹 Buscar produtos
   const fetchProdutos = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_BASE_URL}/produtos/all`, {
@@ -22,14 +23,15 @@ export default function ResgatePontosModal({ onClose }) {
     }
   };
 
+  // 🔹 Buscar saldo
   const fetchSaldo = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/alunos`, {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/aluno`, {
         method: "GET",
         credentials: "include",
       });
       const data = await res.json();
-      if (data.success) {
+      if (data && data.pontos !== undefined) {
         setSaldo(data.pontos);
       }
     } catch (err) {
@@ -42,7 +44,7 @@ export default function ResgatePontosModal({ onClose }) {
     fetchSaldo();
   }, []);
 
-  // 🔹 Quando clica em "Resgatar"
+  // 🔹 Clicar em RESGATAR
   const handleResgatarClick = async (produtoId) => {
     try {
       const res = await fetch(
@@ -52,19 +54,22 @@ export default function ResgatePontosModal({ onClose }) {
           credentials: "include",
         }
       );
-      const data = await res.json();
-      if (!data.success) throw new Error("Produto não encontrado.");
 
-      // Abre modal de confirmação
+      const data = await res.json();
+      if (!data.success) {
+        setMensagem("Erro ao buscar produto.");
+        return;
+      }
+
       setProdutoSelecionado(data.produto);
       setMostrarModal(true);
     } catch (error) {
       console.error(error);
-      setMensagem("Erro ao buscar o produto para resgate.");
+      setMensagem("Erro ao buscar produto.");
     }
   };
 
-  // 🔹 Confirmar resgate (POST + atualização)
+  // 🔹 Confirmar resgate
   const confirmarResgate = async () => {
     try {
       const res = await fetch(
@@ -79,13 +84,22 @@ export default function ResgatePontosModal({ onClose }) {
 
       const data = await res.json();
 
-      if (!data.success) throw new Error("Erro ao registrar resgate.");
+      if (!data.success) {
+        setMensagem(data.message || "Erro ao confirmar resgate.");
+        return;
+      }
 
-      setMensagem(`Resgate de "${produtoSelecionado.pd_nome}" realizado!`);
+      // Mensagem de sucesso
+      setMensagem(
+        `🎉 Resgate realizado! Seu comprovante é: ${data.comprovante.re_hash}`
+      );
+      setComprovante(data.comprovante);
+
+      // Fecha modal
       setMostrarModal(false);
       setProdutoSelecionado(null);
 
-      // Atualiza dados na tela
+      // Atualiza saldo e produtos
       await fetchProdutos();
       await fetchSaldo();
     } catch (error) {
@@ -141,7 +155,17 @@ export default function ResgatePontosModal({ onClose }) {
           <p>Nenhum produto disponível para resgate.</p>
         )}
 
-        {mensagem && <div className="mensagem-retorno">{mensagem}</div>}
+        {mensagem && (
+          <div className="mensagem-retorno">
+            <p>{mensagem}</p>
+
+            {comprovante && (
+              <p className="comprovante">
+                <strong>Hash:</strong> {comprovante.re_hash}
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       {/* 🔹 Modal de confirmação */}

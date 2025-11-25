@@ -21,6 +21,7 @@ const Aviso = require("./avisos")(sequelize, DataTypes);
 const Mensagem = require("./mensagens")(sequelize, DataTypes);
 const Conversa = require("./conversas")(sequelize, DataTypes);
 const DesafioImagem = require("./desafios_imagem")(sequelize, DataTypes);
+const Resgate = require("./resgates")(sequelize, DataTypes);
 
 // ==================== RELACIONAMENTOS ====================
 
@@ -118,6 +119,14 @@ Exercicio.belongsToMany(Treino, {
   foreignKey: "ex_id",
 });
 
+// 🔹 Aluno 1:N Resgates
+Aluno.hasMany(Resgate, { foreignKey: "al_id" });
+Resgate.belongsTo(Aluno, { foreignKey: "al_id" });
+
+// 🔹 Produto 1:N Resgates
+Produto.hasMany(Resgate, { foreignKey: "pd_id" });
+Resgate.belongsTo(Produto, { foreignKey: "pd_id" });
+
 // 🔹 Desafio ↔ Imagens
 DesafioImagem.belongsTo(Aluno, {
   foreignKey: "di_aluno_id",
@@ -195,4 +204,5 @@ module.exports = {
   TreinoExercicio,
   Turma,
   DesafioImagem,
+  Resgate,
 };
