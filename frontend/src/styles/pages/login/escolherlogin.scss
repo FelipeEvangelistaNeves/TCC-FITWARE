@@ -1,31 +1,35 @@
 @import "../../abstract/variables.scss";
 
 .escolher-login-container {
-  min-height: 90vh;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 1.5rem;
   background: var(--color-bg);
-  padding: 1rem;
 
   .login-card {
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
-    text-align: center;
     width: 100%;
     max-width: 420px;
-    margin-bottom: 5%;
-    h2 {
-      color: var(--white);
-      margin-bottom: 1rem;
-      font-size: 1.75rem;
+    padding: 2.2rem;
+    border-radius: 20px;
+    background: var(--card-bg);
+    box-shadow: 0 8px 20px rgba(var(--shadow-rgb), 0.25);
+    backdrop-filter: blur(6px);
+    text-align: center;
+    animation: fadeIn 0.35s ease-out;
+
+    .title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 0.6rem;
     }
 
-    p {
+    .subtitle {
+      font-size: 0.95rem;
       color: var(--muted-text);
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
 
     .botoes-login {
@@ -34,13 +38,27 @@
       gap: 1rem;
 
       .btn {
-        padding: 0.75rem 1rem;
+        width: 100%;
+        padding: 0.9rem 1rem;
         border-radius: 12px;
         font-weight: 600;
-        transition: all 0.2s;
         text-align: center;
+        transition: 0.2s ease;
+        font-size: 0.95rem;
+        cursor: pointer;
+        border: none;
+        outline: none;
+
+        &:active {
+          transform: scale(0.97);
+        }
       }
 
+      /* -----------------------
+      TIPOS DE BOTÃO
+    ------------------------ */
+
+      /* ADMIN */
       .btn-admin {
         background: var(--color-purple);
         color: var(--white);
@@ -50,9 +68,10 @@
         }
       }
 
+      /* PROFESSOR */
       .btn-professor {
-        border: 2px solid var(--color-purple);
         background: transparent;
+        border: 2px solid var(--color-purple);
         color: var(--color-purple);
 
         &:hover {
@@ -60,14 +79,42 @@
         }
       }
 
+      /* ALUNO */
       .btn-aluno {
         background: var(--yellow);
         color: var(--black);
 
         &:hover {
-          background: var(--yellow);
+          filter: brightness(1.05);
         }
       }
+    }
+  }
+
+  /* -----------------------------
+  Animação leve de entrada
+------------------------------ */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* -----------------------------
+  Responsivo
+------------------------------ */
+  @media (max-width: 480px) {
+    .login-card {
+      padding: 1.7rem;
+    }
+
+    .title {
+      font-size: 1.6rem;
     }
   }
 }

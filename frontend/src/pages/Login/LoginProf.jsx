@@ -42,7 +42,7 @@ export default function LoginProfessor() {
   }
 
   return (
-    <div className="login-container">
+    <div className="login-container-mob">
       <div className="login-card">
         <Link to="/escolherlogin" className="back-link">
           <i className="bi bi-arrow-left"></i>
@@ -50,7 +50,7 @@ export default function LoginProfessor() {
         <img src={Logo} alt="logo fitware" className="login-avatar" />
         <h2 className="login-title">FitWare</h2>
         <p className="login-subtitle">
-          Logue em sua conta professor e seja Fitware!
+          Logue em sua conta Professor e seja Fitware!
         </p>
 
         <p className="error-msg">{errorMsg}</p>

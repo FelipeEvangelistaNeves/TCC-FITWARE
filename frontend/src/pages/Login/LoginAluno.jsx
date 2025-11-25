@@ -42,7 +42,7 @@ export default function LoginAluno() {
   }
 
   return (
-    <div className="login-container">
+    <div className="login-container-mob">
       <div className="login-card">
         <Link to="/escolherlogin" className="back-link">
           <i className="bi bi-arrow-left"></i>

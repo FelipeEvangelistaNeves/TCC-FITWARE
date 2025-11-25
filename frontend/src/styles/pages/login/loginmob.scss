@@ -1,6 +1,6 @@
 @import "./../../abstract/variables.scss";
 
-.login-container {
+.login-container-mob {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -33,7 +33,6 @@
     max-width: 400px;
     // background:
     border-radius: 12px;
-    text-align: center;
     box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
     color: var(--color-text);
     padding: 28px 20px;
@@ -63,7 +62,6 @@
   .login-title {
     font-weight: 700;
     font-size: 1.6rem;
-    text-align: center;
     margin-bottom: 6px;
     color: var(--color-text);
   }
@@ -149,7 +147,7 @@
     box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.08);
 
     &:hover {
-      background: var(--color-purple-hover);
+      background: var(--color-purple);
       box-shadow: 0 6px 20px rgba(var(--shadow-rgb), 0.15);
     }
 
