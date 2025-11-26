@@ -12,6 +12,7 @@ import Brindes from "./../pages/Admin/Brindes";
 import Notificacao from "./../pages/Admin/Notificacoes";
 import MeuPerfil from "../pages/Admin/AdmPerf";
 import Configuracoes from "../pages/Admin/Configuracoes";
+import Resgates from "../pages/Admin/Resgates";
 
 export default function AdminRoutes() {
   const [auth, setAuth] = useState(null);
@@ -59,6 +60,7 @@ export default function AdminRoutes() {
         <Route path="notificacoes" element={<Notificacao />} />
         <Route path="perfil" element={<MeuPerfil />} />
         <Route path="configuracoes" element={<Configuracoes />} />
+        <Route path="resgates" element={<Resgates />} />
 
         <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>

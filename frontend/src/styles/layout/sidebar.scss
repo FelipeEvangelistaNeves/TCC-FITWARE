@@ -48,7 +48,8 @@
   // ===== Divider =====
   .sidebar-divider {
     border-top: 1px solid var(--border-color);
-    margin: $spacing-md 0;
+    margin-top: $spacing-md;
+    margin-bottom: $spacing-xs;
   }
 
   // ===== Menu =====

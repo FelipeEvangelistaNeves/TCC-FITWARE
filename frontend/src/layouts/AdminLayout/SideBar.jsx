@@ -53,6 +53,11 @@ export default function SideBar() {
       label: "Notificações",
       icon: "bi-bell",
     },
+    {
+      path: "/admin/resgates",
+      label: "Resgates",
+      icon: "bi-cart-check",
+    },
   ];
 
   return (
