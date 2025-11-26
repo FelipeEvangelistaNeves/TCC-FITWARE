@@ -86,14 +86,20 @@ export default function DetalhesTreino({ treino, onClose }) {
 
         {/* Cabeçalho */}
         <div className="treino-modal-header">
-          <h2>{dados.tr_nome || dados.nome}</h2>
+          <h2>{dados.tr_nome ? dados.tr_nome : dados.nome}</h2>
           <span className="categoria">
-            {dados.tr_dificuldade || dados.dificuldade || "Sem dificuldade"}
+            {dados.tr_dificuldade
+              ? dados.tr_dificuldade
+              : dados.dificuldade
+              ? dados.dificuldade
+              : "Sem dificuldade"}
           </span>
         </div>
 
         <div className="treino-modal-body">
-          <p className="descricao">{dados.tr_descricao || dados.descricao}</p>
+          <p className="descricao">
+            {dados.tr_descricao ? dados.tr_descricao : dados.descricao}
+          </p>
 
           {/* Professor */}
           {dados.Funcionario && (
@@ -113,18 +119,28 @@ export default function DetalhesTreino({ treino, onClose }) {
           {/* Lista de exercícios */}
           <div className="treino-section exercises-container">
             <h3>Exercícios</h3>
-            {dados.Exercicios?.length > 0 || dados.exercicios?.length > 0 ? (
-              (dados.Exercicios || dados.exercicios || []).map((ex, i) => {
-                const series = ex.TreinoExercicio?.te_series ?? ex.series;
-                const repeticoes =
-                  ex.TreinoExercicio?.te_repeticoes ?? ex.repeticoes;
-                const descanso = ex.TreinoExercicio?.te_descanso ?? ex.descanso;
-                const instrucao = ex.ex_instrucao || ex.instrucao;
+            {dados.Exercicios && dados.Exercicios.length > 0 ? (
+              dados.Exercicios.map((ex, i) => {
+                const series = ex.TreinoExercicio
+                  ? ex.TreinoExercicio.te_series
+                  : ex.series;
+                const repeticoes = ex.TreinoExercicio
+                  ? ex.TreinoExercicio.te_repeticoes
+                  : ex.repeticoes;
+                const descanso = ex.TreinoExercicio
+                  ? ex.TreinoExercicio.te_descanso
+                  : ex.descanso;
+                const instrucao = ex.ex_instrucao
+                  ? ex.ex_instrucao
+                  : ex.instrucao;
 
                 return (
-                  <div className="exercicio-item" key={ex.ex_id || ex.id}>
+                  <div
+                    className="exercicio-item"
+                    key={ex.ex_id ? ex.ex_id : ex.id}
+                  >
                     <div className="ex-nome">
-                      {i + 1}. {ex.ex_nome || ex.nome}
+                      {i + 1}. {ex.ex_nome ? ex.ex_nome : ex.nome}
                     </div>
 
                     <div className="ex-detalhes">
@@ -148,11 +164,11 @@ export default function DetalhesTreino({ treino, onClose }) {
                       )}
                     </div>
 
-                    {instrucao && (
+                    {instrucao ? (
                       <div className="ex-instrucao">
                         <strong>Instruções:</strong> {instrucao}
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 );
               })
@@ -164,17 +180,17 @@ export default function DetalhesTreino({ treino, onClose }) {
           {/* Alunos que recebem este treino */}
           <div className="treino-section alunos-section">
             <h3>Alunos Atribuídos</h3>
-            {dados.Alunos?.length > 0 || dados.alunos?.length > 0 ? (
+            {dados.Alunos && dados.Alunos.length > 0 ? (
               <div className="alunos-list">
-                {(dados.Alunos || dados.alunos || []).map((aluno) => (
+                {dados.Alunos.map((aluno) => (
                   <div className="aluno-item" key={aluno.al_id}>
                     <div className="aluno-avatar">
-                      {(aluno.al_nome || aluno.nome)
+                      {(aluno.al_nome ? aluno.al_nome : aluno.nome)
                         .substring(0, 2)
                         .toUpperCase()}
                     </div>
                     <span className="aluno-nome">
-                      {aluno.al_nome || aluno.nome}
+                      {aluno.al_nome ? aluno.al_nome : aluno.nome}
                     </span>
                   </div>
                 ))}

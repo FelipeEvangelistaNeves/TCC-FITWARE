@@ -1,0 +1,264 @@
+// Estilos para a tela de esqueceu a senha
+.esqueceu-senha-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-purple) 0%, #7c3aed 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.esqueceu-senha-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 450px;
+  width: 100%;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Card Header
+.card-header {
+  text-align: center;
+  margin-bottom: 30px;
+
+  h1 {
+    color: var(--color-purple);
+    font-size: 28px;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+  }
+
+  p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+// Form Esqueceu
+.form-esqueceu,
+.form-reset {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      color: #333;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    input {
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-purple);
+        box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+      }
+
+      &:disabled {
+        background-color: #f5f5f5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .btn-submit {
+    padding: 12px;
+    background: linear-gradient(135deg, var(--color-purple) 0%, #7c3aed 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+
+  .mensagem {
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    animation: slideDown 0.3s ease-out;
+
+    &.sucesso {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    &.erro {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  }
+}
+
+// Sucesso Message
+.sucesso-message {
+  text-align: center;
+  animation: slideUp 0.4s ease-out;
+
+  .icon {
+    font-size: 60px;
+    color: #27ae60;
+    margin-bottom: 20px;
+    animation: scaleIn 0.5s ease-out;
+  }
+
+  h2 {
+    color: #27ae60;
+    font-size: 24px;
+    margin: 0 0 10px 0;
+  }
+
+  p {
+    color: #666;
+    font-size: 14px;
+    margin: 8px 0;
+    line-height: 1.5;
+  }
+
+  .instrucoes {
+    background-color: #f0f8ff;
+    border-left: 4px solid var(--color-purple);
+    padding: 15px;
+    border-radius: 4px;
+    margin: 20px 0;
+    text-align: left;
+    font-size: 13px;
+
+    ol {
+      margin: 10px 0;
+      padding-left: 20px;
+
+      li {
+        margin: 8px 0;
+        color: #333;
+      }
+    }
+  }
+}
+
+// Login Links
+.login-links,
+.card-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+
+  p {
+    color: #666;
+    font-size: 13px;
+    margin: 0 0 10px 0;
+  }
+
+  .link-voltar,
+  a {
+    display: inline-block;
+    color: var(--color-purple);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      text-decoration: underline;
+      color: #7c3aed;
+    }
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsivo
+@media (max-width: 480px) {
+  .esqueceu-senha-card {
+    padding: 30px 20px;
+  }
+
+  .card-header {
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  .form-esqueceu {
+    gap: 15px;
+  }
+
+  .sucesso-message {
+    .icon {
+      font-size: 50px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .instrucoes {
+      font-size: 12px;
+    }
+  }
+}

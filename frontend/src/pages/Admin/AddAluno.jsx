@@ -12,7 +12,6 @@ export default function AddAluno({ onClose, onSave }) {
     pontos: 0,
     treinos_completos: 0,
     status: "Ativo",
-    turma: "",
   });
 
   const handleChange = (e) => {
@@ -38,7 +37,6 @@ export default function AddAluno({ onClose, onSave }) {
       al_pontos: Number(form.pontos),
       al_treinos_completos: Number(form.treinos_completos),
       al_status: form.status,
-      turma: form.turma,
     });
   };
 
@@ -143,17 +141,6 @@ export default function AddAluno({ onClose, onSave }) {
                 type="number"
                 name="treinos_completos"
                 value={form.treinos_completos}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* TURMA */}
-            <div className="form-group">
-              <label>Turma</label>
-              <input
-                type="text"
-                name="turma"
-                value={form.turma}
                 onChange={handleChange}
               />
             </div>

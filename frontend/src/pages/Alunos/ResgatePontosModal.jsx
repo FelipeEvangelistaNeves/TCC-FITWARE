@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/resgatePontos.scss";
 
-export default function ResgatePontosModal({ onClose }) {
+export default function ResgatePontosModal({ onClose, onResgateSucesso }) {
   const [produtos, setProdutos] = useState([]);
   const [saldo, setSaldo] = useState(0);
   const [mensagem, setMensagem] = useState("");
   const [comprovante, setComprovante] = useState(null);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarComprovante, setMostrarComprovante] = useState(false);
 
   // 🔹 Buscar produtos
   const fetchProdutos = async () => {
@@ -95,13 +96,19 @@ export default function ResgatePontosModal({ onClose }) {
       );
       setComprovante(data.comprovante);
 
-      // Fecha modal
+      // Fecha modal de confirmação e abre modal de comprovante
       setMostrarModal(false);
       setProdutoSelecionado(null);
+      setMostrarComprovante(true);
 
       // Atualiza saldo e produtos
       await fetchProdutos();
       await fetchSaldo();
+
+      // Callback para atualizar comprovantes no perfil
+      if (onResgateSucesso) {
+        onResgateSucesso();
+      }
     } catch (error) {
       console.error(error);
       setMensagem("Erro ao confirmar resgate.");
@@ -158,12 +165,6 @@ export default function ResgatePontosModal({ onClose }) {
         {mensagem && (
           <div className="mensagem-retorno">
             <p>{mensagem}</p>
-
-            {comprovante && (
-              <p className="comprovante">
-                <strong>Hash:</strong> {comprovante.re_hash}
-              </p>
-            )}
           </div>
         )}
       </div>
@@ -189,6 +190,32 @@ export default function ResgatePontosModal({ onClose }) {
                 Cancelar
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* 🔹 Modal de Comprovante */}
+      {mostrarComprovante && comprovante && (
+        <div className="overlay">
+          <div className="modal-comprovante">
+            <h3>🎉 Resgate Realizado!</h3>
+            <div className="comprovante-content">
+              <p>Seu resgate foi confirmado com sucesso!</p>
+              <div className="hash-box">
+                <label>Comprovante:</label>
+                <p className="hash">{comprovante.re_hash}</p>
+              </div>
+            </div>
+            <button
+              className="fechar"
+              onClick={() => {
+                setMostrarComprovante(false);
+                setComprovante(null);
+                setMensagem("");
+              }}
+            >
+              Fechar
+            </button>
           </div>
         </div>
       )}

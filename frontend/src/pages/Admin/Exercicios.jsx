@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
-
+import "../../styles/pages/admin/forms.scss";
+import "../../styles/pages/admin/exercicios.scss";
 export default function Exercicios() {
   const [exercicios, setExercicios] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -279,42 +280,28 @@ export default function Exercicios() {
 
       {/* Formulário */}
       {showForm && (
-        <div className="novo-treino-overlay" onClick={resetForm}>
-          <div
-            className="novo-treino-drawer"
-            onClick={(e) => e.stopPropagation()}
-            style={{ width: "400px" }}
-          >
-            <header className="drawer-header">
-              <h2>{editingId ? "Editar Exercício" : "Novo Exercício"}</h2>
-              <button
-                className="icon-btn"
-                onClick={resetForm}
-                style={{
-                  cursor: "pointer",
-                  background: "none",
-                  border: "none",
-                }}
-              >
-                ✕
-              </button>
-            </header>
+        <div className="modal-overlay" onClick={resetForm}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>{editingId ? "Editar Exercício" : "Adicionar Exercício"}</h3>
 
-            <form className="drawer-body" onSubmit={handleSave}>
-              <label className="field">
-                <span className="label-title">Nome do Exercício</span>
+            <form className="form-card" onSubmit={handleSave}>
+              {/* Nome */}
+              <div className="form-group">
+                <label>Nome do Exercício *</label>
                 <input
                   type="text"
-                  placeholder="Ex.: Supino"
                   value={formData.ex_nome}
                   onChange={(e) =>
                     setFormData({ ...formData, ex_nome: e.target.value })
                   }
+                  placeholder="Ex.: Supino Reto"
+                  required
                 />
-              </label>
+              </div>
 
-              <label className="field">
-                <span className="label-title">Grupo Muscular</span>
+              {/* Grupo Muscular */}
+              <div className="form-group">
+                <label>Grupo Muscular *</label>
                 <select
                   value={formData.ex_grupo_muscular}
                   onChange={(e) =>
@@ -323,8 +310,9 @@ export default function Exercicios() {
                       ex_grupo_muscular: e.target.value,
                     })
                   }
+                  required
                 >
-                  <option value="">Selecione um grupo muscular</option>
+                  <option value="">Selecione...</option>
                   <option value="Peito">Peito</option>
                   <option value="Costas">Costas</option>
                   <option value="Pernas">Pernas</option>
@@ -335,12 +323,12 @@ export default function Exercicios() {
                   <option value="Glúteos">Glúteos</option>
                   <option value="Cardio">Cardio</option>
                 </select>
-              </label>
+              </div>
 
-              <label className="field">
-                <span className="label-title">Instruções</span>
+              {/* Instruções */}
+              <div className="form-group">
+                <label>Instruções</label>
                 <textarea
-                  placeholder="Descreva como executar o exercício..."
                   value={formData.ex_instrucao}
                   onChange={(e) =>
                     setFormData({
@@ -348,19 +336,20 @@ export default function Exercicios() {
                       ex_instrucao: e.target.value,
                     })
                   }
-                  rows="4"
-                />
-              </label>
+                  placeholder="Descreva como executar o exercício..."
+                ></textarea>
+              </div>
             </form>
 
-            <footer className="drawer-footer">
-              <button className="btn-cancel" onClick={resetForm}>
+            {/* Ações */}
+            <div className="modal-actions">
+              <button className="btn-cancelar" onClick={resetForm}>
                 Cancelar
               </button>
-              <button className="btn-primary" onClick={handleSave}>
-                Salvar
+              <button className="btn-salvar" onClick={handleSave}>
+                {editingId ? "Salvar Alterações" : "Criar Exercício"}
               </button>
-            </footer>
+            </div>
           </div>
         </div>
       )}

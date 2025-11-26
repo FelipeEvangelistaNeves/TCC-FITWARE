@@ -41,13 +41,12 @@ export default function TreinoAluno() {
         if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
 
         const data = await res.json();
-        const treinosFormatados = data.map((t) => ({
+        const treinosFormatados = data.treinos.map((t) => ({
           id: t.id,
           titulo: t.nome,
           descricao: t.descricao,
           nivel: t.dificuldade,
           treinador: t.funcionario,
-          tempo: t.tempo,
           exercicios: t.exercicios.map((ex) => ({
             nome: ex.nome,
             sets: `${ex.series}×${ex.repeticoes}`,

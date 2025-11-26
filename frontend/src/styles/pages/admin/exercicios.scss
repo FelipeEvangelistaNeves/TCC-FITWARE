@@ -1,0 +1,36 @@
+/* =============== MODAL DESKTOP =============== */
+
+.novo-treino-overlay-desktop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  z-index: 9999;
+  height: 100%;
+}
+
+.novo-treino-drawer-desktop {
+  width: 80% !important; /* fixa o tamanho desktop */
+  height: 80%;
+  background: var(--surface-1);
+  border-left: 1px solid var(--border-color);
+  border-radius: 10px; /* sem arredondamento tipo mobile */
+  animation: slideDesktop 0.25s ease-out;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideDesktop {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

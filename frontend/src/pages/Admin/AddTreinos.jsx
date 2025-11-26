@@ -21,12 +21,14 @@ export default function AddTreinoModal({ onClose, onSave }) {
 
       try {
         const resAlunos = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/professor/allAlunos`,
+          `${import.meta.env.VITE_BASE_URL}/admin/allAlunos`,
           { credentials: "include" }
         );
         const alunosData = await resAlunos.json();
         setAlunos(alunosData.alunos || []);
-      } catch (e) {}
+      } catch (e) {
+        console.error("Erro ao carregar alunos:", e);
+      }
 
       try {
         const resEx = await fetch(
@@ -35,7 +37,9 @@ export default function AddTreinoModal({ onClose, onSave }) {
         );
         const exData = await resEx.json();
         setAllExercises(exData.exercicios || []);
-      } catch (e) {}
+      } catch (e) {
+        console.error("Erro ao carregar exercícios:", e);
+      }
 
       setLoadingExercises(false);
       setLoadingAlunos(false);
@@ -88,15 +92,18 @@ export default function AddTreinoModal({ onClose, onSave }) {
     };
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/treinos/professor`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/treinos`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Erro ao criar treino");
+        return;
+      }
 
       if (typeof onSave === "function") onSave();
       onClose();

@@ -5,7 +5,7 @@ import ProfRoutes from "./routes/ProfRoutes";
 import LoginDesk from "./pages/Login/LoginDesk";
 import LoginProf from "./pages/Login/LoginProf";
 import LoginAluno from "./pages/Login/LoginAluno";
-import EsqueciSenha from "./pages/Login/EsqueciSenha";
+import EsqueciSenha from "./pages/Login/EsqueceuSenha";
 import PublicRoutes from "./routes/PublicRoutes";
 export default function App() {
   return (

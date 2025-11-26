@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/perfilaluno.scss";
 import ResgatePontosModal from "./ResgatePontosModal";
 import DetalhesTreino from "../Professor/DetalhesTreino";
-
 import ConfigModal from "../../components/Alunos/configModal";
 
 export default function PerfilAluno() {
@@ -16,6 +15,8 @@ export default function PerfilAluno() {
   const [modalAberto, setModalAberto] = useState(false);
   const [treinoSelecionado, setTreinoSelecionado] = useState(null);
   const [showConfig, setShowConfig] = useState(false);
+  const [comprovantes, setComprovantes] = useState([]);
+  const [historico, setHistorico] = useState([]);
 
   useEffect(() => {
     const fetchAlunos = async () => {
@@ -41,8 +42,72 @@ export default function PerfilAluno() {
       }
     };
 
+    const fetchComprovantes = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/produtos/meus-resgates`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          setComprovantes(data || []);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar comprovantes:", error);
+      }
+    };
+
+    const fetchHistorico = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/aluno/historico`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          setHistorico(data || []);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar histórico:", error);
+      }
+    };
+
     fetchAlunos();
+    fetchComprovantes();
+    fetchHistorico();
   }, []);
+
+  const handleResgateSucesso = () => {
+    // Atualizar comprovantes quando um resgate é feito com sucesso
+    const fetchComprovantes = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/produtos/meus-resgates`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          setComprovantes(data || []);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar comprovantes:", error);
+      }
+    };
+
+    fetchComprovantes();
+  };
 
   return (
     <div className="perfil-container">
@@ -71,6 +136,12 @@ export default function PerfilAluno() {
         >
           Histórico
         </button>
+        <button
+          className={abaAtiva === "comprovantes" ? "active" : ""}
+          onClick={() => setAbaAtiva("comprovantes")}
+        >
+          Comprovantes
+        </button>
       </div>
 
       {/* CONTEÚDO */}
@@ -79,77 +150,59 @@ export default function PerfilAluno() {
         {abaAtiva === "historico" && (
           <div className="tab-section">
             <div className="historico-cards">
-              {[
-                {
-                  tr_nome: "Treino de Pernas",
-                  titulo: "Treino de Pernas",
-                  tr_descricao: "45 minutos com agachamentos e leg press.",
-                  descricao: "45 minutos com agachamentos e leg press.",
-                  tr_categoria: "Hipertrofia",
-                  data: "Hoje",
-                  pontos: "+50",
-                  Funcionario: {
-                    fu_nome: "Carlos Silva",
-                    fu_especialidade: "Musculação",
-                  },
-                  Exercicios: [
-                    {
-                      ex_id: 1,
-                      ex_nome: "Agachamento Livre",
-                      ex_repeticoes: "12",
-                      ex_series: "4",
-                    },
-                    {
-                      ex_id: 2,
-                      ex_nome: "Leg Press 45",
-                      ex_repeticoes: "15",
-                      ex_series: "3",
-                    },
-                  ],
-                },
-                {
-                  tr_nome: "Cardio",
-                  titulo: "Cardio",
-                  tr_descricao: "30 minutos de esteira e corrida leve.",
-                  descricao: "30 minutos de esteira e corrida leve.",
-                  tr_categoria: "Resistência",
-                  data: "Ontem",
-                  pontos: "+40",
-                  Funcionario: {
-                    fu_nome: "Ana Lima",
-                    fu_especialidade: "Cardio",
-                  },
-                  Exercicios: [
-                    {
-                      ex_id: 3,
-                      ex_nome: "Esteira",
-                      ex_repeticoes: "30 min",
-                      ex_series: "1",
-                    },
-                  ],
-                },
-              ].map((treino, i) => (
-                <div className="card-treino" key={i}>
-                  <div className="card-titulo">
-                    <span>{treino.titulo}</span>
-                    <span className="pontos-amarelo">
-                      <i className="bi bi-lightning-charge"></i> {treino.pontos}
-                    </span>
-                  </div>
-                  <p className="descricao">{treino.descricao}</p>
-                  <div className="info-treino">
-                    <span>
-                      <i className="bi bi-clock"></i> {treino.data}
-                    </span>
-                    <button
-                      className="btn-detalhes"
-                      onClick={() => setTreinoSelecionado(treino)}
-                    >
-                      Detalhes
-                    </button>
-                  </div>
-                </div>
-              ))}
+              {historico && historico.length > 0 ? (
+                historico.map((item, i) => {
+                  let icone = "bi-lightning-charge";
+                  let acao = "";
+
+                  if (item.tipo === "treino") {
+                    icone = "bi-dumbbell";
+                    acao = "Treino Realizado";
+                  } else if (item.tipo === "desafio") {
+                    icone = "bi-star";
+                    acao = "Desafio Concluído";
+                  } else if (item.tipo === "resgate") {
+                    icone = "bi-gift";
+                    acao = "Pontos Resgatados";
+                  }
+
+                  return (
+                    <div className="card-treino" key={i}>
+                      <div className="card-titulo">
+                        <span>
+                          <i className={`bi ${icone}`}></i> {item.titulo}
+                        </span>
+                        {item.tipo === "resgate" && (
+                          <span className="pontos-amarelo">
+                            <i className="bi bi-gift"></i> {acao}
+                          </span>
+                        )}
+                      </div>
+                      <p className="descricao">{item.descricao}</p>
+                      <div className="info-treino">
+                        <span>
+                          <i className="bi bi-tag"></i> {item.tipo}
+                        </span>
+                        {item.professor && (
+                          <span>
+                            <i className="bi bi-person"></i> {item.professor}
+                          </span>
+                        )}
+                        {item.hash && (
+                          <span>
+                            <i className="bi bi-hash"></i>{" "}
+                            {item.hash.substring(0, 10)}...
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="sem-historico">
+                  Nenhum item no seu histórico ainda.
+                </p>
+              )}
             </div>
 
             <button
@@ -192,10 +245,50 @@ export default function PerfilAluno() {
             </button>
           </div>
         )}
+
+        {/* ABA: COMPROVANTES */}
+        {abaAtiva === "comprovantes" && (
+          <div className="tab-section">
+            <div className="comprovantes-list">
+              <h4>Comprovantes de Resgate</h4>
+
+              {comprovantes && comprovantes.length > 0 ? (
+                comprovantes.map((comp, i) => (
+                  <div className="card-comprovante" key={i}>
+                    <div className="comp-header">
+                      <span className="comp-titulo">
+                        <i className="bi bi-check-circle"></i>{" "}
+                        {comp.Produto?.pd_nome || "Produto"}
+                      </span>
+                      <span className="comp-data">
+                        {new Date(
+                          comp.re_data || comp.createdAt
+                        ).toLocaleDateString("pt-BR")}
+                      </span>
+                    </div>
+                    <p className="comp-hash">
+                      <strong>Hash:</strong> {comp.re_hash}
+                    </p>
+                    <p className="comp-status">
+                      Status: <span className="status-ativo">✓ Confirmado</span>
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="sem-comprovantes">
+                  Nenhum comprovante de resgate encontrado.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {modalAberto && (
-        <ResgatePontosModal onClose={() => setModalAberto(false)} />
+        <ResgatePontosModal
+          onClose={() => setModalAberto(false)}
+          onResgateSucesso={handleResgateSucesso}
+        />
       )}
 
       {treinoSelecionado && (

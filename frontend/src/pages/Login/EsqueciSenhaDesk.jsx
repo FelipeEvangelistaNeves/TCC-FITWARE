@@ -23,7 +23,7 @@ export default function EsqueciSenha() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/login/recuperar-senha`,
+        `${import.meta.env.VITE_BASE_URL}/resetar-senha/esqueci-senha`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -34,15 +34,16 @@ export default function EsqueciSenha() {
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
-        setSuccessMsg("Código enviado com sucesso! Verifique seu email.");
-        // Opcional: navegar para uma tela de inserir código após um tempo
-        // setTimeout(() => navigate("/inserir-codigo"), 2000);
+      if (response.ok) {
+        setSuccessMsg(
+          "Email enviado com sucesso! Verifique seu email e clique no link."
+        );
+        setEmail("");
       } else {
-        setErrorMsg(data.message || "Erro ao enviar código. Tente novamente.");
+        setErrorMsg(data.error || "Erro ao enviar email. Tente novamente.");
       }
     } catch (err) {
-      console.error("Erro ao enviar código:", err);
+      console.error("Erro ao enviar email:", err);
       setErrorMsg("Erro no servidor. Tente novamente mais tarde.");
     }
   }
@@ -71,7 +72,7 @@ export default function EsqueciSenha() {
         </div>
 
         <button onClick={handleSendCode} className="button-log-mob">
-          Enviar Código
+          Enviar Email
         </button>
 
         <div className="forgot-password">
