@@ -280,6 +280,59 @@ const historicodoAluno = async (req, res) => {
   }
 };
 
+/**
+ * 🔹 Registrar treino como concluído
+ */
+const registrarTreinoConcluido = async (req, res) => {
+  try {
+    const alunoId = req.user.id;
+    const { tr_id } = req.body;
+
+    if (!tr_id) {
+      return res.status(400).json({ error: "ID do treino é obrigatório" });
+    }
+
+    const { AlunoTreino } = require("../models");
+
+    // Procura registro existente
+    let alunoTreino = await AlunoTreino.findOne({
+      where: { al_id: alunoId, tr_id },
+    });
+
+    const isFirstTime = !alunoTreino;
+
+    if (!alunoTreino) {
+      // Se não existe, cria novo
+      alunoTreino = await AlunoTreino.create({
+        al_id: alunoId,
+        tr_id,
+        at_data_conclusao: new Date(),
+      });
+    } else {
+      // Se já existe, apenas atualiza a data
+      alunoTreino.at_data_conclusao = new Date();
+      await alunoTreino.save();
+    }
+
+    // SEMPRE incrementa o contador quando um treino é finalizado
+    try {
+      const aluno = await Aluno.findByPk(alunoId);
+      if (aluno) {
+        const contador_anterior = aluno.al_treinos_completos || 0;
+        aluno.al_treinos_completos = contador_anterior + 1;
+        await aluno.save();
+      }
+    } catch (updateError) {}
+
+    res.json({
+      message: "Treino registrado como concluído",
+      treino: alunoTreino.dataValues,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao registrar treino concluído" });
+  }
+};
+
 module.exports = {
   dataAluno,
   atualizarAluno,
@@ -287,4 +340,5 @@ module.exports = {
   dataAlunoMensagem,
   enviarMensagemAluno,
   historicodoAluno,
+  registrarTreinoConcluido,
 };

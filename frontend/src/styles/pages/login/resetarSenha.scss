@@ -1,55 +1,44 @@
-// Estilos para as telas de reset de senha
+@import "./../../abstract/variables.scss";
+
 .resetar-senha-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--color-purple) 0%, #7c3aed 100%);
+  background: var(--app-bg);
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  justify-content: center;
+  padding: 32px;
 }
 
 .resetar-senha-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  max-width: 450px;
+  background: var(--card-bg);
+  color: var(--color-text);
   width: 100%;
-  animation: slideUp 0.4s ease-out;
+  max-width: 480px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 32px;
+  animation: slideUp 0.25s ease-out;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Card Header
-.card-header {
+/* HEADER */
+.resetar-senha-card .card-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 
   h1 {
-    color: var(--color-purple);
-    font-size: 28px;
-    margin: 0 0 8px 0;
+    font-size: 22px;
     font-weight: 600;
+    color: var(--color-purple);
+    margin-bottom: 8px;
   }
 
   p {
-    color: #666;
+    color: var(--color-text-muted);
     font-size: 14px;
-    margin: 0;
   }
 }
 
-// Form Reset
+/* FORM RESET */
 .form-reset {
   display: flex;
   flex-direction: column;
@@ -58,192 +47,102 @@
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 
     label {
-      color: #333;
+      color: var(--color-text-muted);
       font-size: 14px;
-      font-weight: 500;
     }
 
     input {
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: all 0.3s ease;
+      background: var(--surface-2);
+      color: var(--color-text);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      outline: none;
+      transition: 0.2s ease;
 
       &:focus {
-        outline: none;
         border-color: var(--color-purple);
-        box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
-      }
-
-      &:disabled {
-        background-color: #f5f5f5;
-        cursor: not-allowed;
+        box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.2);
       }
     }
   }
 
+  /* Botão */
   .btn-submit {
-    padding: 12px;
-    background: linear-gradient(135deg, var(--color-purple) 0%, #7c3aed 100%);
-    color: white;
+    background: var(--color-purple);
+    color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+    transition: 0.25s;
 
-    &:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
-    }
-
-    &:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
+    &:hover {
+      background: var(--color-purple-light);
     }
   }
 
   .mensagem {
+    border-radius: var(--radius-sm);
     padding: 12px;
-    border-radius: 8px;
     text-align: center;
-    font-size: 14px;
-    animation: slideDown 0.3s ease-out;
 
     &.sucesso {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
+      background: rgba(0, 200, 120, 0.1);
+      border: 1px solid rgba(0, 200, 120, 0.2);
+      color: #2ecc71;
     }
 
     &.erro {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      color: #e74c3c;
     }
   }
 }
 
-// Erro Container
+/* ERRO */
 .erro-container {
   text-align: center;
 
   h2 {
     color: #e74c3c;
-    font-size: 22px;
-    margin: 0 0 10px 0;
+    font-size: 20px;
+    margin-bottom: 10px;
   }
 
   p {
-    color: #666;
-    font-size: 14px;
-    margin: 0 0 20px 0;
-    line-height: 1.5;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
   }
 
   .btn-voltar {
     display: inline-block;
-    padding: 12px 30px;
-    background: linear-gradient(135deg, var(--color-purple) 0%, #7c3aed 100%);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
+    background: var(--color-purple);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
     font-weight: 600;
-    transition: all 0.3s ease;
+    text-decoration: none;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
+      background: var(--color-purple-light);
     }
   }
 }
 
-// Sucesso Message
-.sucesso-message {
-  text-align: center;
-  animation: slideUp 0.4s ease-out;
-
-  .icon {
-    font-size: 60px;
-    color: #27ae60;
-    margin-bottom: 20px;
-    animation: scaleIn 0.5s ease-out;
-  }
-
-  h2 {
-    color: #27ae60;
-    font-size: 24px;
-    margin: 0 0 10px 0;
-  }
-
-  p {
-    color: #666;
-    font-size: 14px;
-    margin: 8px 0;
-    line-height: 1.5;
-
-    &:last-child {
-      color: var(--color-purple);
-      font-weight: 500;
-    }
-  }
-}
-
-@keyframes scaleIn {
+/* ANIMAÇÃO */
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-// Responsivo
-@media (max-width: 480px) {
-  .resetar-senha-card {
-    padding: 30px 20px;
-  }
-
-  .card-header {
-    h1 {
-      font-size: 24px;
-    }
-  }
-
-  .form-reset {
-    gap: 15px;
-  }
-
-  .sucesso-message {
-    .icon {
-      font-size: 50px;
-    }
-
-    h2 {
-      font-size: 20px;
-    }
   }
 }

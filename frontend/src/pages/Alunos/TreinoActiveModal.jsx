@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/treinoActive.scss";
 import { Play, Pause, Square, Check, Minimize2 } from "lucide-react";
 
-export default function TreinoActiveModal({ treino, onClose, onMinimize }) {
+export default function TreinoActiveModal({
+  treino,
+  onClose,
+  onMinimize,
+  onTreinoCompleted,
+}) {
   // Estado do Timer (contagem regressiva)
   const [tempoRestante, setTempoRestante] = useState(
     (treino.tr_tempo || treino.tempo || 60) * 60
@@ -54,6 +59,45 @@ export default function TreinoActiveModal({ treino, onClose, onMinimize }) {
   const progresso = Math.round(
     (exercicios.filter((ex) => ex.concluido).length / exercicios.length) * 100
   );
+
+  // Registrar treino concluído
+  const finalizarTreino = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/aluno/treino/concluido`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tr_id: treino.id || treino.tr_id,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        console.error("❌ Erro na resposta:", errorData);
+        throw new Error(
+          errorData.error || "Erro ao registrar treino concluído"
+        );
+      }
+
+      const data = await res.json();
+
+      // Chama callback se existir, senão apenas fecha
+      if (typeof onTreinoCompleted === "function") {
+        onTreinoCompleted();
+      } else {
+        console.log(
+          "⚠️ onTreinoCompleted não fornecido, fechando apenas o modal"
+        );
+        onClose();
+      }
+    } catch (error) {
+      alert("Erro ao registrar treino. Tente novamente.");
+    }
+  };
 
   return (
     <div className="treino-active-overlay">
@@ -135,7 +179,7 @@ export default function TreinoActiveModal({ treino, onClose, onMinimize }) {
 
         {/* Rodapé */}
         <div className="modal-footer">
-          <button className="finish-btn" onClick={onClose}>
+          <button className="finish-btn" onClick={finalizarTreino}>
             Finalizar Treino ({progresso || 0}%)
           </button>
         </div>

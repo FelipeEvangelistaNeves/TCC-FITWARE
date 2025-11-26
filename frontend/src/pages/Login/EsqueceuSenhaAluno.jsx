@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/pages/login/esqueceuSenha.scss";
 import { Link } from "react-router-dom";
 
-export default function EsqueceuSenha() {
+export default function EsqueceuSenhaAl() {
   const [email, setEmail] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -105,7 +105,7 @@ export default function EsqueceuSenha() {
 
         <div className="login-links">
           <p>Lembrou sua senha?</p>
-          <Link to="/escolherlogin" className="link-voltar">
+          <Link to="/login/aluno" className="link-voltar">
             Voltar ao Login
           </Link>
         </div>

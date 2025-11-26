@@ -75,7 +75,7 @@ export default function LoginAluno() {
         </div>
 
         <div className="forgot-password">
-          <Link to="/esqueci-senha" state={{ from: "/login/aluno" }}>
+          <Link to="/esqueci-senha-aluno" state={{ from: "/login/aluno" }}>
             Esqueceu a senha?
           </Link>
         </div>

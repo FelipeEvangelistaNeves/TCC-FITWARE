@@ -7,7 +7,7 @@ import Sobre from "../pages/Public/Sobre";
 import Suporte from "../pages/Public/Suporte";
 import EscolherLogin from "../pages/Login/EscolherLogin";
 import PqJuntar from "../pages/Public/PqJuntar";
-import EsqueceuSenha from "../pages/Login/EsqueceuSenha";
+import EsqueceuSenha from "../pages/Login/EsqueceuSenhaProf";
 import ResetarSenha from "../pages/Login/ResetarSenha";
 export default function PublicRoutes() {
   return (
