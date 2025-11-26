@@ -130,17 +130,6 @@ export default function EditarAluno({ aluno, onClose, onSave }) {
               />
             </div>
 
-            {/* TURMA */}
-            <div className="form-group">
-              <label>Turma</label>
-              <input
-                type="text"
-                name="turma"
-                value={form.turma}
-                onChange={handleChange}
-              />
-            </div>
-
             {/* STATUS */}
             <div className="form-group">
               <label>Status</label>

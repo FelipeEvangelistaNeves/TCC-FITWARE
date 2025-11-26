@@ -9,6 +9,7 @@ const LoginDesk = () => {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
   async function Executar() {
     setErrorMsg("");
@@ -38,10 +39,47 @@ const LoginDesk = () => {
     }
   }
 
-  const handleForgotSubmit = (e) => {
+  const handleForgotSubmit = async (e) => {
     e.preventDefault();
-    console.log("Recover password for:", forgotEmail);
-    alert(`recuperar senha ebaaaaa${forgotEmail} `);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    if (!forgotEmail) {
+      setErrorMsg("Por favor, insira seu email");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/resetar-senha/esqueci-senha`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: forgotEmail }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setSuccessMsg(
+          "✓ Email enviado com sucesso! Verifique sua caixa de entrada"
+        );
+        setForgotEmail("");
+        setTimeout(() => {
+          setIsFlipped(false);
+          setSuccessMsg("");
+        }, 3000);
+      } else {
+        setErrorMsg(
+          data.error ||
+            "Erro ao enviar email. Verifique se o email está correto."
+        );
+      }
+    } catch (err) {
+      setErrorMsg("Erro ao conectar com o servidor");
+      console.error(err);
+    }
   };
 
   return (
@@ -129,7 +167,7 @@ const LoginDesk = () => {
               </div>
 
               <div className="login-footer">
-                <p>© 2023 FitWare. Todos os direitos reservados.</p>
+                <p>© 2025 FitWare. Todos os direitos reservados.</p>
               </div>
             </div>
           ) : (
@@ -137,6 +175,12 @@ const LoginDesk = () => {
               <h2>Recuperar Senha</h2>
               <p>Informe seu email para receber o link de recuperação</p>
               <div className="login-form">
+                {errorMsg && <p className="error-msg">{errorMsg}</p>}
+                {successMsg && (
+                  <p className="success-msg" style={{ color: "green" }}>
+                    {successMsg}
+                  </p>
+                )}
                 <div className="form-group">
                   <label htmlFor="forgot-email">Email</label>
                   <input
@@ -167,7 +211,7 @@ const LoginDesk = () => {
                 </div>
               </div>
               <div className="login-footer">
-                <p>© 2023 FitWare. Todos os direitos reservados.</p>
+                <p>© 2025 FitWare. Todos os direitos reservados.</p>
               </div>
             </div>
           )}

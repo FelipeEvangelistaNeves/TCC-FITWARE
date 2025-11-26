@@ -36,22 +36,14 @@ export default function Treinos() {
       });
       if (!res.ok) throw new Error("Falha ao buscar treinos");
       const data = await res.json();
-      // Mapear dados do backend diretamente
-      const mapped = (data || []).map((t) => ({
-        id: t.id,
-        nome: t.nome,
-        descricao: t.descricao,
-        tipo: t.dificuldade || "-",
-        nivel: t.dificuldade || "-",
-        nivelClass: (t.dificuldade || "").toLowerCase().includes("inic")
-          ? "iniciante"
-          : (t.dificuldade || "").toLowerCase().includes("inter")
-          ? "intermediario"
-          : "avancado",
-        exercicios: t.exercicios || 0,
-        atribuido: t.atribuido || 0,
-        icone: "bi-lightning-charge",
-        cor: "purple",
+
+      const mapped = (data.treinos || data || []).map((t) => ({
+        id: t.tr_id || t.id,
+        nome: t.tr_nome || t.nome,
+        descricao: t.tr_descricao || t.descricao || "-",
+        dificuldade: t.tr_dificuldade || t.dificuldade || "-",
+        exercicios: t.exercicios_count || t.exercicios || 0,
+        atribuido: t.alunos_count || t.atribuido || 0,
         raw: t,
       }));
 
@@ -225,8 +217,9 @@ export default function Treinos() {
         <table className="tabela">
           <thead>
             <tr>
-              <th>Nome do Treino</th>
-              <th>Nível</th>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Dificuldade</th>
               <th>Exercícios</th>
               <th>Atribuído</th>
               <th>Ações</th>
@@ -236,19 +229,14 @@ export default function Treinos() {
             {treinosExibidos.length > 0 ? (
               treinosExibidos.map((t) => (
                 <tr key={t.id}>
-                  <td className="nome-treino">
-                    <div className={`icone ${t.cor}`}>
-                      <i className={`bi ${t.icone}`}></i>
-                    </div>
-                    <div>
-                      <strong>{t.nome}</strong>
-                      <small>{t.descricao}</small>
-                    </div>
+                  <td>
+                    <strong>{t.nome}</strong>
                   </td>
+                  <td>{t.descricao}</td>
+                  <td>{t.dificuldade}</td>
+                  <td>{t.exercicios}</td>
                   <td>{t.atribuido}</td>
                   <td>
-                    {/* Enviar (novo ícone) */}
-
                     <button
                       className="action-btn"
                       title="Editar"
@@ -277,7 +265,7 @@ export default function Treinos() {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="sem-resultado">
+                <td colSpan="6" className="sem-resultado">
                   Nenhum treino encontrado.
                 </td>
               </tr>

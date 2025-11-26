@@ -6,49 +6,47 @@ import "../../styles/pages/aluno/treinos.scss";
 export default function DashboardAluno() {
   const [treinosCompletos, setTreinosCompletos] = useState();
   const [treinos, setTreinos] = useState([]);
+
+  // Função para buscar treinos (pode ser reutilizada)
+  const fetchTreinos = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/treinos/aluno`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json; charset=utf-8",
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error(`Erro na resposta: ${res.status}`);
+
+      const data = await res.json();
+
+      const treinosFormatados = data.treinos.map((t) => ({
+        id: t.id,
+        titulo: t.nome,
+        descricao: t.descricao,
+        nivel: t.dificuldade,
+        treinador: t.funcionario,
+        exercicios: t.exercicios.map((ex) => ({
+          nome: ex.nome,
+          sets: `${ex.series}×${ex.repeticoes}`,
+          series: ex.series,
+          repeticoes: ex.repeticoes,
+          instrucao: ex.instrucao,
+          descanso: ex.descanso,
+        })),
+      }));
+
+      setTreinosCompletos(data.treinos_completos);
+      setTreinos(treinosFormatados);
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    const fetchTreinos = async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/treinos/aluno`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              Accept: "application/json; charset=utf-8",
-            },
-          }
-        );
-
-        if (!res.ok) throw new Error("Erro ao buscar treinos do aluno");
-
-        const data = await res.json();
-
-        console.log(data);
-        const treinosFormatados = data.treinos.map((t) => ({
-          id: t.id,
-          titulo: t.nome,
-          treinos_completos: t.treinos_completos,
-          descricao: t.descricao,
-          nivel: t.dificuldade,
-          treinador: t.funcionario,
-          exercicios: t.exercicios.map((ex) => ({
-            nome: ex.nome,
-            sets: `${ex.series}×${ex.repeticoes}`,
-            series: ex.series,
-            repeticoes: ex.repeticoes,
-            instrucao: ex.instrucao,
-            descanso: ex.descanso,
-          })),
-        }));
-        
-        setTreinosCompletos(data.treinos_completos);
-        setTreinos(treinosFormatados);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchTreinos();
   }, []);
 
@@ -128,6 +126,10 @@ export default function DashboardAluno() {
           treino={modalTreinoAtivo}
           onClose={() => setModalTreinoAtivo(null)}
           onMinimize={() => setModalTreinoAtivo(null)}
+          onTreinoCompleted={() => {
+            setModalTreinoAtivo(null);
+            fetchTreinos();
+          }}
         />
       )}
     </div>

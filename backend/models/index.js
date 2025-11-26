@@ -22,6 +22,7 @@ const Mensagem = require("./mensagens")(sequelize, DataTypes);
 const Conversa = require("./conversas")(sequelize, DataTypes);
 const DesafioImagem = require("./desafios_imagem")(sequelize, DataTypes);
 const Resgate = require("./resgates")(sequelize, DataTypes);
+const PasswordReset = require("./password_reset")(sequelize, DataTypes);
 
 // ==================== RELACIONAMENTOS ====================
 
@@ -199,6 +200,7 @@ module.exports = {
   Mensagem,
   Modalidade,
   Pagamento,
+  PasswordReset,
   Produto,
   Treino,
   TreinoExercicio,

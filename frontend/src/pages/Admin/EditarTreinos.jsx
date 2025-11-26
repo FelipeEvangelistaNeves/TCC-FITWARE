@@ -34,7 +34,7 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
 
       try {
         const resAlunos = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/professor/allAlunos`,
+          `${import.meta.env.VITE_BASE_URL}/admin/allAlunos`,
           { credentials: "include" }
         );
         if (resAlunos.ok) {
@@ -173,7 +173,7 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
       if (!treinoId) throw new Error("ID do treino ausente");
 
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/treinos/professor/${treinoId}`,
+        `${import.meta.env.VITE_BASE_URL}/treinos/${treinoId}`,
         {
           method: "PUT",
           credentials: "include",

@@ -7,6 +7,8 @@ import Sobre from "../pages/Public/Sobre";
 import Suporte from "../pages/Public/Suporte";
 import EscolherLogin from "../pages/Login/EscolherLogin";
 import PqJuntar from "../pages/Public/PqJuntar";
+import EsqueceuSenha from "../pages/Login/EsqueceuSenhaProf";
+import ResetarSenha from "../pages/Login/ResetarSenha";
 export default function PublicRoutes() {
   return (
     <Routes>
@@ -18,6 +20,8 @@ export default function PublicRoutes() {
         <Route path="suporte" element={<Suporte />} />
         <Route path="escolherlogin" element={<EscolherLogin />} />
         <Route path="pqjuntar" element={<PqJuntar />} />
+        <Route path="esqueceu-senha" element={<EsqueceuSenha />} />
+        <Route path="resetar-senha/:token" element={<ResetarSenha />} />
         <Route path="*" element={<h2>Página não encontrada</h2>} />
       </Route>
     </Routes>

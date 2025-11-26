@@ -31,7 +31,8 @@
   .login-card {
     width: 100%;
     max-width: 400px;
-    // background:
+
+    background: var(--card-bg);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
     color: var(--color-text);
@@ -133,7 +134,7 @@
     padding: 12px 16px;
     border-radius: 8px !important;
     background: var(
-      --surface-1
+      --color-purple
     ); // $primary -> $color-purple-light (mapeado para var(--...))
     color: var(--white); // usa $white (mapeado para var(--white))
     border: 1px solid transparent;
@@ -147,7 +148,7 @@
     box-shadow: 0 6px 18px rgba(var(--shadow-rgb), 0.08);
 
     &:hover {
-      background: var(--color-purple);
+      background: var(--color-purple-hover);
       box-shadow: 0 6px 20px rgba(var(--shadow-rgb), 0.15);
     }
 

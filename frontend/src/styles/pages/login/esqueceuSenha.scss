@@ -1,0 +1,144 @@
+@import "./../../abstract/variables.scss";
+
+/* ========== CONTAINER GERAL ========== */
+.esqueceu-senha-container {
+  min-height: 100vh;
+  background: var(--app-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+/* ========== CARD PRINCIPAL ========== */
+.esqueceu-senha-card {
+  background: var(--card-bg);
+  color: var(--color-text);
+  width: 100%;
+  max-width: 480px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 32px;
+  animation: slideUp 0.25s ease-out;
+}
+
+/* ========== HEADER DO CARD ========== */
+.esqueceu-senha-card .card-header {
+  text-align: center;
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-purple);
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--color-text-muted);
+    font-size: 14px;
+  }
+}
+
+/* ========== FORMULÁRIO ========== */
+.form-esqueceu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    input {
+      background: var(--surface-2);
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--color-text);
+      transition: 0.2s ease;
+
+      &:focus {
+        border-color: var(--color-purple);
+        box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.25);
+      }
+    }
+  }
+
+  /* Botão padrão */
+  .btn-submit {
+    background: var(--color-purple);
+    border: none;
+    color: #fff;
+    padding: 10px 16px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: 0.25s ease;
+
+    &:hover {
+      background: var(--color-purple-light);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  /* Mensagens */
+  .mensagem {
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+
+    &.sucesso {
+      background: rgba(0, 200, 120, 0.1);
+      border: 1px solid rgba(0, 200, 120, 0.2);
+      color: #2ecc71;
+    }
+
+    &.erro {
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      color: #e74c3c;
+    }
+  }
+}
+
+/* ========== LINKS ========== */
+.login-links {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+
+  a {
+    color: var(--color-purple);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ========== ANIMAÇÃO ========== */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

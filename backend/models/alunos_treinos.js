@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         references: { model: "treinos", key: "tr_id" },
       },
+      at_data_conclusao: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        comment: "Data quando o aluno completou o treino",
+      },
     },
     {
       tableName: "alunos_treinos",

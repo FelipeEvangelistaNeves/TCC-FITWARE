@@ -78,7 +78,7 @@ const dataTreinosDoAluno = async (req, res) => {
         },
         {
           model: Desafio,
-          attributes: ["de_id"]
+          attributes: ["de_id"],
         },
       ],
     });
@@ -105,12 +105,12 @@ const dataTreinosDoAluno = async (req, res) => {
         exercicios,
       };
     });
-    
+
     console.log(aluno);
     return res.status(200).json({
       treinos,
       treinos_completos: aluno.al_treinos_completos,
-      desafioId: aluno.de_id,  // Aqui está o campo adicionado fora do array de treinos
+      desafioId: aluno.de_id, // Aqui está o campo adicionado fora do array de treinos
     });
   } catch (error) {
     console.error(LoggerMessages.TREINOS_FAILED, error);
@@ -322,7 +322,7 @@ const addTreino = async (req, res) => {
   const profId = req.user && req.user.id;
 
   if (!profId)
-    return res.status(401).json({ error: "Professor não autenticado" });
+    return res.status(401).json({ error: "Usuário não autenticado" });
 
   const {
     tr_nome,

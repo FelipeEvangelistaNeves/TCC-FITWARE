@@ -193,6 +193,24 @@ const resgatarProduto = async (req, res) => {
   }
 };
 
+// 🔹 Listar resgates do aluno
+const listarResgatesdoAluno = async (req, res) => {
+  try {
+    const alunoId = req.user.id;
+
+    const resgates = await Resgate.findAll({
+      where: { al_id: alunoId },
+      include: [{ model: Produto, attributes: ["pd_nome", "pd_valor"] }],
+      order: [["re_data", "DESC"]],
+    });
+
+    return res.status(200).json(resgates);
+  } catch (error) {
+    console.error("Erro ao listar resgates:", error);
+    return res.status(500).json({ error: "Erro ao listar resgates do aluno" });
+  }
+};
+
 module.exports = {
   criarProduto,
   listarProdutos,
@@ -200,4 +218,5 @@ module.exports = {
   atualizarProduto,
   deletarProduto,
   resgatarProduto,
+  listarResgatesdoAluno,
 };

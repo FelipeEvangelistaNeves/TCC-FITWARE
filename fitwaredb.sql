@@ -2,8 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.5
--- Dumped by pg_dump version 17.5
+\restrict 7pMDgn6VNJJMm7ae3Xilj8MJLgQdApEoZpUJFl0H2x3WpxeagfYQb0qzBPJRUym
+
+-- Dumped from database version 18.1
+-- Dumped by pg_dump version 18.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,142 +25,142 @@ SET row_security = off;
 
 CREATE FUNCTION public.verificar_participantes_mensagem() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-
-
-
-DECLARE
-
-
-
-    aluno_id INT;
-
-
-
-    professor_id INT;
-
-
-
-BEGIN
-
-
-
-    -- Busca os participantes da conversa
-
-
-
-    SELECT al_id, prof_id INTO aluno_id, professor_id
-
-
-
-    FROM conversas
-
-
-
-    WHERE co_id = NEW.co_id;
-
-
-
-
-
-
-
-    -- Verifica se a conversa existe
-
-
-
-    IF aluno_id IS NULL THEN
-
-
-
-        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
-
-
-
-    END IF;
-
-
-
-
-
-
-
-    -- Verifica se remetente e destinatário pertencem … conversa
-
-
-
-    IF NOT (
-
-
-
-        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
-
-
-
-         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
-
-
-
-        OR
-
-
-
-        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
-
-
-
-         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
-
-
-
-    ) THEN
-
-
-
-        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
-
-
-
-    END IF;
-
-
-
-
-
-
-
-    -- Evita remetente e destinatário iguais do mesmo tipo
-
-
-
-    IF NEW.remetente_tipo = NEW.destinatario_tipo
-
-
-
-       AND NEW.remetente_id = NEW.destinatario_id THEN
-
-
-
-        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
-
-
-
-    END IF;
-
-
-
-
-
-
-
-    RETURN NEW;
-
-
-
-END;
-
-
-
+    AS $$
+
+
+
+DECLARE
+
+
+
+    aluno_id INT;
+
+
+
+    professor_id INT;
+
+
+
+BEGIN
+
+
+
+    -- Busca os participantes da conversa
+
+
+
+    SELECT al_id, prof_id INTO aluno_id, professor_id
+
+
+
+    FROM conversas
+
+
+
+    WHERE co_id = NEW.co_id;
+
+
+
+
+
+
+
+    -- Verifica se a conversa existe
+
+
+
+    IF aluno_id IS NULL THEN
+
+
+
+        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
+
+
+
+    END IF;
+
+
+
+
+
+
+
+    -- Verifica se remetente e destinatário pertencem … conversa
+
+
+
+    IF NOT (
+
+
+
+        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
+
+
+
+         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
+
+
+
+        OR
+
+
+
+        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
+
+
+
+         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
+
+
+
+    ) THEN
+
+
+
+        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
+
+
+
+    END IF;
+
+
+
+
+
+
+
+    -- Evita remetente e destinatário iguais do mesmo tipo
+
+
+
+    IF NEW.remetente_tipo = NEW.destinatario_tipo
+
+
+
+       AND NEW.remetente_id = NEW.destinatario_id THEN
+
+
+
+        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
+
+
+
+    END IF;
+
+
+
+
+
+
+
+    RETURN NEW;
+
+
+
+END;
+
+
+
 $$;
 
 
@@ -229,7 +231,8 @@ ALTER TABLE public.alunos_desafios OWNER TO postgres;
 
 CREATE TABLE public.alunos_treinos (
     al_id integer NOT NULL,
-    tr_id integer NOT NULL
+    tr_id integer NOT NULL,
+    at_data_conclusao timestamp without time zone
 );
 
 
@@ -632,6 +635,44 @@ ALTER SEQUENCE public.pagamentos_pa_id_seq OWNED BY public.pagamentos.pa_id;
 
 
 --
+-- Name: password_reset; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.password_reset (
+    pr_id integer NOT NULL,
+    pr_email character varying(255) NOT NULL,
+    pr_token character varying(255) NOT NULL,
+    pr_expira timestamp without time zone NOT NULL,
+    pr_usado smallint DEFAULT 0,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.password_reset OWNER TO postgres;
+
+--
+-- Name: password_reset_pr_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.password_reset_pr_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.password_reset_pr_id_seq OWNER TO postgres;
+
+--
+-- Name: password_reset_pr_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.password_reset_pr_id_seq OWNED BY public.password_reset.pr_id;
+
+
+--
 -- Name: produtos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -874,6 +915,13 @@ ALTER TABLE ONLY public.pagamentos ALTER COLUMN pa_id SET DEFAULT nextval('publi
 
 
 --
+-- Name: password_reset pr_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.password_reset ALTER COLUMN pr_id SET DEFAULT nextval('public.password_reset_pr_id_seq'::regclass);
+
+
+--
 -- Name: produtos pd_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -910,7 +958,8 @@ COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_
 3	Lucas Almeida	lucas@email.com	$2b$10$90uJejb9BaA9zzvEyou7ueVtERs00KEjYR68n6KT90HIdi8Fwj.c6	34567890123	11977777777	1999-02-18	100	3	ativo
 4	Ana Beatriz Ramos	ana@email.com	$2b$10$Y9sW05D0kaEQAgUvWhx2n.ZZveul6yjCB9Hr2R3ZrzfauF0HbCV0S	45678901234	11966666666	2000-11-09	250	10	ativo
 5	Carlos Henrique Dias	carlos@email.com	$2b$10$deBbNrfkaX8oa6/qKOtW2.dWl9pjwzbiaGypwU/ui3zBD.5AHZaPq	56789012345	11955555555	1997-05-25	180	6	ativo
-1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	65	5	ativo
+7	Felipe Evangelista	felipeneves0303@gmail.com	$2b$10$wZaka1O0fd4GE8rIQ53cq.GpjiL/mLkSvh1UM6FHinSha2ArBHhue	75656425253	11312314546	2008-03-03	1000	1	Ativo
+1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	5	11	ativo
 \.
 
 
@@ -935,18 +984,16 @@ COPY public.alunos_desafios (al_id, de_id, ad_status) FROM stdin;
 -- Data for Name: alunos_treinos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.alunos_treinos (al_id, tr_id) FROM stdin;
-2	4
-3	5
-3	6
-4	4
-5	5
-5	6
-2	21
-3	21
-4	21
-5	21
-1	21
+COPY public.alunos_treinos (al_id, tr_id, at_data_conclusao) FROM stdin;
+2	4	\N
+3	5	\N
+3	6	\N
+4	4	\N
+5	5	\N
+5	6	\N
+1	26	2025-11-26 01:31:51.712
+1	27	2025-11-26 01:33:15.67
+1	25	2025-11-26 01:36:43.439
 \.
 
 
@@ -1082,8 +1129,8 @@ COPY public.funcionarios (fu_id, fu_nome, fu_email, fu_senha, fu_cpf, fu_telefon
 9	Ermyone Vieira	ermyone@fitware.com	$2b$10$/6IVJ4NTCBAn.bStkkaGdO1bYhBOs3Z3H99Z6GSpqYdqRW/pGG2w6	99900011122	11977774444	1991-10-07	Secretario	\N
 10	Ana Leonel	ana@fitware.com	$2b$10$1fuxqKYzcc0B35xl6nYWkeUQjUx8ClArg7DJCUojqKcLF10gJQyBG	00011122233	11966665555	1997-01-30	Secretario	\N
 12	Anthony	anthony@email.com	$2b$10$ZoJMD9bvRfzN2WPUf1cb8ulNWSbedw1ZhVIJ941E60T0xMrA/8Oji	88877718191	11943321019	2008-03-12	Professor	1213
-6	Anthony Dias	anthony@fitwar.com	$2b$10$3pP1qM81cg/94RBhCha6GuoOuOEaDacznqBfrRnTWx0KHcwMcSiNW	66677788899	11922221111	1995-08-25	Secretario	\N
 2	Filipe Mello	filipe@fitware.com	$2b$10$CSeDQRkzagkk9HrHj9L9beh962l2Zv7Z6osmLcTwXRbYZYGsamAqm	22233344455	11999998888	1990-06-22	Professor	CREF987654-SP
+6	Anthony a	anthony@fitware.com	$2b$10$3pP1qM81cg/94RBhCha6GuoOuOEaDacznqBfrRnTWx0KHcwMcSiNW	66677788899	11922221111	1995-08-25	Secretario	\N
 \.
 
 
@@ -1201,6 +1248,16 @@ COPY public.pagamentos (pa_id, pa_al_id, pa_valor, pa_metodo, pa_status, pa_data
 
 
 --
+-- Data for Name: password_reset; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.password_reset (pr_id, pr_email, pr_token, pr_expira, pr_usado, created_at) FROM stdin;
+1	felipeneves0303@gmail.com	3c0e1c7c119c4de89ecf58632841d17b1c07baab7e96c406569400c643a0f37a	2025-11-26 01:08:14.79	0	2025-11-26 00:08:14.79
+2	felipeneves0303@gmail.com	804c7d22e515c6728bf7c94519a5389950dd2ff96fa2665b3f2b494f9f971383	2025-11-26 01:13:25.427	1	2025-11-26 00:13:25.428
+\.
+
+
+--
 -- Data for Name: produtos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1214,7 +1271,7 @@ COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_esto
 9	Cinto de Musculação	130	Suporte lombar para levantamento de peso.	Disponível	10
 10	Tapioca Proteica 500g	55	Mistura pronta com whey e fibras.	Disponível	25
 6	Toalha de Microfibra Fitness	35	Secagem rápida e compacta.	Disponível	49
-8	Barra de Cereal Proteica	10	Snack com alto teor de proteína.	disponivel	10
+8	Barra de Cereal Proteica	10	Snack com alto teor de proteína.	disponivel	4
 \.
 
 
@@ -1225,6 +1282,12 @@ COPY public.produtos (pd_id, pd_nome, pd_valor, pd_descricao, pd_status, pd_esto
 COPY public.resgates (re_id, al_id, pd_id, re_hash, re_preco, re_data) FROM stdin;
 1	1	6	f3fe5b63a1045316	35	2025-11-24 15:10:56.208
 2	1	8	c0ed0f22b83b785d	10	2025-11-24 22:29:42.236
+3	1	8	84d5acc2f7b29449	10	2025-11-25 21:32:01.561
+4	1	8	10406826f73b76c7	10	2025-11-25 21:32:12.431
+5	1	8	c1603a1fa66cbc2a	10	2025-11-25 21:32:28.634
+6	1	8	29cdde77e615edd0	10	2025-11-25 21:32:47.788
+7	1	8	306a47451f516602	10	2025-11-25 21:34:21.51
+8	1	8	b9b7d2127445de53	10	2025-11-25 21:36:11.056
 \.
 
 
@@ -1238,7 +1301,9 @@ COPY public.treinos (tr_id, tr_prof_id, tr_nome, tr_descricao, tr_dificuldade) F
 6	4	Treino de Alongamento Relax	Série de alongamentos guiados e leves.	Iniciante
 7	5	Treino HIIT Express	Alta intensidade com pausas curtas.	Força
 8	5	Treino Resistência 360	Combina resistência e agilidade em circuito.	Força
-21	6	felipe	boa sorte com ele\n	Intermediário
+25	1	TRRRR	É um treino que vai demandar seu tempo	Leve
+26	1	a	\N	Difícil
+27	1	ss	\N	Moderado
 \.
 
 
@@ -1247,9 +1312,6 @@ COPY public.treinos (tr_id, tr_prof_id, tr_nome, tr_descricao, tr_dificuldade) F
 --
 
 COPY public.treinos_exercicios (tr_id, ex_id, te_repeticoes, te_series, te_descanso) FROM stdin;
-21	24	10	3	60
-21	25	12	3	61112
-21	26	10	3	60
 4	1	15	4	45
 4	6	20	3	45
 4	7	12	3	60
@@ -1268,6 +1330,10 @@ COPY public.treinos_exercicios (tr_id, ex_id, te_repeticoes, te_series, te_desca
 8	3	12	4	60
 8	4	40	2	60
 8	7	10	3	60
+25	3	123	1	129
+25	9	12	1	60
+26	8	13	1	601
+27	6	12	1	60
 \.
 
 
@@ -1291,7 +1357,7 @@ COPY public.turmas (tu_id, tu_nome, tu_prof_id, tu_mod_id, tu_hor_id) FROM stdin
 -- Name: alunos_al_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.alunos_al_id_seq', 6, true);
+SELECT pg_catalog.setval('public.alunos_al_id_seq', 7, true);
 
 
 --
@@ -1365,6 +1431,13 @@ SELECT pg_catalog.setval('public.pagamentos_pa_id_seq', 11, true);
 
 
 --
+-- Name: password_reset_pr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.password_reset_pr_id_seq', 2, true);
+
+
+--
 -- Name: produtos_pd_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1375,14 +1448,14 @@ SELECT pg_catalog.setval('public.produtos_pd_id_seq', 12, true);
 -- Name: resgates_re_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.resgates_re_id_seq', 2, true);
+SELECT pg_catalog.setval('public.resgates_re_id_seq', 8, true);
 
 
 --
 -- Name: treinos_tr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.treinos_tr_id_seq', 21, true);
+SELECT pg_catalog.setval('public.treinos_tr_id_seq', 27, true);
 
 
 --
@@ -1502,6 +1575,14 @@ ALTER TABLE ONLY public.modalidades
 
 ALTER TABLE ONLY public.pagamentos
     ADD CONSTRAINT pagamentos_pkey PRIMARY KEY (pa_id);
+
+
+--
+-- Name: password_reset password_reset_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.password_reset
+    ADD CONSTRAINT password_reset_pkey PRIMARY KEY (pr_id);
 
 
 --
@@ -1689,4 +1770,6 @@ ALTER TABLE ONLY public.treinos_exercicios
 --
 -- PostgreSQL database dump complete
 --
+
+\unrestrict 7pMDgn6VNJJMm7ae3Xilj8MJLgQdApEoZpUJFl0H2x3WpxeagfYQb0qzBPJRUym
 

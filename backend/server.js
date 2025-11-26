@@ -34,6 +34,7 @@ const treinoRoutes = require("./router/treinoRoutes");
 const desafioRoutes = require("./router/desafioRoutes");
 const avisosRoutes = require("./router/avisosRoutes");
 const produtosRoutes = require("./router/produtosRoutes");
+const resetSenhaRoutes = require("./router/resetSenha");
 const resgatesRoutes = require("./router/resgatesRoutes");
 
 app.use("/", authRoutes);
@@ -45,7 +46,7 @@ app.use("/desafios", desafioRoutes);
 app.use("/avisos", avisosRoutes);
 app.use("/produtos", produtosRoutes);
 app.use("/resgates", resgatesRoutes);
-
+app.use("/resetar-senha", resetSenhaRoutes);
 // Swagger docs
 swaggerDocs(app);
 
