@@ -70,9 +70,6 @@ export default function Planos() {
                   <li>Treinos básicos</li>
                   <li>Suporte padrão</li>
                 </ul>
-                <Link to="/escolherlogin" className="btn botaoplano mt-3">
-                  Escolher
-                </Link>
               </div>
             </div>
 
@@ -86,9 +83,6 @@ export default function Planos() {
                   <li>Relatórios avançados</li>
                   <li>Treinos personalizados</li>
                 </ul>
-                <Link to="/escolherlogin" className="btn botaoplano mt-3">
-                  Escolher
-                </Link>
               </div>
             </div>
 
@@ -102,9 +96,6 @@ export default function Planos() {
                   <li>Suporte prioritário</li>
                   <li>Relatórios ilimitados</li>
                 </ul>
-                <Link to="/escolherlogin" className="btn botaoplano mt-3">
-                  Escolher
-                </Link>
               </div>
             </div>
           </div>

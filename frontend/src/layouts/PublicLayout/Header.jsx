@@ -32,13 +32,17 @@ export default function Header() {
         <div className="d-flex align-items-center">
           <div className="brand ">
             <div className="logo ">
-              <img
-                src="/src/assets/logo.png"
-                className="login-avatar"
-                alt="logo fitware"
-              />
+              <Link to="/">
+                <img
+                  src="/src/assets/logo.png"
+                  className="login-avatar"
+                  alt="logo fitware"
+                />
+              </Link>
             </div>
-            <span className="brand-text">FitWare</span>
+            <Link to="/">
+              <span className="brand-text">FitWare</span>
+            </Link>
           </div>
         </div>
 
