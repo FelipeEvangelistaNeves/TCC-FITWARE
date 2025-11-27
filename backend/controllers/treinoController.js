@@ -4,7 +4,7 @@ const {
   Funcionario,
   Aluno,
   Exercicio,
-  Desafio,
+  AlunoDesafio,
   TreinoExercicio,
   AlunoTreino,
   sequelize,
@@ -76,16 +76,16 @@ const dataTreinosDoAluno = async (req, res) => {
             },
           ],
         },
-        {
-          model: Desafio,
-          attributes: ["de_id"],
-        },
       ],
     });
 
     if (!aluno) {
       return res.status(404).json({ error: "Aluno não encontrado" });
     }
+
+    const desafiosAtivos = await AlunoDesafio.count({
+      where: { al_id: alunoId, ad_status: "ativo" },
+    });
 
     const treinos = aluno.Treinos.map((tr) => {
       const exercicios = (tr.Exercicios || []).map((ex) => ({
@@ -106,11 +106,10 @@ const dataTreinosDoAluno = async (req, res) => {
       };
     });
 
-    console.log(aluno);
     return res.status(200).json({
       treinos,
       treinos_completos: aluno.al_treinos_completos,
-      desafioId: aluno.de_id, // Aqui está o campo adicionado fora do array de treinos
+      desafios_ativos: desafiosAtivos,
     });
   } catch (error) {
     console.error(LoggerMessages.TREINOS_FAILED, error);

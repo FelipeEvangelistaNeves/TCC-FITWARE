@@ -32,6 +32,7 @@ export default function MensagensAluno() {
           return colors[Math.floor(Math.random() * colors.length)];
         };
 
+        console.log(data);
         // Normaliza para o mesmo padrão da versão do professor
         const normalizadas = data.conversas.map((c) => {
           console.log("Conversa:", c); // Debug

@@ -151,6 +151,13 @@ Aluno.findByPk = async function (id, options = {}) {
   return await Aluno.findOne({ where: { al_id: id }, ...options });
 };
 
+Aluno.findNameByPk = async function (id) {
+  return await Aluno.findOne({
+    where: { al_id: id },
+    attributes: ["al_nome"],
+  });
+};
+
 // Funcionarios
 
 Funcionario.findByEmail = async function (email) {
@@ -178,6 +185,14 @@ Treino.findByProfId = async function (profId) {
         },
       },
     ],
+  });
+};
+
+// Produtos
+Produto.findNameByPk = async function (id) {
+  return await Produto.findOne({
+    where: { pd_id: id },
+    attributes: ["pd_nome"],
   });
 };
 

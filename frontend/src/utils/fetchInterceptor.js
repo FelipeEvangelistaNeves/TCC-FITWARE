@@ -30,7 +30,7 @@ export function initFetchInterceptor() {
       localStorage.removeItem("user-role");
       localStorage.removeItem("token");
 
-      window.location.href = "/login/aluno";
+      window.location.href = "/escolherlogin";
       throw new Error("Unauthorized");
     }
 

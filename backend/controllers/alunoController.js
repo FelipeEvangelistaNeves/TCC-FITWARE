@@ -126,6 +126,23 @@ const dataAlunoConversas = async (req, res) => {
   }
 };
 
+const dataAlunoConversaInativa = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const alunoId = decoded.id;
+
+    const conversaInativa = await Funcionario.findAll({
+      where: {},
+    });
+  } catch (error) {
+    console.error("Erro buscando conversas não iniciadas: ", error);
+    return res
+      .status(500)
+      .json({ message: "Erro buscando conversas não iniciadas" });
+  }
+};
+
 const dataAlunoMensagem = async (req, res) => {
   try {
     const token = req.cookies.token;

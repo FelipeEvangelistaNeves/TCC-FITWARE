@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       re_hash: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
         unique: true,
       },
@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       re_data: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+      },
+      re_status: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
       },
     },
     {

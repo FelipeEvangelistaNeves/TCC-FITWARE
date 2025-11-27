@@ -1,4 +1,3 @@
-// src/pages/Admin/Resgates.jsx
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
 
@@ -21,7 +20,10 @@ export default function Resgates() {
         if (!res.ok) throw new Error("Erro ao buscar resgates");
 
         const data = await res.json();
-        setResgates(data.sort((a, b) => (a.re_id || 0) - (b.re_id || 0)));
+        console.log(data);
+        setResgates(
+          data.resgates.sort((a, b) => (a.re_id || 0) - (b.re_id || 0))
+        );
       } catch (err) {
         console.error("Erro ao carregar resgates:", err);
       }
@@ -109,9 +111,8 @@ export default function Resgates() {
       <table className="tabela">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Aluno ID</th>
-            <th>Produto ID</th>
+            <th>Nome do Aluno</th>
+            <th>Nome do Produto</th>
             <th>Hash</th>
             <th>Preço</th>
             <th>Data</th>
@@ -122,19 +123,18 @@ export default function Resgates() {
         <tbody>
           {resgatesPaginados.length > 0 ? (
             resgatesPaginados.map((r) => (
-              <tr key={r.re_id}>
-                <td>{r.re_id}</td>
-                <td>{r.al_id}</td>
-                <td>{r.pd_id}</td>
-                <td className="user-info">{r.re_hash}</td>
-                <td>{r.re_preco}</td>
-                <td>{fmtDate(r.re_data)}</td>
+              <tr key={r.id}>
+                <td>{r.alunoNome.al_nome}</td>
+                <td>{r.produtoNome.pd_nome}</td>
+                <td className="user-info">{r.hash}</td>
+                <td>{r.preco}</td>
+                <td>{fmtDate(r.data)}</td>
                 <td>
                   <button
                     className="action-btn"
                     onClick={() =>
                       navigator.clipboard &&
-                      navigator.clipboard.writeText(r.re_hash)
+                      navigator.clipboard.writeText(r.hash)
                     }
                     title="Copiar hash"
                   >

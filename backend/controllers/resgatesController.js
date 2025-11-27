@@ -1,12 +1,32 @@
-const { Resgate } = require("../models");
+const { Resgate, Aluno, Produto } = require("../models");
 
 /**
  * Lista todos os resgates (para tabela admin)
  */
 const listarResgates = async (req, res) => {
   try {
-    const resgates = await Resgate.findAll({ order: [["re_id", "DESC"]] });
-    return res.json(resgates);
+    const resgatesRaw = await Resgate.findAll({
+      order: [["re_id", "DESC"]],
+    });
+
+    const resgates = await Promise.all(
+      resgatesRaw.map(async (re) => {
+        const alunoNome = await Aluno.findNameByPk(re.al_id);
+        const produtoNome = await Produto.findNameByPk(re.pd_id);
+
+        return {
+          id: re.re_id,
+          alunoNome,
+          produtoNome,
+          hash: re.re_hash,
+          preco: re.re_preco,
+          data: re.re_data,
+          status: re.re_status,
+        };
+      })
+    );
+
+    return res.json({ resgates });
   } catch (err) {
     console.error("Erro ao listar resgates:", err);
     return res.status(500).json({ message: "Erro ao listar resgates." });

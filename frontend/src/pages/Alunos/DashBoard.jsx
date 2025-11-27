@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/aluno/treinos.scss";
 
 export default function DashboardAluno() {
+  const [desafiosAtivos, setDesafiosAtivos] = useState();
   const [treinosCompletos, setTreinosCompletos] = useState();
   const [treinos, setTreinos] = useState([]);
 
@@ -25,6 +26,7 @@ export default function DashboardAluno() {
 
       const data = await res.json();
 
+      console.log("Data: ", data);
       const treinosFormatados = data.treinos.map((t) => ({
         id: t.id,
         titulo: t.nome,
@@ -41,6 +43,7 @@ export default function DashboardAluno() {
         })),
       }));
 
+      setDesafiosAtivos(data.desafios_ativos);
       setTreinosCompletos(data.treinos_completos);
       setTreinos(treinosFormatados);
     } catch (error) {}
@@ -70,7 +73,7 @@ export default function DashboardAluno() {
         </div>
         <div className="summary-card">
           <h3>Desafios</h3>
-          <div className="card-number">2</div>
+          <div className="card-number">{desafiosAtivos}</div>
           <div className="card-subtitle">Ativos</div>
         </div>
         <div className="summary-card">
