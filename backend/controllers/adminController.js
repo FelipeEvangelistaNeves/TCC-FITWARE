@@ -6,6 +6,8 @@ const {
   Desafio,
 } = require("../models");
 const bcrypt = require("bcrypt");
+const { cpf } = require("cpf-cnpj-validator");
+
 require("dotenv").config({
   quiet: true,
 });
@@ -28,6 +30,10 @@ criarAluno = async (req, res) => {
       return res.status(403).json({
         message: "Apenas funcionários podem cadastrar alunos.",
       });
+    }
+
+    if (!cpf.isValid(al_cpf)) {
+      return res.status(400).json({ message: "CPF inválido." });
     }
 
     const senhaHash = await bcrypt.hash(al_senha, 10);

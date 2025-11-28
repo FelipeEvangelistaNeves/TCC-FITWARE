@@ -55,9 +55,15 @@ export default function Alunos() {
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify(novo),
         }
       );
+
+      if (!res.ok) {
+        const errorMessage = await res.json();
+        return;
+      }
 
       const data = await res.json();
 
@@ -284,6 +290,7 @@ export default function Alunos() {
       {/* MODAIS */}
       {showAddModal && (
         <AddAluno
+          ErrorMessage={errorMessage}
           onClose={() => setShowAddModal(false)}
           onSave={handleAddAluno}
         />

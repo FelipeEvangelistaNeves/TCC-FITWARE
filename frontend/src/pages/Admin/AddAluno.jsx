@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../styles/pages/admin/forms.scss";
 
-export default function AddAluno({ onClose, onSave }) {
+export default function AddAluno({ onClose, onSave, errorMessage }) {
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -19,7 +19,7 @@ export default function AddAluno({ onClose, onSave }) {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.nome || !form.email || !form.senha || !form.cpf || !form.dtnasc) {
@@ -48,6 +48,8 @@ export default function AddAluno({ onClose, onSave }) {
           onClick={(e) => e.stopPropagation()}
         >
           <h3>Adicionar Novo Aluno</h3>
+
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <form onSubmit={handleSubmit}>
             {/* NOME */}

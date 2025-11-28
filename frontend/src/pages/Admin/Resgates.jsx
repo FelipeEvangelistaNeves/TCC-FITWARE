@@ -44,6 +44,7 @@ export default function Resgates() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || "Erro ao excluir");
 
+      console.log("Resgate excluído:", data);
       setResgates((prev) => prev.filter((x) => x.re_id !== r.re_id));
     } catch (err) {
       console.error("Erro ao excluir resgate:", err);
