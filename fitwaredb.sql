@@ -25,142 +25,278 @@ SET row_security = off;
 
 CREATE FUNCTION public.verificar_participantes_mensagem() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-
-
-
-DECLARE
-
-
-
-    aluno_id INT;
-
-
-
-    professor_id INT;
-
-
-
-BEGIN
-
-
-
-    -- Busca os participantes da conversa
-
-
-
-    SELECT al_id, prof_id INTO aluno_id, professor_id
-
-
-
-    FROM conversas
-
-
-
-    WHERE co_id = NEW.co_id;
-
-
-
-
-
-
-
-    -- Verifica se a conversa existe
-
-
-
-    IF aluno_id IS NULL THEN
-
-
-
-        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
-
-
-
-    END IF;
-
-
-
-
-
-
-
-    -- Verifica se remetente e destinatário pertencem … conversa
-
-
-
-    IF NOT (
-
-
-
-        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
-
-
-
-         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
-
-
-
-        OR
-
-
-
-        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
-
-
-
-         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
-
-
-
-    ) THEN
-
-
-
-        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
-
-
-
-    END IF;
-
-
-
-
-
-
-
-    -- Evita remetente e destinatário iguais do mesmo tipo
-
-
-
-    IF NEW.remetente_tipo = NEW.destinatario_tipo
-
-
-
-       AND NEW.remetente_id = NEW.destinatario_id THEN
-
-
-
-        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
-
-
-
-    END IF;
-
-
-
-
-
-
-
-    RETURN NEW;
-
-
-
-END;
-
-
-
+    AS $$
+
+
+
+
+
+
+
+DECLARE
+
+
+
+
+
+
+
+    aluno_id INT;
+
+
+
+
+
+
+
+    professor_id INT;
+
+
+
+
+
+
+
+BEGIN
+
+
+
+
+
+
+
+    -- Busca os participantes da conversa
+
+
+
+
+
+
+
+    SELECT al_id, prof_id INTO aluno_id, professor_id
+
+
+
+
+
+
+
+    FROM conversas
+
+
+
+
+
+
+
+    WHERE co_id = NEW.co_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -- Verifica se a conversa existe
+
+
+
+
+
+
+
+    IF aluno_id IS NULL THEN
+
+
+
+
+
+
+
+        RAISE EXCEPTION 'Conversa inexistente com co_id=%', NEW.co_id;
+
+
+
+
+
+
+
+    END IF;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -- Verifica se remetente e destinatário pertencem … conversa
+
+
+
+
+
+
+
+    IF NOT (
+
+
+
+
+
+
+
+        (NEW.remetente_tipo = 'aluno' AND NEW.remetente_id = aluno_id AND
+
+
+
+
+
+
+
+         NEW.destinatario_tipo = 'professor' AND NEW.destinatario_id = professor_id)
+
+
+
+
+
+
+
+        OR
+
+
+
+
+
+
+
+        (NEW.remetente_tipo = 'professor' AND NEW.remetente_id = professor_id AND
+
+
+
+
+
+
+
+         NEW.destinatario_tipo = 'aluno' AND NEW.destinatario_id = aluno_id)
+
+
+
+
+
+
+
+    ) THEN
+
+
+
+
+
+
+
+        RAISE EXCEPTION 'Remetente ou destinatário não pertencem … conversa %', NEW.co_id;
+
+
+
+
+
+
+
+    END IF;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -- Evita remetente e destinatário iguais do mesmo tipo
+
+
+
+
+
+
+
+    IF NEW.remetente_tipo = NEW.destinatario_tipo
+
+
+
+
+
+
+
+       AND NEW.remetente_id = NEW.destinatario_id THEN
+
+
+
+
+
+
+
+        RAISE EXCEPTION 'Remetente e destinatário não podem ser iguais do mesmo tipo';
+
+
+
+
+
+
+
+    END IF;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    RETURN NEW;
+
+
+
+
+
+
+
+END;
+
+
+
+
+
+
+
 $$;
 
 

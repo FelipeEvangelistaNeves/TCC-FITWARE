@@ -15,9 +15,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       ad_status: {
+        // ad_status stores string status values like 'ativo', 'concluido', etc.
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: "inativo",
+      },
+      ad_progresso: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      },
+        defaultValue: 0,
+      }
     },
     {
       tableName: "alunos_desafios",

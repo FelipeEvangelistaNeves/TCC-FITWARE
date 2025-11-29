@@ -5,6 +5,10 @@ const {
   dataDesafio,
   updateDesafio,
   criarDesafio,
+  aplicarDesafio,
+  meusDesafios,
+  listarAlunosDoDesafio,
+  atualizarProgressoAluno,
   uploadImageDesafio,
   deletarDesafio,
 } = require("../controllers/desafioController");
@@ -64,5 +68,49 @@ router.delete("/:id", authMiddleware([ROLES.secretario]), async (req, res) => {
     return res.status(500).json({ error: "Erro interno do servidor." });
   }
 });
+
+// Aluno aplica para um desafio
+router.post("/:id/aplicar", authMiddleware([ROLES.aluno]), async (req, res) => {
+  try {
+    return aplicarDesafio(req, res);
+  } catch (error) {
+    console.error("Erro na rota POST /desafios/:id/aplicar", error);
+    return res.status(500).json({ error: "Erro interno do servidor." });
+  }
+});
+
+// Retorna desafios aplicados pelo aluno atual
+router.get("/me", authMiddleware([ROLES.aluno]), async (req, res) => {
+  try {
+    return meusDesafios(req, res);
+  } catch (error) {
+    console.error("Erro na rota GET /desafios/me", error);
+    return res.status(500).json({ error: "Erro interno do servidor." });
+  }
+});
+
+// Listar alunos de um desafio (admin/secretario)
+router.get("/:id/alunos", authMiddleware([ROLES.secretario]), async (req, res) => {
+  try {
+    return listarAlunosDoDesafio(req, res);
+  } catch (error) {
+    console.error("Erro na rota GET /desafios/:id/alunos", error);
+    return res.status(500).json({ error: "Erro interno do servidor." });
+  }
+});
+
+// Atualizar progresso de um aluno em um desafio (admin)
+router.put(
+  "/:desafioId/alunos/:alunoId",
+  authMiddleware([ROLES.secretario]),
+  async (req, res) => {
+    try {
+      return atualizarProgressoAluno(req, res);
+    } catch (error) {
+      console.error("Erro na rota PUT /desafios/:desafioId/alunos/:alunoId", error);
+      return res.status(500).json({ error: "Erro interno do servidor." });
+    }
+  }
+);
 
 module.exports = router;
