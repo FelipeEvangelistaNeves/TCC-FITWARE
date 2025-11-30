@@ -4,6 +4,7 @@ import ChatModal from "../../pages/Alunos/ModalMensagemAluno";
 
 export default function MensagensAluno() {
   const [conversas, setConversas] = useState([]);
+  const [inativos, setInativos] = useState([]);
   const [mensagensDaConversa, setMensagensDaConversa] = useState([]);
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
@@ -60,6 +61,7 @@ export default function MensagensAluno() {
         });
 
         setConversas(normalizadas);
+        setInativos(data.inativos || []);
       } catch (err) {
         console.error(err);
         setErro("Erro ao carregar conversas");
@@ -100,6 +102,50 @@ export default function MensagensAluno() {
     } catch (err) {
       console.error("Erro ao abrir chat:", err);
       setErro("Erro ao carregar mensagens");
+    }
+  };
+
+  // Iniciar conversa com professor (aluno)
+  const iniciarConversaComProfessor = async (prof) => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/aluno/conversas`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prof_id: prof.fu_id }),
+      });
+
+      if (!res.ok) throw new Error("Falha ao iniciar conversa");
+
+      const data = await res.json();
+      const conversa = data.conversa;
+
+      // normalize and add to list
+      const initials = (prof.fu_nome || "")
+        .split(" ")
+        .map((p) => p[0])
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
+
+      const item = {
+        id: conversa.co_id,
+        name: prof.fu_nome || prof.name || "Professor",
+        initials,
+        preview: "Clique para ver a conversa",
+        time: "",
+        color: ["purple", "orange", "blue"][Math.floor(Math.random() * 3)],
+      };
+
+      setConversas((prev) => [item, ...prev]);
+      // remove from inativos
+      setInativos((prev) => prev.filter((p) => p.fu_id !== prof.fu_id));
+
+      // open chat
+      openChat(conversa.co_id);
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "Erro ao iniciar conversa");
     }
   };
 
@@ -209,6 +255,30 @@ export default function MensagensAluno() {
 
       {/* Lista de conversas */}
       <div className="messages-list">
+        {/* Professores ainda não conversados */}
+        {inativos && inativos.length > 0 && (
+          <div style={{ padding: 12, borderBottom: "1px solid #eee" }}>
+            <h4>Professores disponíveis</h4>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {inativos.map((p) => (
+                <div key={p.fu_id} className="message-item" style={{ cursor: "default" }}>
+                  <div className={`message-avatar purple`}>
+                    <span>{(p.fu_nome || "").slice(0,2).toUpperCase()}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ flex: 1 }}>
+                      <strong>{p.fu_nome}</strong>
+                      <div style={{ fontSize: 12, color: "#666" }}>{p.fu_email}</div>
+                    </div>
+                    <div>
+                      <button onClick={() => iniciarConversaComProfessor(p)} className="add-btn">Iniciar</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         {conversas.length === 0 ? (
           <div className="no-messages">Nenhuma conversa encontrada.</div>
         ) : (

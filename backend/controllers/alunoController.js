@@ -102,6 +102,8 @@ const atualizarAluno = async (req, res) => {
 /**
  * 🔹 Conversas do aluno logado
  */
+const { Op } = require("sequelize");
+
 const dataAlunoConversas = async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -119,10 +121,44 @@ const dataAlunoConversas = async (req, res) => {
       order: [["co_id", "DESC"]],
     });
 
-    return res.json({ conversas });
+    // find professors not yet in a conversation with this aluno
+    const profIds = conversas.map((c) => c.prof_id).filter(Boolean);
+
+    const professoresDisponiveis = await Funcionario.findAll({
+      where: {
+        fu_cargo: "Professor",
+        ...(profIds.length > 0 ? { fu_id: { [Op.notIn]: profIds } } : {}),
+      },
+      attributes: ["fu_id", "fu_nome", "fu_email", "fu_telefone"],
+    });
+
+    return res.json({ conversas, inativos: professoresDisponiveis });
   } catch (error) {
     console.error("Erro ao buscar conversas:", error);
     return res.status(500).json({ message: "Erro ao buscar conversas." });
+  }
+};
+
+// Criar/obter conversa existente (aluno iniciando conversa)
+const startAlunoConversa = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const alunoId = decoded.id;
+
+    const { prof_id } = req.body;
+    if (!prof_id) return res.status(400).json({ message: "prof_id é obrigatório" });
+
+    // procura conversa existente
+    let conversa = await Conversa.findOne({ where: { al_id: alunoId, prof_id } });
+    if (!conversa) {
+      conversa = await Conversa.create({ al_id: alunoId, prof_id });
+    }
+
+    return res.json({ conversa });
+  } catch (error) {
+    console.error("Erro ao iniciar conversa (aluno):", error);
+    return res.status(500).json({ message: "Erro ao iniciar conversa" });
   }
 };
 
@@ -354,6 +390,7 @@ module.exports = {
   dataAluno,
   atualizarAluno,
   dataAlunoConversas,
+  startAlunoConversa,
   dataAlunoMensagem,
   enviarMensagemAluno,
   historicodoAluno,

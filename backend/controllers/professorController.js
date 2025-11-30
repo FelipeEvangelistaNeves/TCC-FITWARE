@@ -11,6 +11,7 @@ const {
   Turma,
   Aviso,
 } = require("../models");
+const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({
@@ -165,12 +166,48 @@ const dataProfConversas = async (req, res) => {
       order: [["co_id", "DESC"]],
     });
 
-    res.json({ conversas });
+    // gather aluno ids the professor already has conversas with
+    const alunoIds = conversas.map((c) => c.al_id).filter(Boolean);
+
+    const alunosDisponiveis = await Aluno.findAll({
+      where: {
+        ...(alunoIds.length > 0 ? { al_id: { [Op.notIn]: alunoIds } } : {}),
+      },
+      attributes: ["al_id", "al_nome", "al_email", "al_telefone"],
+    });
+
+    res.json({ conversas, inativos: alunosDisponiveis });
   } catch (err) {
     console.error("Erro ao buscar dados de conversas:", err);
     return res
       .status(500)
       .json({ message: "Erro ao buscar dados de conversas." });
+  }
+};
+
+// professor inicia conversa (ou obtém existente)
+const startProfConversa = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: 'Token ausente' });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const professorId = decoded.id;
+
+    const { al_id } = req.body;
+    if (!al_id) return res.status(400).json({ message: 'al_id é obrigatório' });
+
+    let conversa = await Conversa.findOne({ where: { prof_id: professorId, al_id } });
+    if (!conversa) {
+      const created = await Conversa.create({ prof_id: professorId, al_id });
+      conversa = await Conversa.findOne({ where: { co_id: created.co_id }, include: [{ model: Aluno }] });
+    } else {
+      conversa = await Conversa.findOne({ where: { co_id: conversa.co_id }, include: [{ model: Aluno }] });
+    }
+
+    return res.json({ conversa });
+  } catch (err) {
+    console.error('Erro ao iniciar conversa (professor):', err);
+    return res.status(500).json({ message: 'Erro ao iniciar conversa' });
   }
 };
 
@@ -482,6 +519,7 @@ module.exports = {
   dataProfAlunos,
   dataProfConversas,
   dataProfMensagens,
+  startProfConversa,
   enviarMensagemProfessor,
   dataProfTreinosAluno,
   dataProfDashboard,

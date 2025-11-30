@@ -20,6 +20,7 @@ const {
   dataProfDashboard,
   dataProfUltimosAvisos,
   dataProfAvisos,
+  startProfConversa,
 } = require("../controllers/professorController");
 
 // PERFIL
@@ -49,6 +50,7 @@ router.post(
 );
 
 router.get("/conversas", authMiddleware(), dataProfConversas);
+router.post("/conversas", authMiddleware(), startProfConversa);
 router.get("/mensagens/:id", authMiddleware(), dataProfMensagens);
 router.post("/mensagens/:id", authMiddleware(), enviarMensagemProfessor);
 router.get("/alunos/:al_id/treinos", authMiddleware(), dataProfTreinosAluno);

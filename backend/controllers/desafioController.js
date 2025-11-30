@@ -136,7 +136,7 @@ const meusDesafios = async (req, res) => {
 
     const registros = await AlunoDesafio.findAll({
       where: { al_id: alunoId },
-      attributes: ["de_id", "ad_status"],
+      attributes: ["de_id", "ad_status", "ad_progresso"],
     });
 
     return res.status(200).json(registros);
