@@ -108,12 +108,15 @@ export default function MensagensAluno() {
   // Iniciar conversa com professor (aluno)
   const iniciarConversaComProfessor = async (prof) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/aluno/conversas`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prof_id: prof.fu_id }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/aluno/conversas`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prof_id: prof.fu_id }),
+        }
+      );
 
       if (!res.ok) throw new Error("Falha ao iniciar conversa");
 
@@ -140,6 +143,9 @@ export default function MensagensAluno() {
       setConversas((prev) => [item, ...prev]);
       // remove from inativos
       setInativos((prev) => prev.filter((p) => p.fu_id !== prof.fu_id));
+
+      // Definir o contato selecionado antes de abrir o chat
+      setSelectedContact(item);
 
       // open chat
       openChat(conversa.co_id);
@@ -261,17 +267,30 @@ export default function MensagensAluno() {
             <h4>Professores disponíveis</h4>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {inativos.map((p) => (
-                <div key={p.fu_id} className="message-item" style={{ cursor: "default" }}>
+                <div
+                  key={p.fu_id}
+                  className="message-item"
+                  style={{ cursor: "default" }}
+                >
                   <div className={`message-avatar purple`}>
-                    <span>{(p.fu_nome || "").slice(0,2).toUpperCase()}</span>
+                    <span>{(p.fu_nome || "").slice(0, 2).toUpperCase()}</span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
                     <div style={{ flex: 1 }}>
                       <strong>{p.fu_nome}</strong>
-                      <div style={{ fontSize: 12, color: "#666" }}>{p.fu_email}</div>
+                      <div style={{ fontSize: 12, color: "#666" }}>
+                        {p.fu_email}
+                      </div>
                     </div>
                     <div>
-                      <button onClick={() => iniciarConversaComProfessor(p)} className="add-btn">Iniciar</button>
+                      <button
+                        onClick={() => iniciarConversaComProfessor(p)}
+                        className="add-btn"
+                      >
+                        Iniciar
+                      </button>
                     </div>
                   </div>
                 </div>

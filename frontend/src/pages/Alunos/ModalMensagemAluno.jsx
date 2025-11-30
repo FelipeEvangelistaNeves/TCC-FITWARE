@@ -62,10 +62,12 @@ export default function ChatModal({
           </button>
           <div className="user-info">
             <div className="avatar-placeholder">
-              {contactInitials ||
-                (contactName ? contactName.charAt(0).toUpperCase() : "?")}
+              <span>
+                {contactName?.charAt(0)?.toUpperCase() || "?"}
+                {contactName?.charAt(1)?.toUpperCase() || "?"}
+              </span>
             </div>
-            <span>{contactName || "Sem contato"}</span>
+            <h3>{contactName || "Conversa"}</h3>
           </div>
           <div className="header-actions">
             <i className="fas fa-ellipsis-v"></i>
@@ -77,8 +79,11 @@ export default function ChatModal({
           {mensagens.length === 0 && (
             <div className="no-messages">Nenhuma mensagem ainda.</div>
           )}
-          {mensagens.map((msg) => (
-            <div key={msg.id} className={`msg ${msg.tipo}`}>
+          {mensagens.map((msg, index) => (
+            <div
+              key={msg.me_id ?? msg.id ?? index}
+              className={`msg ${msg.tipo}`}
+            >
               {msg.me_conteudo}
             </div>
           ))}

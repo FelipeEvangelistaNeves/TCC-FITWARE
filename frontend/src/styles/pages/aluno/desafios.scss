@@ -208,6 +208,40 @@
       background: var(--color-purple-light);
     }
   }
+
+  .btn-aplicar {
+    background: linear-gradient(
+      135deg,
+      var(--color-purple) 0%,
+      var(--color-purple-light) 100%
+    );
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(145, 71, 255, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(145, 71, 255, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      background: var(--surface-3);
+      color: var(--color-text-muted);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
 }
 
 /* Responsividade */

@@ -205,12 +205,14 @@ export default function PerfilAluno() {
               )}
             </div>
 
-            <button
-              className="btn-resgatar"
-              onClick={() => setModalAberto(true)}
-            >
-              <i className="bi bi-gift"></i> Resgatar Pontos
-            </button>
+            {!showConfig && (
+              <button
+                className="btn-resgatar"
+                onClick={() => setModalAberto(true)}
+              >
+                <i className="bi bi-gift"></i> Resgatar Pontos
+              </button>
+            )}
           </div>
         )}
 
@@ -237,12 +239,14 @@ export default function PerfilAluno() {
               </div>
             </div>
 
-            <button
-              className="btn-resgatar"
-              onClick={() => setModalAberto(true)}
-            >
-              <i className="bi bi-gift"></i> Resgatar Pontos
-            </button>
+            {!showConfig && (
+              <button
+                className="btn-resgatar"
+                onClick={() => setModalAberto(true)}
+              >
+                <i className="bi bi-gift"></i> Resgatar Pontos
+              </button>
+            )}
           </div>
         )}
 
@@ -280,6 +284,15 @@ export default function PerfilAluno() {
                 </p>
               )}
             </div>
+
+            {!showConfig && (
+              <button
+                className="btn-resgatar"
+                onClick={() => setModalAberto(true)}
+              >
+                <i className="bi bi-gift"></i> Resgatar Pontos
+              </button>
+            )}
           </div>
         )}
       </div>
