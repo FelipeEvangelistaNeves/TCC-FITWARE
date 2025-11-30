@@ -61,8 +61,8 @@ export default function ChatModal({
           <div className="user-info">
             <div className="avatar-placeholder">
               <span>
-                {contactName.charAt(0).toUpperCase() || "Conversa"}
-                {contactName.charAt(1).toUpperCase() || "?"}
+                {contactName?.charAt(0)?.toUpperCase() || "?"}
+                {contactName?.charAt(1)?.toUpperCase() || "?"}
               </span>
             </div>
           </div>

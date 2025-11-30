@@ -84,7 +84,7 @@ export default function DashboardProf() {
             onClick={() => navigate("/professor/alunos")}
           >
             <div>
-              <i class="bi bi-person"></i>
+              <i className="bi bi-person"></i>
             </div>
             <div className="action-label">Alunos</div>
           </button>
@@ -104,7 +104,7 @@ export default function DashboardProf() {
             onClick={() => navigate("/professor/mensagens")}
           >
             <div>
-              <i class="bi bi-chat-left-text"></i>
+              <i className="bi bi-chat-left-text"></i>
             </div>
             <div className="action-label">Mensagens</div>
           </button>

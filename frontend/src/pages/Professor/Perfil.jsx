@@ -193,16 +193,6 @@ export default function PerfilProf() {
                 <p className="cert-detalhe">{cref}</p>
               </div>
             </div>
-
-            <div className="cert-item">
-              <i className="bi bi-mortarboard"></i>
-              <div>
-                <p className="cert-titulo">
-                  Especialização em Treinamento Funcional
-                </p>
-                <p className="cert-detalhe">Universidade do Esporte - 2020</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

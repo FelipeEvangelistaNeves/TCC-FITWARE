@@ -107,12 +107,15 @@ export default function MensagensProf() {
 
   const iniciarConversaComAluno = async (aluno) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/professor/conversas`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ al_id: aluno.al_id }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/professor/conversas`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ al_id: aluno.al_id }),
+        }
+      );
 
       if (!res.ok) throw new Error("Falha ao iniciar conversa");
 
@@ -138,6 +141,9 @@ export default function MensagensProf() {
 
       setConversas((prev) => [item, ...prev]);
       setInativos((prev) => prev.filter((a) => a.al_id !== aluno.al_id));
+
+      // Definir o contato selecionado antes de abrir o chat
+      setSelectedContact(item);
 
       openChat(conversa.co_id);
     } catch (err) {
@@ -255,17 +261,30 @@ export default function MensagensProf() {
             <h4>Alunos disponíveis</h4>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {inativos.map((a) => (
-                <div key={a.al_id} className="message-item" style={{ cursor: "default" }}>
+                <div
+                  key={a.al_id}
+                  className="message-item"
+                  style={{ cursor: "default" }}
+                >
                   <div className={`message-avatar purple`}>
-                    <span>{(a.al_nome || "").slice(0,2).toUpperCase()}</span>
+                    <span>{(a.al_nome || "").slice(0, 2).toUpperCase()}</span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
                     <div style={{ flex: 1 }}>
                       <strong>{a.al_nome}</strong>
-                      <div style={{ fontSize: 12, color: "#666" }}>{a.al_email}</div>
+                      <div style={{ fontSize: 12, color: "#666" }}>
+                        {a.al_email}
+                      </div>
                     </div>
                     <div>
-                      <button onClick={() => iniciarConversaComAluno(a)} className="add-btn">Iniciar</button>
+                      <button
+                        onClick={() => iniciarConversaComAluno(a)}
+                        className="add-btn"
+                      >
+                        Iniciar
+                      </button>
                     </div>
                   </div>
                 </div>
