@@ -1,0 +1,129 @@
+@import "./../../abstract/variables.scss";
+
+/* Estilos específicos para o modal de Detalhes do Desafio */
+
+.detalhes-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detalhe-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--surface-2);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.detalhe-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detalhe-value {
+  font-size: 1rem;
+  color: var(--color-text);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* Status Badges */
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &.ativo {
+    background: rgba(var(--color-green-rgb, 34, 197, 94), 0.15);
+    color: var(--color-green);
+  }
+
+  &.pendente {
+    background: rgba(var(--color-orange-rgb, 249, 115, 22), 0.15);
+    color: var(--color-orange);
+  }
+
+  &.concluido,
+  &.concluído {
+    background: rgba(var(--color-purple-rgb, 139, 92, 246), 0.15);
+    color: var(--color-purple);
+  }
+
+  &.cancelado {
+    background: rgba(var(--color-red-rgb, 239, 68, 68), 0.15);
+    color: var(--color-red);
+  }
+}
+
+/* Tabela dentro do modal */
+.tabela-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  th {
+    background: var(--surface-2);
+    color: var(--color-text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
+
+  td {
+    color: var(--color-text);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+/* Input range customizado */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+}

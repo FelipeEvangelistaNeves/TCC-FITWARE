@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
 import "../../styles/pages/admin/forms.scss";
 import "../../styles/pages/admin/exercicios.scss";
+import ExcluirExercicio from "./ExcluirExercicio";
 export default function Exercicios() {
   const [exercicios, setExercicios] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,6 +18,9 @@ export default function Exercicios() {
   // Paginação
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // State para modal de deleção
+  const [exercicioParaExcluir, setExercicioParaExcluir] = useState(null);
 
   // Fetch exercícios
   const fetchExercicios = async () => {
@@ -133,14 +137,20 @@ export default function Exercicios() {
     }
   };
 
-  // Deletar exercício
-  const handleDelete = async (ex_id) => {
-    if (!window.confirm("Tem certeza que deseja deletar este exercício?"))
-      return;
+  // Abrir modal de deleção
+  const handleDeleteClick = (ex) => {
+    setExercicioParaExcluir(ex);
+  };
+
+  // Confirmar deleção
+  const confirmDelete = async () => {
+    if (!exercicioParaExcluir) return;
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/admin/exercicios/${ex_id}`,
+        `${import.meta.env.VITE_BASE_URL}/admin/exercicios/${
+          exercicioParaExcluir.ex_id
+        }`,
         {
           method: "DELETE",
           credentials: "include",
@@ -149,7 +159,10 @@ export default function Exercicios() {
 
       if (!res.ok) throw new Error("Erro ao deletar exercício");
 
-      setExercicios((prev) => prev.filter((ex) => ex.ex_id !== ex_id));
+      setExercicios((prev) =>
+        prev.filter((ex) => ex.ex_id !== exercicioParaExcluir.ex_id)
+      );
+      setExercicioParaExcluir(null);
     } catch (error) {
       console.error(error);
       alert("Erro ao deletar exercício");
@@ -217,7 +230,7 @@ export default function Exercicios() {
                   </button>
                   <button
                     className="action-btn"
-                    onClick={() => handleDelete(ex.ex_id)}
+                    onClick={() => handleDeleteClick(ex)}
                   >
                     <i className="bi bi-trash"></i>
                   </button>
@@ -351,6 +364,13 @@ export default function Exercicios() {
           </div>
         </div>
       )}
+
+      {/* Modal de Exclusão */}
+      <ExcluirExercicio
+        exercicio={exercicioParaExcluir}
+        onClose={() => setExercicioParaExcluir(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }
