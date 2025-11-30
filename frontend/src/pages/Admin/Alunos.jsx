@@ -19,6 +19,7 @@ export default function Alunos() {
   const [selectedAluno, setSelectedAluno] = useState(null);
 
   const [alunos, setAlunos] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchAlunos = async () => {
@@ -55,24 +56,24 @@ export default function Alunos() {
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify(novo),
         }
       );
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const errorMessage = await res.json();
+        setErrorMessage(data.message || "Erro ao criar aluno.");
         return;
       }
 
-      const data = await res.json();
-
       if (data.success) {
-        // adiciona novo aluno à lista
         setAlunos((prev) => [data.aluno, ...prev]);
+        setErrorMessage(""); // limpa erro ao criar com sucesso
         setShowAddModal(false);
       }
     } catch (err) {
+      setErrorMessage("Erro de conexão com o servidor.");
       console.error("Erro ao criar aluno:", err);
     }
   };
@@ -287,7 +288,7 @@ export default function Alunos() {
       {/* MODAIS */}
       {showAddModal && (
         <AddAluno
-          ErrorMessage={errorMessage}
+          errorMessage={errorMessage}
           onClose={() => setShowAddModal(false)}
           onSave={handleAddAluno}
         />

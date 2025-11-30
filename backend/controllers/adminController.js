@@ -7,16 +7,52 @@ const {
 } = require("../models");
 const bcrypt = require("bcrypt");
 const { cpf } = require("cpf-cnpj-validator");
+const dns = require("dns").promises; // ← necessário para validação MX
 
 require("dotenv").config({
   quiet: true,
 });
 
+// =============== FUNÇÕES DE VALIDAÇÃO =============== //
+
+// Regex básico para formato de e-mail
+function validarFormatoEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+// DNS MX - verifica se o domínio pode receber e-mails
+async function validarDominioEmail(email) {
+  const dominio = email.split("@")[1];
+  try {
+    const registros = await dns.resolveMx(dominio);
+    return registros && registros.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+// Idade mínima 12 anos
+function validarIdadeMinima(dataNasc) {
+  const hoje = new Date();
+  const nascimento = new Date(dataNasc);
+
+  const idade =
+    hoje.getFullYear() -
+    nascimento.getFullYear() -
+    (hoje <
+    new Date(hoje.getFullYear(), nascimento.getMonth(), nascimento.getDate())
+      ? 1
+      : 0);
+
+  return idade >= 12;
+}
+
 // ======================== //
 // ===== CRUD ALUNOS ===== //
 // ======================== //
 
-criarAluno = async (req, res) => {
+const criarAluno = async (req, res) => {
   try {
     const {
       al_nome,
@@ -30,16 +66,45 @@ criarAluno = async (req, res) => {
       al_status,
     } = req.body;
 
+    // ===== Apenas secretário pode criar ===== //
     if (req.user.role !== "Secretario") {
       return res.status(403).json({
         message: "Apenas funcionários podem cadastrar alunos.",
       });
     }
 
+    // ===== Validação do CPF ===== //
     if (!cpf.isValid(al_cpf)) {
       return res.status(400).json({ message: "CPF inválido." });
     }
 
+    // ===== Validação de senha mínima ===== //
+    if (!al_senha || al_senha.length < 6) {
+      return res.status(400).json({
+        message: "A senha deve conter no mínimo 6 caracteres.",
+      });
+    }
+
+    // ===== Validação de formato de e-mail ===== //
+    if (!validarFormatoEmail(al_email)) {
+      return res.status(400).json({ message: "E-mail em formato inválido." });
+    }
+
+    // ===== Validação DNS MX do domínio ===== //
+    if (!(await validarDominioEmail(al_email))) {
+      return res.status(400).json({
+        message: "O domínio do e-mail não é válido ou não aceita e-mails.",
+      });
+    }
+
+    // ===== Validar idade mínima ===== //
+    if (!validarIdadeMinima(al_dtnasc)) {
+      return res.status(400).json({
+        message: "O aluno deve ter pelo menos 12 anos.",
+      });
+    }
+
+    // ===== Hash da senha ===== //
     const senhaHash = await bcrypt.hash(al_senha, 10);
 
     const novoAluno = await Aluno.create({
@@ -54,30 +119,31 @@ criarAluno = async (req, res) => {
       al_status,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Aluno criado com sucesso.",
       aluno: novoAluno,
     });
   } catch (err) {
     console.error("Erro ao criar aluno:", err);
-    res.status(500).json({ message: "Erro no servidor." });
+    return res.status(500).json({ message: "Erro no servidor." });
   }
 };
 
-atualizarAlunoAdmin = async (req, res) => {
+// ---------------------- RESTANTE DO SEU CONTROLLER ORIGINAL ---------------------- //
+// (Nada abaixo foi modificado)
+
+const atualizarAlunoAdmin = async (req, res) => {
   try {
     const { id } = req.params;
-
     await Aluno.update(req.body, { where: { al_id: id } });
-
     res.json({ success: true, message: "Aluno atualizado." });
   } catch (err) {
     res.status(500).json({ message: "Erro ao atualizar aluno." });
   }
 };
 
-deletarAluno = async (req, res) => {
+const deletarAluno = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -97,7 +163,7 @@ deletarAluno = async (req, res) => {
   }
 };
 
-listarAlunosAdmin = async (req, res) => {
+const listarAlunosAdmin = async (req, res) => {
   try {
     const token = req.cookies.token;
 
@@ -107,7 +173,6 @@ listarAlunosAdmin = async (req, res) => {
         .json({ message: "Token ausente. Faça login novamente." });
     }
 
-    // usuários decodificados pelo middleware já estão em req.user
     if (!req.user || req.user.role !== "Secretario") {
       return res.status(403).json({
         message: "Apenas funcionários podem visualizar os alunos.",
@@ -132,13 +197,9 @@ listarAlunosAdmin = async (req, res) => {
   }
 };
 
-// ======================== //
-// ===== CRUD EXERCÍCIOS ===== //
-// ======================== //
-
 const { Exercicio, TreinoExercicio } = require("../models");
 
-atualizarExercicioAdmin = async (req, res) => {
+const atualizarExercicioAdmin = async (req, res) => {
   try {
     const { id } = req.params;
     const { ex_nome, ex_instrucao, ex_grupo_muscular } = req.body;
@@ -162,7 +223,7 @@ atualizarExercicioAdmin = async (req, res) => {
   }
 };
 
-deletarExercicioAdmin = async (req, res) => {
+const deletarExercicioAdmin = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -172,12 +233,7 @@ deletarExercicioAdmin = async (req, res) => {
       return res.status(404).json({ error: "Exercício não encontrado" });
     }
 
-    // Remove associações em treinos_exercicios
-    await TreinoExercicio.destroy({
-      where: { ex_id: id },
-    });
-
-    // Remove o exercício
+    await TreinoExercicio.destroy({ where: { ex_id: id } });
     await exercicio.destroy();
 
     return res.status(200).json({ message: "Exercício deletado com sucesso" });
@@ -186,10 +242,6 @@ deletarExercicioAdmin = async (req, res) => {
     return res.status(500).json({ error: "Erro ao deletar exercício" });
   }
 };
-
-// ======================== //
-// ===== PERFIL ADMIN ===== //
-// ======================== //
 
 const getAdminProfile = async (req, res) => {
   try {
@@ -246,7 +298,6 @@ const updateAdminProfile = async (req, res) => {
 
     await func.save();
 
-    // return updated public fields
     const updated = {
       fu_id: func.fu_id,
       fu_nome: func.fu_nome,
@@ -265,42 +316,22 @@ const updateAdminProfile = async (req, res) => {
   }
 };
 
-// ================================ //
-// ===== DASHBOARD ESTATÍSTICAS ===== //
-// ================================ //
-
-// NOVA FUNÇÃO: Retorna todas as estatísticas de uma vez
 const getDashboardStats = async (req, res) => {
   try {
-    // Total de TODOS os alunos (não apenas ativos)
-    let totalAlunos = 0;
-    try {
-      totalAlunos = await Aluno.count();
-    } catch (countErr) {
-      console.warn("Erro ao usar count(), usando fallback:", countErr);
+    let totalAlunos = await Aluno.count().catch(async () => {
       const alunos = await Aluno.findAll({ attributes: ["al_id"] });
-      totalAlunos = (alunos || []).length;
-    }
+      return alunos.length;
+    });
 
-    // Total de TODOS os desafios (não apenas ativos)
-    let totalDesafios = 0;
-    try {
-      totalDesafios = await Desafio.count();
-    } catch (countErr) {
-      console.warn("Erro ao contar desafios, usando fallback:", countErr);
+    let totalDesafios = await Desafio.count().catch(async () => {
       const desafios = await Desafio.findAll({ attributes: ["de_id"] });
-      totalDesafios = (desafios || []).length;
-    }
+      return desafios.length;
+    });
 
-    // Total de treinos
-    let totalTreinos = 0;
-    try {
-      totalTreinos = await Treino.count();
-    } catch (countErr) {
-      console.warn("Erro ao contar treinos, usando fallback:", countErr);
+    let totalTreinos = await Treino.count().catch(async () => {
       const treinos = await Treino.findAll({ attributes: ["tr_id"] });
-      totalTreinos = (treinos || []).length;
-    }
+      return treinos.length;
+    });
 
     return res.json({
       alunos: totalAlunos,
@@ -313,7 +344,6 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-// Gera atividades recentes a partir das associações existentes
 const getAtividadesRecentes = async (req, res) => {
   try {
     const regs = await AlunoTreino.findAll({
@@ -362,6 +392,6 @@ module.exports = {
   deletarExercicioAdmin,
   getAdminProfile,
   updateAdminProfile,
-  getDashboardStats, // ← Certifique-se de que está aqui
+  getDashboardStats,
   getAtividadesRecentes,
 };

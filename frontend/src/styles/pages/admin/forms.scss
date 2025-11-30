@@ -136,8 +136,37 @@
       }
     }
   }
-}
 
+  .error-message {
+    background: #ffe5e5;
+    color: #d8000c;
+    padding: 10px 14px;
+    border-left: 4px solid #d8000c;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    animation: fadeIn 0.25s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &::before {
+      content: "⚠️";
+      font-size: 1.1rem;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
 /* Animações */
 @keyframes fadeIn {
   from {
