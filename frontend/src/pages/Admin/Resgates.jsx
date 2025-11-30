@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/tabelas.scss";
+import ExcluirResgate from "./ExcluirResgate";
 
 export default function Resgates() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,6 +11,9 @@ export default function Resgates() {
 
   // Modal info status
   const [showStatusInfo, setShowStatusInfo] = useState(false);
+
+  // State para modal de deleção
+  const [resgateParaExcluir, setResgateParaExcluir] = useState(null);
 
   // Buscar resgates
   useEffect(() => {
@@ -34,19 +38,28 @@ export default function Resgates() {
     fetchResgates();
   }, []);
 
-  const handleDeleteResgate = async (r) => {
-    if (!window.confirm(`Excluir resgate #${r.re_id}?`)) return;
+  const handleDeleteClick = (r) => {
+    setResgateParaExcluir(r);
+  };
+
+  const confirmDelete = async () => {
+    if (!resgateParaExcluir) return;
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/resgates/crud/deletar/${r.re_id}`,
+        `${import.meta.env.VITE_BASE_URL}/resgates/crud/deletar/${
+          resgateParaExcluir.re_id
+        }`,
         { method: "DELETE", credentials: "include" }
       );
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || "Erro ao excluir");
 
-      setResgates((prev) => prev.filter((x) => x.re_id !== r.re_id));
+      setResgates((prev) =>
+        prev.filter((x) => x.re_id !== resgateParaExcluir.re_id)
+      );
+      setResgateParaExcluir(null);
     } catch (err) {
       console.error("Erro ao excluir resgate:", err);
       alert("Erro ao excluir resgate.");
@@ -183,7 +196,7 @@ export default function Resgates() {
                 <td>
                   <button
                     className="action-btn"
-                    onClick={() => handleDeleteResgate(r)}
+                    onClick={() => handleDeleteClick(r)}
                   >
                     <i className="bi bi-trash"></i>
                   </button>
@@ -240,6 +253,13 @@ export default function Resgates() {
           </button>
         </div>
       </div>
+
+      {/* Modal de Exclusão */}
+      <ExcluirResgate
+        resgate={resgateParaExcluir}
+        onClose={() => setResgateParaExcluir(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

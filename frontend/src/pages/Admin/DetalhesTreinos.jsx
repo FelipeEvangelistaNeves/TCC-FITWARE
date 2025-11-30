@@ -137,6 +137,11 @@ export default function DetalhesTreino({ treino, onClose }) {
               <p className="dt-vazio">Nenhum aluno atribuído</p>
             )}
           </div>
+          <div className="modal-actions">
+            <button className="btn-cancelar" onClick={onClose}>
+              Fechar
+            </button>
+          </div>
         </div>
       </div>
     </div>
