@@ -290,3 +290,17 @@
     }
   }
 }
+
+.info-btn {
+  background: none;
+  border: none;
+  color: var(--color-purple);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px;
+
+  &:hover {
+    color: var(--color-purple-light);
+    transform: scale(1.1);
+  }
+}

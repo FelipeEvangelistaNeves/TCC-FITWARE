@@ -8,6 +8,9 @@ export default function Resgates() {
 
   const [resgates, setResgates] = useState([]);
 
+  // Modal info status
+  const [showStatusInfo, setShowStatusInfo] = useState(false);
+
   // Buscar resgates
   useEffect(() => {
     const fetchResgates = async () => {
@@ -20,7 +23,6 @@ export default function Resgates() {
         if (!res.ok) throw new Error("Erro ao buscar resgates");
 
         const data = await res.json();
-        console.log(data);
         setResgates(
           data.resgates.sort((a, b) => (a.re_id || 0) - (b.re_id || 0))
         );
@@ -44,7 +46,6 @@ export default function Resgates() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || "Erro ao excluir");
 
-      console.log("Resgate excluído:", data);
       setResgates((prev) => prev.filter((x) => x.re_id !== r.re_id));
     } catch (err) {
       console.error("Erro ao excluir resgate:", err);
@@ -52,7 +53,7 @@ export default function Resgates() {
     }
   };
 
-  // filtro
+  // Filtro
   const resgatesFiltrados = resgates.filter((r) => {
     const termo = searchTerm.toLowerCase();
     return (
@@ -64,11 +65,14 @@ export default function Resgates() {
       ((r.re_data || "").toLowerCase().includes &&
         String(r.re_data || "")
           .toLowerCase()
-          .includes(termo))
+          .includes(termo)) ||
+      String(r.re_status || "")
+        .toLowerCase()
+        .includes(termo)
     );
   });
 
-  // paginação
+  // Paginação
   const totalPages = Math.max(
     1,
     Math.ceil(resgatesFiltrados.length / itemsPerPage)
@@ -93,8 +97,40 @@ export default function Resgates() {
     }
   };
 
+  // Modal de informações sobre status
+  const StatusInfoModal = () => (
+    <div className="modal-overlay" onClick={() => setShowStatusInfo(false)}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h3>Informações sobre o Status do Resgate</h3>
+
+        <div className="form-card">
+          <p>
+            <strong>● Resgatado</strong>: O aluno realizou o resgate
+            digitalmente, mas ainda não recebeu o brinde.
+          </p>
+
+          <p>
+            <strong>● Entregue</strong>: O brinde já foi entregue fisicamente ao
+            aluno.
+          </p>
+        </div>
+
+        <div className="modal-actions">
+          <button
+            className="btn-cancelar"
+            onClick={() => setShowStatusInfo(false)}
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="admin-modal tabela-page">
+      {showStatusInfo && <StatusInfoModal />}
+
       <div className="tabela-header">
         <h2>Resgates</h2>
 
@@ -117,6 +153,18 @@ export default function Resgates() {
             <th>Hash</th>
             <th>Preço</th>
             <th>Data</th>
+
+            <th>
+              Status
+              <button
+                className="info-btn"
+                onClick={() => setShowStatusInfo(true)}
+                style={{ marginLeft: "6px" }}
+              >
+                <i className="bi bi-info-circle"></i>
+              </button>
+            </th>
+
             <th>Ações</th>
           </tr>
         </thead>
@@ -125,23 +173,14 @@ export default function Resgates() {
           {resgatesPaginados.length > 0 ? (
             resgatesPaginados.map((r) => (
               <tr key={r.id}>
-                <td>{r.alunoNome.al_nome}</td>
-                <td>{r.produtoNome.pd_nome}</td>
+                <td>{r.alunoNome?.al_nome}</td>
+                <td>{r.produtoNome?.pd_nome}</td>
                 <td className="user-info">{r.hash}</td>
                 <td>{r.preco}</td>
                 <td>{fmtDate(r.data)}</td>
-                <td>
-                  <button
-                    className="action-btn"
-                    onClick={() =>
-                      navigator.clipboard &&
-                      navigator.clipboard.writeText(r.hash)
-                    }
-                    title="Copiar hash"
-                  >
-                    <i className="bi bi-clipboard"></i>
-                  </button>
+                <td>{r.status}</td>
 
+                <td>
                   <button
                     className="action-btn"
                     onClick={() => handleDeleteResgate(r)}
