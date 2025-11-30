@@ -10,45 +10,6 @@
   padding-bottom: 80px; // cEspaço para a navegação inferior
 
   // Header
-  .mensagens-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 20px 15px;
-    background: var(--surface-1);
-    backdrop-filter: blur(10px);
-
-    .mensagens-title {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--yellow);
-      margin: 0;
-    }
-
-    .add-btn {
-      width: 40px;
-      height: 40px;
-      background: var(--surface-2);
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-
-      &:hover {
-        transform: scale(1.1);
-        background: var(--surface-3);
-      }
-
-      i {
-        color: var(--white);
-        font-size: 18px;
-        font-weight: 600;
-      }
-    }
-  }
 
   // Search Container
   .search-container {
@@ -73,7 +34,7 @@
         background: var(--surface-1);
         border: 1px solid rgba(107, 114, 128, 0.4);
         border-radius: 12px;
-        color: white;
+        color: var(--color-text);
         font-size: 16px;
         backdrop-filter: blur(10px);
 
@@ -84,7 +45,7 @@
         &:focus {
           outline: none;
           border-color: var(--color-purple);
-          background: rgba(var(--shadow-rgb), 0.9);
+          background: var(--shadow-rgb);
         }
       }
     }
@@ -115,7 +76,7 @@
 
       &.active {
         background: var(--color-purple);
-        color: var(--white);
+        color: $white;
 
         &:hover {
           background: var(--color-purple-hover);

@@ -106,7 +106,7 @@
 
     .add-btn {
       background: var(--color-purple);
-      color: var(--white);
+      color: $white;
       border: none;
       padding: 4px 10px;
       border-radius: $radius-sm;
@@ -173,7 +173,7 @@
 .start-btn {
   margin-top: auto;
   background: var(--color-purple);
-  color: var(--white);
+  color: $white;
   border: none;
   border-radius: $radius-md;
   padding: $spacing-md;
@@ -331,7 +331,7 @@
 .btn-iniciar {
   margin-top: 20px;
   background: var(--color-purple);
-  color: var(--white);
+  color: $white;
   border: none;
   padding: 12px;
   border-radius: 25px;

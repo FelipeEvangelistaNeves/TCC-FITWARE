@@ -175,7 +175,7 @@
 
           &.save {
             background: var(--color-purple);
-            color: var(--white);
+            color: $white;
 
             &:hover {
               background: var(--color-purple)-light;
@@ -250,7 +250,7 @@
       width: 100%;
       padding: 10px;
       background: var(--color-purple);
-      color: var(--white);
+      color: $white;
       border-radius: 6px;
       cursor: pointer;
       transition: 0.2s;

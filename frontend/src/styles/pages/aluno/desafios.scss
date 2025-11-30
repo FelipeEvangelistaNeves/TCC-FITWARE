@@ -92,7 +92,7 @@
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 500;
-      color: var(--white);
+      color: $white;
 
       &.purple {
         background: var(--color-purple);
@@ -162,7 +162,7 @@
     border: none;
     border-radius: 20px;
     padding: 6px 16px;
-    color: var(--white);
+    color: $white;
     font-size: $font-size-small;
     font-weight: 600;
     cursor: pointer;
@@ -296,7 +296,7 @@
 
       .btn.purple {
         background: var(--color-purple);
-        color: var(--white);
+        color: $white;
 
         &:hover {
           background: var(--color-purple-light);
@@ -342,7 +342,7 @@
         padding: 4px 10px;
         border-radius: 12px;
         font-size: $font-size-small;
-        color: var(--white);
+        color: $white;
         font-weight: 500;
       }
     }

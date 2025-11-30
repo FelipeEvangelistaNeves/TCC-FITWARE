@@ -119,13 +119,13 @@
 
       &:hover {
         background: var(--color-purple-hover);
-        color: var(--white);
+        color: $white;
       }
     }
 
     .botaoplano2 {
       background: var(--color-purple);
-      color: var(--white);
+      color: $white;
       border-radius: 12px;
       padding: 8px 24px;
       font-weight: 600;

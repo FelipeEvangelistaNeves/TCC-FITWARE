@@ -46,7 +46,7 @@
     width: 80px;
     height: 80px;
     background: var(--color-purple);
-    color: var(--white);
+    color: $white;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -175,7 +175,7 @@
 ========================================== */
 .btn-resgatar {
   background: var(--color-purple);
-  color: #fff;
+  color: $white;
   border: none;
   width: 100%;
   padding: 0.7rem;
@@ -206,7 +206,7 @@
 
 .btn-detalhes {
   background: var(--color-purple);
-  color: #fff;
+  color: $white;
   border: none;
   padding: 0.3rem 0.8rem;
   border-radius: 6px;

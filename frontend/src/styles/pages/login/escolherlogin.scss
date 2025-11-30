@@ -61,7 +61,7 @@
       /* ADMIN */
       .btn-admin {
         background: var(--color-purple);
-        color: var(--white);
+        color: $white;
 
         &:hover {
           background: var(--color-purple-hover);

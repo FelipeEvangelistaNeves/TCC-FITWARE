@@ -78,31 +78,47 @@ export default function Header() {
           </button>
 
           <div className="nav-links">
-            <NavLink to="/" onClick={() => setMenuOpen(false)} end>
+            <NavLink
+              to="/"
+              onClick={() => setMenuOpen(false)}
+              end
+              className="linkes"
+            >
               Início
             </NavLink>
-            <NavLink to="/planos" onClick={() => setMenuOpen(false)}>
+            <NavLink
+              to="/planos"
+              onClick={() => setMenuOpen(false)}
+              className="linkes"
+            >
               Planos
             </NavLink>
-            <NavLink to="/modalidades" onClick={() => setMenuOpen(false)}>
+            <NavLink
+              to="/modalidades"
+              onClick={() => setMenuOpen(false)}
+              className="linkes"
+            >
               Modalidades
             </NavLink>
-            <NavLink to="/sobre" onClick={() => setMenuOpen(false)}>
+            <NavLink
+              to="/sobre"
+              onClick={() => setMenuOpen(false)}
+              className="linkes"
+            >
               Sobre
             </NavLink>
-            <NavLink to="/suporte" onClick={() => setMenuOpen(false)}>
+            <NavLink
+              to="/suporte"
+              onClick={() => setMenuOpen(false)}
+              className="linkes"
+            >
               Suporte
             </NavLink>
-          </div>
-
-          <div className="login-area">
-            <Link
-              to="/escolherlogin"
-              className="btn btn-purple"
-              onClick={() => setMenuOpen(false)}
-            >
-              Login
-            </Link>
+            <button className="btn btn-purple">
+              <Link to="/escolherlogin" onClick={() => setMenuOpen(false)}>
+                Login
+              </Link>
+            </button>
           </div>
         </div>
       </nav>

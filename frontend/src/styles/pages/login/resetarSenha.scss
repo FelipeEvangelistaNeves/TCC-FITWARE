@@ -80,7 +80,7 @@
   /* Botão */
   .btn-submit {
     background: var(--color-purple);
-    color: #fff;
+    color: $white;
     border: none;
     padding: 12px 20px;
     border-radius: 12px;
@@ -146,7 +146,7 @@
   .btn-voltar {
     display: inline-block;
     background: var(--color-purple);
-    color: #fff;
+    color: $white;
     padding: 12px 20px;
     border-radius: 12px;
     font-weight: 600;

@@ -280,7 +280,7 @@
 
         &.active {
           background: var(--color-purple);
-          color: var(--white);
+          color: $white;
         }
 
         &:hover:not(.active) {

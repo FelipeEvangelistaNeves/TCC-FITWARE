@@ -104,7 +104,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--white, #fff);
+  color: $white;
   font-weight: 700;
   font-size: 0.95rem;
   flex-shrink: 0;
@@ -206,7 +206,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--white, #fff);
+  color: $white;
   font-weight: 700;
 }
 
