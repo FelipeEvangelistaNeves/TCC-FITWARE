@@ -854,7 +854,8 @@ CREATE TABLE public.resgates (
     pd_id integer NOT NULL,
     re_hash character varying(255) NOT NULL,
     re_preco integer NOT NULL,
-    re_data timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    re_data timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    re_status character varying(10) NOT NULL
 );
 
 
