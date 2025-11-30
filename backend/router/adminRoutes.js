@@ -36,7 +36,6 @@ const LoggerMessages = require("../loggerMessages");
  */
 router.get(
   "/admin",
-  authMiddleware(),
   authMiddleware(["Secretario"]),
   (req, res) => {
     res.json({

@@ -68,7 +68,7 @@ export default function Professores() {
       setShowAddModal(false);
     } catch (err) {
       console.error("Erro ao criar professor:", err);
-      alert("Erro ao criar professor.");
+      alert(err?.message || "Erro ao criar professor.");
     }
   };
 
@@ -99,7 +99,7 @@ export default function Professores() {
       setShowEditModal(false);
     } catch (err) {
       console.error("Erro ao atualizar professor:", err);
-      alert("Erro ao atualizar professor.");
+      alert(err?.message || "Erro ao atualizar professor.");
     }
   };
 

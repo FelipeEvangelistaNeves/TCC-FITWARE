@@ -32,7 +32,7 @@ export default function Configuracoes() {
         setPerfil((p) => ({
           ...p,
           nome: data.fu_nome || p.nome,
-          cpf: data.fu_cpf || p.cpf,
+          fu_cpf: data.fu_cpf || p.cpf,
           telefone: data.fu_telefone || p.telefone,
           dtNasc: data.fu_dtnasc || p.dtNasc,
           cargo: data.fu_cargo || p.cargo,
@@ -83,7 +83,7 @@ export default function Configuracoes() {
   const salvarPerfil = () => {
     const payload = {
       nome: perfil.nome,
-      cpf: perfil.cpf,
+      fu_cpf: perfil.cpf,
       telefone: perfil.telefone,
       dtNasc: perfil.dtNasc,
       cref: perfil.cref,
@@ -113,7 +113,7 @@ export default function Configuracoes() {
         setPerfil((p) => ({
           ...p,
           nome: f.fu_nome || p.nome,
-          cpf: f.fu_cpf || p.cpf,
+          fu_cpf: f.fu_cpf || p.cpf,
           telefone: f.fu_telefone || p.telefone,
           dtNasc: f.fu_dtnasc || p.dtNasc,
           cref: f.fu_cref || p.cref,

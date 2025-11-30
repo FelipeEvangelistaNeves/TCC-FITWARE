@@ -93,7 +93,11 @@ export default function Alunos() {
       );
 
       if (!response.ok) {
-        throw new Error("Erro ao atualizar aluno");
+        const data = await response.json().catch(() => ({}));
+        // show server message (e.g. 'CPF inválido.') if present
+        const msg = data.message || data.error || "Erro ao atualizar aluno";
+        alert(msg);
+        return;
       }
 
       // Atualiza lista local

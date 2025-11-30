@@ -136,6 +136,14 @@ const criarAluno = async (req, res) => {
 const atualizarAlunoAdmin = async (req, res) => {
   try {
     const { id } = req.params;
+
+    const { al_cpf } = req.body;
+
+    // ===== Validação do CPF ===== //
+    if (al_cpf && !cpf.isValid(al_cpf)) {
+      return res.status(400).json({ message: "CPF inválido." });
+    }
+
     await Aluno.update(req.body, { where: { al_id: id } });
     res.json({ success: true, message: "Aluno atualizado." });
   } catch (err) {
@@ -282,11 +290,11 @@ const updateAdminProfile = async (req, res) => {
     if (!func)
       return res.status(404).json({ error: "Funcionário não encontrado" });
 
-    const { nome, email, senha, cpf, telefone, dtNasc, cref } = req.body;
+    const { nome, email, senha, fu_cpf, telefone, dtNasc, cref } = req.body;
 
     if (nome !== undefined) func.fu_nome = nome;
     if (email !== undefined) func.fu_email = email;
-    if (cpf !== undefined) func.fu_cpf = cpf;
+    if (cpf !== undefined) func.fu_cpf = fu_cpf;
     if (telefone !== undefined) func.fu_telefone = telefone;
     if (dtNasc !== undefined) func.fu_dtnasc = dtNasc;
     if (cref !== undefined) func.fu_cref = cref;
@@ -294,6 +302,10 @@ const updateAdminProfile = async (req, res) => {
     if (senha) {
       const hash = await bcrypt.hash(senha, 10);
       func.fu_senha = hash;
+    }
+
+    if (!cpf.isValid(fu_cpf)) {
+      return res.status(400).json({ message: "CPF inválido." });
     }
 
     await func.save();

@@ -318,7 +318,9 @@ CREATE TABLE public.alunos (
     al_dtnasc date NOT NULL,
     al_pontos integer NOT NULL,
     al_treinos_completos integer NOT NULL,
-    al_status character varying(10) NOT NULL
+    al_status character varying(10) NOT NULL,
+    CONSTRAINT check_aluno_idade CHECK (((al_dtnasc <= (CURRENT_DATE - '12 years'::interval)) AND (al_dtnasc >= (CURRENT_DATE - '120 years'::interval)))),
+    CONSTRAINT check_aluno_positive_treinos CHECK ((al_treinos_completos >= 0))
 );
 
 
@@ -816,7 +818,8 @@ CREATE TABLE public.produtos (
     pd_valor integer NOT NULL,
     pd_descricao character varying(200),
     pd_status character varying(15) NOT NULL,
-    pd_estoque integer NOT NULL
+    pd_estoque integer NOT NULL,
+    CONSTRAINT positive_price CHECK ((pd_valor > 0))
 );
 
 
@@ -1090,12 +1093,12 @@ ALTER TABLE ONLY public.turmas ALTER COLUMN tu_id SET DEFAULT nextval('public.tu
 
 COPY public.alunos (al_id, al_nome, al_email, al_senha, al_cpf, al_telefone, al_dtnasc, al_pontos, al_treinos_completos, al_status) FROM stdin;
 7	Felipe Evangelista	felipeneves0303@gmail.com	$2b$10$wZaka1O0fd4GE8rIQ53cq.GpjiL/mLkSvh1UM6FHinSha2ArBHhue	75656425253	11312314546	2008-03-03	1000	1	Ativo
-8	Anthony Dias	anthony@email.com	$2b$10$NkS2g6AVrmnQi2sl9M2RZOacRCY/44VqmR3Jl3g6nI/qp/NdperVW	25918912061	11111111111	1111-11-11	0	0	Ativo
 1	João Pedro Silva	joao@email.com	$2b$10$F2yrJde1n6/.XtXPQ1JYFOoZ21Nizo1aD00JyPtV1hMsrGbYwBOS2	12345678901	11999999999	1998-03-10	5	11	Ativo
 2	Maria Clara Souza	maria@email.com	$2b$10$riY3y/4AK5xVECSXC7hjs.NcT.dU8U5lhWjDpc29h5PEYa6tApBQW	23456789012	11988888888	1995-07-21	200	8	Ativo
 3	Lucas Almeida	lucas@email.com	$2b$10$90uJejb9BaA9zzvEyou7ueVtERs00KEjYR68n6KT90HIdi8Fwj.c6	34567890123	11977777777	1999-02-18	100	3	Ativo
 4	Ana Beatriz Ramos	ana@email.com	$2b$10$Y9sW05D0kaEQAgUvWhx2n.ZZveul6yjCB9Hr2R3ZrzfauF0HbCV0S	45678901234	11966666666	2000-11-09	250	10	Ativo
 5	Carlos Henrique Dias	carlos@email.com	$2b$10$deBbNrfkaX8oa6/qKOtW2.dWl9pjwzbiaGypwU/ui3zBD.5AHZaPq	56789012345	11955555555	1997-05-25	180	6	Ativo
+8	Anthony Dias	anthony@email.com	$2b$10$NkS2g6AVrmnQi2sl9M2RZOacRCY/44VqmR3Jl3g6nI/qp/NdperVW	25918912061	11111111111	1996-04-15	0	0	Ativo
 \.
 
 
@@ -1269,7 +1272,6 @@ COPY public.funcionarios (fu_id, fu_nome, fu_email, fu_senha, fu_cpf, fu_telefon
 2	Filipe Mello	filipe@fitware.com	$2b$10$CSeDQRkzagkk9HrHj9L9beh962l2Zv7Z6osmLcTwXRbYZYGsamAqm	22233344455	11999998888	1990-06-22	Professor	CREF987654-SP
 6	Anthony a	anthony@fitware.com	$2b$10$3pP1qM81cg/94RBhCha6GuoOuOEaDacznqBfrRnTWx0KHcwMcSiNW	66677788899	11922221111	1995-08-25	Secretario	\N
 13	Ana Leonel	ana@fitware	$2b$10$uxilhO3hNsfZWu9KMASaiexjoC91TGAmdCiU0vL7y9Sqb4eOvSnU2	12321321321	1321321321	2323-03-12	Professor	CREF654321-SP
-14	Anthony Lima	anthonyld.comp@gmail.com	$2b$10$17g2choh8nFnOh2zIotLT.OUk3KT/Th34QVc9aUV.ABh7Opkp5Npa	12332132132	11111111111	2007-11-11	Professor	CREF123456-SP
 \.
 
 
@@ -1511,7 +1513,7 @@ SELECT pg_catalog.setval('public.avisos_av_id_seq', 9, true);
 -- Name: conversas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.conversas_id_seq', 26, true);
+SELECT pg_catalog.setval('public.conversas_id_seq', 27, true);
 
 
 --
@@ -1774,11 +1776,67 @@ ALTER TABLE ONLY public.turmas
 
 
 --
+-- Name: alunos unique_aluno_cpf; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos
+    ADD CONSTRAINT unique_aluno_cpf UNIQUE (al_cpf);
+
+
+--
+-- Name: alunos unique_aluno_email; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos
+    ADD CONSTRAINT unique_aluno_email UNIQUE (al_email);
+
+
+--
+-- Name: alunos unique_aluno_telefone; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alunos
+    ADD CONSTRAINT unique_aluno_telefone UNIQUE (al_telefone);
+
+
+--
 -- Name: conversas unique_conversation; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.conversas
     ADD CONSTRAINT unique_conversation UNIQUE (al_id, prof_id);
+
+
+--
+-- Name: funcionarios unique_funcionario_cpf; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.funcionarios
+    ADD CONSTRAINT unique_funcionario_cpf UNIQUE (fu_cpf);
+
+
+--
+-- Name: funcionarios unique_funcionario_cref; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.funcionarios
+    ADD CONSTRAINT unique_funcionario_cref UNIQUE (fu_cref);
+
+
+--
+-- Name: funcionarios unique_funcionario_email; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.funcionarios
+    ADD CONSTRAINT unique_funcionario_email UNIQUE (fu_email);
+
+
+--
+-- Name: funcionarios unique_funcionario_telefone; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.funcionarios
+    ADD CONSTRAINT unique_funcionario_telefone UNIQUE (fu_telefone);
 
 
 --

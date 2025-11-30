@@ -12,6 +12,7 @@ const {
   Aviso,
 } = require("../models");
 const { Op } = require("sequelize");
+const { cpf } = require("cpf-cnpj-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({
@@ -453,6 +454,11 @@ const criarProfessor = async (req, res) => {
 
     const senhaHash = await bcrypt.hash(fu_senha, 10);
 
+    // CPF validation
+    if (fu_cpf && !cpf.isValid(fu_cpf)) {
+      return res.status(400).json({ message: "CPF inválido." });
+    }
+
     const novo = await Funcionario.create({
       fu_nome: fu_nome,
       fu_email: fu_email,
@@ -481,6 +487,11 @@ const editarProfessor = async (req, res) => {
 
     if (!professor) {
       return res.status(404).json({ message: "Professor não encontrado" });
+    }
+
+    // CPF VÁLIDO
+    if(cpf.isValid(dados.fu_cpf) === false){
+      return  res.status(400).json({ message: "CPF inválido." });
     }
 
     await professor.update(dados);
