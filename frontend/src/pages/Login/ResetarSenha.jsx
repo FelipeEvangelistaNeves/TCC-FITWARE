@@ -77,7 +77,7 @@ export default function ResetarSenha() {
         setMensagem("✓ Senha alterada com sucesso!");
         setSucesso(true);
         setTimeout(() => {
-          navigate("escolherlogin");
+          navigate("/escolherlogin");
         }, 2000);
       } else {
         setMensagem(data.error || "Erro ao resetar senha");
@@ -107,7 +107,7 @@ export default function ResetarSenha() {
           <div className="erro-container">
             <h2>❌ Link Inválido ou Expirado</h2>
             <p>{mensagem}</p>
-            <Link to="escolherlogin" className="btn-voltar">
+            <Link to="/escolherlogin" className="btn-voltar">
               Voltar ao Login
             </Link>
           </div>

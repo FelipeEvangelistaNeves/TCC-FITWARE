@@ -22,7 +22,10 @@ export default function ExcluirBrinde({ brinde, onClose, onConfirm }) {
               Cancelar
             </button>
 
-            <button className="btn-salvar" onClick={() => onConfirm(brinde.id)}>
+            <button
+              className="btn-excluir"
+              onClick={() => onConfirm(brinde.id)}
+            >
               Excluir definitivamente
             </button>
           </div>

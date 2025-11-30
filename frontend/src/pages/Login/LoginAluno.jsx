@@ -60,6 +60,7 @@ export default function LoginAluno() {
           <label>Usuário</label>
           <input
             type="email"
+            placeholder="seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -69,13 +70,14 @@ export default function LoginAluno() {
           <label>Senha</label>
           <input
             type="password"
+            placeholder="sua senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
         <div className="forgot-password">
-          <Link to="/esqueci-senha-aluno" state={{ from: "/login/aluno" }}>
+          <Link to="/esqueci-senha" state={{ from: "/login/aluno" }}>
             Esqueceu a senha?
           </Link>
         </div>

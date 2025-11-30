@@ -119,9 +119,11 @@ const LoginDesk = () => {
         </div>
 
         <div className="login-right">
-          <Link to="/escolherlogin" className="back-link">
-            <i className="bi bi-arrow-left"></i>
-          </Link>
+          {!isFlipped && (
+            <Link to="/escolherlogin" className="back-link">
+              <i className="bi bi-arrow-left"></i>
+            </Link>
+          )}
 
           {!isFlipped ? (
             <div className="login-form-container">

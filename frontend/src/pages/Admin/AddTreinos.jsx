@@ -117,9 +117,6 @@ export default function AddTreinoModal({ onClose, onSave }) {
       <div className="treino-modal" onClick={(e) => e.stopPropagation()}>
         <div className="treino-modal-header">
           <h2>Novo Treino</h2>
-          <button className="close-btn" onClick={onClose}>
-            ✕
-          </button>
         </div>
 
         <form className="treino-modal-body" onSubmit={handleSave}>

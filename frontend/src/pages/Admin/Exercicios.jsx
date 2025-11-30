@@ -184,7 +184,6 @@ export default function Exercicios() {
       <table className="tabela">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Nome</th>
             <th>Grupo Muscular</th>
             <th>Instruções</th>
@@ -195,7 +194,6 @@ export default function Exercicios() {
           {exerciciosPaginados.length > 0 ? (
             exerciciosPaginados.map((ex) => (
               <tr key={ex.ex_id}>
-                <td>{ex.ex_id}</td>
                 <td className="user-info">{ex.ex_nome}</td>
                 <td>
                   <span className="nivel intermediario">

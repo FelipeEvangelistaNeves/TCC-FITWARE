@@ -12,6 +12,10 @@ require("dotenv").config({
   quiet: true,
 });
 
+// ======================== //
+// ===== CRUD ALUNOS ===== //
+// ======================== //
+
 criarAluno = async (req, res) => {
   try {
     const {
@@ -131,6 +135,7 @@ listarAlunosAdmin = async (req, res) => {
 // ======================== //
 // ===== CRUD EXERCÍCIOS ===== //
 // ======================== //
+
 const { Exercicio, TreinoExercicio } = require("../models");
 
 atualizarExercicioAdmin = async (req, res) => {
@@ -182,7 +187,10 @@ deletarExercicioAdmin = async (req, res) => {
   }
 };
 
-// ======= Perfil do Admin (Secretario) =======
+// ======================== //
+// ===== PERFIL ADMIN ===== //
+// ======================== //
+
 const getAdminProfile = async (req, res) => {
   try {
     const userId = req.user?.id;
@@ -256,47 +264,56 @@ const updateAdminProfile = async (req, res) => {
     return res.status(500).json({ error: "Erro ao atualizar perfil" });
   }
 };
-// ======================== //
 
-// ======= Dashboard Estatísticas =======
-const getTotalAlunos = async (req, res) => {
+// ================================ //
+// ===== DASHBOARD ESTATÍSTICAS ===== //
+// ================================ //
+
+// NOVA FUNÇÃO: Retorna todas as estatísticas de uma vez
+const getDashboardStats = async (req, res) => {
   try {
-    // Tenta contar apenas alunos com status 'Ativo' (mais útil para dashboard)
+    // Total de TODOS os alunos (não apenas ativos)
+    let totalAlunos = 0;
     try {
-      const total = await Aluno.count({ where: { al_status: "Ativo" } });
-      return res.json({ total });
-    } catch (innerErr) {
-      // Se count falhar por algum motivo (ex: dialect mismatch), tenta buscar
-      // todos e filtrar em memória como fallback seguro.
-      console.warn(
-        "Fallback: erro ao usar count(), tentando buscar e filtrar:",
-        innerErr
-      );
-      const alunos = await Aluno.findAll({ attributes: ["al_status"] });
-      const total = (alunos || []).filter(
-        (a) => a.al_status === "Ativo"
-      ).length;
-      return res.json({ total });
+      totalAlunos = await Aluno.count();
+    } catch (countErr) {
+      console.warn("Erro ao usar count(), usando fallback:", countErr);
+      const alunos = await Aluno.findAll({ attributes: ["al_id"] });
+      totalAlunos = (alunos || []).length;
     }
+
+    // Total de TODOS os desafios (não apenas ativos)
+    let totalDesafios = 0;
+    try {
+      totalDesafios = await Desafio.count();
+    } catch (countErr) {
+      console.warn("Erro ao contar desafios, usando fallback:", countErr);
+      const desafios = await Desafio.findAll({ attributes: ["de_id"] });
+      totalDesafios = (desafios || []).length;
+    }
+
+    // Total de treinos
+    let totalTreinos = 0;
+    try {
+      totalTreinos = await Treino.count();
+    } catch (countErr) {
+      console.warn("Erro ao contar treinos, usando fallback:", countErr);
+      const treinos = await Treino.findAll({ attributes: ["tr_id"] });
+      totalTreinos = (treinos || []).length;
+    }
+
+    return res.json({
+      alunos: totalAlunos,
+      desafios: totalDesafios,
+      treinos: totalTreinos,
+    });
   } catch (err) {
-    console.error("Erro ao contar alunos:", err);
-    return res.status(500).json({ error: "Erro ao buscar total de alunos" });
+    console.error("Erro ao buscar estatísticas do dashboard:", err);
+    return res.status(500).json({ error: "Erro ao buscar estatísticas" });
   }
 };
 
-const getTotalDesafios = async (req, res) => {
-  try {
-    const total = await Desafio.count();
-    return res.json({ total });
-  } catch (err) {
-    console.error("Erro ao contar desafios:", err);
-    return res.status(500).json({ error: "Erro ao buscar total de desafios" });
-  }
-};
-
-// Gera atividades recentes a partir das associações existentes (sem alterar o banco).
-// Usa `AlunoTreino` para montar uma lista das últimas atribuições/associações
-// (ordenamos por al_id/tr_id como aproximação de recência, já que não há timestamps).
+// Gera atividades recentes a partir das associações existentes
 const getAtividadesRecentes = async (req, res) => {
   try {
     const regs = await AlunoTreino.findAll({
@@ -308,13 +325,25 @@ const getAtividadesRecentes = async (req, res) => {
       ],
     });
 
-    const formatado = (regs || []).map((r) => ({
+    const cores = [
+      "#7f24c6",
+      "#ff6b6b",
+      "#4ecdc4",
+      "#45b7d1",
+      "#f9ca24",
+      "#6c5ce7",
+      "#a29bfe",
+      "#fd79a8",
+    ];
+
+    const formatado = (regs || []).map((r, i) => ({
       id: `${r.al_id}-${r.tr_id}`,
       nome: r.Aluno?.al_nome || "Aluno",
       acao: r.Treino
         ? `atribuído ao treino: ${r.Treino.tr_nome}`
         : "associação",
-      hora: null,
+      hora: "Recente",
+      cor: cores[i % cores.length],
     }));
 
     return res.json({ atividades: formatado });
@@ -333,7 +362,6 @@ module.exports = {
   deletarExercicioAdmin,
   getAdminProfile,
   updateAdminProfile,
-  getTotalAlunos,
-  getTotalDesafios,
+  getDashboardStats, // ← Certifique-se de que está aqui
   getAtividadesRecentes,
 };

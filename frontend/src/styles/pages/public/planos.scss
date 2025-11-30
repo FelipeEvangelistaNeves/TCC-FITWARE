@@ -1,7 +1,7 @@
 @import "../../abstract/variables";
 
 .planos-page {
-  background: var(--app-bg);
+  background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-family);
 
@@ -61,6 +61,7 @@
   }
 
   .planos {
+    background: var(--color-bg) !important;
     .plan-card {
       background: var(--surface-2);
       border: 1px solid var(--border-color);

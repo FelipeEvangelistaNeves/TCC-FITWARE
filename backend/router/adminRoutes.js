@@ -11,8 +11,7 @@ const {
   getAdminProfile,
   updateAdminProfile,
   getAtividadesRecentes,
-  getTotalAlunos,
-  getTotalDesafios,
+  getDashboardStats,
 } = require("../controllers/adminController");
 const LoggerMessages = require("../loggerMessages");
 
@@ -46,6 +45,8 @@ router.get(
   }
 );
 
+// ======= PERFIL DO ADMIN =======
+
 // Perfil do admin (GET /admin/profile - retorna dados do funcionario logado)
 router.get("/profile", authMiddleware(["Secretario"]), async (req, res) => {
   try {
@@ -68,29 +69,15 @@ router.put("/profile", authMiddleware(["Secretario"]), async (req, res) => {
 
 // ======= DASHBOARD ADMIN =======
 
-// Total de alunos
+// Rota unificada para estatísticas do dashboard (NOVA)
 router.get(
-  "/dashboard/total-alunos",
+  "/dashboard/stats",
   authMiddleware(["Secretario"]),
   async (req, res) => {
     try {
-      return getTotalAlunos(req, res);
+      return getDashboardStats(req, res);
     } catch (e) {
-      console.error(e);
-      return res.status(500).json({ error: "Erro interno" });
-    }
-  }
-);
-
-// Total de desafios
-router.get(
-  "/dashboard/total-desafios",
-  authMiddleware(["Secretario"]),
-  async (req, res) => {
-    try {
-      return getTotalDesafios(req, res);
-    } catch (e) {
-      console.error(e);
+      console.error("Erro ao buscar stats do dashboard:", e);
       return res.status(500).json({ error: "Erro interno" });
     }
   }
@@ -104,19 +91,30 @@ router.get(
     try {
       return getAtividadesRecentes(req, res);
     } catch (e) {
-      console.error(e);
+      console.error("Erro ao buscar atividades:", e);
       return res.status(500).json({ error: "Erro interno" });
     }
   }
 );
 
-router.post("/criarAluno", authMiddleware(), criarAluno);
-router.get("/allAlunos", authMiddleware(), listarAlunosAdmin);
-router.put("/alunos/:id", authMiddleware(), atualizarAlunoAdmin);
-router.delete("/alunos/:id", authMiddleware(), deletarAluno);
+// ======= CRUD ALUNOS =======
 
-// 🔹 ROTAS - EXERCÍCIOS
-router.put("/exercicios/:id", authMiddleware(), atualizarExercicioAdmin);
-router.delete("/exercicios/:id", authMiddleware(), deletarExercicioAdmin);
+router.post("/criarAluno", authMiddleware(["Secretario"]), criarAluno);
+router.get("/allAlunos", authMiddleware(["Secretario"]), listarAlunosAdmin);
+router.put("/alunos/:id", authMiddleware(["Secretario"]), atualizarAlunoAdmin);
+router.delete("/alunos/:id", authMiddleware(["Secretario"]), deletarAluno);
+
+// ======= CRUD EXERCÍCIOS =======
+
+router.put(
+  "/exercicios/:id",
+  authMiddleware(["Secretario"]),
+  atualizarExercicioAdmin
+);
+router.delete(
+  "/exercicios/:id",
+  authMiddleware(["Secretario"]),
+  deletarExercicioAdmin
+);
 
 module.exports = router;

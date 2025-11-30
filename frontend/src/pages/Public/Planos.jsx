@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../../styles/pages/public/public.scss";
 import { FaMoon, FaSun } from "react-icons/fa";
 import "../../styles/pages/public/planos.scss";
 

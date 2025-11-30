@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
-import "../../styles/pages/admin/treinosmodal.scss";
+import "../../styles/pages/admin/detalhestreinos.scss";
 
 export default function DetalhesTreino({ treino, onClose }) {
   const [treinoDetalhes, setTreinoDetalhes] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!treino) return setLoading(false);
+
     const fetchDetalhes = async () => {
-      if (!treino) {
-        setLoading(false);
-        return;
-      }
-
-      const treinoId = treino.tr_id || treino.id;
-      if (!treinoId) {
-        setLoading(false);
-        return;
-      }
-
       try {
+        const id = treino.tr_id || treino.id;
+        if (!id) return setLoading(false);
+
         const res = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/treinos/detalhes/${treinoId}`,
+          `${import.meta.env.VITE_BASE_URL}/treinos/detalhes/${id}`,
           { credentials: "include" }
         );
 
@@ -28,8 +22,8 @@ export default function DetalhesTreino({ treino, onClose }) {
           const data = await res.json();
           setTreinoDetalhes(data);
         }
-      } catch (error) {
-        console.error("Erro ao carregar detalhes do treino:", error);
+      } catch (e) {
+        console.error("Erro ao carregar detalhes do treino:", e);
       } finally {
         setLoading(false);
       }
@@ -38,167 +32,109 @@ export default function DetalhesTreino({ treino, onClose }) {
     fetchDetalhes();
   }, [treino]);
 
-  if (!treino) {
-    return (
-      <div className="treino-overlay">
-        <div className="treino-modal">
-          <div className="treino-modal-header">
-            <h2>Treino não selecionado</h2>
-            <button className="close-btn" onClick={onClose}>
-              ✕
-            </button>
-          </div>
-          <div style={{ padding: "20px", textAlign: "center" }}>
-            <p>Nenhum treino foi selecionado para visualizar.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="treino-overlay">
-        <div className="treino-modal">
-          <div className="treino-modal-header">
-            <h2>Carregando...</h2>
-            <button className="close-btn" onClick={onClose}>
-              ✕
-            </button>
-          </div>
-          <div style={{ padding: "20px", textAlign: "center" }}>
-            <p>Por favor, aguarde...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const dados = treinoDetalhes || treino;
 
-  return (
-    <div className="treino-overlay">
-      <div className="treino-modal detalhes-modal">
-        {/* Botão fechar */}
-        <button className="close-btn" onClick={onClose}>
-          ✕
-        </button>
+  if (loading)
+    return (
+      <div className="treino-overlay" onClick={onClose}>
+        <div className="treino-modal">
+          <h2>Carregando...</h2>
+        </div>
+      </div>
+    );
 
-        {/* Cabeçalho */}
-        <div className="treino-modal-header">
-          <h2>{dados.tr_nome ? dados.tr_nome : dados.nome}</h2>
-          <span className="categoria">
-            {dados.tr_dificuldade
-              ? dados.tr_dificuldade
-              : dados.dificuldade
-              ? dados.dificuldade
-              : "Sem dificuldade"}
+  if (!dados)
+    return (
+      <div className="treino-overlay" onClick={onClose}>
+        <div className="treino-modal">
+          <h2>Nenhum treino encontrado</h2>
+        </div>
+      </div>
+    );
+
+  return (
+    <div className="treino-overlay" onClick={onClose}>
+      <div
+        className="treino-modal detalhes-treino-container"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* HEADER */}
+        <div className="dt-header">
+          <h2>{dados.nome}</h2>
+          <span className="dt-dificuldade">
+            {dados.dificuldade || "Não informado"}
           </span>
         </div>
 
-        <div className="treino-modal-body">
-          <p className="descricao">
-            {dados.tr_descricao ? dados.tr_descricao : dados.descricao}
-          </p>
+        {/* CORPO */}
+        <div className="dt-content">
+          {/* DESCRIÇÃO */}
+          {dados.descricao && <p className="dt-descricao">{dados.descricao}</p>}
 
-          {/* Professor */}
-          {dados.Funcionario && (
-            <div className="professor-info">
+          {/* PROFESSOR */}
+          {dados.funcionario && (
+            <div className="dt-professor">
               <div className="avatar">
-                {dados.Funcionario.fu_nome.substring(0, 2).toUpperCase()}
+                {dados.funcionario.substring(0, 2).toUpperCase()}
               </div>
-              <div className="professor-dados">
-                <span className="nome">{dados.Funcionario.fu_nome}</span>
-                <span className="especialidade">
-                  {dados.Funcionario.fu_especialidade || "Sem especialidade"}
-                </span>
-              </div>
+              <span>{dados.funcionario}</span>
             </div>
           )}
 
-          {/* Lista de exercícios */}
-          <div className="treino-section exercises-container">
+          {/* EXERCÍCIOS */}
+          <div className="dt-section">
             <h3>Exercícios</h3>
-            {dados.Exercicios && dados.Exercicios.length > 0 ? (
-              dados.Exercicios.map((ex, i) => {
-                const series = ex.TreinoExercicio
-                  ? ex.TreinoExercicio.te_series
-                  : ex.series;
-                const repeticoes = ex.TreinoExercicio
-                  ? ex.TreinoExercicio.te_repeticoes
-                  : ex.repeticoes;
-                const descanso = ex.TreinoExercicio
-                  ? ex.TreinoExercicio.te_descanso
-                  : ex.descanso;
-                const instrucao = ex.ex_instrucao
-                  ? ex.ex_instrucao
-                  : ex.instrucao;
 
-                return (
-                  <div
-                    className="exercicio-item"
-                    key={ex.ex_id ? ex.ex_id : ex.id}
-                  >
-                    <div className="ex-nome">
-                      {i + 1}. {ex.ex_nome ? ex.ex_nome : ex.nome}
-                    </div>
-
-                    <div className="ex-detalhes">
-                      {series && (
-                        <div className="detalhe-field">
-                          <span className="label">Séries:</span>
-                          <span className="value">{series}</span>
-                        </div>
-                      )}
-                      {repeticoes && (
-                        <div className="detalhe-field">
-                          <span className="label">Repetições:</span>
-                          <span className="value">{repeticoes}</span>
-                        </div>
-                      )}
-                      {descanso && (
-                        <div className="detalhe-field">
-                          <span className="label">Descanso:</span>
-                          <span className="value">{descanso}s</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {instrucao ? (
-                      <div className="ex-instrucao">
-                        <strong>Instruções:</strong> {instrucao}
-                      </div>
-                    ) : null}
+            {dados.exercicios?.length ? (
+              dados.exercicios.map((ex, index) => (
+                <div className="dt-ex-card" key={ex.ex_id}>
+                  <div className="dt-ex-header">
+                    <h4>
+                      {index + 1}. {ex.nome}
+                    </h4>
                   </div>
-                );
-              })
+
+                  <div className="dt-ex-grid">
+                    <p>
+                      <span>Séries:</span> {ex.series}
+                    </p>
+                    <p>
+                      <span>Repetições:</span> {ex.repeticoes}
+                    </p>
+                    <p>
+                      <span>Descanso:</span> {ex.descanso}s
+                    </p>
+                  </div>
+
+                  {ex.instrucao && (
+                    <p className="dt-ex-instrucao">
+                      <strong>Instruções:</strong> {ex.instrucao}
+                    </p>
+                  )}
+                </div>
+              ))
             ) : (
-              <p className="sem-exercicios">Nenhum exercício cadastrado.</p>
+              <p className="dt-vazio">Nenhum exercício cadastrado</p>
             )}
           </div>
 
-          {/* Alunos que recebem este treino */}
-          <div className="treino-section alunos-section">
+          {/* ALUNOS */}
+          <div className="dt-section">
             <h3>Alunos Atribuídos</h3>
-            {dados.Alunos && dados.Alunos.length > 0 ? (
-              <div className="alunos-list">
-                {dados.Alunos.map((aluno) => (
-                  <div className="aluno-item" key={aluno.al_id}>
-                    <div className="aluno-avatar">
-                      {(aluno.al_nome ? aluno.al_nome : aluno.nome)
-                        .substring(0, 2)
-                        .toUpperCase()}
+
+            {dados.alunos?.length ? (
+              <div className="dt-alunos">
+                {dados.alunos.map((aluno) => (
+                  <div className="dt-aluno-item" key={aluno.al_id}>
+                    <div className="avatar">
+                      {aluno.al_nome.substring(0, 2).toUpperCase()}
                     </div>
-                    <span className="aluno-nome">
-                      {aluno.al_nome ? aluno.al_nome : aluno.nome}
-                    </span>
+                    <span>{aluno.al_nome}</span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="sem-alunos">
-                Nenhum aluno atribuído a este treino.
-              </p>
+              <p className="dt-vazio">Nenhum aluno atribuído</p>
             )}
           </div>
         </div>

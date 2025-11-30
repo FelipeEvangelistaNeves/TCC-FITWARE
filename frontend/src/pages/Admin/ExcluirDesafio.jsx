@@ -1,6 +1,7 @@
 // src/pages/admin/modals/ExcluirDesafio.jsx
 import React from "react";
-import "../../styles/pages/admin/forms.scss";
+
+import "../../styles/pages/admin/excluir.scss";
 
 export default function ExcluirDesafio({ desafio, onClose, onConfirm }) {
   if (!desafio) return null;
@@ -8,7 +9,7 @@ export default function ExcluirDesafio({ desafio, onClose, onConfirm }) {
   const nome = desafio.de_nome || desafio.nome || "(sem nome)";
 
   return (
-    <div className="admin-modal">
+    <div className="admin-excluir">
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <h3>Excluir Desafio</h3>
@@ -20,7 +21,7 @@ export default function ExcluirDesafio({ desafio, onClose, onConfirm }) {
             <button className="btn-cancelar" onClick={onClose}>
               Cancelar
             </button>
-            <button className="btn-salvar" onClick={onConfirm}>
+            <button className="btn-excluir" onClick={onConfirm}>
               Excluir
             </button>
           </div>

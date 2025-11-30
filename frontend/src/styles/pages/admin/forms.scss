@@ -1,39 +1,62 @@
 @import "./../../abstract/variables.scss";
 
 .admin-modal {
-  // Overlay
+  /* Overlay */
   .modal-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.25s ease-in-out;
     padding: 20px;
+    z-index: 9999;
   }
 
-  // Caixa principal
+  /* Caixa principal */
   .modal-content {
     color: var(--color-text);
     background: var(--card-bg);
-    border-radius: var(--radius-md, 12px);
-    width: 90%;
+    border-radius: var(--radius-md, 14px);
+    width: 92%;
     max-width: 720px;
-    box-shadow: var(--shadow-card, 0 4px 10px rgba(0, 0, 0, 0.3));
+    max-height: 90vh; /* PARA CABER NA TELA */
+    overflow-y: auto; /* Scroll interno */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     padding: var(--spacing-lg, 24px);
     animation: slideUp 0.25s ease-out;
     position: relative;
 
+    /* Scroll customizado */
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--surface-2);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-purple);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--color-purple-light);
+    }
+
     h3 {
       margin-bottom: var(--spacing-md, 16px);
-      font-size: var(--font-size-heading, 20px);
+      font-size: clamp(18px, 2vw, 22px);
       font-weight: 600;
+      text-align: center;
     }
   }
 
-  // Form padrão
+  /* Form padrão */
   .form-card {
     display: flex;
     flex-direction: column;
@@ -43,11 +66,12 @@
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xs, 4px);
+    gap: var(--spacing-xs, 6px);
 
     label {
-      font-size: var(--font-size-small, 12px);
+      font-size: var(--font-size-small, 13px);
       color: var(--color-text-muted);
+      font-weight: 500;
     }
 
     input,
@@ -57,37 +81,43 @@
       color: var(--color-text);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm, 6px);
-      padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+      padding: 10px 14px;
       outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      font-size: 14px;
+      transition: 0.25s ease;
 
       &:focus {
         border-color: var(--color-purple);
-        box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb, 139, 92, 246), 0.2);
+        box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb, 139, 92, 246), 0.25);
       }
     }
 
     textarea {
-      min-height: 80px;
+      min-height: 90px;
       resize: vertical;
     }
   }
 
-  // Ações (botões)
+  /* Botões */
   .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: var(--spacing-sm, 8px);
-    margin-top: var(--spacing-lg, 24px);
+    gap: 10px;
+    padding-top: 10px;
+
+    button {
+      padding: 10px 18px;
+      border-radius: var(--radius-sm, 6px);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: 0.25s ease;
+    }
 
     .btn-cancelar {
       background: transparent;
       border: 1px solid var(--border-color);
       color: var(--color-text-muted);
-      padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
-      border-radius: var(--radius-sm, 6px);
-      cursor: pointer;
-      transition: 0.25s;
 
       &:hover {
         background: var(--surface-hover);
@@ -99,15 +129,10 @@
       background: var(--color-purple);
       color: #fff;
       border: none;
-      padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
-      border-radius: var(--radius-sm, 6px);
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.25s ease;
 
       &:hover {
         background: var(--color-purple-light);
-        transform: scale(1.02);
+        transform: translateY(-2px);
       }
     }
   }

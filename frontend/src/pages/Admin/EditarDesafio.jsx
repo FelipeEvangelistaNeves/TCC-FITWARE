@@ -1,162 +1,189 @@
-// src/pages/admin/modals/EditDesafio.jsx
+// src/pages/admin/modals/EditarDesafio.jsx
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/admin/forms.scss";
 
-export default function EditDesafio({ desafio, onClose, onSave }) {
-  // normalize incoming desafio fields to our form shape
-  const initial = {
-    de_id: desafio?.de_id ?? desafio?.id ?? null,
-    de_nome: desafio?.de_nome ?? desafio?.nome ?? "",
-    de_descricao: desafio?.de_descricao ?? desafio?.descricao ?? "",
-    de_tag: desafio?.de_tag ?? desafio?.tipo ?? "",
-    de_pontos: desafio?.de_pontos ?? desafio?.pontos ?? 0,
-    de_progresso: desafio?.de_progresso ?? desafio?.progresso ?? 0,
-    de_start: desafio?.de_start ?? null,
-    de_end: desafio?.de_end ?? desafio?.duracao ?? null,
-    de_status: desafio?.de_status ?? "Inativo",
-  };
+export default function EditarDesafio({ desafio, onClose, onSave }) {
+  const [form, setForm] = useState({
+    de_id: "",
+    de_nome: "",
+    de_descricao: "",
+    de_tag: "Frequência",
+    de_pontos: 0,
+    de_progresso: 0,
+    de_start: "",
+    de_end: "",
+    de_status: "Inativo",
+  });
 
-  const [form, setForm] = useState(initial);
-
-  useEffect(() => setForm({ ...initial }), [desafio]);
+  useEffect(() => {
+    if (desafio) {
+      setForm({
+        de_id: desafio.de_id || "",
+        de_nome: desafio.de_nome || "",
+        de_descricao: desafio.de_descricao || "",
+        de_tag: desafio.de_tag || "Frequência",
+        de_pontos: desafio.de_pontos || 0,
+        de_progresso: desafio.de_progresso || 0,
+        de_start: desafio.de_start ? desafio.de_start.split("T")[0] : "",
+        de_end: desafio.de_end ? desafio.de_end.split("T")[0] : "",
+        de_status: desafio.de_status || "Inativo",
+      });
+    }
+  }, [desafio]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((s) => ({ ...s, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const submit = async (e) => {
     e.preventDefault();
+
     if (!form.de_id) {
-      // cannot update without id
       alert("ID do desafio ausente");
       return;
     }
 
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/desafios/${form.de_id}`,
-        {
-          method: "PUT",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        }
-      );
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert(err.error || "Falha ao atualizar desafio");
-        return;
-      }
-
-      const data = await res.json();
-      if (typeof onSave === "function") onSave(data.desafio || form);
-      onClose();
-    } catch (error) {
-      console.error("Erro ao atualizar desafio:", error);
-      alert("Erro ao atualizar desafio");
+    if (!form.de_nome.trim()) {
+      return alert("Informe o nome do desafio");
     }
+
+    if (!form.de_end) {
+      return alert("Informe a data de término do desafio");
+    }
+
+    // Chama a função onSave que fará o PUT request no componente pai
+    onSave(form);
   };
 
   return (
     <div className="admin-modal">
       <div className="modal-overlay" onClick={onClose}>
-        <div
-          className="modal-content form-card"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h3>Editar Desafio</h3>
-          <form onSubmit={submit}>
-            <div className="form-group">
-              <label>Nome</label>
-              <input
-                name="de_nome"
-                value={form.de_nome}
-                onChange={handleChange}
-              />
-            </div>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h3>Editar Desafio</h3>
+          </div>
 
-            <div className="form-group">
-              <label>Descrição</label>
-              <textarea
-                name="de_descricao"
-                value={form.de_descricao}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group" style={{ display: "flex", gap: 12 }}>
-              <div style={{ flex: 1 }}>
-                <label>Tipo / Tag</label>
-                <select
-                  name="de_tag"
-                  value={form.de_tag}
-                  onChange={handleChange}
-                >
-                  <option value="Frequência">Frequência</option>
-                  <option value="Cardio">Cardio</option>
-                  <option value="Nutrição">Nutrição</option>
-                </select>
-              </div>
-              <div style={{ width: 140 }}>
-                <label>Pontos</label>
+          <div className="modal-body">
+            <form onSubmit={submit} className="form-card">
+              <div className="form-group">
+                <label>
+                  Nome <span className="required">*</span>
+                </label>
                 <input
-                  name="de_pontos"
-                  type="number"
-                  value={form.de_pontos}
+                  name="de_nome"
+                  value={form.de_nome}
                   onChange={handleChange}
+                  placeholder="Nome do desafio"
+                  required
                 />
               </div>
-            </div>
 
-            <div
-              className="form-group"
-              style={{ display: "flex", gap: 12, marginTop: 12 }}
-            >
-              <div style={{ flex: 1 }}>
-                <label>Progresso (%)</label>
-                <input
-                  name="de_progresso"
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={form.de_progresso}
+              <div className="form-group">
+                <label>Descrição</label>
+                <textarea
+                  name="de_descricao"
+                  value={form.de_descricao}
                   onChange={handleChange}
+                  placeholder="Descreva o objetivo do desafio..."
+                  rows="3"
                 />
               </div>
-              <div style={{ width: 200 }}>
-                <label>Data fim</label>
-                <input
-                  name="de_end"
-                  type="date"
-                  value={form.de_end ? form.de_end.split("T")[0] : ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: 160 }}>
-                <label>Status</label>
-                <select
-                  name="de_status"
-                  value={form.de_status}
-                  onChange={handleChange}
-                >
-                  <option>Inativo</option>
-                  <option>Ativo</option>
-                  <option>Concluído</option>
-                </select>
-              </div>
-            </div>
 
-            <div className="modal-actions">
-              <button type="button" className="btn-cancelar" onClick={onClose}>
-                Cancelar
-              </button>
-              <button type="submit" className="btn-salvar">
-                Salvar Alterações
-              </button>
-            </div>
-          </form>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Tipo / Tag</label>
+                  <select
+                    name="de_tag"
+                    value={form.de_tag}
+                    onChange={handleChange}
+                  >
+                    <option value="Frequência">Frequência</option>
+                    <option value="Cardio">Cardio</option>
+                    <option value="Nutrição">Nutrição</option>
+                    <option value="Força">Força</option>
+                    <option value="Flexibilidade">Flexibilidade</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Pontos</label>
+                  <input
+                    name="de_pontos"
+                    type="number"
+                    value={form.de_pontos}
+                    onChange={handleChange}
+                    min="0"
+                    step="10"
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Data de Início</label>
+                  <input
+                    name="de_start"
+                    type="date"
+                    value={form.de_start}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    Data de Término <span className="required">*</span>
+                  </label>
+                  <input
+                    name="de_end"
+                    type="date"
+                    value={form.de_end}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Progresso (%)</label>
+                  <input
+                    name="de_progresso"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={form.de_progresso}
+                    onChange={handleChange}
+                  />
+                  <span className="help-text">
+                    Progresso geral do desafio (0-100%)
+                  </span>
+                </div>
+
+                <div className="form-group">
+                  <label>Status</label>
+                  <select
+                    name="de_status"
+                    value={form.de_status}
+                    onChange={handleChange}
+                  >
+                    <option value="Inativo">Inativo</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Concluído">Concluído</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div className="modal-actions">
+            <button type="button" className="btn-cancelar" onClick={onClose}>
+              Cancelar
+            </button>
+            <button type="submit" className="btn-salvar" onClick={submit}>
+              Salvar Alterações
+            </button>
+          </div>
         </div>
       </div>
     </div>

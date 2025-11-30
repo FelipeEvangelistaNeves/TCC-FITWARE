@@ -11,56 +11,66 @@ import DetalhesDesafio from "./DetalhesDesafios";
 import ExcluirDesafio from "./ExcluirDesafio";
 
 export default function Desafios() {
-  const [activeTab, setActiveTab] = useState("ativos");
   const [busca, setBusca] = useState("");
-  const [pagina, setPagina] = useState(1);
-  const [itensPagina, setItensPagina] = useState(10);
 
-  // ====== MODAIS ======
+  // ===== PAGINAÇÃO =====
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // ===== MODAIS =====
   const [showAdd, setShowAdd] = useState(false);
   const [showEditar, setShowEditar] = useState(false);
   const [showDetalhes, setShowDetalhes] = useState(false);
   const [showExcluir, setShowExcluir] = useState(false);
   const [selecionado, setSelecionado] = useState(null);
 
-  // ====== DADOS ======
+  // ===== DADOS =====
   const [desafios, setDesafios] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
-  // ====== FILTROS ======
+  // ===== FUNÇÃO PARA FORMATAR DATA =====
+  const formatarData = (dataString) => {
+    if (!dataString) return "-";
+
+    try {
+      const data = new Date(dataString);
+      // Verifica se a data é válida
+      if (isNaN(data.getTime())) return "-";
+
+      return data.toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    } catch (error) {
+      return "-";
+    }
+  };
+
+  // ===== FILTROS =====
   const filtrados = desafios.filter((d) => {
     const termo = busca.toLowerCase();
 
-    const nome = String(d.de_nome || d.nome || "").toLowerCase();
-    const tipo = String(d.de_tag || d.tipo || "").toLowerCase();
-    const descricao = String(d.de_descricao || d.descricao || "").toLowerCase();
+    const nome = String(d.de_nome || "").toLowerCase();
+    const tipo = String(d.de_tag || "").toLowerCase();
+    const descricao = String(d.de_descricao || "").toLowerCase();
 
-    const matchBusca =
-      nome.includes(termo) || tipo.includes(termo) || descricao.includes(termo);
-
-    const status = String(d.de_status || d.status || "").toLowerCase();
-    const matchAba =
-      activeTab === "ativos"
-        ? status === "ativo"
-        : activeTab === "concluidos"
-        ? status.includes("concl")
-        : activeTab === "programados"
-        ? status === "inativo"
-        : true;
-
-    return matchBusca && matchAba;
+    return (
+      nome.includes(termo) || tipo.includes(termo) || descricao.includes(termo)
+    );
   });
 
-  // ====== PAGINAÇÃO ======
-  const totalPaginas = Math.ceil(filtrados.length / itensPagina);
-  const inicio = (pagina - 1) * itensPagina;
-  const exibidos = filtrados.slice(inicio, inicio + itensPagina);
+  // ===== PAGINAÇÃO =====
+  const totalPages = Math.ceil(filtrados.length / itemsPerPage) || 1;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const exibidos = filtrados.slice(startIndex, startIndex + itemsPerPage);
 
-  const mudarPagina = (p) => {
-    if (p >= 1 && p <= totalPaginas) setPagina(p);
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  // ===== CRUD HANDLERS =====
+  // ===== CRUD =====
+
   const adicionar = async (novo) => {
     try {
       const payload = {
@@ -69,6 +79,8 @@ export default function Desafios() {
         de_tag: novo.tipo,
         de_pontos: novo.pontos,
         de_status: novo.status,
+        de_start: novo.inicio,
+        de_end: novo.fim,
       };
 
       const res = await fetch(`${import.meta.env.VITE_BASE_URL}/desafios`, {
@@ -85,35 +97,58 @@ export default function Desafios() {
       }
 
       const data = await res.json();
-      const novoDesafio = data.desafio || data;
-      setDesafios((prev) => [novoDesafio, ...prev]);
+      setDesafios((prev) => [data.desafio || data, ...prev]);
       setShowAdd(false);
-    } catch (error) {
-      console.error("Erro ao criar desafio:", error);
+    } catch (e) {
+      console.error(e);
       alert("Erro ao criar desafio");
     }
   };
 
-  const atualizar = (editado) => {
-    setDesafios((prev) =>
-      prev.map((d) => {
-        const idA = d.de_id || d.id;
-        const idB = editado.de_id || editado.id;
-        return idA === idB ? editado : d;
-      })
-    );
-    setShowEditar(false);
+  const atualizar = async (editado) => {
+    try {
+      const payload = {
+        de_nome: editado.de_nome,
+        de_descricao: editado.de_descricao,
+        de_tag: editado.de_tag,
+        de_pontos: editado.de_pontos,
+        de_status: editado.de_status,
+        de_start: editado.de_start,
+        de_end: editado.de_end,
+      };
+
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/desafios/${editado.de_id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Falha ao atualizar desafio");
+        return;
+      }
+
+      const data = await res.json();
+      setDesafios((prev) =>
+        prev.map((d) =>
+          d.de_id === editado.de_id ? data.desafio || editado : d
+        )
+      );
+      setShowEditar(false);
+    } catch (e) {
+      console.error(e);
+      alert("Erro ao atualizar desafio");
+    }
   };
 
   const deletar = async () => {
     if (!selecionado) return;
-    const id = selecionado.de_id || selecionado.id;
-    if (!id) {
-      // fallback to local removal
-      setDesafios((prev) => prev.filter((d) => d !== selecionado));
-      setShowExcluir(false);
-      return;
-    }
+    const id = selecionado.de_id;
 
     try {
       const res = await fetch(
@@ -123,39 +158,45 @@ export default function Desafios() {
           credentials: "include",
         }
       );
+
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         alert(err.error || "Falha ao deletar desafio");
         return;
       }
 
-      setDesafios((prev) => prev.filter((d) => (d.de_id || d.id) !== id));
+      setDesafios((prev) => prev.filter((d) => d.de_id !== id));
       setShowExcluir(false);
-    } catch (error) {
-      console.error("Erro ao deletar desafio:", error);
+      setSelecionado(null);
+    } catch (e) {
+      console.error(e);
       alert("Erro ao deletar desafio");
     }
   };
 
-  // Fetch backend desafios on mount
+  // ===== FETCH =====
   useEffect(() => {
     const fetchDesafios = async () => {
       try {
         setCarregando(true);
+
         const res = await fetch(`${import.meta.env.VITE_BASE_URL}/desafios`, {
           method: "GET",
           credentials: "include",
-          headers: { Accept: "application/json; charset=utf-8" },
+          headers: { Accept: "application/json" },
         });
-        if (!res.ok) throw new Error("Erro ao buscar desafios");
+
+        if (!res.ok) throw new Error("Erro ao carregar desafios");
+
         const data = await res.json();
         setDesafios(data || []);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
       } finally {
         setCarregando(false);
       }
     };
+
     fetchDesafios();
   }, []);
 
@@ -164,14 +205,19 @@ export default function Desafios() {
       {/* HEADER */}
       <div className="tabela-header">
         <h2>Gerenciar Desafios</h2>
+
         <div className="acoes-header">
           <input
             type="text"
             className="search-input"
             placeholder="Buscar desafio..."
             value={busca}
-            onChange={(e) => setBusca(e.target.value)}
+            onChange={(e) => {
+              setBusca(e.target.value);
+              setCurrentPage(1); // Reset para primeira página ao buscar
+            }}
           />
+
           <button className="add-btn" onClick={() => setShowAdd(true)}>
             + Criar Desafio
           </button>
@@ -179,152 +225,177 @@ export default function Desafios() {
       </div>
 
       {/* TABELA */}
-      <table className="tabela">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Desafio</th>
-            <th>Tipo</th>
-            <th>Duração</th>
-            <th>Pontos</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {carregando ? (
+      <div className="tabela-wrapper">
+        <table className="tabela">
+          <thead>
             <tr>
-              <td colSpan="7" className="sem-resultado">
-                Carregando desafios...
-              </td>
+              <th>Desafio</th>
+              <th>Tipo</th>
+              <th>Data de Término</th>
+              <th>Pontos</th>
+              <th>Status</th>
+              <th>Ações</th>
             </tr>
-          ) : exibidos.length > 0 ? (
-            exibidos.map((d, index) => (
-              <tr key={d.de_id || d.id || index}>
-                <td>{inicio + index + 1}</td>
+          </thead>
 
-                <td className="user-info">
-                  <div className="icone purple">
-                    {d.de_icone || d.icone || "🎯"}
-                  </div>
-                  <div>
-                    <strong>{d.de_nome || d.nome}</strong>
-                    <small>{d.de_descricao || d.descricao}</small>
-                  </div>
-                </td>
-
-                <td>{d.de_tag || d.tipo}</td>
-                <td>
-                  {d.de_duracao ||
-                    d.duracao ||
-                    (d.de_end ? d.de_end.split("T")[0] : "")}
-                </td>
-                <td>⭐ {d.de_pontos || d.pontos}</td>
-
-                <td>
-                  <span
-                    className={`status ${
-                      String(d.de_status || d.status).toLowerCase() === "ativo"
-                        ? "pago"
-                        : String(d.de_status || d.status).toLowerCase() ===
-                          "programado"
-                        ? "pendente"
-                        : "cancelado"
-                    }`}
-                  >
-                    {d.de_status || d.status}
-                  </span>
-                </td>
-
-                <td>
-                  {/* EDITAR */}
-                  <button
-                    className="action-btn"
-                    title="Editar Desafio"
-                    onClick={() => {
-                      setSelecionado(d);
-                      setShowEditar(true);
-                    }}
-                  >
-                    <i className="bi bi-pencil"></i>
-                  </button>
-
-                  {/* EXCLUIR */}
-                  <button
-                    className="action-btn"
-                    title="Excluir"
-                    onClick={() => {
-                      setSelecionado(d);
-                      setShowExcluir(true);
-                    }}
-                  >
-                    <i className="bi bi-trash"></i>
-                  </button>
-
-                  {/* DETALHES */}
-                  <button
-                    className="action-btn"
-                    title="Detalhes"
-                    onClick={() => {
-                      setSelecionado(d);
-                      setShowDetalhes(true);
-                    }}
-                  >
-                    <i className="bi bi-three-dots"></i>
-                  </button>
+          <tbody>
+            {carregando ? (
+              <tr>
+                <td colSpan="6" className="sem-resultado">
+                  Carregando...
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="7" className="sem-resultado">
-                Nenhum desafio encontrado.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            ) : exibidos.length > 0 ? (
+              exibidos.map((d) => (
+                <tr key={d.de_id}>
+                  <td className="user-info">
+                    <div className="icone">{d.de_icone || "🎯"}</div>
+                    <div>
+                      <strong>{d.de_nome}</strong>
+                      <br />
+                      <small>{d.de_descricao}</small>
+                    </div>
+                  </td>
 
-      {/* === PAGINAÇÃO === */}
-      {totalPaginas > 1 && (
+                  <td>
+                    <span className="badge">{d.de_tag || "-"}</span>
+                  </td>
+
+                  <td>{formatarData(d.de_end)}</td>
+
+                  <td>
+                    <span className="pontos">⭐ {d.de_pontos || 0}</span>
+                  </td>
+
+                  <td>
+                    <span
+                      className={`status ${
+                        String(d.de_status || "").toLowerCase() === "ativo"
+                          ? "ativo"
+                          : String(d.de_status || "").toLowerCase() ===
+                            "concluido"
+                          ? "concluido"
+                          : "inativo"
+                      }`}
+                    >
+                      {d.de_status || "Inativo"}
+                    </span>
+                  </td>
+
+                  <td>
+                    <button
+                      className="action-btn"
+                      title="Editar"
+                      onClick={() => {
+                        setSelecionado(d);
+                        setShowEditar(true);
+                      }}
+                    >
+                      <i className="bi bi-pencil"></i>
+                    </button>
+
+                    <button
+                      className="action-btn"
+                      title="Excluir"
+                      onClick={() => {
+                        setSelecionado(d);
+                        setShowExcluir(true);
+                      }}
+                    >
+                      <i className="bi bi-trash"></i>
+                    </button>
+
+                    <button
+                      className="action-btn"
+                      title="Detalhes"
+                      onClick={() => {
+                        setSelecionado(d);
+                        setShowDetalhes(true);
+                      }}
+                    >
+                      <i className="bi bi-three-dots"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="sem-resultado">
+                  {busca
+                    ? "Nenhum desafio encontrado com os termos buscados."
+                    : "Nenhum desafio cadastrado."}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* PAGINAÇÃO */}
+      {!carregando && filtrados.length > 0 && (
         <div className="paginacao">
           <span>Itens por página:</span>
-          <select
-            value={itensPagina}
-            onChange={(e) => {
-              setItensPagina(Number(e.target.value));
-              setPagina(1);
-            }}
-          >
-            <option>5</option>
-            <option>10</option>
-            <option>20</option>
-          </select>
+
+          <div className="paginacao-controls">
+            <select
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
 
           <div className="pages">
             <button
               className="page"
-              disabled={pagina === 1}
-              onClick={() => mudarPagina(pagina - 1)}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
             >
               <i className="bi bi-chevron-left"></i>
             </button>
 
-            {Array.from({ length: totalPaginas }, (_, i) => (
-              <button
-                key={i}
-                className={`page ${pagina === i + 1 ? "active" : ""}`}
-                onClick={() => mudarPagina(i + 1)}
-              >
-                {i + 1}
-              </button>
-            ))}
+            {Array.from({ length: totalPages }, (_, i) => {
+              const pageNum = i + 1;
+              // Mostrar apenas algumas páginas ao redor da atual
+              if (
+                pageNum === 1 ||
+                pageNum === totalPages ||
+                (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+              ) {
+                return (
+                  <button
+                    key={i}
+                    className={`page ${
+                      currentPage === pageNum ? "active" : ""
+                    }`}
+                    onClick={() => handlePageChange(pageNum)}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              } else if (
+                pageNum === currentPage - 2 ||
+                pageNum === currentPage + 2
+              ) {
+                return (
+                  <span key={i} className="page-ellipsis">
+                    ...
+                  </span>
+                );
+              }
+              return null;
+            })}
 
             <button
               className="page"
-              disabled={pagina === totalPaginas}
-              onClick={() => mudarPagina(pagina + 1)}
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
             >
               <i className="bi bi-chevron-right"></i>
             </button>
@@ -332,27 +403,39 @@ export default function Desafios() {
         </div>
       )}
 
-      {/* ===== MODAIS ===== */}
+      {/* MODAIS */}
       {showAdd && (
         <AddDesafio onClose={() => setShowAdd(false)} onSave={adicionar} />
       )}
+
       {showEditar && selecionado && (
         <EditarDesafio
           desafio={selecionado}
-          onClose={() => setShowEditar(false)}
+          onClose={() => {
+            setShowEditar(false);
+            setSelecionado(null);
+          }}
           onSave={atualizar}
         />
       )}
+
       {showDetalhes && selecionado && (
         <DetalhesDesafio
           desafio={selecionado}
-          onClose={() => setShowDetalhes(false)}
+          onClose={() => {
+            setShowDetalhes(false);
+            setSelecionado(null);
+          }}
         />
       )}
+
       {showExcluir && selecionado && (
         <ExcluirDesafio
           desafio={selecionado}
-          onClose={() => setShowExcluir(false)}
+          onClose={() => {
+            setShowExcluir(false);
+            setSelecionado(null);
+          }}
           onConfirm={deletar}
         />
       )}

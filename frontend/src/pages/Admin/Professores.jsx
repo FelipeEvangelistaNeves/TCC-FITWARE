@@ -176,7 +176,6 @@ export default function Professores() {
       <table className="tabela">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Nome</th>
             <th>Email</th>
             <th>CPF</th>
@@ -189,8 +188,6 @@ export default function Professores() {
           {professoresPaginados.length > 0 ? (
             professoresPaginados.map((p) => (
               <tr key={p.fu_id}>
-                <td>{p.fu_id}</td>
-
                 <td className="user-info">
                   <div className="icone">
                     {(p.fu_nome || "?")

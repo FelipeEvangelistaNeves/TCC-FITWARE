@@ -1,0 +1,263 @@
+@import "./../../abstract/variables.scss";
+
+/* ===========================
+   Detalhes Treino (isolado)
+   usa somente var(--...)
+   =========================== */
+
+/* escopo: aplicado quando o modal é aberto */
+.treino-overlay .detalhes-treino-container {
+  width: 700px;
+  max-width: 92%;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 22px;
+  background: var(--card-bg, #18181b);
+  color: var(--color-text, #efeff1);
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--border-color, #2f2f35);
+  box-shadow: 0 10px 30px rgba(var(--shadow-rgb, 0, 0, 0), 0.45);
+  overflow: hidden;
+  animation: dtFade 0.18s ease-out;
+}
+
+/* inner content area that scrolls */
+.treino-overlay .detalhes-treino-container .dt-content {
+  overflow-y: auto;
+  padding-right: 6px; /* espaço para scrollbar */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* custom scrollbar only for the content area */
+.treino-overlay .detalhes-treino-container .dt-content::-webkit-scrollbar {
+  width: 10px;
+}
+.treino-overlay
+  .detalhes-treino-container
+  .dt-content::-webkit-scrollbar-track {
+  background: var(--surface-2, #1f1f23);
+  border-radius: 8px;
+}
+.treino-overlay
+  .detalhes-treino-container
+  .dt-content::-webkit-scrollbar-thumb {
+  background: rgba(var(--shadow-rgb, 0, 0, 0), 0.22);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* HEADER */
+.treino-overlay .detalhes-treino-container .dt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-color, #2f2f35);
+}
+
+.treino-overlay .detalhes-treino-container .dt-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text, #efeff1);
+}
+
+.treino-overlay .detalhes-treino-container .dt-dificuldade {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--surface-2, #1f1f23);
+  color: var(--color-text-muted, #adadb8);
+  border: 1px solid var(--border-color, #2f2f35);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* DESCRIÇÃO */
+.treino-overlay .detalhes-treino-container .dt-descricao {
+  background: var(--surface-1, #18181b);
+  border: 1px solid var(--border-color, #2f2f35);
+  padding: 14px;
+  border-radius: 10px;
+  color: var(--color-text, #efeff1);
+  line-height: 1.45;
+  font-size: 0.98rem;
+}
+
+/* PROFESSOR */
+.treino-overlay .detalhes-treino-container .dt-professor {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.treino-overlay .detalhes-treino-container .dt-professor .avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-purple, #9147ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white, #fff);
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.treino-overlay .detalhes-treino-container .dt-professor span {
+  font-weight: 600;
+  color: var(--color-text, #efeff1);
+}
+
+/* SESSÕES */
+.treino-overlay .detalhes-treino-container .dt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.treino-overlay .detalhes-treino-container .dt-section h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text, #efeff1);
+  padding-left: 8px;
+  border-left: 4px solid var(--color-purple, #9147ff);
+}
+
+/* EXERCÍCIOS — card por exercício */
+.treino-overlay .detalhes-treino-container .dt-ex-card {
+  background: var(--surface-2, #1f1f23);
+  border: 1px solid var(--border-color, #2f2f35);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(var(--shadow-rgb, 0, 0, 0), 0.18);
+}
+
+.treino-overlay .detalhes-treino-container .dt-ex-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text, #efeff1);
+}
+
+/* grid simples para séries / repetições / descanso */
+.treino-overlay .detalhes-treino-container .dt-ex-grid {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.treino-overlay .detalhes-treino-container .dt-ex-grid p {
+  margin: 0;
+  color: var(--color-text-muted, #adadb8);
+  font-size: 0.95rem;
+}
+
+.treino-overlay .detalhes-treino-container .dt-ex-grid p span {
+  color: var(--color-text, #efeff1);
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+/* instrução destacada */
+.treino-overlay .detalhes-treino-container .dt-ex-instrucao {
+  margin-top: 6px;
+  padding: 10px;
+  background: var(--surface-1, #18181b);
+  border-left: 3px solid var(--color-purple, #9147ff);
+  border-radius: 8px;
+  color: var(--color-text, #efeff1);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* ALUNOS */
+.treino-overlay .detalhes-treino-container .dt-alunos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.treino-overlay .detalhes-treino-container .dt-aluno-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--surface-2, #1f1f23);
+  border: 1px solid var(--border-color, #2f2f35);
+}
+
+.treino-overlay .detalhes-treino-container .dt-aluno-item .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-purple, #9147ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white, #fff);
+  font-weight: 700;
+}
+
+/* mensagem vazia */
+.treino-overlay .detalhes-treino-container .dt-vazio {
+  color: var(--color-text-muted, #adadb8);
+  font-size: 0.95rem;
+}
+
+/* FOOTER fix (opcional): fica fora do scroll se você colocar abaixo do .dt-content */
+.treino-overlay .detalhes-treino-container .dt-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-color, #2f2f35);
+}
+
+/* RESPONSIVO */
+@media (max-width: 880px) {
+  .treino-overlay .detalhes-treino-container {
+    width: 96%;
+    padding: 18px;
+  }
+  .treino-overlay .detalhes-treino-container .dt-ex-grid {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .treino-overlay .detalhes-treino-container {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 12px 12px 0 0;
+    padding: 14px;
+    justify-content: flex-start;
+  }
+  .treino-overlay .detalhes-treino-container .dt-content {
+    padding-bottom: 60px; /* espaço para footer fixo no mobile */
+  }
+}
+
+/* animação */
+@keyframes dtFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

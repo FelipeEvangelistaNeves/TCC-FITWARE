@@ -172,7 +172,6 @@ export default function Alunos() {
       <table className="tabela">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Nome</th>
             <th>Email</th>
             <th>Status</th>
@@ -184,8 +183,6 @@ export default function Alunos() {
           {alunosPaginados.length > 0 ? (
             alunosPaginados.map((a) => (
               <tr key={a.al_id}>
-                <td>{a.al_id}</td>
-
                 <td className="user-info">
                   <div className="icone blue">
                     {a.al_nome
