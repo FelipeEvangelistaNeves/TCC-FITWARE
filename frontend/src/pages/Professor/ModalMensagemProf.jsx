@@ -65,6 +65,7 @@ export default function ChatModal({
                 {contactName?.charAt(1)?.toUpperCase() || "?"}
               </span>
             </div>
+            <h3>{contactName || "Conversa"}</h3>
           </div>
         </div>
 
@@ -74,10 +75,10 @@ export default function ChatModal({
             <div className="no-messages">Nenhuma mensagem ainda.</div>
           )}
 
-          {mensagens.map((msg) => (
+          {mensagens.map((msg, index) => (
             <div
-              key={msg.me_id ?? msg.id}
-              className={`msg ${msg.tipo}`} // agora existe tipo
+              key={msg.me_id ?? msg.id ?? index}
+              className={`msg ${msg.tipo}`}
             >
               {msg.me_conteudo}
             </div>
