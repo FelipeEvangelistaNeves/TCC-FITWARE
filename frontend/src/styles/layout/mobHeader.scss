@@ -78,15 +78,14 @@
     border-bottom: 1px solid rgba(var(--border-color-rgb), 0.1);
     height: 70px;
 
-    h6 {
+    h6,
+    h4 {
       flex: 1;
-      text-align: center;
+      text-align: right;
       margin: 0;
       font-size: 18px;
       font-weight: 600;
-      color: var(--color-text);
-      // Compensar o espaço do botão "Voltar" para centralizar visualmente, se necessário
-      padding-right: 60px; // Aproximadamente a largura do botão voltar
+      color: $yellow;
     }
 
     .back-btn {
