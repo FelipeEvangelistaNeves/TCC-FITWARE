@@ -33,7 +33,31 @@ export default function ContaProf({ isOpen, onClose }) {
 
   // 🔹 Atualizar estado local ao digitar
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "telefone") {
+      // Remove tudo que não é dígito
+      let numbers = value.replace(/\D/g, "");
+
+      // Limita a 11 dígitos
+      if (numbers.length > 11) numbers = numbers.slice(0, 11);
+
+      // Aplica máscara
+      let formatted = numbers;
+      if (numbers.length > 2) {
+        formatted = `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+      }
+      if (numbers.length > 7) {
+        formatted = `(${numbers.slice(0, 2)}) ${numbers.slice(
+          2,
+          7
+        )}-${numbers.slice(7)}`;
+      }
+
+      setFormData({ ...formData, [name]: formatted });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   // 🔹 Enviar alterações ao backend
@@ -41,14 +65,27 @@ export default function ContaProf({ isOpen, onClose }) {
   const [msg, setMsg] = useState("");
 
   const handleSave = async () => {
+    // Validação de Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setMsg("Por favor, insira um email válido.");
+      return;
+    }
+
     try {
+      // Limpar formatação do telefone antes de enviar
+      const dataToSend = {
+        ...formData,
+        telefone: formData.telefone.replace(/\D/g, ""),
+      };
+
       const res = await fetch(
         `${import.meta.env.VITE_BASE_URL}/professor/update`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify(formData),
+          body: JSON.stringify(dataToSend),
         }
       );
 
