@@ -219,11 +219,32 @@ const atualizarProgressoAluno = async (req, res) => {
         .json({ error: "Registro aluno-desafio não encontrado" });
     }
 
+    const previousStatus = String(registro.ad_status || "").toLowerCase();
+    const previousProgress = Number(registro.ad_progresso || 0);
+
     registro.ad_progresso = progresso;
     if (progresso >= 100) registro.ad_status = "concluido";
     else if (progresso > 0) registro.ad_status = "ativo";
 
     await registro.save({ transaction: t });
+
+    // If we just transitioned to 'concluido' from a non-concluido state,
+    // award the aluno the points for the desafio (only once).
+    const newStatus = String(registro.ad_status || "").toLowerCase();
+    if (newStatus === "concluido" && previousStatus !== "concluido") {
+      // load desafio points and aluno
+      const desafio = await Desafio.findByPk(desafioId, { transaction: t });
+      const aluno = await Aluno.findByPk(alunoId, { transaction: t });
+
+      if (desafio && aluno) {
+        const adicionar = Number(desafio.de_pontos) || 0;
+        // only award if adicionar > 0
+        if (adicionar > 0) {
+          aluno.al_pontos = Number(aluno.al_pontos || 0) + adicionar;
+          await aluno.save({ transaction: t });
+        }
+      }
+    }
     await t.commit();
 
     return res.status(200).json({ message: "Progresso atualizado", registro });

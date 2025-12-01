@@ -84,7 +84,6 @@ export default function DesafioCard({
           <button className="btn-enviar" onClick={onEnviar}>
             Enviar Comprovação
           </button>
-          <span className="applied-badge">Aplicado</span>
         </div>
       ) : (
         <button

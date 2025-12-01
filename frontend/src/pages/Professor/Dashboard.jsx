@@ -7,7 +7,6 @@ export default function DashboardProf() {
   const navigate = useNavigate();
 
   const [totalTreinos, setTotalTreinos] = useState();
-  const [totalTurmas, setTotalTurmas] = useState();
   const [avisos, setAvisos] = useState([]);
 
   useEffect(() => {
@@ -66,12 +65,6 @@ export default function DashboardProf() {
           <h3>Treinos Criados</h3>
           <div className="card-number">{totalTreinos}</div>
           <div className="card-subtitle">Total</div>
-        </div>
-
-        <div className="summary-card">
-          <h3>Turmas</h3>
-          <div className="card-number">{totalTurmas}</div>
-          <div className="card-subtitle">Ativas</div>
         </div>
       </section>
 

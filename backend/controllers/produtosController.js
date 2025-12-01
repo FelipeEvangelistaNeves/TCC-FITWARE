@@ -171,11 +171,13 @@ const resgatarProduto = async (req, res) => {
       .slice(0, 16);
 
     // Registrar resgate
+    // default status: aluno resgatou o produto (pendente de entrega)
     const registroResgate = await Resgate.create({
       al_id: alunoData.al_id,
       pd_id: produto.pd_id,
       re_hash: hash,
       re_preco: produto.pd_valor,
+      re_status: "Resgatado",
     });
 
     return res.json({

@@ -9,7 +9,6 @@ export default function EditarDesafio({ desafio, onClose, onSave }) {
     de_descricao: "",
     de_tag: "Frequência",
     de_pontos: 0,
-    de_progresso: 0,
     de_start: "",
     de_end: "",
     de_status: "Inativo",
@@ -23,7 +22,6 @@ export default function EditarDesafio({ desafio, onClose, onSave }) {
         de_descricao: desafio.de_descricao || "",
         de_tag: desafio.de_tag || "Frequência",
         de_pontos: desafio.de_pontos || 0,
-        de_progresso: desafio.de_progresso || 0,
         de_start: desafio.de_start ? desafio.de_start.split("T")[0] : "",
         de_end: desafio.de_end ? desafio.de_end.split("T")[0] : "",
         de_status: desafio.de_status || "Inativo",
@@ -145,21 +143,6 @@ export default function EditarDesafio({ desafio, onClose, onSave }) {
               </div>
 
               <div className="form-row">
-                <div className="form-group">
-                  <label>Progresso (%)</label>
-                  <input
-                    name="de_progresso"
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={form.de_progresso}
-                    onChange={handleChange}
-                  />
-                  <span className="help-text">
-                    Progresso geral do desafio (0-100%)
-                  </span>
-                </div>
-
                 <div className="form-group">
                   <label>Status</label>
                   <select
