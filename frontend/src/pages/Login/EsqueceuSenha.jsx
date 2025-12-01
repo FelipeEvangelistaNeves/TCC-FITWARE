@@ -50,7 +50,7 @@ export default function EsqueceuSenha() {
     <div className="esqueceu-senha-container">
       <div className="esqueceu-senha-card">
         <div className="card-header">
-          <h1>🔑 Recuperar Senha</h1>
+          <h1>Recuperar Senha</h1>
           <p>Insira seu e-mail para receber um link de redefinição</p>
         </div>
 

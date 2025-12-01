@@ -121,23 +121,6 @@ export default function PerfilProf() {
         <div className="perfil-avatar">{iniciais}</div>
         <h3>{nome}</h3>
         <p>Personal Trainer</p>
-
-        <div className="stats-grid">
-          <div
-            className="stat-item stat-button"
-            onClick={() => navigate("/professor/alunos")}
-          >
-            <span className="stat-number">{totalAlunos}</span>
-            <span className="stat-label">Alunos</span>
-          </div>
-          <div
-            className="stat-item stat-button"
-            onClick={() => navigate("/professor/treinos")}
-          >
-            <span className="stat-number">{totalTreinos}</span>
-            <span className="stat-label">Treinos</span>
-          </div>
-        </div>
       </div>
 
       {/* Conteúdo */}
@@ -220,14 +203,6 @@ export default function PerfilProf() {
                 <div>
                   <h5>CREF - Conselho Regional de Educação Física</h5>
                   <p>{cref}</p>
-                </div>
-              </div>
-
-              <div className="cert-modal-item">
-                <i className="bi bi-mortarboard"></i>
-                <div>
-                  <h5>Especialização em Treinamento Funcional</h5>
-                  <p>Universidade do Esporte — 2020</p>
                 </div>
               </div>
             </div>

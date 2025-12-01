@@ -71,6 +71,20 @@ export default function MensagensProf() {
   }, []);
 
   // =============================
+  // FILTRAR CONVERSAS POR BUSCA
+  // =============================
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredConversas(conversas);
+    } else {
+      const filtered = conversas.filter((conversa) =>
+        conversa.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredConversas(filtered);
+    }
+  }, [searchTerm, conversas]);
+
+  // =============================
   // ABRIR CHAT E CARREGAR MENSAGENS
   // =============================
   const openChat = async (co_id) => {

@@ -54,6 +54,15 @@ export default function AddTreinoModal({ onClose, onSave }) {
     );
   };
 
+  const handleSelectAll = () => {
+    const allIds = alunos.map((a) => a.al_id);
+    setSelectedAlunos(allIds);
+  };
+
+  const handleDeselectAll = () => {
+    setSelectedAlunos([]);
+  };
+
   const addExercise = () => {
     setExercises((prev) => [
       ...prev,
@@ -159,7 +168,25 @@ export default function AddTreinoModal({ onClose, onSave }) {
           </div>
 
           <div className="treino-section">
-            <h3>Alunos</h3>
+            <div className="selection-header">
+              <h3>Alunos</h3>
+              <div className="selection-actions">
+                <button
+                  type="button"
+                  onClick={handleSelectAll}
+                  className="btn-xs"
+                >
+                  Todos
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeselectAll}
+                  className="btn-xs"
+                >
+                  Nenhum
+                </button>
+              </div>
+            </div>
             {loadingAlunos ? (
               <p>Carregando alunos...</p>
             ) : alunos.length > 0 ? (

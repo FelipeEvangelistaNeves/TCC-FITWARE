@@ -98,10 +98,10 @@
   }
 
   .delete-btn {
-    background: rgba(var(--color-red-rgb), 0.12);
+    background: transparent;
     border: none;
     border-radius: 8px;
-    color: var(--color-red);
+    color: var(--color-text-muted);
     width: 36px;
     height: 36px;
     display: flex;
@@ -113,8 +113,8 @@
     padding: 0;
 
     &:hover {
-      background: var(--color-red);
-      color: var(--white);
+      background: rgba(var(--color-purple-rgb), 0.1);
+      color: var(--color-purple);
       transform: scale(1.08);
     }
 

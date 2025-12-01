@@ -13,6 +13,7 @@ export default function NovoTreino({ onClose, onSaved }) {
   const [selectedAlunos, setSelectedAlunos] = useState([]);
   const [loadingAlunos, setLoadingAlunos] = useState(false);
   const [loadingExercises, setLoadingExercises] = useState(false);
+  const [errors, setErrors] = useState({}); // Estado para erros de validação
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +51,15 @@ export default function NovoTreino({ onClose, onSaved }) {
     );
   };
 
+  const handleSelectAll = () => {
+    const allIds = alunos.map((a) => a.al_id);
+    setSelectedAlunos(allIds);
+  };
+
+  const handleDeselectAll = () => {
+    setSelectedAlunos([]);
+  };
+
   const addExercise = () => {
     setExercises((prev) => [
       ...prev,
@@ -74,17 +84,38 @@ export default function NovoTreino({ onClose, onSaved }) {
     );
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!name.trim()) newErrors.name = "O nome do treino é obrigatório.";
+    if (name.length > 50)
+      newErrors.name = "O nome deve ter no máximo 50 caracteres.";
+    if (description.length > 200)
+      newErrors.description = "A descrição deve ter no máximo 200 caracteres.";
+    if (exercises.length === 0)
+      newErrors.exercises = "Adicione pelo menos um exercício.";
+
+    // Validar exercícios individuais
+    const invalidExercises = exercises.some((ex) => !ex.ex_id && !ex.nome);
+    if (invalidExercises)
+      newErrors.exercises = "Preencha ou selecione todos os exercícios.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     const payload = {
       tr_nome: name,
       tr_descricao: description,
       tr_dificuldade: difficulty,
-      alunos: selectedAlunos.length === 0 ? [] : selectedAlunos, // Se vazio, vai para todos
+      alunos: selectedAlunos.length === 0 ? [] : selectedAlunos,
       exercicios: exercises
         .map(({ id, ...ex }) => ex)
-        .filter((ex) => ex.ex_id || ex.nome), // Filtra exercícios vazios
+        .filter((ex) => ex.ex_id || ex.nome),
     };
 
     try {
@@ -98,8 +129,13 @@ export default function NovoTreino({ onClose, onSaved }) {
         }
       );
 
-      if (typeof onSaved === "function") onSaved();
-      onClose();
+      if (res.ok) {
+        if (typeof onSaved === "function") onSaved();
+        onClose();
+      } else {
+        const data = await res.json();
+        alert(data.message || "Erro ao criar treino");
+      }
     } catch (e) {
       alert("Erro ao criar treino");
     }
@@ -127,9 +163,14 @@ export default function NovoTreino({ onClose, onSaved }) {
               type="text"
               placeholder="Ex.: Treino A – Força"
               value={name}
-              required
-              onChange={(e) => setName(e.target.value)}
+              // required removido para usar validação customizada
+              onChange={(e) => {
+                setName(e.target.value);
+                if (errors.name) setErrors({ ...errors, name: null });
+              }}
+              className={errors.name ? "input-error" : ""}
             />
+            {errors.name && <span className="error-msg">{errors.name}</span>}
           </label>
           <label className="field">
             <span className="label-title">Dificuldade</span>
@@ -145,7 +186,48 @@ export default function NovoTreino({ onClose, onSaved }) {
           </label>
 
           <label className="field">
-            <span className="label-title">Selecionar Alunos</span>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "8px",
+              }}
+            >
+              <span className="label-title">Selecionar Alunos</span>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  type="button"
+                  onClick={handleSelectAll}
+                  style={{
+                    background: "var(--surface-3)",
+                    border: "1px solid var(--border-color)",
+                    color: "var(--color-text)",
+                    padding: "4px 8px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                  }}
+                >
+                  Todos
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeselectAll}
+                  style={{
+                    background: "var(--surface-3)",
+                    border: "1px solid var(--border-color)",
+                    color: "var(--color-text)",
+                    padding: "4px 8px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                  }}
+                >
+                  Nenhum
+                </button>
+              </div>
+            </div>
             <div className="alunos-selection-list">
               {loadingAlunos ? (
                 <p className="loading-text">Carregando...</p>
@@ -200,6 +282,9 @@ export default function NovoTreino({ onClose, onSaved }) {
 
             {exercises.length === 0 && (
               <p className="muted">Nenhum exercício adicionado.</p>
+            )}
+            {errors.exercises && (
+              <p className="error-msg">{errors.exercises}</p>
             )}
 
             <div className="exercises-list">
@@ -266,8 +351,9 @@ export default function NovoTreino({ onClose, onSaved }) {
 
                   <textarea
                     className="exercise-notes"
-                    placeholder="Instruções (opcional)"
+                    placeholder="Instruções do exercício"
                     value={ex.intrucao}
+                    readOnly
                     onChange={(e) =>
                       updateExercise(ex.id, "intrucao", e.target.value)
                     }
@@ -281,8 +367,16 @@ export default function NovoTreino({ onClose, onSaved }) {
             <textarea
               placeholder="Descrição do treino..."
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                if (errors.description)
+                  setErrors({ ...errors, description: null });
+              }}
+              className={errors.description ? "input-error" : ""}
             />
+            {errors.description && (
+              <span className="error-msg">{errors.description}</span>
+            )}
           </label>
         </form>
 

@@ -18,14 +18,15 @@
    DRAWER
 ============================ */
 .novo-treino-drawer {
-  width: 480px;
+  width: 500px;
   max-width: 100%;
   height: 100vh;
   background: var(--surface-1);
   border-left: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  animation: slideIn 0.28s ease;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -4px 0 24px rgba(var(--shadow-rgb), 0.2);
 
   @media (max-width: 768px) {
     width: 100%;
@@ -47,12 +48,12 @@
   justify-content: space-between;
   align-items: center;
   background: var(--surface-1);
-  padding: 20px;
+  padding: 24px;
   border-bottom: 1px solid var(--border-color);
 
   h2 {
     margin: 0;
-    font-size: 18px;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text);
   }
@@ -63,12 +64,15 @@
     color: var(--color-text-muted);
     cursor: pointer;
     padding: 8px;
-    border-radius: 6px;
-    transition: 0.15s;
+    border-radius: 8px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
-      background: rgba(var(--white-rgb), 0.1);
-      color: var(--white);
+      background: var(--surface-hover);
+      color: var(--color-red);
     }
   }
 }
@@ -78,117 +82,128 @@
 ============================ */
 .drawer-body {
   flex: 1;
-  padding: 22px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 24px;
   overflow-y: auto;
 
   &::-webkit-scrollbar {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background: rgba(var(--shadow-rgb), 0.28);
+    background: var(--border-color);
     border-radius: 4px;
   }
 }
 
 /* ============================
-   INPUT BASE STYLE
+   INPUTS & FIELDS
 ============================ */
-.input-base {
-  width: 100%;
-  background: var(--surface-2);
-  border-radius: 10px;
-  padding: 11px 14px;
-  margin-top: 6px;
-  color: var(--color-text);
-  font-size: 15px;
-  border: 1px solid transparent;
-  outline: none;
-  transition: 0.2s;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
-  &::placeholder {
+  .label-title {
+    font-size: 0.9rem;
+    font-weight: 500;
     color: var(--color-text-muted);
   }
 
-  &:hover {
-    background: var(--surface-hover);
-  }
-
-  &:focus {
-    border-color: var(--color-purple);
-    box-shadow: 0 0 0 2px rgba(var(--color-purple-rgb), 0.25);
-    background: var(--surface-1);
-  }
-}
-
-.field input,
-.field textarea,
-.exercise-controls input,
-.exercise-notes {
-  @extend .input-base;
-}
-.exercise-notes {
-  min-height: 100px;
-}
-/* ============================
-   SELECT ESTILIZADO DO ZERO
-============================ */
-.field select,
-.exercise-card select {
-  @extend .input-base;
-  appearance: none;
-  cursor: pointer;
-  position: relative;
-
-  padding-right: 40px;
-  background-color: var(--surface-2);
-  background-repeat: no-repeat;
-
-  &:hover {
-    background-color: var(--surface-hover);
-  }
-
-  &:focus {
-    border-color: var(--color-purple);
-    background-color: var(--surface-1);
-    box-shadow: 0 0 0 3px rgba(var(--color-purple-rgb), 0.25);
-  }
-
-  option {
-    background: var(--surface-1);
+  input,
+  select,
+  textarea {
+    width: 100%;
+    background: var(--surface-3);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
     color: var(--color-text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s;
+
+    &::placeholder {
+      color: var(--color-text-muted);
+      opacity: 0.7;
+    }
+
+    &:hover {
+      border-color: var(--color-purple-light);
+    }
+
+    &:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(var(--color-purple-rgb), 0.15);
+      background: var(--surface-2);
+    }
+
+    &.input-error {
+      border-color: var(--color-red);
+      background: rgba(var(--color-red-rgb), 0.05);
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(var(--color-red-rgb), 0.15);
+      }
+    }
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .error-msg {
+    font-size: 0.85rem;
+    color: var(--color-red);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* ============================
-   ALUNOS
+   ALUNOS SELECTION
 ============================ */
 .alunos-selection-list {
   background: var(--surface-2);
-  border-radius: 10px;
-  padding: 10px;
-  max-height: 180px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  max-height: 200px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 
   .loading-text,
   .empty-text {
     text-align: center;
     color: var(--color-text-muted);
-    padding: 8px;
-    font-size: 14px;
+    padding: 16px;
+    font-size: 0.9rem;
   }
 
   .aluno-checkbox-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
-    border-radius: 6px;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.2s;
 
@@ -196,19 +211,108 @@
       background: var(--surface-hover);
     }
 
-    input {
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
       accent-color: var(--color-purple);
+      cursor: pointer;
     }
 
     .aluno-name {
-      font-size: 14px;
+      font-size: 0.95rem;
+      color: var(--color-text);
+    }
+  }
+}
+
+.selected-alunos {
+  background: var(--surface-2);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+
+  .subtitle {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .tag {
+      background: rgba(var(--color-purple-rgb), 0.15);
+      color: var(--color-purple);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(var(--color-purple-rgb), 0.2);
+
+      .tag-remove {
+        width: 16px;
+        height: 16px;
+        background: rgba(var(--color-purple-rgb), 0.2);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        transition: 0.2s;
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 8px;
+          height: 1.5px;
+          background: var(--color-purple);
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+        &::after {
+          transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        &:hover {
+          background: var(--color-red);
+          &::before,
+          &::after {
+            background: white;
+          }
+        }
+      }
     }
   }
 }
 
 /* ============================
-   EXERCÍCIOS
+   EXERCÍCIOS SECTION
 ============================ */
+.exercises-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+
+  .error-msg {
+    color: var(--color-red);
+    font-size: 0.9rem;
+    background: rgba(var(--color-red-rgb), 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+}
+
 .exercises-header {
   display: flex;
   justify-content: space-between;
@@ -216,87 +320,145 @@
 
   h3 {
     margin: 0;
-    font-size: 15px;
+    font-size: 1.1rem;
     font-weight: 600;
+    color: var(--color-text);
   }
 
   .add-ex-btn {
-    background: var(--color-purple);
-    color: white;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    border: none;
+    background: var(--surface-2);
+    color: var(--color-purple);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border: 1px solid var(--color-purple);
     cursor: pointer;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     transition: 0.2s;
 
     &:hover {
-      background: var(--color-purple-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(var(--color-purple-rgb), 0.3);
-    }
-
-    &:active {
-      transform: translateY(0);
+      background: var(--color-purple);
+      color: white;
     }
   }
 }
 
-.exercise-card {
-  background: rgba(var(--color-purple-rgb), 0.06);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 14px;
+.exercises-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+}
+
+.exercise-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   transition: 0.2s;
+  position: relative;
+
+  &:hover {
+    border-color: var(--color-purple-light);
+  }
+
+  &:active {
+    border-color: var(--color-purple);
+    transform: scale(0.995);
+  }
 
   .exercise-top {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 12px;
     align-items: center;
-  }
 
-  .exercise-index {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    background: linear-gradient(
-      135deg,
-      var(--color-purple),
-      var(--color-purple-light)
-    );
-    color: white;
-  }
-
-  .remove-ex-btn {
-    background: rgba(var(--color-red-rgb), 0.12);
-    color: var(--color-red);
-    border: none;
-    border-radius: 8px;
-    padding: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-
-    &:hover {
-      background: var(--color-red);
-      color: white;
-      transform: scale(1.05);
+    .exercise-index {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: var(--surface-3);
+      color: var(--color-text-muted);
+      border: 1px solid var(--border-color);
     }
 
-    &:active {
-      transform: scale(0.96);
+    select {
+      flex: 1;
+      background: var(--surface-3);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      color: var(--color-text);
+      font-size: 0.95rem;
+
+      &:focus {
+        border-color: var(--color-purple);
+      }
+    }
+
+    .remove-ex-btn {
+      background: transparent;
+      color: var(--color-text-muted);
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background: rgba(var(--color-purple-rgb), 0.1);
+        color: var(--color-purple);
+      }
+    }
+  }
+
+  .exercise-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+
+    input {
+      width: 100%;
+      min-width: 0;
+      background: var(--surface-3);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      color: var(--color-text);
+      font-size: 0.9rem;
+      text-align: center;
+
+      &:focus {
+        border-color: var(--color-purple);
+      }
+    }
+  }
+
+  .exercise-notes {
+    background: var(--surface-3);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    min-height: 80px;
+    resize: vertical;
+
+    &:focus {
+      border-color: var(--color-purple);
     }
   }
 }
@@ -305,26 +467,51 @@
    FOOTER
 ============================ */
 .drawer-footer {
-  padding: 16px;
+  padding: 24px;
   display: flex;
-  gap: 10px;
+  gap: 16px;
   border-top: 1px solid var(--border-color);
+  background: var(--surface-1);
 
   button {
     flex: 1;
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: 10px;
+    padding: 14px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
   }
 
   .btn-cancel {
     background: transparent;
     border: 1px solid var(--border-color);
-    color: var(--color-text-muted);
+    color: var(--color-text);
+
+    &:hover {
+      background: var(--surface-hover);
+      border-color: var(--color-text-muted);
+    }
   }
 
   .btn-primary {
     background: var(--color-purple);
     color: white;
     border: none;
+    box-shadow: 0 4px 12px rgba(var(--color-purple-rgb), 0.3);
+
+    &:hover {
+      background: var(--color-purple-hover);
+      box-shadow: 0 6px 16px rgba(var(--color-purple-rgb), 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background: var(--color-purple);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 }

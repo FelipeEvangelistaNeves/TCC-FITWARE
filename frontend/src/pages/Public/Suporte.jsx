@@ -70,7 +70,13 @@ const Suporte = () => {
               Não encontrou o que precisava? Envie uma mensagem para nossa
               equipe de suporte.
             </p>
-            <button className="botaosup">Enviar Mensagem</button>
+
+            <Link
+              to="https://mail.google.com/mail/u/0/?tab=rm&ogbl"
+              className="botaosup"
+            >
+              Enviar Mensagem
+            </Link>
           </div>
 
           <div className="suporte-card">

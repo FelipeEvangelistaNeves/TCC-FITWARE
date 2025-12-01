@@ -122,8 +122,8 @@ export default function PublicHome() {
           <div className="row g-4">
             <div className="col-md-4">
               <div className="plan-card p-4 rounded">
-                <h4 className="fw-bold">Básico</h4>
-                <p className="price pubicon">R$49/mês</p>
+                <h4 className="fw-bold">FitWare START </h4>
+                <p className="price pubicon">R$39,90/mês</p>
                 <p>Acesso ao app e treinos básicos</p>
                 <Link to="/planos" className="btn botaoplano mt-3">
                   Escolher
@@ -133,8 +133,8 @@ export default function PublicHome() {
 
             <div className="col-md-4">
               <div className="plan-card p-4 rounded">
-                <h4 className="fw-bold">Profissional</h4>
-                <p className="price pubicon">R$99/mês</p>
+                <h4 className="fw-bold">FitWare PRO </h4>
+                <p className="price pubicon">R$69,90/mês</p>
                 <p>Gestão de alunos + relatórios avançados</p>
                 <Link to="/planos" className="btn botaoplano mt-3">
                   Escolher
@@ -144,8 +144,8 @@ export default function PublicHome() {
 
             <div className="col-md-4">
               <div className="plan-card p-4 rounded">
-                <h4 className="fw-bold">Premium</h4>
-                <p className="price pubicon">R$149/mês</p>
+                <h4 className="fw-bold">FitWare ELITE </h4>
+                <p className="price pubicon">R$129,90/mês</p>
                 <p>Tudo incluso + suporte prioritário</p>
                 <Link to="/planos" className="btn botaoplano mt-3">
                   Escolher

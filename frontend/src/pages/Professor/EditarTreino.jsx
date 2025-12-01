@@ -143,6 +143,15 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
     );
   };
 
+  const handleSelectAll = () => {
+    const allIds = alunos.map((a) => a.al_id);
+    setSelectedAlunos(allIds);
+  };
+
+  const handleDeselectAll = () => {
+    setSelectedAlunos([]);
+  };
+
   // Adiciona exercício vazio
   const addExercise = () => {
     setExercises((prev) => [
@@ -312,7 +321,48 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
 
           {/* Selecionar Alunos */}
           <label className="field">
-            <span className="label-title">Selecionar Alunos</span>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "8px",
+              }}
+            >
+              <span className="label-title">Selecionar Alunos</span>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  type="button"
+                  onClick={handleSelectAll}
+                  style={{
+                    background: "var(--surface-3)",
+                    border: "1px solid var(--border-color)",
+                    color: "var(--color-text)",
+                    padding: "4px 8px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                  }}
+                >
+                  Todos
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeselectAll}
+                  style={{
+                    background: "var(--surface-3)",
+                    border: "1px solid var(--border-color)",
+                    color: "var(--color-text)",
+                    padding: "4px 8px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                  }}
+                >
+                  Nenhum
+                </button>
+              </div>
+            </div>
             <div className="alunos-selection-list">
               {loadingAlunos ? (
                 <p className="loading-text">Carregando alunos...</p>
@@ -444,8 +494,9 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
 
                   <textarea
                     className="exercise-notes"
-                    placeholder="Instruções (opcional)"
+                    placeholder="Instruções do exercício"
                     value={ex.intrucao}
+                    readOnly
                     onChange={(e) =>
                       updateExercise(ex.id, "intrucao", e.target.value)
                     }

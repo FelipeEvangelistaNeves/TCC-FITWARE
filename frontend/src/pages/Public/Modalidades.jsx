@@ -3,6 +3,12 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import "../../styles/pages/public/modalidades.scss";
 import "../../styles/pages/public/public.scss";
 
+// Importar imagens da pasta assets
+import imgEsteiras from "../../assets/esteiras.webp";
+import imgForca from "../../assets/força.webp";
+import imgCross from "../../assets/cross.webp";
+import imgAlongamento from "../../assets/alongamento.webp";
+
 const Modalidades = () => {
   const [isLight, setIsLight] = useState(false);
 
@@ -37,7 +43,7 @@ const Modalidades = () => {
       titulo: "Cardio",
       intensidade: "Moderada",
       complexidade: "Baixa",
-      img: "/img/modalidades/cardio.jpg",
+      img: imgEsteiras,
       descricao:
         "Atividades como corrida, bike e exercícios aeróbicos que estimulam o sistema cardiorrespiratório, melhorando resistência e condicionamento.",
     },
@@ -45,7 +51,7 @@ const Modalidades = () => {
       titulo: "Força",
       intensidade: "Alta",
       complexidade: "Média",
-      img: "/img/modalidades/forca.jpg",
+      img: imgForca,
       descricao:
         "Treinos de musculação voltados para hipertrofia, potência e resistência muscular, utilizando cargas variadas e movimentos amplos.",
     },
@@ -53,7 +59,7 @@ const Modalidades = () => {
       titulo: "Funcional",
       intensidade: "Alta",
       complexidade: "Média",
-      img: "/img/modalidades/funcional.jpg",
+      img: imgCross,
       descricao:
         "Exercícios dinâmicos que trabalham grupos musculares de forma integrada, melhorando equilíbrio, coordenação, força e explosão.",
     },
@@ -61,14 +67,14 @@ const Modalidades = () => {
       titulo: "Yoga",
       intensidade: "Leve",
       complexidade: "Baixa",
-      img: "/img/modalidades/yoga.jpg",
+      img: imgAlongamento,
       descricao:
         "Prática que combina técnicas de respiração, alongamento e foco mental para relaxamento, consciência corporal e bem-estar geral.",
     },
   ];
 
   return (
-    <div className="home-container">
+    <div className="home-container modalidades-page">
       {/* THEME SWITCH */}
       <div className="theme-switch">
         <div className="container-theme">

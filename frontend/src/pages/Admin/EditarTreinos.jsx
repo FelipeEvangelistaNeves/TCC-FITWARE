@@ -82,9 +82,9 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
           const data = await res.json();
 
           // Pré-preencher campos
-          if (data.tr_nome) setName(data.tr_nome);
-          if (data.tr_descricao) setDescription(data.tr_descricao);
-          if (data.tr_dificuldade) setDifficulty(data.tr_dificuldade);
+          setName(data.tr_nome || data.nome || "");
+          setDescription(data.tr_descricao || data.descricao || "");
+          setDifficulty(data.tr_dificuldade || data.dificuldade || "Moderado");
 
           // Carregar exercícios
           if (data.exercicios && Array.isArray(data.exercicios)) {
@@ -102,8 +102,9 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
           }
 
           // Carregar alunos associados
-          if (data.Alunos && Array.isArray(data.Alunos)) {
-            setSelectedAlunos(data.Alunos.map((a) => a.al_id));
+          const alunosData = data.alunos || data.Alunos;
+          if (alunosData && Array.isArray(alunosData)) {
+            setSelectedAlunos(alunosData.map((a) => a.al_id));
           }
         }
       } catch (error) {
@@ -120,6 +121,15 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
     setSelectedAlunos((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
+  };
+
+  const handleSelectAll = () => {
+    const allIds = alunos.map((a) => a.al_id);
+    setSelectedAlunos(allIds);
+  };
+
+  const handleDeselectAll = () => {
+    setSelectedAlunos([]);
   };
 
   const addExercise = () => {
@@ -247,7 +257,25 @@ export default function EditarTreino({ treino, onClose, onSaved }) {
           </div>
 
           <div className="treino-section">
-            <h3>Alunos</h3>
+            <div className="selection-header">
+              <h3>Alunos</h3>
+              <div className="selection-actions">
+                <button
+                  type="button"
+                  onClick={handleSelectAll}
+                  className="btn-xs"
+                >
+                  Todos
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeselectAll}
+                  className="btn-xs"
+                >
+                  Nenhum
+                </button>
+              </div>
+            </div>
             {loadingAlunos ? (
               <p>Carregando alunos...</p>
             ) : alunos.length > 0 ? (

@@ -120,7 +120,7 @@ export default function ResetarSenha() {
     <div className="resetar-senha-container">
       <div className="resetar-senha-card">
         <div className="card-header">
-          <h1>🔐 Redefinir Senha</h1>
+          <h1>Redefinir Senha</h1>
           <p>Insira sua nova senha</p>
         </div>
 

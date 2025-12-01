@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { FaMoon, FaSun } from "react-icons/fa";
 import "../../styles/pages/public/planos.scss";
 
@@ -26,8 +25,56 @@ export default function Planos() {
       localStorage.setItem("fitware-theme", "dark");
     }
   };
+
+  const planos = [
+    {
+      nome: "FitWare START",
+      tipo: "Mensal",
+      cor: "start",
+      precoAntigo: "69,90",
+      precoNovo: "39,90",
+      icone: "🔥",
+      beneficios: [
+        "Acesso ao aplicativo",
+        "Treinos básicos",
+        "Suporte via chat",
+        "Relatórios simples",
+      ],
+    },
+    {
+      nome: "FitWare PRO",
+      tipo: "Mensal",
+      cor: "pro",
+      precoAntigo: "119,90",
+      precoNovo: "69,90",
+      icone: "⚡",
+      beneficios: [
+        "Todos os recursos do START",
+        "Treinos personalizados",
+        "Agenda inteligente",
+        "Gestão de alunos",
+        "Relatórios avançados",
+      ],
+    },
+    {
+      nome: "FitWare ELITE",
+      tipo: "Mensal",
+      cor: "elite",
+      precoAntigo: "199,90",
+      precoNovo: "129,90",
+      icone: "👑",
+      beneficios: [
+        "Todos os recursos do PRO",
+        "Suporte prioritário",
+        "Automação completa",
+        "Relatórios ilimitados",
+        "Ferramentas exclusivas",
+      ],
+    },
+  ];
+
   return (
-    <div className="home-container">
+    <div className="home-container planos-page">
       <div className="theme-switch">
         <div className="container-theme">
           <button
@@ -36,7 +83,6 @@ export default function Planos() {
           >
             <FaMoon />
           </button>
-
           <button
             className={isLight ? "active" : ""}
             onClick={() => toggleTheme("light")}
@@ -45,60 +91,36 @@ export default function Planos() {
           </button>
         </div>
       </div>
-      <div className="planos-page">
-        {/* Cabeçalho */}
-        <section className="planos-header text-center py-5">
-          <h6 className="text-warning">Nossos Planos</h6>
-          <h2 className="fw-bold mb-4">Escolha o plano ideal para você</h2>
-          <p className="lead mx-auto mb-4">
-            Planos flexíveis para alunos, professores e administradores. Pague
-            apenas pelo que precisa e tenha controle total da sua academia.
-          </p>
-        </section>
 
-        {/* Cards de Planos */}
-        <section className="planos container py-5">
-          <div className="row g-4">
-            {/* Básico */}
-            <div className="col-md-4">
-              <div className="plan-card p-4 rounded">
-                <h4 className="fw-bold">Básico</h4>
-                <p className="price pubicon">R$49/mês</p>
-                <ul className="beneficios">
-                  <li>Acesso ao app</li>
-                  <li>Treinos básicos</li>
-                  <li>Suporte padrão</li>
-                </ul>
-              </div>
+      <section className="titulo">
+        <h2 className="fw-title">Planos FitWare</h2>
+        <p className="fw-subtitle">
+          Escolha o plano ideal para sua rotina de treinos e gestão.
+        </p>
+      </section>
+
+      <div className="planos-container">
+        {planos.map((p, i) => (
+          <div key={i} className={`plano-card ${p.cor}`}>
+            <div className="icone">
+              <span>{p.icone}</span>
             </div>
 
-            {/* Profissional */}
-            <div className="col-md-4">
-              <div className="plan-card p-4 rounded">
-                <h4 className="fw-bold">Profissional</h4>
-                <p className="price pubicon">R$99/mês</p>
-                <ul className="beneficios">
-                  <li>Gestão de alunos</li>
-                  <li>Relatórios avançados</li>
-                  <li>Treinos personalizados</li>
-                </ul>
-              </div>
-            </div>
+            <h3>{p.nome}</h3>
+            <span className="tipo">{p.tipo}</span>
 
-            {/* Premium */}
-            <div className="col-md-4">
-              <div className="plan-card p-4 rounded">
-                <h4 className="fw-bold">Premium</h4>
-                <p className="price pubicon">R$149/mês</p>
-                <ul className="beneficios">
-                  <li>Tudo incluso</li>
-                  <li>Suporte prioritário</li>
-                  <li>Relatórios ilimitados</li>
-                </ul>
-              </div>
+            <ul className="beneficios">
+              {p.beneficios.map((b, j) => (
+                <li key={j}>✔ {b}</li>
+              ))}
+            </ul>
+
+            <div className="precos">
+              <p className="antigo">de R${p.precoAntigo}</p>
+              <p className="novo">R${p.precoNovo}</p>
             </div>
           </div>
-        </section>
+        ))}
       </div>
     </div>
   );

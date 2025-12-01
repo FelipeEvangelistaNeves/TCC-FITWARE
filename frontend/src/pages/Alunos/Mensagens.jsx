@@ -4,6 +4,7 @@ import ChatModal from "../../pages/Alunos/ModalMensagemAluno";
 
 export default function MensagensAluno() {
   const [conversas, setConversas] = useState([]);
+  const [filteredConversas, setFilteredConversas] = useState([]);
   const [inativos, setInativos] = useState([]);
   const [mensagensDaConversa, setMensagensDaConversa] = useState([]);
   const [selectedChatId, setSelectedChatId] = useState(null);
@@ -61,6 +62,7 @@ export default function MensagensAluno() {
         });
 
         setConversas(normalizadas);
+        setFilteredConversas(normalizadas);
         setInativos(data.inativos || []);
       } catch (err) {
         console.error(err);
@@ -70,6 +72,20 @@ export default function MensagensAluno() {
 
     fetchConversas();
   }, []);
+
+  // =============================
+  // FILTRAR CONVERSAS POR BUSCA (NOME)
+  // =============================
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredConversas(conversas);
+    } else {
+      const filtered = conversas.filter((conversa) =>
+        conversa.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredConversas(filtered);
+    }
+  }, [searchTerm, conversas]);
 
   // =============================
   // ABRIR CHAT E BUSCAR MENSAGENS
@@ -298,10 +314,10 @@ export default function MensagensAluno() {
             </div>
           </div>
         )}
-        {conversas.length === 0 ? (
+        {filteredConversas.length === 0 ? (
           <div className="no-messages">Nenhuma conversa encontrada.</div>
         ) : (
-          conversas.map((msg) => (
+          filteredConversas.map((msg) => (
             <div
               key={msg.id}
               className="message-item"
