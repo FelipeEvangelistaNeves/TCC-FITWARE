@@ -1,6 +1,12 @@
 const { parseMultipart } = require("../scripts/parse_multipart");
 const { uploadBufferToS3 } = require("../scripts/upload_s3_img");
-const { Desafio, DesafioImagem, AlunoDesafio, Aluno, sequelize } = require("../models");
+const {
+  Desafio,
+  DesafioImagem,
+  AlunoDesafio,
+  Aluno,
+  sequelize,
+} = require("../models");
 const LoggerMessages = require("../loggerMessages");
 
 const dataDesafio = async () => {
@@ -20,7 +26,6 @@ const updateDesafio = async (req, res) => {
       de_descricao,
       de_pontos,
       de_tag,
-      de_progresso,
       de_start,
       de_end,
       de_status,
@@ -30,8 +35,6 @@ const updateDesafio = async (req, res) => {
     if (de_descricao !== undefined) desafio.de_descricao = de_descricao;
     if (de_pontos !== undefined) desafio.de_pontos = Number(de_pontos) || 0;
     if (de_tag !== undefined) desafio.de_tag = de_tag;
-    if (de_progresso !== undefined)
-      desafio.de_progresso = Number(de_progresso) || 0;
     if (de_start !== undefined) desafio.de_start = de_start;
     if (de_end !== undefined) desafio.de_end = de_end;
     if (de_status !== undefined) desafio.de_status = de_status;
@@ -52,7 +55,6 @@ const criarDesafio = async (req, res) => {
       de_descricao,
       de_pontos,
       de_tag,
-      de_progresso = 0,
       de_start,
       de_end,
       de_status = "Inativo",
@@ -66,7 +68,6 @@ const criarDesafio = async (req, res) => {
       de_descricao: de_descricao || null,
       de_pontos: Number(de_pontos) || 0,
       de_tag: de_tag || null,
-      de_progresso: Number(de_progresso) || 0,
       de_start: de_start || null,
       de_end: de_end || null,
       de_status: de_status || "Inativo",
@@ -84,7 +85,8 @@ const aplicarDesafio = async (req, res) => {
   const alunoId = req.user && req.user.id;
   const desafioId = req.params.id;
 
-  if (!alunoId) return res.status(401).json({ error: "Usuário não autenticado" });
+  if (!alunoId)
+    return res.status(401).json({ error: "Usuário não autenticado" });
 
   const t = await sequelize.transaction();
 
@@ -105,7 +107,9 @@ const aplicarDesafio = async (req, res) => {
       // se já existe, se estiver inativo, ativa; se já ativo, retorna erro
       if (String(exists.ad_status).toLowerCase() === "ativo") {
         await t.rollback();
-        return res.status(400).json({ error: "Aluno já aplicou para este desafio" });
+        return res
+          .status(400)
+          .json({ error: "Aluno já aplicou para este desafio" });
       }
       exists.ad_status = "ativo";
       await exists.save({ transaction: t });
@@ -113,11 +117,14 @@ const aplicarDesafio = async (req, res) => {
       return res.status(200).json({ message: "Desafio aplicado (reativado)" });
     }
 
-    await AlunoDesafio.create({
-      al_id: alunoId,
-      de_id: desafioId,
-      ad_status: "ativo",
-    }, { transaction: t });
+    await AlunoDesafio.create(
+      {
+        al_id: alunoId,
+        de_id: desafioId,
+        ad_status: "ativo",
+      },
+      { transaction: t }
+    );
 
     await t.commit();
     return res.status(201).json({ message: "Desafio aplicado com sucesso" });
@@ -132,7 +139,8 @@ const aplicarDesafio = async (req, res) => {
 const meusDesafios = async (req, res) => {
   try {
     const alunoId = req.user && req.user.id;
-    if (!alunoId) return res.status(401).json({ error: "Usuário não autenticado" });
+    if (!alunoId)
+      return res.status(401).json({ error: "Usuário não autenticado" });
 
     const registros = await AlunoDesafio.findAll({
       where: { al_id: alunoId },
@@ -162,7 +170,8 @@ const listarAlunosDoDesafio = async (req, res) => {
       ],
     });
 
-    if (!desafio) return res.status(404).json({ error: "Desafio não encontrado" });
+    if (!desafio)
+      return res.status(404).json({ error: "Desafio não encontrado" });
 
     const alunos = (desafio.Alunos || []).map((a) => ({
       al_id: a.al_id,
@@ -172,7 +181,9 @@ const listarAlunosDoDesafio = async (req, res) => {
       ad_progresso: a.AlunoDesafio?.ad_progresso ?? 0,
     }));
 
-    return res.status(200).json({ desafio: { id: desafio.de_id, nome: desafio.de_nome }, alunos });
+    return res
+      .status(200)
+      .json({ desafio: { id: desafio.de_id, nome: desafio.de_nome }, alunos });
   } catch (error) {
     console.error("Erro ao listar alunos do desafio:", error);
     return res.status(500).json({ error: "Erro ao listar alunos do desafio" });
@@ -190,7 +201,9 @@ const atualizarProgressoAluno = async (req, res) => {
 
   const progresso = Number(ad_progresso);
   if (isNaN(progresso) || progresso < 0 || progresso > 100)
-    return res.status(400).json({ error: "ad_progresso deve ser um número entre 0 e 100" });
+    return res
+      .status(400)
+      .json({ error: "ad_progresso deve ser um número entre 0 e 100" });
 
   const t = await sequelize.transaction();
   try {
@@ -201,7 +214,9 @@ const atualizarProgressoAluno = async (req, res) => {
 
     if (!registro) {
       await t.rollback();
-      return res.status(404).json({ error: "Registro aluno-desafio não encontrado" });
+      return res
+        .status(404)
+        .json({ error: "Registro aluno-desafio não encontrado" });
     }
 
     registro.ad_progresso = progresso;
@@ -215,7 +230,9 @@ const atualizarProgressoAluno = async (req, res) => {
   } catch (error) {
     await t.rollback();
     console.error("Erro ao atualizar progresso do aluno:", error);
-    return res.status(500).json({ error: "Erro ao atualizar progresso do aluno" });
+    return res
+      .status(500)
+      .json({ error: "Erro ao atualizar progresso do aluno" });
   }
 };
 
