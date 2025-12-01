@@ -4,96 +4,131 @@
   padding: 32px 24px;
   background: var(--color-bg);
   min-height: 100vh;
-  text-align: center;
-  .theme-switch {
-    top: 20px;
-    right: 20px;
-    flex-direction: row;
-    display: flex;
-    background: var(--color-bg);
-    gap: 8px;
-    justify-content: end;
-    padding: 10px 16px;
-    border-radius: 14px;
-    /* garante que fica por cima */
-    .container-theme {
-      display: flex;
-      padding: 3px;
-      border-radius: 10px;
-      background-color: var(--surface-2);
-      gap: 5px;
-    }
-    button {
-      background: transparent;
-      border: none;
-      padding: 8px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 15px;
-      color: var(--white);
-      transition: 0.2s ease-in-out;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
 
-    button.active {
-      background: var(--surface-hover);
-    }
-
-    button:hover {
-      opacity: 0.8;
-    }
-  }
   .intro {
-    margin-bottom: 32px;
+    text-align: center;
+    margin-bottom: 40px;
 
     h2 {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
-      color: var(--white);
+      color: var(--text-color);
     }
 
     p {
-      color: var(--color-text-muted);
-      font-size: 14px;
       margin-top: 8px;
+      font-size: 14px;
+      color: var(--muted-text);
     }
   }
 
+  /* === GRID === */
   .modalidades-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+  }
 
-    .modalidade-card {
-      background: var(--surface-1);
-      padding: 24px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(var(--shadow-rgb), 0.3);
+  /* === CARD === */
+  .modalidade-card {
+    background: var(--surface-1);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(var(--shadow-rgb), 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 26px rgba(var(--shadow-rgb), 0.35);
+    }
+
+    /* IMAGEM */
+    .card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Título sobre faixa */
+    .card-title-bar {
+      background: var(--color-purple);
+      padding: 12px;
       text-align: center;
-      transition: transform 0.2s ease;
 
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      .icone {
-        font-size: 32px;
-        color: var(--color-purple);
-        margin-bottom: 16px;
-      }
-
-      h4 {
-        font-size: 18px;
+      h3 {
         color: var(--white);
-        margin-bottom: 8px;
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+      }
+    }
+
+    /* Conteúdo */
+    .card-content {
+      padding: 20px;
+
+      /* Intensidade / complexidade */
+      .card-infos {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-bottom: 16px;
+
+        .info-block {
+          text-align: center;
+
+          span {
+            display: block;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 14px;
+          }
+
+          small {
+            color: var(--muted-text);
+            font-size: 12px;
+          }
+
+          i {
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--color-purple);
+          }
+        }
       }
 
-      p {
-        color: var(--color-text-muted);
-        font-size: 12px;
+      /* Descrição */
+      .descricao {
+        color: var(--muted-text);
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 20px;
       }
+
+      /* Saiba mais */
+      .learn-more {
+        text-align: center;
+        font-weight: 600;
+        color: var(--color-purple);
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .modalidades-page {
+    padding: 20px;
+
+    .modalidade-card .card-infos {
+      gap: 20px;
     }
   }
 }
